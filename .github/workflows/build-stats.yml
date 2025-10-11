@@ -2,19 +2,23 @@ name: Build Twitch stats (daily)
 
 on:
   schedule:
-    - cron: "17 3 * * *"   # tous les jours ~03:17 UTC
-  workflow_dispatch:        # exécutable à la main
+    - cron: "17 3 * * *"   # tous les jours à ~03:17 UTC
+  workflow_dispatch:        # exécuter manuellement
 
 permissions:
   contents: write
 
-env:
-  TWITCH_LOGIN: ${{ secrets.TWITCH_LOGIN || 'baguettechaussette' }}
-  PAGES_BRANCH: gh-pages
-
 jobs:
   build-stats:
     runs-on: ubuntu-latest
+
+    # >> Expose les secrets pour le script Node
+    env:
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      TWITCH_REFRESH_TOKEN: ${{ secrets.TWITCH_REFRESH_TOKEN }}
+      TWITCH_LOGIN: ${{ secrets.TWITCH_LOGIN || 'baguettechaussette' }}
+      PAGES_BRANCH: gh-pages
 
     steps:
       - name: Checkout pages branch
@@ -44,7 +48,11 @@ jobs:
 
           async function postForm(url, bodyObj) {
             const body = new URLSearchParams(bodyObj);
-            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+            const res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body
+            });
             if (!res.ok) throw new Error(`POST ${url} -> ${res.status} ${await res.text()}`);
             return res.json();
           }
@@ -87,13 +95,16 @@ jobs:
             const userId = user.data?.[0]?.id;
             if (!userId) throw new Error('User not found');
 
-            // 4) followers total (nécessite scope channel:read:followers)
+            // 4) followers total (scope channel:read:followers requise)
             const followers = (await helix(`channels/followers?broadcaster_id=${userId}`, USER_TOKEN)).total ?? 0;
 
-            // 5) total heures = somme des VOD (archives) avec pagination
+            // 5) total heures = somme de toutes les VOD (archives) avec pagination
             let cursor = '', totalHours = 0;
             do {
-              const page = await helix(`videos?user_id=${userId}&type=archive&first=100${cursor ? `&after=${cursor}` : ''}`, APP_TOKEN);
+              const page = await helix(
+                `videos?user_id=${userId}&type=archive&first=100${cursor ? `&after=${cursor}` : ''}`,
+                APP_TOKEN
+              );
               for (const v of (page.data || [])) totalHours += parseDurationToHours(v.duration);
               cursor = page.pagination?.cursor || '';
             } while (cursor);
@@ -123,5 +134,3 @@ jobs:
             git commit -m "chore: update stats.json"
             git push origin ${{ env.PAGES_BRANCH }}
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
