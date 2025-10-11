@@ -30,3 +30,19 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
     }
 });
+
+// Inject followers count
+fetch('data/followers.json', { cache: 'no-store' })
+    .then(r => {
+        if (!r.ok) throw new Error('Followers data not found');
+        return r.json();
+    })
+    .then(({ followers }) => {
+        const el = document.getElementById('followersCount');
+        if (el && Number.isFinite(followers)) {
+            el.textContent = followers.toLocaleString('fr-FR');
+        }
+    })
+    .catch(err => {
+        console.warn('Followers count unavailable:', err.message);
+    });
