@@ -37,9 +37,15 @@ body {
 }
 
 @keyframes gradientWave {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .particles {
@@ -102,10 +108,18 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0) translateX(0) scale(1); }
-    25% { transform: translateY(-50px) translateX(30px) scale(1.1); }
-    50% { transform: translateY(-100px) translateX(-30px) scale(0.9); }
-    75% { transform: translateY(-50px) translateX(50px) scale(1.05); }
+    0%, 100% {
+        transform: translateY(0) translateX(0) scale(1);
+    }
+    25% {
+        transform: translateY(-50px) translateX(30px) scale(1.1);
+    }
+    50% {
+        transform: translateY(-100px) translateX(-30px) scale(0.9);
+    }
+    75% {
+        transform: translateY(-50px) translateX(50px) scale(1.05);
+    }
 }
 
 /* Navigation */
@@ -383,7 +397,7 @@ nav .container {
     align-items: center;
     justify-content: center;
     box-shadow: 0 20px 80px rgba(168, 213, 226, 0.4);
-    border: 5px solid rgba(255, 255, 255, 0.2);
+    /*border: 5px solid rgba(255, 255, 255, 0.2);*/
     animation: floatAvatar 4s ease-in-out infinite;
     overflow: hidden;
 }
@@ -396,8 +410,12 @@ nav .container {
 }
 
 @keyframes floatAvatar {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
 }
 
 /* Sections */
@@ -483,8 +501,12 @@ section {
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
 }
 
 
@@ -543,14 +565,18 @@ section {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
 }
 
 .stream-placeholder {
     aspect-ratio: 16/9;
     background: linear-gradient(135deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
-    border-radius: 30px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -596,8 +622,12 @@ section {
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .baguettectober-intro {
@@ -969,5 +999,25 @@ footer {
     .live-container,
     .baguettectober-container {
         padding: 40px 20px;
+    }
+}
+
+/* Wrapper 16:9 pour le player Twitch (SDK) */
+.twitch-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1100px; /* ajuste si tu veux */
+    margin: 0 auto;
+    aspect-ratio: 16 / 9; /* moderne; fallback JS géré en dessous */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+}
+
+/* Quand aspect-ratio n'est pas supporté, on fixe une hauteur min correcte */
+@supports not (aspect-ratio: 16 / 9) {
+    .twitch-wrap {
+        height: 56.25vw;
+        max-height: 70vh;
     }
 }
