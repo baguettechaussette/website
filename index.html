@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baguette Chaussette 🥖🧦</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-container"></div>
+<div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
+
+<nav id="navbar">
+    <div class="container">
+        <div class="logo">🥖 Baguette Chaussette</div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#planning">Planning</a></li>
+            <li><a href="#live">Live</a></li>
+            <li><a href="#baguettectober">Baguettectober</a></li>
+            <li><a href="#reseaux">Réseaux</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="hero" id="accueil">
+    <div class="hero-content">
+        <div class="hero-left">
+            <h1 class="hero-title">Baguette Chaussette</h1>
+            <p class="hero-subtitle">Streameur passionné • Gaming & Chill vibes • Communauté bienveillante ✨</p>
+
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">207</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Heures de stream</div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#live" class="btn btn-primary">🎮 Voir le Live</a>
+                <a href="#reseaux" class="btn btn-secondary">🌟 Me suivre</a>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="avatar-container">
+                <div class="avatar-glow"></div>
+                <div class="avatar-main">
+                    <img src="/img/logo.png" alt="Baguette Chaussette Logo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="planning">
+    <div class="section-header">
+        <h2 class="section-title">Planning des streams</h2>
+        <p class="section-subtitle">Retrouve-moi chaque semaine aux horaires suivants</p>
+    </div>
+
+    <div class="schedule-container">
+        <div class="schedule-grid">
+            <div class="schedule-item">
+                <div class="schedule-day">Mercredi</div>
+                <div class="schedule-time">21h00</div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-day">Vendredi</div>
+                <div class="schedule-time">21h00</div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="schedule-day">Dimanche</div>
+                <div class="schedule-time">21h00</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="live">
+    <div class="section-header">
+        <h2 class="section-title">Stream en direct</h2>
+        <p class="section-subtitle">Rejoins-moi en live sur Twitch !</p>
+    </div>
+
+    <div class="live-container">
+        <div class="live-indicator">
+            <span class="live-dot"></span>
+            EN LIVE
+        </div>
+
+        <div class="stream-placeholder">
+            <div class="stream-placeholder-icon">📺</div>
+            <p class="stream-placeholder-text">Le stream apparaîtra ici quand je serai en live !</p>
+            <p class="stream-subtext">Active les notifications sur Twitch pour ne rien rater</p>
+        </div>
+    </div>
+</section>
+
+<section id="baguettectober">
+    <div class="section-header">
+        <h2 class="section-title">Baguettectober 🎨</h2>
+        <p class="section-subtitle">Le challenge créatif de la communauté</p>
+    </div>
+
+    <div class="baguettectober-container">
+        <div class="baguettectober-intro">
+            <div class="baguettectober-badge">🥖 Édition Octobre 2025 🧦</div>
+            <p class="baguettectober-desc">
+                C'est comme Inktober, mais pas pareil ! Chaque semaine d'octobre, un nouveau challenge dessin pour laisser libre
+                cours à votre créativité.
+                Partagez vos œuvres avec le hashtag #Baguettectober et retrouvez-les ici dans la galerie !
+            </p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🥖</div>
+                    <p class="gallery-week-label">Semaine 1</p>
+                </div>
+                <div class="gallery-week">La fournée maudite</div>
+                <div class="gallery-artist">Un four ancien s’ouvre, et la fournée qui en sort n’a rien d’ordinaire...</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✏️</div>
+                    <p class="gallery-week-label">Semaine 2</p>
+                </div>
+                <div class="gallery-week">La Chaussette DÉMONIAQUE</div>
+                <div class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait conclu un sombre pacte avec les enfers…</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">✏️</div>
+                    <p class="gallery-week-label">Semaine 3</p>
+                </div>
+                <div class="gallery-week">Le Grimoire ANCIEN</div>
+                <div class="gallery-artist">Il s’ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d’une créature aux yeux jaunes brillants, armée de crocs aussi charmants qu’effrayants…</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🎭</div>
+                    <p class="gallery-week-label">Semaine 4</p>
+                </div>
+                <div class="gallery-week">TERREUR sous le Lit</div>
+                <div class="gallery-artist">Serait-ce une petite chaussette effrayée sous le lit ? Mais… de quoi a-t-elle peur ?</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">
+                    <div class="gallery-icon">🌟</div>
+                    <p class="gallery-week-label">Challenge bonus</p>
+                </div>
+                <div class="gallery-week">CAUCHEMAR dans le potager</div>
+                <div class="gallery-artist">Une citrouille gigantesque sème la terreur... Face à elle, une vaillante baguette, munie d’une arme de fortune, tente désespérément de terrasser le monstre dans une lutte sans merci.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="reseaux">
+    <div class="section-header">
+        <h2 class="section-title">Retrouve-moi sur les réseaux</h2>
+        <p class="section-subtitle">Suis-moi partout pour ne rien rater !</p>
+    </div>
+
+    <div class="social-grid">
+        <a href="https://www.twitch.tv/baguettechaussette" target="_blank" class="social-card twitch">
+            <div class="social-icon">📺</div>
+            <div class="social-name">Twitch</div>
+            <div class="social-desc">Mes lives en direct</div>
+        </a>
+
+        <a href="https://www.youtube.com/@BaguetteChaussette-VOD" target="_blank" class="social-card youtube">
+            <div class="social-icon">🎥</div>
+            <div class="social-name">YouTube</div>
+            <div class="social-desc">Replays & highlights</div>
+        </a>
+
+        <a href="https://www.tiktok.com/@baguettechau7" target="_blank" class="social-card tiktok">
+            <div class="social-icon">🎵</div>
+            <div class="social-name">TikTok</div>
+            <div class="social-desc">Extraits & fun moments</div>
+        </a>
+
+        <a href="https://www.instagram.com/baguettechaussette" target="_blank" class="social-card instagram">
+            <div class="social-icon">📸</div>
+            <div class="social-name">Instagram</div>
+            <div class="social-desc">Stories & behind the scenes</div>
+        </a>
+
+        <a href="https://discord.com/invite/QHNF684bBf" target="_blank" class="social-card discord">
+            <div class="social-icon">💬</div>
+            <div class="social-name">Discord</div>
+            <div class="social-desc">Rejoins la communauté</div>
+        </a>
+
+        <a href="https://x.com/BaguetteCho7" target="_blank" class="social-card twitter">
+            <div class="social-icon">🐦</div>
+            <div class="social-name">X (Twitter)</div>
+            <div class="social-desc">Actualités & annonces</div>
+        </a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-text">Baguette Chaussette © 2025 - Fait avec ❤️ et beaucoup de café</p>
+        <p><a href="mailto:baguette.chaussette.contact@gmail.com" class="footer-link">Me contacter (pro)</a></p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
