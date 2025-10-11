@@ -2,8 +2,8 @@ name: Update Twitch followers (total only)
 
 on:
   schedule:
-    - cron: "17 3 * * *"   # 1x/jour à ~03:17 UTC
-  workflow_dispatch:        # exécution manuelle
+    - cron: "17 3 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -11,30 +11,70 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      # Récupération centralisée des secrets → plus simple à utiliser
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get App Access Token (client_credentials)
-        id: token
+      - name: Validate secrets presence
         run: |
-          ACCESS_TOKEN=$(curl -s -X POST "https://id.twitch.tv/oauth2/token" \
-            -d "client_id=${{ secrets.TWITCH_CLIENT_ID }}" \
-            -d "client_secret=${{ secrets.TWITCH_CLIENT_SECRET }}" \
-            -d "grant_type=client_credentials" | jq -r '.access_token')
-          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
-            echo "Failed to get access token" >&2; exit 1
+          missing=0
+          for var in TWITCH_CLIENT_ID TWITCH_CLIENT_SECRET; do
+            if [ -z "${!var}" ]; then
+              echo "::error title=Missing secret::$var is not set"
+              missing=1
+            fi
+          done
+          if [ $missing -ne 0 ]; then
+            exit 1
           fi
-          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
+      - name: Get App Access Token (client_credentials) with diagnostics
+        run: |
+          # Demande de jeton avec diagnostics détaillés si échec
+          RESP=$(curl -sS --fail-with-body -X POST "https://id.twitch.tv/oauth2/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=$TWITCH_CLIENT_ID" \
+            -d "client_secret=$TWITCH_CLIENT_SECRET" \
+            -d "grant_type=client_credentials") || {
+              echo "::error title=Twitch token request failed::$(echo "$RESP" | tr -d '\n')" 
+              exit 1
+            }
+
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token // empty')
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "::group::Token response payload"
+            echo "$RESP"
+            echo "::endgroup::"
+            echo "::error title=No access_token in response::Check client_id/client_secret"
+            exit 1
+          fi
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
 
       - name: Fetch followers total
         run: |
+          if [ -z "$TWITCH_BROADCASTER_ID" ]; then
+            echo "::error title=Missing secret::TWITCH_BROADCASTER_ID is not set"
+            exit 1
+          fi
+
           mkdir -p data
-          RESP=$(curl -s -H "Client-Id: ${{ secrets.TWITCH_CLIENT_ID }}" \
+          RESP=$(curl -sS --fail-with-body \
+            -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
-            "https://api.twitch.tv/helix/channels/followers?broadcaster_id=${{ secrets.TWITCH_BROADCASTER_ID }}")
+            "https://api.twitch.tv/helix/channels/followers?broadcaster_id=$TWITCH_BROADCASTER_ID") || {
+              echo "::error title=Helix call failed::$(echo "$RESP" | tr -d '\n')"
+              exit 1
+            }
+
           TOTAL=$(echo "$RESP" | jq -r '.total // 0')
           jq -n --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --argjson total "$TOTAL" \
             '{followers: $total, updated_at: $now}' > data/followers.json
+
           echo "Followers total: $TOTAL"
 
       - name: Commit if changed
