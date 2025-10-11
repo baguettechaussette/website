@@ -1,0 +1,50 @@
+name: Update Twitch followers (total only)
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # 1x/jour à ~03:17 UTC
+  workflow_dispatch:        # exécution manuelle
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get App Access Token (client_credentials)
+        id: token
+        run: |
+          ACCESS_TOKEN=$(curl -s -X POST "https://id.twitch.tv/oauth2/token" \
+            -d "client_id=${{ secrets.TWITCH_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.TWITCH_CLIENT_SECRET }}" \
+            -d "grant_type=client_credentials" | jq -r '.access_token')
+          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
+            echo "Failed to get access token" >&2; exit 1
+          fi
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
+      - name: Fetch followers total
+        run: |
+          mkdir -p data
+          RESP=$(curl -s -H "Client-Id: ${{ secrets.TWITCH_CLIENT_ID }}" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            "https://api.twitch.tv/helix/channels/followers?broadcaster_id=${{ secrets.TWITCH_BROADCASTER_ID }}")
+          TOTAL=$(echo "$RESP" | jq -r '.total // 0')
+          jq -n --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --argjson total "$TOTAL" \
+            '{followers: $total, updated_at: $now}' > data/followers.json
+          echo "Followers total: $TOTAL"
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/followers.json
+            git commit -m "chore: update followers (total: $(jq -r .followers data/followers.json))"
+            git push
+          else
+            echo "No changes in followers.json"
+          fi
