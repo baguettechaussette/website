@@ -1,0 +1,127 @@
+name: Build Twitch stats (daily)
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # tous les jours ~03:17 UTC
+  workflow_dispatch:        # exécutable à la main
+
+permissions:
+  contents: write
+
+env:
+  TWITCH_LOGIN: ${{ secrets.TWITCH_LOGIN || 'baguettechaussette' }}
+  PAGES_BRANCH: gh-pages
+
+jobs:
+  build-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.PAGES_BRANCH }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate stats.json
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+
+          const CLIENT_ID = process.env.TWITCH_CLIENT_ID;
+          const CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
+          const REFRESH_TOKEN = process.env.TWITCH_REFRESH_TOKEN;
+          const LOGIN = process.env.TWITCH_LOGIN;
+
+          if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
+            console.error('Missing secrets: TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET / TWITCH_REFRESH_TOKEN');
+            process.exit(1);
+          }
+
+          async function postForm(url, bodyObj) {
+            const body = new URLSearchParams(bodyObj);
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+            if (!res.ok) throw new Error(`POST ${url} -> ${res.status} ${await res.text()}`);
+            return res.json();
+          }
+
+          async function helix(path, token) {
+            const res = await fetch(`https://api.twitch.tv/helix/${path}`, {
+              headers: { 'Client-Id': CLIENT_ID, 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) throw new Error(`GET ${path} -> ${res.status} ${await res.text()}`);
+            return res.json();
+          }
+
+          function parseDurationToHours(d) {
+            const h = +(d.match(/(\d+)h/)?.[1] || 0);
+            const m = +(d.match(/(\d+)m/)?.[1] || 0);
+            const s = +(d.match(/(\d+)s/)?.[1] || 0);
+            return h + m/60 + s/3600;
+          }
+
+          (async () => {
+            // 1) App access token (pour users/videos)
+            const appTok = await postForm('https://id.twitch.tv/oauth2/token', {
+              client_id: CLIENT_ID,
+              client_secret: CLIENT_SECRET,
+              grant_type: 'client_credentials'
+            });
+            const APP_TOKEN = appTok.access_token;
+
+            // 2) User access token via refresh (pour followers)
+            const userTok = await postForm('https://id.twitch.tv/oauth2/token', {
+              client_id: CLIENT_ID,
+              client_secret: CLIENT_SECRET,
+              grant_type: 'refresh_token',
+              refresh_token: REFRESH_TOKEN
+            });
+            const USER_TOKEN = userTok.access_token;
+
+            // 3) user_id
+            const user = await helix(`users?login=${encodeURIComponent(LOGIN)}`, APP_TOKEN);
+            const userId = user.data?.[0]?.id;
+            if (!userId) throw new Error('User not found');
+
+            // 4) followers total (nécessite scope channel:read:followers)
+            const followers = (await helix(`channels/followers?broadcaster_id=${userId}`, USER_TOKEN)).total ?? 0;
+
+            // 5) total heures = somme des VOD (archives) avec pagination
+            let cursor = '', totalHours = 0;
+            do {
+              const page = await helix(`videos?user_id=${userId}&type=archive&first=100${cursor ? `&after=${cursor}` : ''}`, APP_TOKEN);
+              for (const v of (page.data || [])) totalHours += parseDurationToHours(v.duration);
+              cursor = page.pagination?.cursor || '';
+            } while (cursor);
+
+            const payload = {
+              followers,
+              hours: +totalHours.toFixed(1),
+              updated_at: new Date().toISOString()
+            };
+
+            fs.writeFileSync('stats.json', JSON.stringify(payload, null, 2));
+            console.log('stats.json written:', payload);
+          })().catch(err => {
+            console.error(err);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stats.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update stats.json"
+            git push origin ${{ env.PAGES_BRANCH }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
