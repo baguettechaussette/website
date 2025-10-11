@@ -38,11 +38,10 @@ jobs:
 
           const CLIENT_ID = process.env.TWITCH_CLIENT_ID;
           const CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
-          const REFRESH_TOKEN = process.env.TWITCH_REFRESH_TOKEN;
-          const LOGIN = process.env.TWITCH_LOGIN;
+          const LOGIN = process.env.TWITCH_LOGIN || 'baguettechaussette';
 
-          if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
-            console.error('Missing secrets: TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET / TWITCH_REFRESH_TOKEN');
+          if (!CLIENT_ID || !CLIENT_SECRET) {
+            console.error('Missing secrets: TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET');
             process.exit(1);
           }
 
@@ -73,7 +72,7 @@ jobs:
           }
 
           (async () => {
-            // 1) App access token (pour users/videos)
+            // 1) App access token
             const appTok = await postForm('https://id.twitch.tv/oauth2/token', {
               client_id: CLIENT_ID,
               client_secret: CLIENT_SECRET,
@@ -81,24 +80,16 @@ jobs:
             });
             const APP_TOKEN = appTok.access_token;
 
-            // 2) User access token via refresh (pour followers)
-            const userTok = await postForm('https://id.twitch.tv/oauth2/token', {
-              client_id: CLIENT_ID,
-              client_secret: CLIENT_SECRET,
-              grant_type: 'refresh_token',
-              refresh_token: REFRESH_TOKEN
-            });
-            const USER_TOKEN = userTok.access_token;
-
-            // 3) user_id
+            // 2) user_id
             const user = await helix(`users?login=${encodeURIComponent(LOGIN)}`, APP_TOKEN);
             const userId = user.data?.[0]?.id;
             if (!userId) throw new Error('User not found');
 
-            // 4) followers total (scope channel:read:followers requise)
-            const followers = (await helix(`channels/followers?broadcaster_id=${userId}`, USER_TOKEN)).total ?? 0;
+            // 3) Followers total (app token via users/follows)
+            const fol = await helix(`users/follows?to_id=${userId}`, APP_TOKEN);
+            const followers = fol.total ?? 0;
 
-            // 5) total heures = somme de toutes les VOD (archives) avec pagination
+            // 4) Total heures = somme des VOD (archives) avec pagination
             let cursor = '', totalHours = 0;
             do {
               const page = await helix(
