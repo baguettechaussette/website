@@ -23,16 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------
     (function setupLightbox() {
         const tpl = `
-    <div class="lightbox" id="bcLightbox" aria-modal="true" role="dialog" aria-label="Galerie">
+    <div class="lightbox" id="bcLightbox" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
       <div class="lightbox__inner">
         <div class="lightbox__stage">
-          <button class="lightbox__btn lightbox__prev" aria-label="Précédent">‹</button>
+          <button type="button" class="lightbox__btn lightbox__prev" aria-label="Précédent">‹</button>
           <img class="lightbox__img" id="bcLightboxImg" alt="">
-          <button class="lightbox__btn lightbox__next" aria-label="Suivant">›</button>
+          <button type="button" class="lightbox__btn lightbox__next" aria-label="Suivant">›</button>
 
-          <button class="lightbox__close" id="bcLightboxClose" aria-label="Fermer">✕</button>
-          <button class="lightbox__play" id="bcLightboxPlay" aria-label="Lecture/Pause">▶</button>
-          <button class="lightbox__fullscreen" id="bcLightboxFull" aria-label="Plein écran">⛶</button>
+          <button type="button" class="lightbox__close" id="bcLightboxClose" aria-label="Fermer">✕</button>
+          <button type="button" class="lightbox__play" id="bcLightboxPlay" aria-label="Lecture/Pause">▶</button>
+          <button type="button" class="lightbox__zoom" id="bcLightboxZoom" aria-label="Zoom">⛶</button>
         </div>
         <div class="lightbox__thumbs" id="bcLightboxThumbs" aria-label="Vignettes"></div>
         <div class="lightbox__caption" id="bcLightboxCaption"></div>
@@ -53,13 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnNext = lightbox.querySelector('.lightbox__next');
         const btnClose = document.getElementById('bcLightboxClose');
         const btnPlay = document.getElementById('bcLightboxPlay');
-        const btnFull = document.getElementById('bcLightboxFull');
+        const btnZoom = document.getElementById('bcLightboxZoom');
 
         let currentList = [];
         let currentIndex = 0;
         let slideTimer = null;
         let isPlaying = false;
         const SLIDE_INTERVAL = 4000; // ms
+
+        // focus management
+        let lastFocused = null;
 
         // -------- Helpers --------
         function setActiveThumb(i) {
@@ -72,18 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = currentList[newIndex];
             if (!item) return;
 
-            // 1) lance le fade-out de l'image actuelle
-            imgEl.classList.add('is-fading'); // -> opacity: 0 (transition)
+            // 1) lancer le fade-out
+            imgEl.classList.add('is-fading');
 
-            // 2) quand la nouvelle image est prête...
+            // 2) prép callback avec gestion du cache
+            let handled = false;
             const onLoad = () => {
+                if (handled) return;
+                handled = true;
                 imgEl.removeEventListener('load', onLoad);
 
-                // ...laisse au navigateur le temps d'appliquer le style,
-                // puis enlève la classe sur la frame suivante pour déclencher le fade-in.
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        imgEl.classList.remove('is-fading'); // -> opacity: 1 (transition)
+                        imgEl.classList.remove('is-fading'); // fade-in
                     });
                 });
 
@@ -93,21 +97,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             imgEl.addEventListener('load', onLoad, { once: true });
 
-            // 3) change la source APRÈS avoir mis is-fading (sinon ça clignote)
+            // 3) alt + src
             imgEl.alt = item.caption || '';
             imgEl.src = item.src;
-        }
 
+            // 4) si l'image est déjà en cache et 'complete'
+            if (imgEl.complete) onLoad();
+        }
 
         function buildThumbs() {
             thumbsEl.innerHTML = '';
             currentList.forEach((item, i) => {
                 const t = document.createElement('button');
+                t.type = 'button';
                 t.className = 'lightbox__thumb';
                 t.setAttribute('aria-label', `Ouvrir image ${i + 1}`);
-                t.innerHTML = `<img src="${item.src}" alt="">`;
+                t.innerHTML = `<img src="${item.src}" alt="" loading="lazy">`;
                 t.addEventListener('click', () => {
-                    stopSlideshow(); // interaction utilisateur → on met en pause
+                    stopSlideshow(); // interaction → pause
                     currentIndex = i;
                     fadeToImage(currentIndex);
                 });
@@ -125,10 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function stopSlideshow() {
+            if (!isPlaying) return;
             isPlaying = false;
             btnPlay.classList.remove('is-playing');
             btnPlay.textContent = '▶';
-            clearInterval(slideTimer);
+            if (slideTimer) {
+                clearInterval(slideTimer);
+                slideTimer = null;
+            }
         }
 
         function toggleSlideshow() {
@@ -148,18 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
             fadeToImage(currentIndex);
         }
 
-        // -------- Plein écran --------
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                lightbox.requestFullscreen?.();
-            } else {
-                document.exitFullscreen?.();
-            }
+        // -------- Zoom (agrandir la lightbox) --------
+        function toggleZoom() {
+            lightbox.classList.toggle('is-zoomed');
+            btnZoom.classList.toggle('is-active', lightbox.classList.contains('is-zoomed'));
         }
-
-        document.addEventListener('fullscreenchange', () => {
-            btnFull.classList.toggle('is-active', !!document.fullscreenElement);
-        });
 
         // -------- Ouverture/Fermeture --------
         function openGallery(weekKey, start = 0) {
@@ -168,20 +172,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn(`Aucune image définie pour ${weekKey}`);
                 return;
             }
+            lastFocused = document.activeElement;
             currentIndex = Math.max(0, Math.min(start, currentList.length - 1));
             buildThumbs();
             fadeToImage(currentIndex);
             lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            startSlideshow(); // diapo auto au démarrage
+            btnClose.focus({ preventScroll: true });
+            startSlideshow(); // diapo auto
         }
 
         function closeGallery() {
             lightbox.classList.remove('is-open');
+            lightbox.classList.remove('is-zoomed');
+            lightbox.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
             imgEl.removeAttribute('src');
             stopSlideshow();
             if (document.fullscreenElement) document.exitFullscreen?.();
+            if (lastFocused && typeof lastFocused.focus === 'function') {
+                lastFocused.focus({ preventScroll: true });
+            }
         }
 
         // -------- Listeners UI --------
@@ -195,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         btnClose.addEventListener('click', closeGallery);
         btnPlay.addEventListener('click', toggleSlideshow);
-        btnFull.addEventListener('click', toggleFullscreen);
+        btnZoom.addEventListener('click', toggleZoom);
 
         // Fermer en cliquant le fond
         lightbox.addEventListener('click', (e) => {
@@ -214,7 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 stopSlideshow();
                 prev();
             }
-            if (e.key.toLowerCase() === 'f') toggleFullscreen();
+            if (e.key && e.key.toLowerCase() === 'z') toggleZoom(); // Zoom
+            // Optionnel : vrai plein écran navigateur
+            if (e.key && e.key.toLowerCase() === 'f') {
+                if (!document.fullscreenElement) lightbox.requestFullscreen?.();
+                else document.exitFullscreen?.();
+            }
             if (e.code === 'Space') {
                 e.preventDefault();
                 toggleSlideshow();
@@ -224,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ouvrir depuis les cartes
         document.querySelectorAll('.gallery-item[data-week]').forEach(card => {
             const week = card.getAttribute('data-week');
-            // accessibilité clavier gérée par ailleurs (Enter/Space)
             card.addEventListener('click', () => openGallery(week, 0));
             card.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
