@@ -620,7 +620,7 @@ section {
 
 .baguettectober-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--peach), var(--pink));
+    background: linear-gradient(135deg, #c987ff, #ff9252);
     color: white;
     padding: 12px 30px;
     border-radius: 50px;
@@ -637,6 +637,54 @@ section {
     margin: 0 auto;
     line-height: 1.8;
 }
+
+.gallery-mosaic {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 3px;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    filter: blur(5px) brightness(0.8);
+    transform: scale(1.02);
+    transition: filter .4s ease, transform .4s ease;
+    margin-bottom: 15px;
+}
+
+.gallery-mosaic div {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-item:hover .gallery-mosaic {
+    filter: blur(5px) brightness(1);
+    transform: scale(1.05);
+}
+
+.gallery-item::after {
+    content: "Voir les chefs-d'œuvre 🎨";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity .3s ease;
+    border-radius: inherit;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
 
 .gallery-grid {
     display: grid;
@@ -656,6 +704,8 @@ section {
     overflow: hidden;
     cursor: pointer;
 }
+
+
 
 .gallery-item::before {
     content: '';
