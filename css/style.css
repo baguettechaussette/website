@@ -397,7 +397,6 @@ nav .container {
     align-items: center;
     justify-content: center;
     box-shadow: 0 20px 80px rgba(168, 213, 226, 0.4);
-    /*border: 5px solid rgba(255, 255, 255, 0.2);*/
     animation: floatAvatar 4s ease-in-out infinite;
     overflow: hidden;
 }
@@ -467,48 +466,30 @@ section {
     border-radius: 25px;
     padding: 35px;
     text-align: center;
-    transition: all 0.35s ease;
+    transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
 }
 
-/*.schedule-item::before {*/
-/*    content: '';*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 6px;*/
-/*    background: linear-gradient(90deg, var(--blue), var(--green), var(--pink));*/
-/*    background-size: 200% 100%;*/
-/*    border-radius: 25px 25px 0 0;*/
-/*    opacity: 0;*/
-/*    transform: scaleX(0);*/
-/*    transform-origin: left;*/
-/*    transition: all 0.35s ease;*/
-/*}*/
+.schedule-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-radius: 25px 25px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
 .schedule-item:hover {
     background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(168, 213, 226, 0.25);
+    transform: translateY(-5px);
 }
 
 .schedule-item:hover::before {
     opacity: 1;
-    transform: scaleX(1);
-    animation: gradientMove 2s linear infinite;
 }
-
-@keyframes gradientMove {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 100% 50%;
-    }
-}
-
 
 .schedule-day {
     font-size: 2em;
@@ -576,7 +557,7 @@ section {
 .stream-placeholder {
     aspect-ratio: 16/9;
     background: linear-gradient(135deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
-    border-radius: 12px;
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -746,6 +727,116 @@ section {
     z-index: 1;
 }
 
+/* Contact Section */
+.contact-container {
+    background: rgba(168, 213, 226, 0.05);
+    border: 2px solid rgba(168, 213, 226, 0.2);
+    border-radius: 40px;
+    padding: 60px;
+    backdrop-filter: blur(20px);
+}
+
+.contact-content {
+    display: grid;
+    gap: 40px;
+}
+
+.contact-info-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 50px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-info-box:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue);
+    box-shadow: 0 20px 60px rgba(168, 213, 226, 0.3);
+}
+
+.contact-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+.contact-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-email {
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(135deg, #9146ff, #772ce8);
+    padding: 15px 40px;
+    border-radius: 50px;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3);
+}
+
+.contact-email:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(145, 70, 255, 0.5);
+}
+
+.contact-text {
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--pink);
+    transform: translateY(-5px);
+}
+
+.contact-card-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.contact-card-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.contact-card-text {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+}
+
 /* Social Section */
 .social-grid {
     display: grid;
@@ -910,6 +1001,88 @@ footer {
     color: var(--pink);
 }
 
+/* === Countdown bannière (version équilibrée avec rouge pastel) === */
+.next-stream-banner {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 25px 20px;
+    border-radius: 20px;
+    background: rgba(168, 213, 226, 0.08); /* fond bleuté doux */
+    border: 2px solid rgba(168, 213, 226, 0.2);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.next-stream-banner.is-live {
+    background: linear-gradient(135deg, rgba(255, 155, 155, 0.18), rgba(230, 103, 103, 0.15)); /* rouge doux */
+    border-color: rgba(230, 103, 103, 0.4);
+    box-shadow: 0 0 35px rgba(230, 103, 103, 0.25);
+}
+
+/* Texte de la bannière */
+.countdown-label {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--blue);
+}
+
+.next-stream-banner.is-live .countdown-label {
+    color: #ff9b9b; /* accent rouge rosé */
+}
+
+.countdown-time {
+    font-size: 1.6em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+}
+
+/* CTA harmonisés */
+.countdown-cta {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* CTA en live : rouge pastel */
+.countdown-cta.live {
+    background: linear-gradient(135deg, #e66767, #ff9b9b);
+    color: #fff;
+    box-shadow: 0 0 25px rgba(230, 103, 103, 0.25);
+}
+.countdown-cta.live:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 35px rgba(230, 103, 103, 0.4);
+}
+
+/* CTA prochain stream : bleu/violet doux */
+.countdown-cta.upcoming {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff;
+    box-shadow: 0 0 25px rgba(168, 213, 226, 0.25);
+}
+.countdown-cta.upcoming:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 35px rgba(168, 213, 226, 0.4);
+}
+
+/* Cartes planning */
+.schedule-item.is-live {
+    border-color: rgba(230, 103, 103, 0.6);
+    box-shadow: 0 10px 30px rgba(230, 103, 103, 0.25);
+}
+.schedule-item.is-next {
+    border-color: var(--blue);
+    box-shadow: 0 10px 30px rgba(168, 213, 226, 0.25);
+}
+
+
+
 /* Responsive */
 @media (max-width: 1200px) {
     .hero-content {
@@ -937,6 +1110,19 @@ footer {
 
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-right {
+        position: relative;
+        top: 0;
+    }
+
+    .contact-cards {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -991,33 +1177,136 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info-box {
+        padding: 30px 20px;
+    }
+
+    .contact-email {
+        font-size: 1.2em;
+        padding: 12px 30px;
+    }
+
+    .discord-widget-wrap iframe {
+        height: 400px;
+    }
+
     section {
         padding: 80px 20px;
     }
 
     .schedule-container,
     .live-container,
-    .baguettectober-container {
+    .baguettectober-container,
+    .contact-container {
         padding: 40px 20px;
+    }
+
+    .next-stream-banner .countdown-label {
+        font-size: 1.1em;
+    }
+
+    .next-stream-banner .countdown-time {
+        font-size: 1.8em;
     }
 }
 
-/* Wrapper 16:9 pour le player Twitch (SDK) */
-.twitch-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 1100px; /* ajuste si tu veux */
-    margin: 0 auto;
-    aspect-ratio: 16 / 9; /* moderne; fallback JS géré en dessous */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+/* === Réseaux sociaux (2 colonnes comme Contact) === */
+.socials-container {
+    background: rgba(168, 213, 226, 0.05);
+    border: 2px solid rgba(168, 213, 226, 0.2);
+    border-radius: 40px;
+    padding: 60px;
+    backdrop-filter: blur(20px);
 }
 
-/* Quand aspect-ratio n'est pas supporté, on fixe une hauteur min correcte */
-@supports not (aspect-ratio: 16 / 9) {
-    .twitch-wrap {
-        height: 56.25vw;
-        max-height: 70vh;
+.socials-content {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    gap: 50px;
+    align-items: start;
+}
+
+.socials-left {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.socials-right {
+    position: sticky;
+    top: 120px;
+}
+
+.discord-join-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 14px 35px;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+}
+.discord-join-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(88, 101, 242, 0.5);
+}
+
+.discord-widget-container {
+    background: rgba(88, 101, 242, 0.1);
+    border: 2px solid rgba(88, 101, 242, 0.3);
+    border-radius: 30px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.discord-widget-container:hover {
+    border-color: rgba(88, 101, 242, 0.5);
+    box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
+}
+
+.discord-widget-title {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.discord-widget-desc {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.discord-widget-wrap {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.discord-widget-wrap iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+}
+
+
+/* Responsive : passe en 1 colonne */
+@media (max-width: 1200px) {
+    .socials-content {
+        grid-template-columns: 1fr;
+    }
+    .socials-right {
+        position: relative;
+        top: 0;
     }
 }
