@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baguette Chaussette 🥖🧦</title>
+    <meta name="description" content="Streamer FR passionné de gaming. Ambiance cosy & humour absurde. Rejoins la communauté bienveillante !">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/lightbox.css">
@@ -21,12 +22,13 @@
 <nav id="navbar">
     <div class="container">
         <div class="logo">🥖 Baguette Chaussette</div>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu de navigation">☰</button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#planning">Planning</a></li>
             <li><a href="#live">Live</a></li>
             <li><a href="#baguettectober">Baguettectober</a></li>
+            <li><a href="#contact">Contact</a></li>
             <li><a href="#reseaux">Réseaux</a></li>
         </ul>
     </div>
@@ -37,7 +39,6 @@
         <div class="hero-left">
             <h1 class="hero-title">Baguette Chaussette</h1>
             <p class="hero-subtitle">Streamer FR | Ambiance cosy & humour absurde | Communauté bienveillante 🥖🐱</p>
-
 
             <div class="hero-stats">
                 <div class="stat-box">
@@ -55,9 +56,8 @@
             </div>
 
             <div class="hero-buttons">
-                <a href="#live" class="btn btn-primary">Voir le Live</a>
-                <a href="#reseaux" class="btn btn-secondary">Me suivre</a>
-                <a href="mailto:baguette.chaussette.contact@gmail.com" class="btn btn-secondary">Contact pro</a>
+                <a href="#contact" class="btn btn-primary">Me contacter</a>
+                <a href="#reseaux" class="btn btn-secondary">Me suivre ✨</a>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
             <div class="avatar-container">
                 <div class="avatar-glow"></div>
                 <div class="avatar-main">
-                    <img src="./img/logo.png" alt="Baguette Chaussette Logo">
+                    <img src="./img/logo.png" alt="Logo Baguette Chaussette">
                 </div>
             </div>
         </div>
@@ -79,22 +79,28 @@
     </div>
 
     <div class="schedule-container">
+        <div id="nextStreamCountdown" class="next-stream-banner"></div>
+
         <div class="schedule-grid">
-            <div class="schedule-item">
+            <div class="schedule-item" data-day="3" data-hour="21" data-minute="0">
                 <div class="schedule-day">Mercredi</div>
                 <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
             </div>
 
-            <div class="schedule-item">
+            <div class="schedule-item" data-day="5" data-hour="21" data-minute="0">
                 <div class="schedule-day">Vendredi</div>
                 <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
             </div>
 
-            <div class="schedule-item">
+            <div class="schedule-item" data-day="0" data-hour="21" data-minute="0">
                 <div class="schedule-day">Dimanche</div>
                 <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -110,10 +116,8 @@
             EN LIVE
         </div>
 
-        <div class="stream-placeholder">
-            <div class="twitch-wrap">
-                <div id="twitch-embed"></div>
-            </div>
+        <div class="twitch-wrap">
+            <div id="twitch-embed"></div>
         </div>
     </div>
 </section>
@@ -141,7 +145,7 @@
                     <p class="gallery-week-label">Semaine 1</p>
                 </div>
                 <div class="gallery-week">La fournée maudite</div>
-                <div class="gallery-artist">Un four ancien s’ouvre, et la fournée qui en sort n’a rien d’ordinaire...</div>
+                <div class="gallery-artist">Un four ancien s'ouvre, et la fournée qui en sort n'a rien d'ordinaire...</div>
             </div>
 
             <div class="gallery-item" data-week="w2" role="button" tabindex="0" aria-label="Ouvrir la galerie Semaine 2">
@@ -159,7 +163,7 @@
                     <p class="gallery-week-label">Semaine 3</p>
                 </div>
 <!--                <div class="gallery-week">Le Grimoire ANCIEN</div>-->
-<!--                <div class="gallery-artist">Il s’ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d’une créature aux yeux jaunes brillants, armée de crocs aussi charmants qu’effrayants…</div>-->
+<!--                <div class="gallery-artist">Il s'ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d'une créature...</div>-->
             </div>
 
             <div class="gallery-item" data-week="w4" role="button" tabindex="0" aria-label="Ouvrir la galerie Semaine 4">
@@ -177,7 +181,50 @@
                     <p class="gallery-week-label">Challenge bonus</p>
                 </div>
 <!--                <div class="gallery-week">CAUCHEMAR dans le potager</div>-->
-<!--                <div class="gallery-artist">Une citrouille gigantesque sème la terreur... Face à elle, une vaillante baguette, munie d’une arme de fortune, tente désespérément de terrasser le monstre dans une lutte sans merci.</div>-->
+<!--                <div class="gallery-artist">Une citrouille gigantesque sème la terreur... Face à elle, une vaillante baguette tente de terrasser le monstre.</div>-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-header">
+        <h2 class="section-title">Me contacter</h2>
+        <p class="section-subtitle">Pour toute demande professionnelle ou collaboration</p>
+    </div>
+
+    <div class="contact-container">
+        <div class="contact-content">
+            <div class="contact-info-box">
+                <div class="contact-icon">📧</div>
+                <h3 class="contact-title">Email professionnel</h3>
+                <a href="mailto:baguette.chaussette.contact@gmail.com" class="contact-email">
+                    baguette.chaussette.contact@gmail.com
+                </a>
+                <p class="contact-text">
+                    Pour les collaborations, partenariats ou toute demande professionnelle, n'hésite pas à m'envoyer un email.
+                    Je réponds généralement sous 24-48h !
+                </p>
+            </div>
+
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-card-icon">🤝</div>
+                    <h4 class="contact-card-title">Collaborations</h4>
+                    <p class="contact-card-text">Intéressé par une collab ? Parlons-en !</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-card-icon">🎁</div>
+                    <h4 class="contact-card-title">Partenariats</h4>
+                    <p class="contact-card-text">Propositions de partenariats et sponsorings</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-card-icon">💼</div>
+                    <h4 class="contact-card-title">Projets pro</h4>
+                    <p class="contact-card-text">Demandes professionnelles et projets spéciaux</p>
+                </div>
             </div>
         </div>
     </div>
@@ -189,44 +236,69 @@
         <p class="section-subtitle">Suis-moi pour ne rien rater !</p>
     </div>
 
-    <div class="social-grid">
-        <a href="https://www.twitch.tv/baguettechaussette" target="_blank" class="social-card twitch">
-            <div class="social-icon">🎥</div>
-            <div class="social-name">Twitch</div>
-            <div class="social-desc">Mes lives en direct</div>
-        </a>
+    <div class="socials-container">
+        <div class="socials-content">
+            <!-- Colonne gauche : réseaux -->
+            <div class="socials-left">
+                <div class="social-grid">
+                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card twitch">
+                        <div class="social-icon">🎥</div>
+                        <div class="social-name">Twitch</div>
+                        <div class="social-desc">Mes diffusions en direct</div>
+                    </a>
 
-        <a href="https://www.youtube.com/@BaguetteChaussette-VOD" target="_blank" class="social-card youtube">
-            <div class="social-icon">📺</div>
-            <div class="social-name">YouTube</div>
-            <div class="social-desc">Rediffusions & highlights</div>
-        </a>
+                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD" target="_blank" rel="noopener noreferrer" class="social-card youtube">
+                        <div class="social-icon">📺</div>
+                        <div class="social-name">YouTube</div>
+                        <div class="social-desc">Rediffusions & clips</div>
+                    </a>
 
-        <a href="https://www.tiktok.com/@baguettechau7" target="_blank" class="social-card tiktok">
-            <div class="social-icon">🎵</div>
-            <div class="social-name">TikTok</div>
-            <div class="social-desc">Extraits & moments fun</div>
-        </a>
+                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer" class="social-card tiktok">
+                        <div class="social-icon">🎵</div>
+                        <div class="social-name">TikTok</div>
+                        <div class="social-desc">Clips & lives</div>
+                    </a>
 
-        <a href="https://www.instagram.com/baguettechaussette" target="_blank" class="social-card instagram">
-            <div class="social-icon">📸</div>
-            <div class="social-name">Instagram</div>
-            <div class="social-desc">Stories & behind the scenes</div>
-        </a>
+                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card instagram">
+                        <div class="social-icon">📸</div>
+                        <div class="social-name">Instagram</div>
+                        <div class="social-desc">Stories & behind the scenes</div>
+                    </a>
 
-        <a href="https://discord.com/invite/QHNF684bBf" target="_blank" class="social-card discord">
-            <div class="social-icon">💬</div>
-            <div class="social-name">Discord</div>
-            <div class="social-desc">Le coin de la commu</div>
-        </a>
+                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter">
+                        <div class="social-icon">🐦</div>
+                        <div class="social-name">X (Twitter)</div>
+                        <div class="social-desc">Pas grand chose</div>
+                    </a>
+                </div>
+            </div>
 
-        <a href="https://x.com/BaguetteCho7" target="_blank" class="social-card twitter">
-            <div class="social-icon">🐦</div>
-            <div class="social-name">X (Twitter)</div>
-            <div class="social-desc">Pas grand chose</div>
-        </a>
+            <!-- Colonne droite : widget Discord -->
+            <div class="socials-right">
+                <div class="discord-widget-container">
+                    <h3 class="discord-widget-title">💬 Rejoins le Discord !</h3>
+                    <p class="discord-widget-desc">Discute et partage avec des gens d'exception</p>
+                    <div class="discord-widget-wrap">
+                        <iframe
+                                src="https://discord.com/widget?id=1406267514081509506&theme=dark"
+                                width="100%"
+                                height="500"
+                                allowtransparency="true"
+                                frameborder="0"
+                                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                                title="Widget Discord"
+                                loading="lazy"></iframe>
+                    </div>
+                    <a class="discord-join-btn" href="https://discord.com/invite/QHNF684bBf" target="_blank" rel="noopener noreferrer">
+                        👉 Rejoindre le serveur
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+
 
 <footer>
     <div class="footer-content">
@@ -235,9 +307,10 @@
     </div>
 </footer>
 
-<script src="./js/main.js" defer></script>
-<script src="./js/baguettectober.js" defer></script>
-<script src="https://embed.twitch.tv/embed/v1.js" defer></script>
-<script src="./js/twitch-embed.js" defer></script>
+<script src="./js/main.js"></script>
+<script src="./js/stream-countdown.js"></script>
+<script src="./js/baguettectober.js"></script>
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+<script src="./js/twitch-embed.js"></script>
 </body>
 </html>
