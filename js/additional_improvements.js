@@ -448,8 +448,14 @@ function initScrollToTop() {
     const button = document.createElement('button');
     button.className = 'scroll-to-top';
     button.setAttribute('aria-label', 'Retour en haut');
-    button.innerHTML = '↑';
-    document.body.appendChild(button);
+    button.innerHTML = `
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 19V5M12 5L6 11M12 5L18 11"
+          stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+ document.body.appendChild(button);
 
     let isVisible = false;
 
