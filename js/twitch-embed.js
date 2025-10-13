@@ -20,11 +20,14 @@
         height,
         channel: CHANNEL,
         parent: [parentHost],       // ajoute ici un 2e domaine si tu en as un : ["github.io", "tondomaine.fr"]
-        layout: "video",            // ou "video-with-chat" si tu veux le chat
-        theme: "dark"
-        // autoplay/muted: le SDK suit les règles navigateur; si besoin passe à l'iframe pour forcer muted.
-    });
+        layout: "video-with-chat",            // ou "video-with-chat" si tu veux le chat
+        theme: "dark",
+        muted: true     });
 
+
+    embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+        console.log('Player Twitch prêt');
+    });
     // Resize responsive
     window.addEventListener('resize', () => {
         const s = calcSize();
@@ -34,7 +37,7 @@
             // Hack simple: on reconstruit le player proprement sur resize
             document.getElementById('twitch-embed').innerHTML = "";
             new Twitch.Embed("twitch-embed", {
-                width, height, channel: CHANNEL, parent: [parentHost], layout: "video", theme: "dark"
+                width, height, channel: CHANNEL, parent: [parentHost], layout: "video-with-chat", theme: "dark", muted: true
             });
         }
     });
