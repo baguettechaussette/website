@@ -261,15 +261,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.gallery-item[data-week]').forEach(card => {
         const weekKey = card.dataset.week;
         const list = BAGUETTECTOBER_GALLERY[weekKey];
+        const placeholder = card.querySelector('.gallery-placeholder');
+
         if (list && list.length > 0) {
-            // On prend jusqu’à 4 images max pour la mosaïque
+            // Crée une mosaïque avec jusqu’à 4 images
             const imgs = list.slice(0, 4).map(i => i.src);
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
             mosaic.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
-            card.querySelector('.gallery-placeholder').replaceWith(mosaic);
+            placeholder.replaceWith(mosaic);
+
+            // Marque la carte comme “active”
+            card.classList.add('has-gallery');
+        } else {
+            // Marque la carte comme vide
+            card.classList.add('no-gallery');
         }
     });
-
 
 });

@@ -432,7 +432,6 @@ async function loadFollowersCountImproved(retries = 3) {
                 // Dernière tentative échouée
                 el.textContent = '200+'; // Fallback élégant
                 el.style.opacity = '0.6';
-                el.title = 'Données temporairement indisponibles';
             } else {
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
             }
