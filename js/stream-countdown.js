@@ -120,7 +120,7 @@
 
             banner.innerHTML = `
                 <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-                <div class="countdown-time">Encore ${formatCountdown(remaining)} de stream ! 🎮</div>
+                <div class="countdown-time">On n’attend plus que toi !</div>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">
                     REJOINDRE LE STREAM
                 </a>
