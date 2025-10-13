@@ -20,7 +20,7 @@
         height,
         channel: CHANNEL,
         parent: [parentHost],       // ajoute ici un 2e domaine si tu en as un : ["github.io", "tondomaine.fr"]
-        layout: "video-with-chat",            // ou "video-with-chat" si tu veux le chat
+        layout: "video",            // ou "video-with-chat" si tu veux le chat
         theme: "dark",
         muted: true     });
 
@@ -37,7 +37,7 @@
             // Hack simple: on reconstruit le player proprement sur resize
             document.getElementById('twitch-embed').innerHTML = "";
             new Twitch.Embed("twitch-embed", {
-                width, height, channel: CHANNEL, parent: [parentHost], layout: "video-with-chat", theme: "dark", muted: true
+                width, height, channel: CHANNEL, parent: [parentHost], layout: "video", theme: "dark", muted: true
             });
         }
     });
