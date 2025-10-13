@@ -638,6 +638,7 @@ section {
     line-height: 1.8;
 }
 
+/* === MOSAÏQUE FLOUTÉE === */
 .gallery-mosaic {
     position: relative;
     display: grid;
@@ -650,7 +651,6 @@ section {
     filter: blur(5px) brightness(0.8);
     transform: scale(1.02);
     transition: filter .4s ease, transform .4s ease;
-    margin-bottom: 15px;
 }
 
 .gallery-mosaic div {
@@ -660,12 +660,13 @@ section {
     height: 100%;
 }
 
-.gallery-item:hover .gallery-mosaic {
+.has-gallery:hover .gallery-mosaic {
     filter: blur(5px) brightness(1);
     transform: scale(1.05);
 }
 
-.gallery-item::after {
+/* === OVERLAY Voir la galerie (uniquement si galerie dispo) === */
+.has-gallery::after {
     content: "Voir les chefs-d'œuvre 🎨";
     position: absolute;
     inset: 0;
@@ -679,12 +680,21 @@ section {
     opacity: 0;
     transition: opacity .3s ease;
     border-radius: inherit;
+    pointer-events: none;
 }
 
-.gallery-item:hover::after {
+.has-gallery:hover::after {
     opacity: 1;
 }
 
+/* === Cas sans galerie === */
+.no-gallery {
+    cursor: default;
+}
+.no-gallery:hover {
+    transform: none;
+    box-shadow: none;
+}
 
 .gallery-grid {
     display: grid;
@@ -704,8 +714,6 @@ section {
     overflow: hidden;
     cursor: pointer;
 }
-
-
 
 .gallery-item::before {
     content: '';
