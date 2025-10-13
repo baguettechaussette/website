@@ -257,4 +257,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     })();
+
+    document.querySelectorAll('.gallery-item[data-week]').forEach(card => {
+        const weekKey = card.dataset.week;
+        const list = BAGUETTECTOBER_GALLERY[weekKey];
+        if (list && list.length > 0) {
+            // On prend jusqu’à 4 images max pour la mosaïque
+            const imgs = list.slice(0, 4).map(i => i.src);
+            const mosaic = document.createElement('div');
+            mosaic.className = 'gallery-mosaic';
+            mosaic.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
+            card.querySelector('.gallery-placeholder').replaceWith(mosaic);
+        }
+    });
+
+
 });
