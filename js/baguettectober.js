@@ -8,11 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
             {src: 'img/baguettectober/w1/barbouy.png', caption: 'Auteur : Barbouy'},
             {src: 'img/baguettectober/w1/bunny.jpg', caption: 'Auteur : Bunny / Madi'},
             {src: 'img/baguettectober/w1/calypsoraven.jpg', caption: 'Auteur : CalypsoRaven'},
+            {src: 'img/baguettectober/w1/eirian.png', caption: 'Auteur : Eirian'},
             {src: 'img/baguettectober/w1/hiimaxou.jpg', caption: 'Auteur : Hiimaxou'},
             {src: 'img/baguettectober/w1/lydais.jpg', caption: 'Auteur : Lydaïs'},
             {src: 'img/baguettectober/w1/maximepr.jpg', caption: 'Auteur : Maximepr'},
         ],
-        w2: [],
+        w2: [
+            {src: 'img/baguettectober/w2/barbouy.png', caption: 'Auteur : Barbouy'},
+            {src: 'img/baguettectober/w2/eirian.png', caption: 'Auteur : Eirian'},
+            {src: 'img/baguettectober/w2/hiimaxou.jpg', caption: 'Auteur : Hiimaxou'},
+
+
+        ],
         w3: [],
         w4: [],
         bonus: []

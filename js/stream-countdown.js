@@ -1,8 +1,9 @@
-// Countdown des streams (durée ~3h30 + affichage jours/heures + CTA)
+// Countdown des streams avec gestion améliorée des fuseaux horaires et de la logique
 (function initStreamCountdown() {
     const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
     const TWITCH_URL = "https://www.twitch.tv/baguettechaussette";
 
+    // Récupère le planning depuis le DOM
     function getScheduleFromDOM() {
         return Array.from(document.querySelectorAll(".schedule-item")).map((el) => ({
             day: +el.dataset.day,
@@ -12,48 +13,72 @@
         }));
     }
 
+    // Calcule la prochaine occurrence d'un créneau donné
     function nextOccurrenceOf({ day, hour, minute }, now = new Date()) {
         const next = new Date(now);
         const nowDay = now.getDay();
+
+        // Calcul des jours jusqu'au prochain créneau
         let daysUntil = day - nowDay;
         if (daysUntil < 0) daysUntil += 7;
+
         next.setDate(now.getDate() + daysUntil);
         next.setHours(hour, minute, 0, 0);
-        if (next <= now) next.setDate(next.getDate() + 7);
+
+        // Si l'heure est déjà passée aujourd'hui, on passe à la semaine prochaine
+        if (next <= now) {
+            next.setDate(next.getDate() + 7);
+        }
+
         return next;
     }
 
+    // Vérifie si on est actuellement dans la fenêtre de stream
     function isNowInWindow(start, now = new Date()) {
         const end = new Date(start.getTime() + STREAM_DURATION_MS);
         return now >= start && now < end;
     }
 
+    // Trouve le stream actuel ou le prochain
     function getCurrentOrNext(schedule) {
         const now = new Date();
+
+        // Vérifie d'abord si un stream est en cours
         for (const s of schedule) {
-            const start = new Date(now);
-            const today = now.getDay();
-            let diff = s.day - today;
-            if (diff > 0) diff -= 7;
-            start.setDate(now.getDate() + diff);
-            start.setHours(s.hour, s.minute, 0, 0);
-            if (isNowInWindow(start, now)) return { ...s, date: start, isLive: true };
+            const startToday = new Date(now);
+            startToday.setHours(s.hour, s.minute, 0, 0);
+
+            // Vérifie aujourd'hui
+            if (now.getDay() === s.day && isNowInWindow(startToday, now)) {
+                return { ...s, date: startToday, isLive: true };
+            }
+
+            // Vérifie hier (au cas où le stream a commencé hier soir et dure encore)
+            const startYesterday = new Date(startToday);
+            startYesterday.setDate(startYesterday.getDate() - 1);
+            if ((now.getDay() + 6) % 7 === s.day && isNowInWindow(startYesterday, now)) {
+                return { ...s, date: startYesterday, isLive: true };
+            }
         }
 
+        // Sinon, trouve le prochain stream
         let nextSlot = null;
         let minDiff = Infinity;
+
         for (const s of schedule) {
             const next = nextOccurrenceOf(s, now);
             const diff = next - now;
+
             if (diff < minDiff) {
                 minDiff = diff;
                 nextSlot = { ...s, date: next, diff, isLive: false };
             }
         }
+
         return nextSlot;
     }
 
-    // 🕒 Nouveau format "2 jours 5h 30min" plutôt que "64h"
+    // Format countdown amélioré
     function formatCountdown(ms) {
         const totalSeconds = Math.max(0, Math.floor(ms / 1000));
         const days = Math.floor(totalSeconds / 86400);
@@ -61,72 +86,91 @@
         const minutes = Math.floor((totalSeconds % 3600) / 60);
         const seconds = totalSeconds % 60;
 
-        if (days > 1) return `${days} jours ${hours}h`;
+        if (days > 1) return `${days} jours ${hours}h ${minutes}min`;
         if (days === 1) return `1 jour ${hours}h ${minutes}min`;
         if (hours > 0) return `${hours}h ${minutes}min ${seconds}s`;
         if (minutes > 0) return `${minutes}min ${seconds}s`;
         return `${seconds}s`;
     }
 
+    // Utilitaires de formatage
     const formatTime = (h, m) =>
         `${String(h).padStart(2, "0")}h${String(m).padStart(2, "0")}`;
+
     const getDayName = (d) =>
         ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d];
 
+    // Mise à jour de l'interface
     function updateUI() {
         const schedule = getScheduleFromDOM();
         const banner = document.getElementById("nextStreamCountdown");
+
         if (!banner || schedule.length === 0) return;
 
         const now = new Date();
         const info = getCurrentOrNext(schedule);
+
         if (!info) return;
 
+        // Bannière principale
         if (info.isLive) {
             banner.classList.add("is-live");
+            const endTime = new Date(info.date.getTime() + STREAM_DURATION_MS);
+            const remaining = endTime - now;
+
             banner.innerHTML = `
-        <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-        <div class="countdown-time">On attend plus que toi ! 😊</div>
-        <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">
-          REJOINDRE
-        </a>
-      `;
+                <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
+                <div class="countdown-time">Encore ${formatCountdown(remaining)} de stream ! 🎮</div>
+                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">
+                    REJOINDRE LE STREAM
+                </a>
+            `;
         } else {
             banner.classList.remove("is-live");
             banner.innerHTML = `
-        <div class="countdown-label">
-          Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}
-        </div>
-        <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⏰</div>
-        <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">
-          Suivre la chaîne 💜
-        </a>
-      `;
+                <div class="countdown-label">
+                    Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}
+                </div>
+                <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⏰</div>
+                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">
+                    Suivre la chaîne 💜
+                </a>
+            `;
         }
 
-        // Cartes planning
+        // Mise à jour des cartes de planning
         document.querySelectorAll(".schedule-item").forEach((card) => {
             const d = +card.dataset.day;
             const h = +card.dataset.hour;
             const m = +card.dataset.minute || 0;
             const cdEl = card.querySelector(".schedule-countdown");
 
-            const last = new Date(now);
-            let diff = d - now.getDay();
-            if (diff > 0) diff -= 7;
-            last.setDate(now.getDate() + diff);
-            last.setHours(h, m, 0, 0);
-            const next = nextOccurrenceOf({ day: d, hour: h, minute: m }, now);
+            if (!cdEl) return;
+
+            // Calcule la prochaine occurrence de ce créneau
+            const nextStart = nextOccurrenceOf({ day: d, hour: h, minute: m }, now);
+
+            // Vérifie si ce créneau est en cours maintenant
+            const todayStart = new Date(now);
+            todayStart.setHours(h, m, 0, 0);
+
+            let isThisSlotLive = false;
+            if (now.getDay() === d && isNowInWindow(todayStart, now)) {
+                isThisSlotLive = true;
+            }
 
             card.classList.remove("is-next", "is-live");
 
-            if (isNowInWindow(last, now)) {
+            if (isThisSlotLive) {
                 card.classList.add("is-live");
-                const remaining = last.getTime() + STREAM_DURATION_MS - now.getTime();
-                cdEl.textContent = `En cours — reste ${formatCountdown(remaining)}`;
+                const endTime = new Date(todayStart.getTime() + STREAM_DURATION_MS);
+                const remaining = endTime - now;
+                cdEl.textContent = `🔴 En cours — reste ${formatCountdown(remaining)}`;
             } else {
-                const diffMs = next - now;
+                const diffMs = nextStart - now;
                 cdEl.textContent = `Dans ${formatCountdown(diffMs)}`;
+
+                // Marque comme "prochain" si c'est le stream le plus proche
                 if (!info.isLive && d === info.day && h === info.hour && m === info.minute) {
                     card.classList.add("is-next");
                 }
@@ -134,6 +178,7 @@
         });
     }
 
+    // Initialisation et mise à jour continue
     updateUI();
     setInterval(updateUI, 1000);
 })();

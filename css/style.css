@@ -1310,3 +1310,501 @@ footer {
         top: 0;
     }
 }
+
+
+/* ============================================
+   AMÉLIORATIONS CTA - Design moderne et engageant
+   ============================================ */
+
+/* === 1. Countdown Banner - Version améliorée === */
+.next-stream-banner {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 32px 28px;
+    border-radius: 24px;
+    background: rgba(168, 213, 226, 0.08);
+    border: 2px solid rgba(168, 213, 226, 0.25);
+    backdrop-filter: blur(16px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet de brillance subtile */
+.next-stream-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    animation: shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10%, 10%); }
+}
+
+/* État LIVE amélioré */
+.next-stream-banner.is-live {
+    background: linear-gradient(135deg,
+    rgba(255, 155, 155, 0.22),
+    rgba(230, 103, 103, 0.18)
+    );
+    border-color: rgba(230, 103, 103, 0.6);
+    box-shadow:
+            0 0 40px rgba(230, 103, 103, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: pulseLive 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseLive {
+    0%, 100% {
+        box-shadow:
+                0 0 40px rgba(230, 103, 103, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-color: rgba(230, 103, 103, 0.6);
+    }
+    50% {
+        box-shadow:
+                0 0 55px rgba(230, 103, 103, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-color: rgba(230, 103, 103, 0.8);
+    }
+}
+
+/* Labels du countdown */
+.countdown-label {
+    font-size: 1.45em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--blue);
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+}
+
+.next-stream-banner.is-live .countdown-label {
+    color: #ff9b9b;
+    text-shadow:
+            0 2px 10px rgba(255, 155, 155, 0.6),
+            0 0 20px rgba(230, 103, 103, 0.3);
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow:
+                0 2px 10px rgba(255, 155, 155, 0.6),
+                0 0 20px rgba(230, 103, 103, 0.3);
+    }
+    50% {
+        text-shadow:
+                0 2px 12px rgba(255, 155, 155, 0.8),
+                0 0 30px rgba(230, 103, 103, 0.5);
+    }
+}
+
+/* Temps du countdown */
+.countdown-time {
+    font-size: 1.95em;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-variant-numeric: tabular-nums;
+}
+
+/* === 2. CTA Buttons - Design moderne === */
+.countdown-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 16px 42px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.15em;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de brillance au survol */
+.countdown-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.countdown-cta:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Effet de particules (optionnel) */
+.countdown-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+    );
+    background-size: 200% 200%;
+    animation: shimmerCTA 3s ease infinite;
+}
+
+@keyframes shimmerCTA {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.countdown-cta:hover::after {
+    opacity: 1;
+}
+
+/* CTA LIVE - Rouge énergique */
+.countdown-cta.live {
+    background: linear-gradient(135deg, #e66767, #ff9b9b);
+    color: #fff;
+    box-shadow:
+            0 8px 30px rgba(230, 103, 103, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.countdown-cta.live:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+            0 12px 40px rgba(230, 103, 103, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.countdown-cta.live:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Indicateur LIVE clignotant */
+.countdown-cta.live::before {
+    content: '●';
+    font-size: 0.8em;
+    color: #fff;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+/* CTA Upcoming - Bleu/Violet élégant */
+.countdown-cta.upcoming {
+    background: linear-gradient(135deg, #a8d5e2, #e5d4ed);
+    color: #2a2a4a;
+    box-shadow:
+            0 8px 30px rgba(168, 213, 226, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.countdown-cta.upcoming:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+            0 12px 40px rgba(168, 213, 226, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #b8e0ee, #f0e4f5);
+}
+
+.countdown-cta.upcoming:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+
+/* === 3. Schedule Cards améliorées === */
+.schedule-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 38px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+/* Effet de brillance au survol */
+.schedule-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.schedule-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(168, 213, 226, 0.25);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.schedule-item:hover::before {
+    opacity: 1;
+    height: 5px;
+}
+
+.schedule-item:hover::after {
+    opacity: 1;
+}
+
+/* État LIVE pour les cartes */
+.schedule-item.is-live {
+    border-color: rgba(230, 103, 103, 0.8);
+    background: linear-gradient(135deg,
+    rgba(230, 103, 103, 0.12),
+    rgba(255, 155, 155, 0.08)
+    );
+    box-shadow:
+            0 15px 40px rgba(230, 103, 103, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: cardPulse 2.5s ease-in-out infinite;
+}
+
+.schedule-item.is-live::before {
+    background: linear-gradient(90deg, #e66767, #ff9b9b);
+    opacity: 1;
+    height: 5px;
+    animation: slideIn 0.6s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes cardPulse {
+    0%, 100% {
+        box-shadow:
+                0 15px 40px rgba(230, 103, 103, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-color: rgba(230, 103, 103, 0.8);
+    }
+    50% {
+        box-shadow:
+                0 20px 50px rgba(230, 103, 103, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-color: rgba(230, 103, 103, 1);
+    }
+}
+
+/* État NEXT pour les cartes */
+.schedule-item.is-next {
+    border-color: var(--blue);
+    background: rgba(168, 213, 226, 0.1);
+    box-shadow:
+            0 15px 40px rgba(168, 213, 226, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.schedule-item.is-next::before {
+    opacity: 1;
+    animation: slideIn 0.6s ease;
+}
+
+/* Badge countdown dans les cartes */
+.schedule-countdown {
+    margin-top: 16px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 10px 18px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 14px;
+    display: inline-block;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    font-variant-numeric: tabular-nums;
+}
+
+.schedule-item:hover .schedule-countdown {
+    background: rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.schedule-item.is-live .schedule-countdown {
+    color: #ff9b9b;
+    background: rgba(230, 103, 103, 0.25);
+    border-color: rgba(230, 103, 103, 0.4);
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(230, 103, 103, 0.3);
+}
+
+.schedule-item.is-next .schedule-countdown {
+    color: var(--blue);
+    background: rgba(168, 213, 226, 0.25);
+    border-color: rgba(168, 213, 226, 0.4);
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(168, 213, 226, 0.3);
+}
+
+/* === 4. Boutons Hero améliorés === */
+.btn {
+    padding: 18px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Effet de brillance qui traverse le bouton */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Bouton primaire amélioré */
+.btn-primary {
+    background: linear-gradient(135deg, #9146ff, #772ce8);
+    color: white;
+    box-shadow:
+            0 10px 40px rgba(145, 70, 255, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:
+            0 15px 50px rgba(145, 70, 255, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(-3px) scale(1.01);
+}
+
+/* Bouton secondaire amélioré */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary:active {
+    transform: translateY(-3px) scale(1.01);
+}
+
+/* === 5. Responsive === */
+@media (max-width: 768px) {
+    .next-stream-banner {
+        padding: 24px 20px;
+        margin-bottom: 25px;
+    }
+
+    .countdown-label {
+        font-size: 1.25em;
+    }
+
+    .countdown-time {
+        font-size: 1.7em;
+    }
+
+    .countdown-cta {
+        padding: 14px 32px;
+        font-size: 1.05em;
+    }
+
+    .schedule-item {
+        padding: 30px 24px;
+    }
+
+    .schedule-countdown {
+        font-size: 1em;
+        padding: 8px 14px;
+    }
+}
+
+/* === 6. Accessibilité === */
+@media (prefers-reduced-motion: reduce) {
+    .next-stream-banner,
+    .schedule-item,
+    .countdown-cta,
+    .btn {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .next-stream-banner::after,
+    .countdown-cta::after {
+        display: none;
+    }
+}
+
+/* Focus visible pour navigation clavier */
+.countdown-cta:focus-visible,
+.btn:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 4px;
+}
+
+.schedule-item:focus-within {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
