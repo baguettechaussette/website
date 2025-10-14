@@ -651,6 +651,7 @@ section {
     filter: blur(5px) brightness(0.8);
     transform: scale(1.02);
     transition: filter .4s ease, transform .4s ease;
+    margin-bottom: 10px;
 }
 
 .gallery-mosaic div {
