@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
             {src: 'img/baguettectober/w1/maximepr.jpg', caption: 'Auteur : Maximepr'},
         ],
         w2: [
+            {src: 'img/baguettectober/w2/baguette.jpg', caption: 'Auteur : Baguette Chaussette'},
             {src: 'img/baguettectober/w2/barbouy.png', caption: 'Auteur : Barbouy'},
             {src: 'img/baguettectober/w2/eirian.png', caption: 'Auteur : Eirian'},
             {src: 'img/baguettectober/w2/hiimaxou.jpg', caption: 'Auteur : Hiimaxou'},
+            {src: 'img/baguettectober/w2/maximepr.jpg', caption: 'Auteur : Maximepr'},
 
 
         ],
