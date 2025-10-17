@@ -1,0 +1,254 @@
+/* ============================================
+   BASE.CSS - Variables & Reset
+   ============================================ */
+
+/* === Variables CSS === */
+:root {
+    /* Couleurs principales */
+    --blue: #a8d5e2;
+    --green: #b4e7ce;
+    --peach: #ffd5c2;
+    --pink: #f9c5d5;
+    --purple: #e5d4ed;
+
+    /* Couleurs fonctionnelles */
+    --twitch: #9146ff;
+    --twitch-dark: #772ce8;
+    --live-red: #ff0000;
+    --live-red-pastel: #ff9b9b;
+    --live-red-dark: #e66767;
+
+    /* Background */
+    --bg-primary: #0a0a0a;
+    --bg-overlay: rgba(10, 10, 10, 0.85);
+    --bg-blur: rgba(10, 10, 10, 0.95);
+
+    /* Texte */
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-tertiary: rgba(255, 255, 255, 0.6);
+    --text-muted: rgba(255, 255, 255, 0.5);
+
+    /* Spacing */
+    --spacing-xs: 10px;
+    --spacing-sm: 20px;
+    --spacing-md: 40px;
+    --spacing-lg: 60px;
+    --spacing-xl: 80px;
+
+    /* Border radius */
+    --radius-sm: 8px;
+    --radius-md: 20px;
+    --radius-lg: 30px;
+    --radius-xl: 40px;
+    --radius-full: 50px;
+
+    /* Shadows */
+    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.4s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Z-index */
+    --z-particles: -1;
+    --z-content: 1;
+    --z-nav: 1000;
+    --z-modal: 9999;
+    --z-toast: 10000;
+}
+
+/* === Reset CSS === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Typography base === */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+p {
+    line-height: 1.8;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* === Selection === */
+::selection {
+    background: var(--blue);
+    color: var(--bg-primary);
+}
+
+::-moz-selection {
+    background: var(--blue);
+    color: var(--bg-primary);
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--pink), var(--peach));
+}
+
+/* === Focus visible === */
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline-color: var(--pink);
+}
+
+/* === Utilities === */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* === Container === */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* === Section base === */
+section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px var(--spacing-md);
+    position: relative;
+}
+
+/* === Préchargement / Loading states === */
+[data-loading="true"] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* === Animations globales === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* === Print === */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    nav,
+    footer,
+    .particles,
+    .bg-container {
+        display: none !important;
+    }
+}

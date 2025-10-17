@@ -27,9 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/additional_improvements.css">
-    <link rel="stylesheet" href="./css/lightbox.css">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
 <!-- Background animé -->
@@ -90,7 +88,7 @@
             <div class="avatar-container">
                 <div class="avatar-glow" aria-hidden="true"></div>
                 <div class="avatar-main">
-                    <img src="./img/logo.png" alt="Logo Baguette Chaussette - Une baguette avec une chaussette">
+                    <img src="./img/logo.webp" alt="Logo Baguette Chaussette - Une baguette avec une chaussette">
                 </div>
             </div>
         </div>
@@ -121,6 +119,11 @@
                 <div class="schedule-time">21h00</div>
                 <div class="schedule-countdown"></div>
             </article>
+            <article class="schedule-item" data-day="5" data-hour="14" data-minute="18">
+                <div class="schedule-day">Vendredi</div>
+                <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
+            </article>
 
             <article class="schedule-item" data-day="0" data-hour="21" data-minute="0">
                 <div class="schedule-day">Dimanche</div>
@@ -139,9 +142,9 @@
     </div>
 
     <div class="live-container">
-        <div class="live-indicator" role="status">
+        <div class="live-indicator offline" role="status">
             <span class="live-dot" aria-hidden="true"></span>
-            EN LIVE
+            HORS LIGNE
         </div>
 
         <div class="twitch-wrap">
@@ -295,6 +298,11 @@
                         <div class="social-name">Instagram</div>
                         <div class="social-desc">Stories & behind the scenes</div>
                     </a>
+                    <a href="https://discord.com/invite/QHNF684bBf" target="_blank" class="social-card discord">
+                        <div class="social-icon">💬</div>
+                        <div class="social-name">Discord</div>
+                        <div class="social-desc">Le coin de la commu</div>
+                    </a>
                     <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter">
                         <div class="social-icon" aria-hidden="true">🐦</div>
                         <div class="social-name">X (Twitter)</div>
@@ -331,7 +339,7 @@
 <!-- Footer -->
 <footer>
     <div class="footer-content">
-        <p class="footer-text">Baguette Chaussette © 2025 - Fait avec ❤️</p>
+        <p class="footer-text">Baguette Chaussette © 2025 - Fait avec ❤️ en 🧦</p>
     </div>
 </footer>
 
@@ -339,7 +347,6 @@
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
 <script src="./js/baguettectober.js"></script>
-<script src="./js/additional_improvements.js"></script>
 <script src="https://embed.twitch.tv/embed/v1.js" async></script>
 <script src="./js/twitch-embed.js"></script>
 </body>
