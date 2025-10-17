@@ -12,7 +12,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     env:
-      # Récupération centralisée des secrets → plus simple à utiliser
+      # Centralisation des secrets
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
       TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
@@ -23,7 +23,7 @@ jobs:
       - name: Validate secrets presence
         run: |
           missing=0
-          for var in TWITCH_CLIENT_ID TWITCH_CLIENT_SECRET; do
+          for var in TWITCH_CLIENT_ID TWITCH_CLIENT_SECRET TWITCH_BROADCASTER_ID; do
             if [ -z "${!var}" ]; then
               echo "::error title=Missing secret::$var is not set"
               missing=1
@@ -33,58 +33,63 @@ jobs:
             exit 1
           fi
 
-      - name: Get App Access Token (client_credentials) with diagnostics
+      - name: Get App Access Token (client_credentials)
         run: |
-          # Demande de jeton avec diagnostics détaillés si échec
-          RESP=$(curl -sS --fail-with-body -X POST "https://id.twitch.tv/oauth2/token" \
+          echo "Requesting access token..."
+          RESP=$(curl -sS -X POST "https://id.twitch.tv/oauth2/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "client_id=$TWITCH_CLIENT_ID" \
             -d "client_secret=$TWITCH_CLIENT_SECRET" \
-            -d "grant_type=client_credentials") || {
-              echo "::error title=Twitch token request failed::$(echo "$RESP" | tr -d '\n')" 
-              exit 1
-            }
+            -d "grant_type=client_credentials")
 
-          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token // empty')
-          if [ -z "$ACCESS_TOKEN" ]; then
-            echo "::group::Token response payload"
+          if ! echo "$RESP" | jq -e .access_token >/dev/null; then
+            echo "::group::Full response payload"
             echo "$RESP"
             echo "::endgroup::"
-            echo "::error title=No access_token in response::Check client_id/client_secret"
+            echo "::error title=Token request failed::Missing access_token field"
             exit 1
           fi
+
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
+          echo "✅ Token successfully retrieved"
 
       - name: Fetch followers total
         run: |
-          if [ -z "$TWITCH_BROADCASTER_ID" ]; then
-            echo "::error title=Missing secret::TWITCH_BROADCASTER_ID is not set"
-            exit 1
-          fi
-
+          echo "Fetching followers total for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
           mkdir -p data
+
           RESP=$(curl -sS --fail-with-body \
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             "https://api.twitch.tv/helix/channels/followers?broadcaster_id=$TWITCH_BROADCASTER_ID") || {
-              echo "::error title=Helix call failed::$(echo "$RESP" | tr -d '\n')"
+              echo "::error title=Twitch API request failed::Unable to fetch followers"
               exit 1
             }
 
           TOTAL=$(echo "$RESP" | jq -r '.total // 0')
+          if ! [[ "$TOTAL" =~ ^[0-9]+$ ]]; then
+            echo "::group::Full response payload"
+            echo "$RESP"
+            echo "::endgroup::"
+            echo "::error title=Invalid response::Followers total not numeric"
+            exit 1
+          fi
+
           jq -n --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --argjson total "$TOTAL" \
             '{followers: $total, updated_at: $now}' > data/followers.json
 
-          echo "Followers total: $TOTAL"
+          echo "✅ Followers total: $TOTAL"
 
       - name: Commit if changed
         run: |
-          if ! git diff --quiet; then
+          if ! git diff --quiet data/followers.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/followers.json
             git commit -m "chore: update followers (total: $(jq -r .followers data/followers.json))"
             git push
+            echo "✅ Changes committed and pushed."
           else
-            echo "No changes in followers.json"
+            echo "No changes detected in followers.json."
           fi
