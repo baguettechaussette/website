@@ -131,12 +131,37 @@
                 <div class="countdown-label">
                     Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}
                 </div>
-                <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⏰</div>
+                <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⌛</div>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">
                     Suivre la chaîne 💜
                 </a>
             `;
         }
+
+        // --- Synchronisation avec le live indicator global ---
+        const liveIndicator = document.querySelector('.live-indicator');
+        if (liveIndicator) {
+            if (info.isLive) {
+                liveIndicator.classList.remove('offline');
+                liveIndicator.classList.add('active');
+                liveIndicator.innerHTML = `
+            <span class="live-dot" aria-hidden="true"></span>
+            EN LIVE
+        `;
+                document.querySelector('.live-container')?.classList.add('is-live');
+                document.querySelector('.live-container')?.classList.remove('is-offline');
+            } else {
+                liveIndicator.classList.remove('active');
+                liveIndicator.classList.add('offline');
+                liveIndicator.innerHTML = `
+            <span class="live-dot" aria-hidden="true"></span>
+            HORS LIGNE
+        `;
+                document.querySelector('.live-container')?.classList.add('is-offline');
+                document.querySelector('.live-container')?.classList.remove('is-live');
+            }
+        }
+
 
         // Mise à jour des cartes de planning
         document.querySelectorAll(".schedule-item").forEach((card) => {
