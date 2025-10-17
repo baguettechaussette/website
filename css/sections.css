@@ -1,0 +1,370 @@
+/* ============================================
+   SECTIONS.CSS - Sections spécifiques
+   ============================================ */
+
+/* === Live Section === */
+.live-container {
+    background: rgba(145, 70, 255, 0.1);
+    border: 2px solid rgba(145, 70, 255, 0.3);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s ease, border-color 0.5s ease;
+}
+
+/* État online */
+.live-container.is-live {
+    background: rgba(145, 70, 255, 0.1);
+    border-color: rgba(145, 70, 255, 0.4);
+}
+
+/* État offline (désaturé + doux) */
+.live-container.is-offline {
+    background: rgba(80, 80, 80, 0.08);
+    border-color: rgba(90, 90, 90, 0.25);
+}
+
+/* === Live Indicator === */
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 0, 0, 0.2);
+    border: 2px solid var(--live-red);
+    padding: 15px 30px;
+    border-radius: var(--radius-full);
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #fff;
+    transition: all 0.4s ease;
+}
+
+/* Dot clignotant pour le live */
+.live-dot {
+    width: 15px;
+    height: 15px;
+    background: var(--live-red);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+/* Animation online */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* --- État offline --- */
+.live-indicator.offline {
+    background: rgba(150, 150, 150, 0.15);
+    border-color: rgba(180, 180, 180, 0.3);
+    color: #bbb;
+}
+
+.live-indicator.offline .live-dot {
+    background: linear-gradient(145deg, #555, #777);
+    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.15);
+    animation: none;
+}
+
+.twitch-wrap {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.stream-placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(145, 70, 255, 0.4);
+}
+
+.stream-placeholder-icon {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+.stream-placeholder-text {
+    font-size: 1.8em;
+    color: var(--text-secondary);
+}
+
+.stream-subtext {
+    font-size: 1.2em;
+    color: var(--text-muted);
+    margin-top: 20px;
+}
+
+/* === Countdown Banner === */
+.next-stream-banner {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 32px 28px;
+    border-radius: 24px;
+    background: rgba(168, 213, 226, 0.08);
+    border: 2px solid rgba(168, 213, 226, 0.25);
+    backdrop-filter: blur(16px);
+    transition: all var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.next-stream-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    animation: shimmer 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10%, 10%); }
+}
+
+.next-stream-banner.is-live {
+    background: linear-gradient(135deg, rgba(255, 155, 155, 0.22), rgba(230, 103, 103, 0.18));
+    border-color: rgba(230, 103, 103, 0.6);
+    box-shadow: 0 0 40px rgba(230, 103, 103, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: pulseLive 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseLive {
+    0%, 100% {
+        box-shadow: 0 0 40px rgba(230, 103, 103, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-color: rgba(230, 103, 103, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 55px rgba(230, 103, 103, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-color: rgba(230, 103, 103, 0.8);
+    }
+}
+
+.countdown-label {
+    font-size: 1.45em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--blue);
+    transition: all var(--transition-base);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+}
+
+.next-stream-banner.is-live .countdown-label {
+    color: var(--live-red-pastel);
+    text-shadow: 0 2px 10px rgba(255, 155, 155, 0.6), 0 0 20px rgba(230, 103, 103, 0.3);
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 2px 10px rgba(255, 155, 155, 0.6), 0 0 20px rgba(230, 103, 103, 0.3);
+    }
+    50% {
+        text-shadow: 0 2px 12px rgba(255, 155, 155, 0.8), 0 0 30px rgba(230, 103, 103, 0.5);
+    }
+}
+
+.countdown-time {
+    font-size: 1.95em;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 16px 42px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 1.15em;
+    text-decoration: none;
+    transition: all var(--transition-smooth);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    box-shadow: var(--shadow-sm);
+}
+
+.countdown-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.countdown-cta:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.countdown-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-full);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: shimmerCTA 3s ease infinite;
+}
+
+@keyframes shimmerCTA {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.countdown-cta:hover::after {
+    opacity: 1;
+}
+
+.countdown-cta.live {
+    background: linear-gradient(135deg, var(--live-red-dark), var(--live-red-pastel));
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(230, 103, 103, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.countdown-cta.live:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(230, 103, 103, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.countdown-cta.live:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+.countdown-cta.live::before {
+    content: '●';
+    font-size: 0.8em;
+    color: #fff;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+.countdown-cta.upcoming {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #2a2a4a;
+    box-shadow: 0 8px 30px rgba(168, 213, 226, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.countdown-cta.upcoming:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(168, 213, 226, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #b8e0ee, #f0e4f5);
+}
+
+.countdown-cta.upcoming:active {
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* === Socials Section === */
+.socials-container {
+    background: rgba(168, 213, 226, 0.05);
+    border: 2px solid rgba(168, 213, 226, 0.2);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(20px);
+}
+
+.socials-content {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    gap: 50px;
+    align-items: start;
+}
+
+.socials-left {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.socials-right {
+    position: sticky;
+    top: 120px;
+}
+
+.discord-widget-container {
+    background: rgba(88, 101, 242, 0.1);
+    border: 2px solid rgba(88, 101, 242, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    text-align: center;
+    transition: all var(--transition-base);
+}
+
+.discord-widget-container:hover {
+    border-color: rgba(88, 101, 242, 0.5);
+    box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
+}
+
+.discord-widget-title {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.discord-widget-desc {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.discord-widget-wrap {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.discord-widget-wrap iframe {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+}
+
+.discord-join-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 14px 35px;
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+}
+
+.discord-join-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(88, 101, 242, 0.5);
+}
