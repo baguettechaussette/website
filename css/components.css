@@ -660,6 +660,7 @@
     margin-bottom: 8px;
     position: relative;
     z-index: 1;
+    margin-top: 20px;
 }
 
 .gallery-artist {
@@ -692,12 +693,17 @@
     height: 100%;
 }
 
-.has-gallery:hover .gallery-mosaic {
-    filter: blur(5px) brightness(1);
-    transform: scale(1.05);
+.has-gallery {
+    position: relative;
 }
 
-.has-gallery::after {
+.has-gallery .gallery-mosaic {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.has-gallery .gallery-mosaic::after {
     content: "Voir les chefs-d'œuvre 🎨";
     position: absolute;
     inset: 0;
@@ -707,16 +713,18 @@
     font-weight: 700;
     font-size: 1.1em;
     color: #fff;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.45);
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: inherit;
     pointer-events: none;
+    z-index: 2;
 }
 
-.has-gallery:hover::after {
+.has-gallery:hover .gallery-mosaic::after {
     opacity: 1;
 }
+
 
 .no-gallery {
     cursor: default;
