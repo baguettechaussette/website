@@ -1,0 +1,40 @@
+name: Update sitemap.xml (weekly)
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # chaque lundi à 6h UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate sitemap.xml
+        run: |
+          TODAY=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          DOMAIN="https://baguettechaussette.fr"
+
+          cat <<EOF > sitemap.xml
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>${DOMAIN}/</loc>
+              <lastmod>${TODAY}</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          </urlset>
+          EOF
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git diff --cached --quiet && echo "No changes to commit." || (git commit -m "Update sitemap.xml [${{ github.run_id }}]" && git push)
