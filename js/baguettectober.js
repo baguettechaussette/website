@@ -270,14 +270,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholder = card.querySelector('.gallery-placeholder');
 
         if (list && list.length > 0) {
-            // Crée une mosaïque avec jusqu’à 4 images
+            // Crée une mosaïque avec jusqu'à 4 images
             const imgs = list.slice(0, 4).map(i => i.src);
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
-            mosaic.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
+
+            // Crée le conteneur interne qui sera flouté
+            const mosaicInner = document.createElement('div');
+            mosaicInner.className = 'gallery-mosaic-inner';
+            mosaicInner.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
+
+            mosaic.appendChild(mosaicInner);
             placeholder.replaceWith(mosaic);
 
-            // Marque la carte comme “active”
+            // Marque la carte comme "active"
             card.classList.add('has-gallery');
         } else {
             // Marque la carte comme vide
