@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /img/homepage.webp
+Disallow: /img/mobile-view.webp
 
 Sitemap: https://baguettechaussette.github.io/sitemap.xml
+# Last updated: 2025-10-20
