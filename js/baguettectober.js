@@ -39,13 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="lightbox" id="bcLightbox" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
       <div class="lightbox__inner">
         <div class="lightbox__stage">
-          <button type="button" class="lightbox__btn lightbox__prev" aria-label="Précédent">‹</button>
+          <button type="button" class="lightbox__btn lightbox__prev" aria-label="Précédent">
+            <img src="img/symbols/arrow_back_ios.svg" alt="">
+          </button>
           <img class="lightbox__img" id="bcLightboxImg" alt="">
-          <button type="button" class="lightbox__btn lightbox__next" aria-label="Suivant">›</button>
+          <button type="button" class="lightbox__btn lightbox__next" aria-label="Suivant">
+            <img src="img/symbols/arrow_forward_ios.svg" alt="">
+          </button>
 
-          <button type="button" class="lightbox__close" id="bcLightboxClose" aria-label="Fermer">✕</button>
-          <button type="button" class="lightbox__play" id="bcLightboxPlay" aria-label="Lecture/Pause">▶</button>
-          <button type="button" class="lightbox__zoom" id="bcLightboxZoom" aria-label="Zoom">⛶</button>
+          <button type="button" class="lightbox__close" id="bcLightboxClose" aria-label="Fermer">
+            <img src="img/symbols/close.svg" alt="">
+          </button>
+          <button type="button" class="lightbox__play" id="bcLightboxPlay" aria-label="Lecture/Pause">
+            <img src="img/symbols/pause.svg" alt="">
+          </button>
+          <button type="button" class="lightbox__zoom" id="bcLightboxZoom" aria-label="Zoom">
+            <img src="img/symbols/fullscreen.svg" alt="">
+          </button>
         </div>
         <div class="lightbox__thumbs" id="bcLightboxThumbs" aria-label="Vignettes"></div>
         <div class="lightbox__caption" id="bcLightboxCaption"></div>
@@ -53,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`;
         document.body.insertAdjacentHTML('beforeend', tpl);
     })();
+
 
     // --------------------------
     // Logique de la galerie
@@ -140,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isPlaying) return;
             isPlaying = true;
             btnPlay.classList.add('is-playing');
-            btnPlay.textContent = '⏸';
+            btnPlay.querySelector('img').src = 'img/symbols/pause.svg';
             slideTimer = setInterval(next, SLIDE_INTERVAL);
         }
 
@@ -148,12 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isPlaying) return;
             isPlaying = false;
             btnPlay.classList.remove('is-playing');
-            btnPlay.textContent = '▶';
+            btnPlay.querySelector('img').src = 'img/symbols/play.svg';
             if (slideTimer) {
                 clearInterval(slideTimer);
                 slideTimer = null;
             }
         }
+
 
         function toggleSlideshow() {
             isPlaying ? stopSlideshow() : startSlideshow();
