@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         ],
-        w3: [],
+        w3: [
+            {src: 'img/baguettectober/w3/barbouy.webp', caption: 'Auteur : Barbouy'},
+            {src: 'img/baguettectober/w3/eirian.webp', caption: 'Auteur : Eirian'},
+            {src: 'img/baguettectober/w3/hiimaxou.webp', caption: 'Auteur : Hiimaxou'},
+            ],
         w4: [],
         bonus: []
     };
