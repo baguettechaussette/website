@@ -1,21 +1,41 @@
 {
-  "name": "Baguette chaussette",
+  "name": "Baguette Chaussette",
   "short_name": "Baguette",
+  "description": "Streamer Twitch FR | Ambiance cosy & humour décalé | Communauté bienveillante",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#9146ff",
   "icons": [
     {
       "src": "/favicons/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "/favicons/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "screenshots": [
+    {
+      "src": "/img/homepage.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/img/mobile-view.webp",
+      "sizes": "720x1280",
+      "type": "image/webp",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["entertainment", "streaming", "gaming"],
+  "lang": "fr"
 }
