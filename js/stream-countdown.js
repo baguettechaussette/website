@@ -1,4 +1,4 @@
-// Countdown des streams avec gestion améliorée des fuseaux horaires et de la logique
+// Countdown des streams
 (function initStreamCountdown() {
     const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
     const TWITCH_URL = "https://www.twitch.tv/baguettechaussette";
