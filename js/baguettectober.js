@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --------------------------
-    // Données de ta galerie
+    // Données de la galerie
     // --------------------------
     const BAGUETTECTOBER_GALLERY = {
         w1: [

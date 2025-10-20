@@ -1,7 +1,3 @@
-// ============================================
-// MAIN.JS - Version corrigée et optimisée
-// ============================================
-
 // Toggle mobile menu avec gestion améliorée
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
