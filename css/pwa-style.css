@@ -1,0 +1,364 @@
+/* ================================
+   PWA Install Button
+   ================================ */
+.pwa-install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0, 153, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.pwa-install-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.pwa-install-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.pwa-install-btn.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pwa-install-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 30px rgba(0, 153, 255, 0.5);
+}
+
+.pwa-install-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.pwa-install-icon {
+  font-size: 1.3rem;
+  animation: bounce 2s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.pwa-install-text {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ================================
+   Update Notification
+   ================================ */
+.pwa-update-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #9146ff;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(145, 70, 255, 0.3);
+  z-index: 10000;
+  min-width: 320px;
+  max-width: 400px;
+  opacity: 0;
+  transform: translateX(120%);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.pwa-update-notification.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.pwa-update-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pwa-update-icon {
+  font-size: 2rem;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pwa-update-text strong {
+  display: block;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.pwa-update-text p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.pwa-update-btn {
+  width: 100%;
+  padding: 0.7rem;
+  background: linear-gradient(135deg, #9146ff, #ff6b9d);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pwa-update-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(145, 70, 255, 0.4);
+}
+
+.pwa-update-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.pwa-update-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* ================================
+   Connection Status Toast
+   ================================ */
+.connection-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #1a1a2e;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.connection-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.connection-toast.online {
+  background: linear-gradient(135deg, #00d4aa 0%, #00a86b 100%);
+  box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4);
+}
+
+.connection-toast.offline {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* ================================
+   Simple Toast
+   ================================ */
+.simple-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(26, 26, 46, 0.95);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.simple-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ================================
+   Share Button
+   ================================ */
+.btn-share {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.btn-share:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  animation: none;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3); }
+  50% { box-shadow: 0 4px 30px rgba(102, 126, 234, 0.5); }
+}
+
+/* ================================
+   PWA Standalone Mode Adjustments
+   ================================ */
+body.is-pwa {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+body.is-pwa #navbar {
+  padding-top: calc(1rem + env(safe-area-inset-top));
+}
+
+/* ================================
+   Loading Spinner (pour futures features)
+   ================================ */
+.pwa-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+}
+
+.pwa-loading::after {
+  content: '🥖';
+  font-size: 3rem;
+  animation: spin-bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes spin-bounce {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(1.1); }
+}
+
+/* ================================
+   Responsive PWA Elements
+   ================================ */
+@media (max-width: 768px) {
+  .pwa-update-notification {
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+  }
+
+  .pwa-install-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .connection-toast,
+  .simple-toast {
+    bottom: 20px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ================================
+   Dark Mode Support (auto)
+   ================================ */
+@media (prefers-color-scheme: light) {
+  .pwa-update-notification {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    border-color: #9146ff;
+    color: #1a1a2e;
+  }
+
+  .pwa-update-text strong,
+  .pwa-update-text p {
+    color: #1a1a2e;
+  }
+
+  .pwa-update-text p {
+    opacity: 0.7;
+  }
+}
+
+/* ================================
+   Animations pour améliorer l'UX
+   ================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pwa-element {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ================================
+   Haptic Feedback Simulation
+   ================================ */
+.pwa-install-btn:active,
+.pwa-update-btn:active,
+.btn-share:active {
+  animation: tap-feedback 0.1s ease;
+}
+
+@keyframes tap-feedback {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}

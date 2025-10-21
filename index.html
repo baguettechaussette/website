@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
-    <meta name="description" content="Streamer Twitch et créateur de contenu FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
+    <meta name="description"
+          content="Streamer Twitch et créateur de contenu FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
@@ -12,27 +13,49 @@
     <meta property="og:url" content="https://baguettechaussette.fr/">
     <meta property="og:site_name" content="Baguette Chaussette">
     <meta property="og:title" content="Baguette Chaussette | Streamer Twitch FR Gaming">
-    <meta property="og:description" content="Streamer Twitch FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante pour des lives chill !">
+    <meta property="og:description"
+          content="Streamer Twitch FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante pour des lives chill !">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr.webp">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Baguette Chaussette | Streamer Twitch FR Gaming">
-    <meta name="twitter:description" content="Streamer Twitch FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante pour des lives chill !">
+    <meta name="twitter:description"
+          content="Streamer Twitch FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante pour des lives chill !">
     <meta name="twitter:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr.webp">
-    <meta name="twitter:image:alt" content="Baguette Chaussette, streamer Twitch FR, ambiance cosy et décalée, posant avec Bibou le chat noir.">
+    <meta name="twitter:image:alt"
+          content="Baguette Chaussette, streamer Twitch FR, ambiance cosy et décalée, posant avec Bibou le chat noir.">
     <meta name="twitter:site" content="@BaguetteCho7">
     <meta name="twitter:creator" content="@BaguetteCho7">
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Baguette 🥖">
+    <meta name="application-name" content="Baguette Chaussette">
+    <meta name="msapplication-TileColor" content="#9146ff">
+    <meta name="msapplication-TileImage" content="/favicons/web-app-manifest-512x512.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- Theme Color avec media queries -->
+    <meta name="theme-color" content="#9146ff" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#764ba2" media="(prefers-color-scheme: light)">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://baguettechaussette.fr/">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-    <link rel="shortcut icon" href="/favicons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Baguette chaussette" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg"/>
+    <link rel="shortcut icon" href="/favicons/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
+    <meta name="apple-mobile-web-app-title" content="Baguette chaussette"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/css/main.css" as="style">
+    <link rel="preload" href="/js/main.js" as="script">
+    <link rel="preload" href="/js/pwa-install.js" as="script">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +64,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/main.css">
+<!--    <link rel="stylesheet" href="./css/pwa-style.css">-->
 
     <script type="application/ld+json">
         {
@@ -77,8 +101,10 @@
 <!-- Navigation -->
 <nav id="navbar" role="navigation">
     <div class="container">
-        <div class="logo" role="banner"><a href="#accueil" aria-label="Accueil Baguette Chaussette">🥖 Baguette Chaussette</a></div>
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="" width="30" height="30"></button>
+        <div class="logo" role="banner"><a href="#accueil" aria-label="Accueil Baguette Chaussette">🥖 Baguette
+            Chaussette</a></div>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false"
+                aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks" role="menubar">
             <li role="none"><a href="#planning" role="menuitem">Planning</a></li>
             <li role="none"><a href="#live" role="menuitem">Live</a></li>
@@ -125,7 +151,8 @@
                 <div class="avatar-main">
                     <picture>
                         <source srcset="img/baguette-chaussette-logo.webp" type="image/webp">
-                        <img src="img/baguette-chaussette-streamer-twitch-fr.png" alt="Logo Baguette Chaussette - Une baguette avec une chaussette">
+                        <img src="img/baguette-chaussette-streamer-twitch-fr.png"
+                             alt="Logo Baguette Chaussette - Une baguette avec une chaussette">
                     </picture>
                 </div>
             </div>
@@ -197,14 +224,16 @@
         <div class="baguettectober-intro">
             <div class="baguettectober-badge">🥖 Édition Octobre 2025 🧦</div>
             <p class="baguettectober-desc">
-                C'est comme Inktober... mais en fait non ! Chaque semaine d'octobre, un nouveau challenge dessin pour laisser libre
+                C'est comme Inktober... mais en fait non ! Chaque semaine d'octobre, un nouveau challenge dessin pour
+                laisser libre
                 cours à ta créativité.
                 Partage tes œuvres sur Discord et retrouve-les ici dans la galerie 😊
             </p>
         </div>
 
         <div class="gallery-grid">
-            <article class="gallery-item" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
+            <article class="gallery-item" data-week="w1" tabindex="0"
+                     aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🥖</div>
                     <p class="gallery-week-label">Semaine 1</p>
@@ -213,13 +242,15 @@
                 <p class="gallery-artist">Un four ancien s'ouvre, et la fournée qui en sort n'a rien d'ordinaire...</p>
             </article>
 
-            <article class="gallery-item" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
+            <article class="gallery-item" data-week="w2" tabindex="0"
+                     aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🧦</div>
                     <p class="gallery-week-label">Semaine 2</p>
                 </div>
                 <h3 class="gallery-week">La Chaussette DÉMONIAQUE</h3>
-                <p class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait conclu un sombre pacte avec les enfers…</p>
+                <p class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait
+                    conclu un sombre pacte avec les enfers…</p>
             </article>
 
             <article class="gallery-item" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3">
@@ -228,7 +259,9 @@
                     <p class="gallery-week-label">Semaine 3</p>
                 </div>
                 <h3 class="gallery-week">Le Grimoire ANCIEN</h3>
-                <p class="gallery-artist">Il s’ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d’une créature noire aux yeux jaunes, armée de crocs aussi charmants qu’effrayants…</p>
+                <p class="gallery-artist">Il s’ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent
+                    la description d’une créature noire aux yeux jaunes, armée de crocs aussi charmants
+                    qu’effrayants…</p>
             </article>
 
             <article class="gallery-item" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4">
@@ -304,25 +337,29 @@
             <!-- Colonne gauche : réseaux -->
             <div class="socials-left">
                 <div class="social-grid" aria-label="Réseaux sociaux">
-                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card twitch">
+                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer"
+                       class="social-card twitch">
                         <div class="social-icon" aria-hidden="true">🎥</div>
                         <div class="social-name">Twitch</div>
                         <div class="social-desc">Mes diffusions en direct.</div>
                     </a>
 
-                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="social-card youtube">
+                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank"
+                       rel="noopener noreferrer" class="social-card youtube">
                         <div class="social-icon" aria-hidden="true">📺</div>
                         <div class="social-name">YouTube</div>
                         <div class="social-desc">Rediffusions & clips.</div>
                     </a>
 
-                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer" class="social-card tiktok">
+                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer"
+                       class="social-card tiktok">
                         <div class="social-icon" aria-hidden="true">🎵</div>
                         <div class="social-name">TikTok</div>
                         <div class="social-desc">Clips & lives.</div>
                     </a>
 
-                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card instagram">
+                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer"
+                       class="social-card instagram">
                         <div class="social-icon" aria-hidden="true">📸</div>
                         <div class="social-name">Instagram</div>
                         <div class="social-desc">Stories & behind the scenes.</div>
@@ -332,7 +369,8 @@
                         <div class="social-name">Discord</div>
                         <div class="social-desc">Le coin de la commu.</div>
                     </a>
-                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter">
+                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer"
+                       class="social-card twitter">
                         <div class="social-icon" aria-hidden="true">🐦</div>
                         <div class="social-name">X (Twitter)</div>
                         <div class="social-desc">Pas grand-chose.</div>
@@ -356,7 +394,8 @@
                                 title="Widget Discord - Serveur Baguette Chaussette"
                                 loading="lazy"></iframe>
                     </div>
-                    <a class="discord-join-btn" href="https://discord.com/invite/QHNF684bBf" target="_blank" rel="noopener noreferrer">
+                    <a class="discord-join-btn" href="https://discord.com/invite/QHNF684bBf" target="_blank"
+                       rel="noopener noreferrer">
                         👉 Rejoindre le serveur
                     </a>
                 </div>
@@ -373,6 +412,7 @@
 </footer>
 
 <!-- Scripts -->
+<script src="./js/pwa-install.js" defer></script>
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
 <script src="./js/baguettectober.js"></script>

@@ -153,7 +153,7 @@ async function loadFollowersCount(retries = 3) {
 
             if (i === retries - 1) {
                 // Dernière tentative - fallback élégant
-                el.textContent = '1K+';
+                el.textContent = '200+';
                 el.style.opacity = '0.6';
                 el.title = 'Données temporairement indisponibles';
             } else {

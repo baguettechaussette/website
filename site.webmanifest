@@ -1,41 +1,141 @@
 {
-  "name": "Baguette Chaussette",
-  "short_name": "Baguette",
-  "description": "Streamer Twitch FR | Ambiance cosy & humour décalé | Communauté bienveillante",
-  "start_url": "/",
+  "name": "Baguette Chaussette - Streamer Twitch FR",
+  "short_name": "Baguette 🥖",
+  "description": "Streamer Twitch FR | Gaming cosy & humour décalé | Communauté bienveillante | Lives mercredi, vendredi et dimanche à 21h",
+  "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "background_color": "#0a0a0a",
   "theme_color": "#9146ff",
+  "dir": "ltr",
+  "lang": "fr-FR",
   "icons": [
     {
       "src": "/favicons/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/favicons/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "/img/homepage.webp",
+      "src": "/img/screenshot-wide.webp",
       "sizes": "1280x720",
       "type": "image/webp",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Page d'accueil Baguette Chaussette"
     },
     {
-      "src": "/img/mobile-view.webp",
+      "src": "/img/screenshot-mobile.webp",
       "sizes": "720x1280",
       "type": "image/webp",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Vue mobile de l'app"
     }
   ],
-  "categories": ["entertainment", "streaming", "gaming"],
-  "lang": "fr"
+  "categories": [
+    "entertainment",
+    "streaming",
+    "gaming",
+    "social"
+  ],
+  "shortcuts": [
+    {
+      "name": "Voir le live",
+      "short_name": "Live",
+      "description": "Accéder directement au stream en cours",
+      "url": "/#live",
+      "icons": [
+        {
+          "src": "/favicons/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Planning",
+      "short_name": "Planning",
+      "description": "Voir les horaires des prochains streams",
+      "url": "/#planning",
+      "icons": [
+        {
+          "src": "/favicons/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Baguettectober",
+      "short_name": "Galerie",
+      "description": "Découvrir les créations de la communauté",
+      "url": "/#baguettectober",
+      "icons": [
+        {
+          "src": "/favicons/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Twitch",
+      "short_name": "Twitch",
+      "description": "Ouvrir directement la chaîne Twitch",
+      "url": "https://www.twitch.tv/baguettechaussette",
+      "icons": [
+        {
+          "src": "/favicons/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+baguette",
+      "url": "/?action=%s"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
 }
