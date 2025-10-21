@@ -184,7 +184,7 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
     // Charge les followers
     loadFollowersCount();
-
+    animateStaticCounters();
     // Ajoute les attributs ARIA manquants
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
@@ -214,6 +214,50 @@ window.addEventListener('error', (event) => {
         console.error('Erreur:', event.message, 'Fichier:', event.filename, 'Ligne:', event.lineno);
     }
 });
+
+
+// Animation des autres compteurs statiques
+function animateStaticCounters() {
+    const counters = [
+        { selector: '.stat-box:nth-child(2) .stat-number' }, // TikTok
+        { selector: '.stat-box:nth-child(3) .stat-number' }  // Heures de stream
+    ];
+
+    counters.forEach(({ selector }) => {
+        const el = document.querySelector(selector);
+        if (!el) return;
+
+        const target = parseInt(el.textContent.replace(/\D/g, '')) || 0;
+
+        // On vide le texte avant animation
+        el.textContent = '0';
+        el.style.opacity = '1';
+
+        // Animation du nombre
+        const startTime = performance.now();
+        const duration = 1200;
+        const start = 0;
+        const end = target;
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 2);
+            const current = Math.floor(start + (end - start) * easeProgress);
+
+            el.textContent = `${current.toLocaleString('fr-FR')}+`;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = `${end.toLocaleString('fr-FR')}+`;
+            }
+        }
+
+        requestAnimationFrame(update);
+    });
+}
+
 
 // Expose les fonctions pour usage externe si nécessaire
 window.BaguetteChaussette = {
