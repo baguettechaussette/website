@@ -1,76 +1,23 @@
 /* ================================
    PWA Install Button
    ================================ */
+
+#pwa-hero-buttons{
+    margin-top: 20px;
+}
+
 .pwa-install-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.8rem;
-  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-  border: none;
-  border-radius: 50px;
-  color: white;
-  font-family: 'Baloo 2', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0, 153, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-  transform: translateY(20px) scale(0.9);
-  position: relative;
-  overflow: hidden;
+    background: linear-gradient(135deg, #8ee5ff 0%, #a8d5e2 100%);
+    color: #0a0a0a;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(168,213,226,0.4);
 }
-
-.pwa-install-btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.pwa-install-btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.pwa-install-btn.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
 .pwa-install-btn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 30px rgba(0, 153, 255, 0.5);
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #b2ecff 0%, #c3f1ff 100%);
+    box-shadow: 0 12px 30px rgba(168,213,226,0.5);
 }
 
-.pwa-install-btn:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.pwa-install-icon {
-  font-size: 1.3rem;
-  animation: bounce 2s ease-in-out infinite;
-  position: relative;
-  z-index: 1;
-}
-
-.pwa-install-text {
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
 
 /* ================================
    Update Notification
@@ -237,19 +184,16 @@
    Share Button
    ================================ */
 .btn-share {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  animation: pulse-subtle 3s ease-in-out infinite;
+    background: linear-gradient(135deg, #cfc8ff 0%, #e5d4ed 100%);
+    color: #222;
+    box-shadow: 0 6px 20px rgba(200,180,255,0.4);
 }
-
 .btn-share:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  animation: none;
+    background: linear-gradient(135deg, #d8d0ff 0%, #f2e4ff 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-6px) scale(1.02);
 }
 
-@keyframes pulse-subtle {
-  0%, 100% { box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3); }
-  50% { box-shadow: 0 4px 30px rgba(102, 126, 234, 0.5); }
-}
 
 /* ================================
    PWA Standalone Mode Adjustments

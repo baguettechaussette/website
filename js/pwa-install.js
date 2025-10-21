@@ -74,10 +74,9 @@
 
         const installBtn = document.createElement('button');
         installBtn.id = 'pwa-install-btn';
-        installBtn.className = 'pwa-install-btn';
+        installBtn.className = 'pwa-install-btn btn';
         installBtn.innerHTML = `
-      <span class="pwa-install-icon">📱</span>
-      <span class="pwa-install-text">Installer l'app</span>
+      <span class="pwa-install-text">Installer l'app 📱</span>
     `;
 
         installBtn.addEventListener('click', async () => {
@@ -96,7 +95,7 @@
         });
 
         // Ajoute le bouton dans le hero
-        const heroButtons = document.querySelector('.hero-buttons');
+        const heroButtons = document.getElementById('pwa-hero-buttons');
         if (heroButtons) {
             heroButtons.appendChild(installBtn);
         }
@@ -170,61 +169,10 @@
         }, 3000);
     }
 
-    // Fonction pour partager via Web Share API
-    window.shareBaguette = async function() {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: 'Baguette Chaussette',
-                    text: 'Streamer Twitch FR - Gaming cosy & humour décalé ! 🥖',
-                    url: 'https://baguettechaussette.fr'
-                });
-                console.log('✅ Partagé avec succès');
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    console.error('❌ Erreur de partage:', err);
-                }
-            }
-        } else {
-            // Fallback: copier le lien
-            await navigator.clipboard.writeText('https://baguettechaussette.fr');
-            showToast('🔗 Lien copié !');
-        }
-    };
 
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'simple-toast';
-        toast.textContent = message;
-
-        document.body.appendChild(toast);
-        setTimeout(() => toast.classList.add('show'), 100);
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 2000);
-    }
-
-    // Ajoute bouton de partage dans le hero
-    function addShareButton() {
-        if (!navigator.share && !navigator.clipboard) return;
-
-        const shareBtn = document.createElement('button');
-        shareBtn.className = 'btn btn-share';
-        shareBtn.innerHTML = '📤 Partager';
-        shareBtn.onclick = window.shareBaguette;
-
-        const heroButtons = document.querySelector('.hero-buttons');
-        if (heroButtons) {
-            heroButtons.appendChild(shareBtn);
-        }
-    }
 
     // Initialisation finale
     window.addEventListener('DOMContentLoaded', () => {
-        addShareButton();
-
         // Log pour debug
         console.log('🥖 PWA Features:', {
             serviceWorker: 'serviceWorker' in navigator,

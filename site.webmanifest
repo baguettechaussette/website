@@ -60,45 +60,6 @@
   ],
   "shortcuts": [
     {
-      "name": "Voir le live",
-      "short_name": "Live",
-      "description": "Accéder directement au stream en cours",
-      "url": "/#live",
-      "icons": [
-        {
-          "src": "/favicons/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Planning",
-      "short_name": "Planning",
-      "description": "Voir les horaires des prochains streams",
-      "url": "/#planning",
-      "icons": [
-        {
-          "src": "/favicons/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Baguettectober",
-      "short_name": "Galerie",
-      "description": "Découvrir les créations de la communauté",
-      "url": "/#baguettectober",
-      "icons": [
-        {
-          "src": "/favicons/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
       "name": "Twitch",
       "short_name": "Twitch",
       "description": "Ouvrir directement la chaîne Twitch",
