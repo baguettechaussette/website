@@ -23,9 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ],
         w3: [
+            {src: 'img/baguettectober/w3/baguette.webp', caption: 'Auteur : Baguette Chaussette'},
             {src: 'img/baguettectober/w3/barbouy.webp', caption: 'Auteur : Barbouy'},
             {src: 'img/baguettectober/w3/eirian.webp', caption: 'Auteur : Eirian'},
             {src: 'img/baguettectober/w3/hiimaxou.webp', caption: 'Auteur : Hiimaxou'},
+            {src: 'img/baguettectober/w3/maximepr.webp', caption: 'Auteur : Maximepr'},
             ],
         w4: [],
         bonus: []
