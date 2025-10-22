@@ -62,7 +62,7 @@
     {
       "name": "Twitch",
       "short_name": "Twitch",
-      "description": "Ouvrir directement la chaîne Twitch",
+      "description": "Aller sur la chaîne Twitch",
       "url": "https://www.twitch.tv/baguettechaussette",
       "icons": [
         {
