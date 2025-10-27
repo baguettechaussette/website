@@ -29,7 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
             {src: 'img/baguettectober/w3/hiimaxou.webp', caption: 'Auteur : Hiimaxou'},
             {src: 'img/baguettectober/w3/maximepr.webp', caption: 'Auteur : Maximepr'},
             ],
-        w4: [],
+        w4: [
+            {src: 'img/baguettectober/w4/barbouy.webp', caption: 'Auteur : Barbouy'},
+            {src: 'img/baguettectober/w4/eirian.webp', caption: 'Auteur : Eirian'},
+            {src: 'img/baguettectober/w4/emeline.webp', caption: 'Auteur : Emeline59'},
+            {src: 'img/baguettectober/w4/kyuwha.webp', caption: 'Auteur : Kyuwha'},
+            {src: 'img/baguettectober/w4/maximepr.webp', caption: 'Auteur : Maximepr'},
+        ],
         bonus: []
     };
 
