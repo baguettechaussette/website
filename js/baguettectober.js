@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             {src: 'img/baguettectober/w3/eirian.webp', caption: 'Auteur : Eirian'},
             {src: 'img/baguettectober/w3/hiimaxou.webp', caption: 'Auteur : Hiimaxou'},
             {src: 'img/baguettectober/w3/maximepr.webp', caption: 'Auteur : Maximepr'},
-            ],
+        ],
         w4: [
             {src: 'img/baguettectober/w4/baguette.webp', caption: 'Auteur : Baguette Chaussette'},
             {src: 'img/baguettectober/w4/barbouy.webp', caption: 'Auteur : Barbouy'},
@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             {src: 'img/baguettectober/w4/kyuwha.webp', caption: 'Auteur : Kyuwha'},
             {src: 'img/baguettectober/w4/maximepr.webp', caption: 'Auteur : Maximepr'},
         ],
-        bonus: []
+        bonus: [{src: 'img/baguettectober/bonus/barbouy.webp', caption: 'Auteur : Barbouy'},]
+
     };
 
     // --------------------------
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setActiveThumb(newIndex);
             };
 
-            imgEl.addEventListener('load', onLoad, { once: true });
+            imgEl.addEventListener('load', onLoad, {once: true});
 
             // 3) alt + src
             imgEl.alt = item.caption || '';
@@ -214,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lightbox.classList.add('is-open');
             lightbox.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            btnClose.focus({ preventScroll: true });
+            btnClose.focus({preventScroll: true});
             startSlideshow(); // diapo auto
         }
 
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stopSlideshow();
             if (document.fullscreenElement) document.exitFullscreen?.();
             if (lastFocused && typeof lastFocused.focus === 'function') {
-                lastFocused.focus({ preventScroll: true });
+                lastFocused.focus({preventScroll: true});
             }
         }
 
