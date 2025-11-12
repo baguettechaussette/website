@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bonus: [
             {src: 'img/baguettectober/bonus/baguette.webp', caption: 'Auteur : Baguette Chaussette'},
             {src: 'img/baguettectober/bonus/barbouy.webp', caption: 'Auteur : Barbouy'},
+            {src: 'img/baguettectober/bonus/hiimaxou.webp', caption: 'Auteur : Hiimaxou'},
             {src: 'img/baguettectober/bonus/lydais.webp', caption: 'Auteur : Lydaïs'},
         ]
 
