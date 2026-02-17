@@ -6,7 +6,6 @@
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
     <meta name="description" content="Streamer Twitch et créateur de contenu FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
 
-    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:url" content="https://baguettechaussette.fr/">
@@ -23,10 +22,8 @@
     <meta name="twitter:site" content="@BaguetteCho7">
     <meta name="twitter:creator" content="@BaguetteCho7">
 
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://baguettechaussette.fr/">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -34,12 +31,10 @@
     <meta name="apple-mobile-web-app-title" content="Baguette chaussette" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/main.css">
 
     <script type="application/ld+json">
@@ -65,7 +60,6 @@
 </head>
 
 <body>
-<!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
 <div class="particles" aria-hidden="true">
     <div class="particle"></div>
@@ -75,22 +69,20 @@
     <div class="particle"></div>
 </div>
 
-<!-- Navigation -->
 <nav id="navbar" role="navigation">
     <div class="container">
         <div class="logo" role="banner"><a href="#accueil" aria-label="Accueil Baguette Chaussette">🥖 Baguette Chaussette</a></div>
         <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks" role="menubar">
-            <li role="none"><a href="#planning" role="menuitem">Planning</a></li>
-            <li role="none"><a href="#live" role="menuitem">Live</a></li>
-            <li role="none"><a href="#baguettectober" role="menuitem">Baguettectober</a></li>
-            <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
-            <li role="none"><a href="#reseaux" role="menuitem">Réseaux</a></li>
+            <li role="none"><a href="#planning" role="menuitem" data-umami-event="Nav - Planning">Planning</a></li>
+            <li role="none"><a href="#live" role="menuitem" data-umami-event="Nav - Live">Live</a></li>
+            <li role="none"><a href="#baguettectober" role="menuitem" data-umami-event="Nav - Baguettectober">Baguettectober</a></li>
+            <li role="none"><a href="#contact" role="menuitem" data-umami-event="Nav - Contact">Contact</a></li>
+            <li role="none"><a href="#reseaux" role="menuitem" data-umami-event="Nav - Reseaux">Réseaux</a></li>
         </ul>
     </div>
 </nav>
 
-<!-- Hero Section -->
 <header class="hero" id="accueil">
     <div class="hero-content">
         <div class="hero-left">
@@ -115,8 +107,8 @@
             </div>
 
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Me contacter</a>
-                <a href="#reseaux" class="btn btn-secondary">Me suivre ✨</a>
+                <a href="#contact" class="btn btn-primary" data-umami-event="Hero - Click Contact">Me contacter</a>
+                <a href="#reseaux" class="btn btn-secondary" data-umami-event="Hero - Click Reseaux">Me suivre ✨</a>
             </div>
         </div>
 
@@ -134,41 +126,9 @@
     </div>
 </header>
 
-<!-- Planning Section -->
 <section id="planning">
-    <div class="section-header">
-        <h2 class="section-title">Planning des streams</h2>
-        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble.</p>
-    </div>
-
-    <div class="schedule-container">
-        <!-- Bannière de countdown -->
-        <div id="nextStreamCountdown" class="next-stream-banner" role="status" aria-live="polite"></div>
-
-        <!-- Grille des horaires -->
-        <div class="schedule-grid">
-            <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
-                <div class="schedule-day">Mercredi</div>
-                <div class="schedule-time">21h00</div>
-                <div class="schedule-countdown"></div>
-            </article>
-
-            <article class="schedule-item" data-day="5" data-hour="21" data-minute="0">
-                <div class="schedule-day">Vendredi</div>
-                <div class="schedule-time">21h00</div>
-                <div class="schedule-countdown"></div>
-            </article>
-
-            <article class="schedule-item" data-day="0" data-hour="21" data-minute="0">
-                <div class="schedule-day">Dimanche</div>
-                <div class="schedule-time">21h00</div>
-                <div class="schedule-countdown"></div>
-            </article>
-        </div>
-    </div>
 </section>
 
-<!-- Live Section -->
 <section id="live">
     <div class="section-header">
         <h2 class="section-title">Diffusion en direct</h2>
@@ -186,130 +146,10 @@
         </div>
     </div>
 </section>
-<!-- Chaussettember Section -->
-<!--<section id="chaussettember">-->
-<!--    <div class="section-header">-->
-<!--        <h2 class="section-title">Chaussettember ❄️</h2>-->
-<!--        <p class="section-subtitle">Le challenge créatif de décembre.</p>-->
-<!--    </div>-->
 
-<!--    <div class="event-container theme-winter">-->
-<!--        <div class="event-intro">-->
-<!--            <div class="event-badge">🥖 Édition Décembre 2025 🧦</div>-->
-<!--            <p class="event-description">-->
-<!--                Chaque semaine de décembre, un nouveau thème créatif est révélé ! Pour que chacun puisse s'exprimer à sa façon, tous les supports sont acceptés !-->
-<!--                Découvre ici les créa' de la communauté 😊-->
-<!--            </p>-->
-<!--        </div>-->
-
-<!--        <div class="gallery-grid">-->
-<!--            <article class="gallery-item" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1">-->
-<!--                <div class="gallery-placeholder">-->
-<!--                    <div class="gallery-icon" aria-hidden="true">❄️</div>-->
-<!--                    <p class="gallery-week-label">Semaine 1</p>-->
-<!--                </div>-->
-<!--                <h3 class="gallery-week">Chat VS Sapin</h3>-->
-<!--                <p class="gallery-artist">Le sapin n'a rien demandé, mais Bibou a décidé qu'il fallait l'inspecter... Capture la scène de crime, il nous faut des preuves !</p>-->
-<!--            </article>-->
-
-<!--            <article class="gallery-item" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2">-->
-<!--                <div class="gallery-placeholder">-->
-<!--                    <div class="gallery-icon" aria-hidden="true">☃️</div>-->
-<!--                    <p class="gallery-week-label">Semaine 2</p>-->
-<!--                </div>-->
-<!--                <h3 class="gallery-week">Chaussette Carey</h3>-->
-<!--                <p class="gallery-artist">On dirait que décembre a réveillé quelque chose au fond de cette chaussette…-->
-<!--                    Elle ne cesse de répéter : « C’est le moment ! » 🤔</p>-->
-<!--            </article>-->
-
-<!--            <article class="gallery-item" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3">-->
-<!--                <div class="gallery-placeholder">-->
-<!--                    <div class="gallery-icon" aria-hidden="true">🎁</div>-->
-<!--                    <p class="gallery-week-label">Semaine 3</p>-->
-<!--                </div>-->
-<!--                <h3 class="gallery-week">Thème à venir</h3>-->
-<!--                <p class="gallery-artist">Restez connectés pour découvrir ce nouveau défi créatif !</p>-->
-<!--            </article>-->
-
-<!--            <article class="gallery-item" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4">-->
-<!--                <div class="gallery-placeholder">-->
-<!--                    <div class="gallery-icon" aria-hidden="true">✨</div>-->
-<!--                    <p class="gallery-week-label">Semaine 4</p>-->
-<!--                </div>-->
-<!--                <h3 class="gallery-week">Thème à venir</h3>-->
-<!--                <p class="gallery-artist">Le dernier thème avant les fêtes... Suspense !</p>-->
-<!--            </article>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!-- Baguettectober Section -->
 <section id="baguettectober">
-    <div class="section-header">
-        <h2 class="section-title">Baguettectober 👻</h2>
-        <p class="section-subtitle">Le challenge dessin d'octobre.</p>
-    </div>
-
-    <div class="event-container theme-autumn">
-        <div class="event-intro">
-            <div class="event-badge">🥖 Édition Octobre 2025 🧦</div>
-            <p class="event-description">
-                C'est comme Inktober... mais en fait non ! Chaque semaine d'octobre, un nouveau défi dessin pour exprimer ta créativité.
-                Découvre ici la galerie d'art de la communauté 😊
-            </p>
-        </div>
-
-        <div class="gallery-grid">
-            <article class="gallery-item" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🥖</div>
-                    <p class="gallery-week-label">Semaine 1</p>
-                </div>
-                <h3 class="gallery-week">La fournée maudite</h3>
-                <p class="gallery-artist">Un four ancien s'ouvre, et la fournée qui en sort n'a rien d'ordinaire...</p>
-            </article>
-
-            <article class="gallery-item" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🧦</div>
-                    <p class="gallery-week-label">Semaine 2</p>
-                </div>
-                <h3 class="gallery-week">La Chaussette DÉMONIAQUE</h3>
-                <p class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait conclu un sombre pacte avec les enfers…</p>
-            </article>
-
-            <article class="gallery-item" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🖌️</div>
-                    <p class="gallery-week-label">Semaine 3</p>
-                </div>
-                <h3 class="gallery-week">Le Grimoire ANCIEN</h3>
-                <p class="gallery-artist">Il s'ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d'une créature noire aux yeux jaunes, armée de crocs aussi charmants qu'effrayants…</p>
-            </article>
-
-            <article class="gallery-item" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🎭</div>
-                    <p class="gallery-week-label">Semaine 4</p>
-                </div>
-                <h3 class="gallery-week">TERREUR sous le Lit</h3>
-                <p class="gallery-artist">Serait-ce une petite chaussette effrayée sous le lit ? Mais… de quoi a-t-elle peur ?</p>
-            </article>
-
-            <article class="gallery-item" data-week="bonus" tabindex="0" aria-label="Ouvrir la galerie Challenge bonus">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🌟</div>
-                    <p class="gallery-week-label">Challenge bonus</p>
-                </div>
-                <h3 class="gallery-week">Bonus : La DERNIÈRE Flamme</h3>
-                <p class="gallery-artist">Le Baguettectober touche à sa fin… Mais la flamme créative ne s'éteint pas. Le challenge bonus, c'est carte blanche !
-                    Un dernier souvenir de ce mois étrange et magique.</p>
-            </article>
-        </div>
-    </div>
 </section>
 
-<!-- Contact Section -->
 <section id="contact">
     <div class="section-header">
         <h2 class="section-title">Me contacter</h2>
@@ -321,7 +161,9 @@
             <article class="contact-info-box">
                 <div class="contact-icon" aria-hidden="true">📧</div>
                 <h3 class="contact-title">Email professionnel</h3>
-                <a href="mailto:baguette.chaussette.contact@gmail.com" class="contact-email">
+                <a href="mailto:baguette.chaussette.contact@gmail.com"
+                   class="contact-email"
+                   data-umami-event="Contact - Email Click">
                     baguette.chaussette.contact@gmail.com
                 </a>
             </article>
@@ -332,24 +174,11 @@
                     <h4 class="contact-card-title">Collaborations</h4>
                     <p class="contact-card-text">Intéressé par une collab ? Parlons-en !</p>
                 </article>
-
-                <article class="contact-card">
-                    <div class="contact-card-icon" aria-hidden="true">🎁</div>
-                    <h4 class="contact-card-title">Partenariats</h4>
-                    <p class="contact-card-text">Propositions de partenariats ou de sponsoring</p>
-                </article>
-
-                <article class="contact-card">
-                    <div class="contact-card-icon" aria-hidden="true">💼</div>
-                    <h4 class="contact-card-title">Projets pro</h4>
-                    <p class="contact-card-text">Demandes professionnelles et projets spéciaux</p>
-                </article>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Réseaux sociaux Section -->
 <section id="reseaux">
     <div class="section-header">
         <h2 class="section-title">Retrouve-moi sur les réseaux</h2>
@@ -358,38 +187,39 @@
 
     <div class="socials-container">
         <div class="socials-content">
-            <!-- Colonne gauche : réseaux -->
             <div class="socials-left">
                 <div class="social-grid" aria-label="Réseaux sociaux">
-                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card twitch">
+                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card twitch" data-umami-event="Social - Twitch">
                         <div class="social-icon" aria-hidden="true">🎥</div>
                         <div class="social-name">Twitch</div>
                         <div class="social-desc">Mes diffusions en direct.</div>
                     </a>
 
-                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="social-card youtube">
+                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="social-card youtube" data-umami-event="Social - YouTube">
                         <div class="social-icon" aria-hidden="true">📺</div>
                         <div class="social-name">YouTube</div>
                         <div class="social-desc">Rediffusions & clips.</div>
                     </a>
 
-                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer" class="social-card tiktok">
+                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer" class="social-card tiktok" data-umami-event="Social - TikTok">
                         <div class="social-icon" aria-hidden="true">🎵</div>
                         <div class="social-name">TikTok</div>
                         <div class="social-desc">Clips & lives.</div>
                     </a>
 
-                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card instagram">
+                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card instagram" data-umami-event="Social - Instagram">
                         <div class="social-icon" aria-hidden="true">📸</div>
                         <div class="social-name">Instagram</div>
                         <div class="social-desc">Stories & behind the scenes.</div>
                     </a>
-                    <a href="https://discord.com/invite/QHNF684bBf" target="_blank" class="social-card discord">
+
+                    <a href="https://discord.com/invite/QHNF684bBf" target="_blank" rel="noopener noreferrer" class="social-card discord" data-umami-event="Social - Discord Card">
                         <div class="social-icon">💬</div>
                         <div class="social-name">Discord</div>
                         <div class="social-desc">Le coin de la commu.</div>
                     </a>
-                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter">
+
+                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter" data-umami-event="Social - Twitter/X">
                         <div class="social-icon" aria-hidden="true">🐦</div>
                         <div class="social-name">X (Twitter)</div>
                         <div class="social-desc">Pas grand-chose.</div>
@@ -397,7 +227,6 @@
                 </div>
             </div>
 
-            <!-- Colonne droite : widget Discord -->
             <aside class="socials-right">
                 <div class="discord-widget-container">
                     <h3 class="discord-widget-title">💬 Rejoins le Discord !</h3>
@@ -413,7 +242,7 @@
                                 title="Widget Discord - Serveur Baguette Chaussette"
                                 loading="lazy"></iframe>
                     </div>
-                    <a class="discord-join-btn" href="https://discord.com/invite/QHNF684bBf" target="_blank" rel="noopener noreferrer">
+                    <a class="discord-join-btn" href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener noreferrer" data-umami-event="Social - Discord Join Button">
                         👉 Rejoindre le serveur
                     </a>
                 </div>
@@ -422,14 +251,12 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer>
     <div class="footer-content">
         <p class="footer-text">Baguette Chaussette © 2025 - Fait en 🧦 avec ❤️</p>
     </div>
 </footer>
 
-<!-- Scripts -->
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
 <script src="./js/gallery.js"></script>
