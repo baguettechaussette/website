@@ -10,7 +10,7 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:url" content="https://baguettechaussette.fr/links">
+    <meta property="og:url" content="https://baguettechaussette.fr/links.html">
     <meta property="og:site_name" content="Baguette Chaussette">
     <meta property="og:title" content="Baguette Chaussette | Liens">
     <meta property="og:description" content="Tous mes liens en un seul endroit 🥖">
@@ -24,7 +24,7 @@
     <meta name="twitter:site" content="@BaguetteCho7">
 
     <!-- Canonical & Favicons -->
-    <link rel="canonical" href="https://baguettechaussette.fr/links">
+    <link rel="canonical" href="https://baguettechaussette.fr/links.html">
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96"/>
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg"/>
     <link rel="shortcut icon" href="/favicon.ico"/>
@@ -37,6 +37,27 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="./css/links.css">
+
+    <!-- schema.org -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Baguette Chaussette",
+            "url": "https://baguettechaussette.fr",
+            "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr.webp",
+            "nationality": "French",
+            "sameAs": [
+                "https://www.twitch.tv/baguettechaussette",
+                "https://www.youtube.com/@BaguetteChaussette-VOD",
+                "https://www.tiktok.com/@baguettechau7",
+                "https://x.com/BaguetteCho7",
+                "https://www.instagram.com/baguettechaussette"
+            ],
+            "jobTitle": "Streamer et créateur de contenu",
+            "description": "Streamer Twitch FR, gaming cosy et humour décalé. Rejoins une communauté bienveillante pour des lives chill !"
+        }
+    </script>
 
     <!-- Analytics -->
     <script defer src="https://cloud.umami.is/script.js"
@@ -120,7 +141,8 @@
         <!-- Live Badge -->
         <div class="live-badge" id="liveBadge">
             <span class="live-dot" aria-hidden="true"></span>
-            EN DIRECT MAINTENANT
+            EN LIVE MAINTENANT : <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener" data-umami-event="Links - Live Badge"
+                                    class="link-rejoidre">REJOINDRE</a>
         </div>
     </div>
 
@@ -339,8 +361,8 @@
             <script>document.write(new Date().getFullYear())</script>
             • Fait en 🧦 avec ❤️
         </p>
-        <p><a href="https://baguettechaussette.fr">baguettechaussette.fr</a> | <a href="./mentions-legales.html">mentions
-            légales</a></p>
+        <p><a href="https://baguettechaussette.fr" data-umami-event="Links - Footer - Site">baguettechaussette.fr</a> | <a href="./mentions-legales.html" data-umami-event="Links - Footer - Mentions">mentions légales</a>
+        </p>
     </footer>
 
 </main>
@@ -364,7 +386,7 @@
             <p>Tu peux l'utiliser pour n'importe quel jeu du site. Clique simplement sur le bouton ci-dessous ou passe
                 par ce lien avant de finaliser ton panier :</p>
             <p><strong>Mon lien de parrainage :</strong><br>
-                <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener">https://www.instant-gaming.com/instant-gaming.com/?igr=baguettechaussette</a>
+                <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener">https://www.instant-gaming.com/?igr=baguettechaussette</a>
             </p>
             <p>Merci à toi ! 💜</p>
         </div>
@@ -372,7 +394,8 @@
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('instantGaming')">Fermer</button>
             <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('instantGaming'); umamiTrack('Links - Instant Gaming Click')">Je soutiens !</a>
+               onclick="closeModal('instantGaming')"
+               data-umami-event="Links - Instant Gaming Click">Je soutiens !</a>
         </div>
     </div>
 </div>
@@ -404,7 +427,9 @@
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('googleStore')">Fermer</button>
             <a href="https://store.google.com/fr/category/phones?hl=fr" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('googleStore'); umamiTrack('Links - Google Store Click')">Google Store</a>
+               onclick="closeModal('googleStore')"
+               data-umami-event="Links - Google Store Click">Google Store</a>
+
         </div>
     </div>
 </div>
@@ -433,7 +458,8 @@
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('palia')">Fermer</button>
             <a href="https://accounts.palia.com/sign-up?referral=05501a06-e47f-4436-a161-bc832bddd5b6" target="_blank"
                rel="noopener" class="modal-btn modal-btn-primary"
-               onclick="closeModal('palia'); umamiTrack('Links - Palia Click')">Je veux les fruits 🍋</a>
+               onclick="closeModal('palia')"
+               data-umami-event="Links - Palia Click">Je veux les fruits 🍋</a>
         </div>
     </div>
 </div>
@@ -460,7 +486,8 @@
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('theFinals')">Fermer</button>
             <a href="https://id.embark.games/fr/id/the-finals/refer-a-friend/claim?code=JZZX46DYZ-4MXELCUPP-LBMIOOD4"
                target="_blank" rel="noopener" class="modal-btn modal-btn-primary"
-               onclick="closeModal('theFinals'); umamiTrack('Links - The Finals Click')">À moi les Multibucks !</a>
+               onclick="closeModal('theFinals')"
+               data-umami-event="Links - The Finals Click">À moi les Multibucks !</a>
         </div>
     </div>
 </div>
@@ -474,7 +501,7 @@
             </svg>
         </button>
         <div class="modal-header">
-            <h2 class="modal-title">Soutenir financièrement 🫶</h2>
+            <h2 class="modal-title">Soutenir financièrement</h2>
         </div>
         <div class="modal-body">
             <p>Si tu le souhaites, et <strong>que tu en as les moyens</strong>, tu peux me soutenir en laissant <strong>un
@@ -487,7 +514,8 @@
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('donation')">Fermer</button>
             <a href="https://streamelements.com/baguettechaussette/tip" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('donation'); umamiTrack('Links - Donation Click')">Je soutiens !</a>
+               onclick="closeModal('donation')"
+               data-umami-event="Links - Donation Click">Je soutiens !</a>
         </div>
     </div>
 </div>

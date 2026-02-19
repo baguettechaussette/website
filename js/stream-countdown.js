@@ -2,6 +2,7 @@
 (function initStreamCountdown() {
     const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
     const TWITCH_URL = "https://www.twitch.tv/baguettechaussette";
+    const LIVE_STATUS_URL = "/data/live-status.json";
 
     // Récupère le planning depuis le DOM
     function getScheduleFromDOM() {
@@ -100,8 +101,23 @@
     const getDayName = (d) =>
         ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d];
 
+    // Lecture live-status.json (même source que le linktree)
+    async function fetchLiveStatusJSON() {
+        try {
+            const response = await fetch(LIVE_STATUS_URL, {
+                cache: "no-store",
+                headers: { Accept: "application/json" },
+            });
+
+            if (!response.ok) return null;
+            return await response.json();
+        } catch (e) {
+            return null;
+        }
+    }
+
     // Mise à jour de l'interface
-    function updateUI() {
+    async function updateUI() {
         const schedule = getScheduleFromDOM();
         const banner = document.getElementById("nextStreamCountdown");
 
@@ -112,18 +128,20 @@
 
         if (!info) return;
 
+        // --- OVERRIDE via live-status.json ---
+        const jsonStatus = await fetchLiveStatusJSON();
+        if (jsonStatus && jsonStatus.is_live) {
+            info.isLive = true;
+        }
+
         // Bannière principale
         if (info.isLive) {
             banner.classList.add("is-live");
-            const endTime = new Date(info.date.getTime() + STREAM_DURATION_MS);
-            const remaining = endTime - now;
 
             banner.innerHTML = `
                 <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
                 <div class="countdown-time">On n’attend plus que toi !</div>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">
-                    REJOINDRE LE STREAM
-                </a>
+                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
             `;
         } else {
             banner.classList.remove("is-live");
@@ -139,29 +157,28 @@
         }
 
         // --- Synchronisation avec le live indicator global ---
-        const liveIndicator = document.querySelector('.live-indicator');
+        const liveIndicator = document.querySelector(".live-indicator");
         if (liveIndicator) {
             if (info.isLive) {
-                liveIndicator.classList.remove('offline');
-                liveIndicator.classList.add('active');
+                liveIndicator.classList.remove("offline");
+                liveIndicator.classList.add("active");
                 liveIndicator.innerHTML = `
             <span class="live-dot" aria-hidden="true"></span>
             EN LIVE
         `;
-                document.querySelector('.live-container')?.classList.add('is-live');
-                document.querySelector('.live-container')?.classList.remove('is-offline');
+                document.querySelector(".live-container")?.classList.add("is-live");
+                document.querySelector(".live-container")?.classList.remove("is-offline");
             } else {
-                liveIndicator.classList.remove('active');
-                liveIndicator.classList.add('offline');
+                liveIndicator.classList.remove("active");
+                liveIndicator.classList.add("offline");
                 liveIndicator.innerHTML = `
             <span class="live-dot" aria-hidden="true"></span>
             HORS LIGNE
         `;
-                document.querySelector('.live-container')?.classList.add('is-offline');
-                document.querySelector('.live-container')?.classList.remove('is-live');
+                document.querySelector(".live-container")?.classList.add("is-offline");
+                document.querySelector(".live-container")?.classList.remove("is-live");
             }
         }
-
 
         // Mise à jour des cartes de planning
         document.querySelectorAll(".schedule-item").forEach((card) => {
@@ -188,9 +205,7 @@
 
             if (isThisSlotLive) {
                 card.classList.add("is-live");
-                const endTime = new Date(todayStart.getTime() + STREAM_DURATION_MS);
-                const remaining = endTime - now;
-                cdEl.textContent = `🔴 En cours — reste ${formatCountdown(remaining)}`;
+                cdEl.textContent = `🔴 En cours`;
             } else {
                 const diffMs = nextStart - now;
                 cdEl.textContent = `Dans ${formatCountdown(diffMs)}`;
@@ -205,5 +220,5 @@
 
     // Initialisation et mise à jour continue
     updateUI();
-    setInterval(updateUI, 1000);
+    setInterval(updateUI, 15000); // on refresh le live-status.json toutes les 15s (le countdown n'a pas besoin de 1s)
 })();
