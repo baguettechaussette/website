@@ -1,0 +1,57 @@
+name: Update Twitch Live Status
+on:
+  schedule:
+    - cron: "*/5 * * * *" # Toutes les 5 minutes
+  workflow_dispatch:      # Permet de tester manuellement
+
+permissions:
+  contents: write
+
+jobs:
+  update-live:
+    runs-on: ubuntu-latest
+    env:
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Access Token
+        run: |
+          RESP=$(curl -sS -X POST "https://id.twitch.tv/oauth2/token" \
+            -d "client_id=$TWITCH_CLIENT_ID" \
+            -d "client_secret=$TWITCH_CLIENT_SECRET" \
+            -d "grant_type=client_credentials")
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
+
+      - name: Check if Stream is Live
+        run: |
+          echo "Checking status for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
+          mkdir -p data
+          
+          # On interroge l'API Streams
+          RESP=$(curl -sS -H "Client-Id: $TWITCH_CLIENT_ID" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            "https://api.twitch.tv/helix/streams?user_id=$TWITCH_BROADCASTER_ID")
+          
+          # Si l'objet 'data' n'est pas vide, alors c'est LIVE
+          IS_LIVE=$(echo "$RESP" | jq -r '.data | length > 0')
+          
+          # On crée le fichier JSON
+          echo "{\"is_live\": $IS_LIVE}" > data/live-status.json
+          echo "✅ Live status: $IS_LIVE"
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet data/live-status.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/live-status.json
+            git commit -m "chore: update twitch live status ($(jq -r .is_live data/live-status.json))"
+            git push
+          else
+            echo "No status change detected."
+          fi
