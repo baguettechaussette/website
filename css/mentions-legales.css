@@ -1,0 +1,40 @@
+.legal-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    color: var(--warm-text);
+    line-height: 1.6;
+}
+
+.legal-container h1 {
+    color: var(--terracotta);
+    font-family: 'Baloo 2', cursive;
+    margin-bottom: 30px;
+}
+
+.legal-container h2 {
+    color: var(--sage-dark);
+    margin-top: 25px;
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--sage-pale);
+    padding-bottom: 5px;
+}
+
+.legal-container p {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--sage-dark);
+    text-decoration: none;
+    font-weight: bold;
+}
+
