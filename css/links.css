@@ -407,6 +407,10 @@ body.modal-open {
 .links-container > *:nth-child(12) { animation-delay: 0.87s; }
 .links-container > *:nth-child(13) { animation-delay: 0.94s; }
 .links-container > *:nth-child(14) { animation-delay: 1.01s; }
+.links-container > *:nth-child(15) { animation-delay: 1.08s; }
+.links-container > *:nth-child(16) { animation-delay: 1.15s; }
+.links-container > *:nth-child(17) { animation-delay: 1.22s; }
+.links-container > *:nth-child(18) { animation-delay: 1.29s; }
 
 @keyframes fadeSlideUp {
     from {
@@ -453,6 +457,11 @@ body.modal-open {
 .link-card.email:hover {
     border-color: var(--sage);
     box-shadow: 0 12px 38px rgba(122, 158, 114, 0.18);
+}
+
+.link-card.donation:hover {
+    border-color: var(--terracotta);
+    box-shadow: 0 12px 38px rgba(196, 122, 90, 0.2);
 }
 
 /* Icon */
@@ -542,6 +551,14 @@ body.modal-open {
     align-items: center;
     justify-content: center;
 }
+
+/* Les cards en <button> doivent se comporter comme les <a> */
+button.link-card {
+    font: inherit;
+    font-family: inherit;
+    text-align: left;
+}
+
 
 @keyframes fadeIn {
     from {
