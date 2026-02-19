@@ -20,14 +20,6 @@ function closeModalOnBackdrop(event, id) {
         closeModal(id);
     }
 }
-
-// Umami tracking
-function umamiTrack(event) {
-    if (window.umami) {
-        window.umami.track(event);
-    }
-}
-
 // Escape key to close modals
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -56,14 +48,6 @@ async function checkLiveStatus() {
             const badge = document.getElementById('liveBadge');
             if (badge) {
                 badge.classList.add('visible');
-            }
-
-            const twitchCard = document.querySelector('.link-card.twitch');
-            if (twitchCard) {
-                const desc = twitchCard.querySelector('.link-desc');
-                if (desc) {
-                    desc.textContent = '🔴 EN DIRECT MAINTENANT — rejoins le stream !';
-                }
             }
         }
     } catch (error) {

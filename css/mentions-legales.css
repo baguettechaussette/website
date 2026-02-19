@@ -10,13 +10,13 @@
     line-height: 1.6;
 }
 
-h1 {
+.legal-container h1 {
     color: var(--terracotta);
     font-family: 'Baloo 2', cursive;
     margin-bottom: 30px;
 }
 
-h2 {
+.legal-container h2 {
     color: var(--sage-dark);
     margin-top: 25px;
     font-size: 1.2em;
@@ -24,7 +24,7 @@ h2 {
     padding-bottom: 5px;
 }
 
-p {
+.legal-container p {
     margin-bottom: 15px;
     margin-top: 15px;
     font-size: 0.9em;
@@ -37,3 +37,4 @@ p {
     text-decoration: none;
     font-weight: bold;
 }
+

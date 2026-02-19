@@ -126,7 +126,38 @@
     </div>
 </header>
 
+<!-- Planning Section -->
 <section id="planning">
+    <div class="section-header">
+        <h2 class="section-title">Planning des streams</h2>
+        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble.</p>
+    </div>
+
+    <div class="schedule-container">
+        <!-- Bannière de countdown -->
+        <div id="nextStreamCountdown" class="next-stream-banner" role="status" aria-live="polite"></div>
+
+        <!-- Grille des horaires -->
+        <div class="schedule-grid">
+            <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
+                <div class="schedule-day">Mercredi</div>
+                <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
+            </article>
+
+            <article class="schedule-item" data-day="5" data-hour="21" data-minute="0">
+                <div class="schedule-day">Vendredi</div>
+                <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
+            </article>
+
+            <article class="schedule-item" data-day="0" data-hour="21" data-minute="0">
+                <div class="schedule-day">Dimanche</div>
+                <div class="schedule-time">21h00</div>
+                <div class="schedule-countdown"></div>
+            </article>
+        </div>
+    </div>
 </section>
 
 <section id="live">
@@ -213,7 +244,7 @@
                         <div class="social-desc">Stories & behind the scenes.</div>
                     </a>
 
-                    <a href="https://discord.com/invite/QHNF684bBf" target="_blank" rel="noopener noreferrer" class="social-card discord" data-umami-event="Social - Discord Card">
+                    <a href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener noreferrer" class="social-card discord" data-umami-event="Social - Discord Card">
                         <div class="social-icon">💬</div>
                         <div class="social-name">Discord</div>
                         <div class="social-desc">Le coin de la commu.</div>
@@ -254,7 +285,7 @@
 <footer>
     <div class="footer-content">
         <p>Baguette Chaussette © <script>document.write(new Date().getFullYear())</script>  • Fait en 🧦 avec ❤️</p>
-        <p><a href="./mentions-legales.html">Mentions Légales</a> </p>
+        <p><a href="./links.html" data-umami-event="Home - Footer - Hub">Hub des Liens</a> | <a href="./mentions-legales.html" data-umami-event="Home - Footer - Mentions">Mentions Légales</a> </p>
     </div>
 </footer>
 
