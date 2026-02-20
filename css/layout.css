@@ -180,7 +180,7 @@ nav .container {
     background: none;
     border: none;
     font-size: 2em;
-    color: var(--text-primary);
+    color: white;
     cursor: pointer;
 }
 
