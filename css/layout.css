@@ -330,6 +330,7 @@ nav .container {
 
 .section-subtitle {
     font-size: 1.4em;
+    font-weight: 700;
     color: var(--text-tertiary);
 }
 
