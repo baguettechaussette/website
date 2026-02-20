@@ -75,6 +75,7 @@ html {
 
 body {
     font-family: 'Baloo 2', cursive;
+    font-weight: 500;
     background: var(--bg-primary);
     color: var(--text-primary);
     overflow-x: hidden;
