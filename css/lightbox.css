@@ -2,7 +2,7 @@
 .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .85);
+    background: rgba(40, 32, 24, 0.82);
     display: none;
     align-items: center;
     justify-content: center;
@@ -25,8 +25,9 @@
 
 .lightbox__stage {
     position: relative;
-    background: #0e0e10;
+    background: #f5f0e8;
     border-radius: 14px;
+    box-shadow: 0 4px 32px rgba(63, 47, 37, 0.18);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -43,7 +44,7 @@
     height: auto;
     object-fit: contain;
     border-radius: 8px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 20px rgba(63, 47, 37, 0.14);
     transition: opacity 0.6s ease;
     opacity: 1;
     display: block;
@@ -79,7 +80,7 @@
 
 .lightbox__thumb.is-active {
     opacity: 1;
-    outline-color: #a970ff;
+    outline-color: #5c936f;
 }
 
 .lightbox__thumb img {
@@ -93,9 +94,9 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, .5);
-    border: none;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1.5px solid rgba(63, 47, 37, 0.12);
+    color: #3d2e1e;
     font-size: 22px;
     width: 44px;
     height: 44px;
@@ -103,11 +104,13 @@
     cursor: pointer;
     display: grid;
     place-items: center;
-    z-index: 2; /* au-dessus de l'image */
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(63, 47, 37, 0.10);
 }
 
 .lightbox__btn:hover {
-    background: rgba(0, 0, 0, .65);
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(92, 147, 111, 0.35);
 }
 
 .lightbox__prev {
@@ -123,20 +126,22 @@
     position: absolute;
     top: .5rem;
     right: .5rem;
-    background: rgba(0, 0, 0, .5);
-    border: none;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1.5px solid rgba(63, 47, 37, 0.12);
+    color: #3d2e1e;
     width: 38px;
     height: 38px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 3;
+    box-shadow: 0 2px 10px rgba(63, 47, 37, 0.10);
 }
 
 /* légende */
 .lightbox__caption {
-    color: #ddd;
-    font-size: 1.6rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 600;
     text-align: center;
 }
 
@@ -145,9 +150,9 @@
     position: absolute;
     bottom: .75rem;
     right: 3.5rem;
-    background: rgba(0, 0, 0, .5);
-    border: none;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1.5px solid rgba(63, 47, 37, 0.12);
+    color: #3d2e1e;
     font-size: 20px;
     line-height: 21px;
     width: 38px;
@@ -156,15 +161,18 @@
     cursor: pointer;
     transition: background .2s, transform .2s;
     z-index: 3;
+    box-shadow: 0 2px 10px rgba(63, 47, 37, 0.10);
 }
 
 .lightbox__play:hover {
-    background: rgba(0, 0, 0, .7);
+    background: rgba(255, 255, 255, 1);
     transform: scale(1.05);
 }
 
 .lightbox__play.is-playing {
-    background: rgba(169, 112, 255, .9);
+    background: #5c936f;
+    color: #fff;
+    border-color: transparent;
 }
 
 /* ---- NOUVEAU : bouton Zoom (remplace fullscreen) ---- */
@@ -172,9 +180,9 @@
     position: absolute;
     bottom: .75rem;
     right: .75rem;
-    background: rgba(0, 0, 0, .5);
-    border: none;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1.5px solid rgba(63, 47, 37, 0.12);
+    color: #3d2e1e;
     font-size: 18px;
     width: 38px;
     height: 38px;
@@ -182,15 +190,18 @@
     cursor: pointer;
     transition: background .2s, transform .2s;
     z-index: 3;
+    box-shadow: 0 2px 10px rgba(63, 47, 37, 0.10);
 }
 
 .lightbox__zoom:hover {
-    background: rgba(0, 0, 0, .7);
+    background: rgba(255, 255, 255, 1);
     transform: scale(1.05);
 }
 
 .lightbox__zoom.is-active {
-    background: rgba(169, 112, 255, .9);
+    background: #5c936f;
+    color: #fff;
+    border-color: transparent;
 }
 
 /* === Zoom lightbox (sans plein écran navigateur) === */
@@ -215,7 +226,7 @@
 .lightbox__play:focus-visible,
 .lightbox__zoom:focus-visible,
 .lightbox__thumb:focus-visible {
-    outline: 2px solid #a970ff;
+    outline: 2px solid #5c936f;
     outline-offset: 2px;
 }
 
