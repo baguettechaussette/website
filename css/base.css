@@ -128,22 +128,22 @@ img {
 }
 
 /* === Scrollbar === */
-::-webkit-scrollbar {
-    width: 12px;
-}
+/*::-webkit-scrollbar {*/
+/*    width: 12px;*/
+/*}*/
 
-::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-}
+/*::-webkit-scrollbar-track {*/
+/*    background: var(--bg-primary);*/
+/*}*/
 
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--blue), var(--purple));
-    border-radius: 6px;
-}
+/*::-webkit-scrollbar-thumb {*/
+/*    background: linear-gradient(135deg, var(--blue), var(--purple));*/
+/*    border-radius: 6px;*/
+/*}*/
 
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, var(--pink), var(--peach));
-}
+/*::-webkit-scrollbar-thumb:hover {*/
+/*    background: linear-gradient(135deg, var(--pink), var(--peach));*/
+/*}*/
 
 /* === Focus visible === */
 *:focus {

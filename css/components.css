@@ -397,6 +397,17 @@
 .social-card.discord {
     display: none;
 }
+.social-card.discord {
+    background: rgba(88, 101, 242, 0.1);
+    border-color: rgba(88, 101, 242, 0.3);
+}
+.social-card.discord:hover {
+    background: rgba(88, 101, 242, 0.1);
+    border-color: rgba(88, 101, 242, 0.5);
+    box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
+    transform: translateY(-10px) scale(1.03);
+}
+.social-card.discord .social-name { color: #5865f2; }
 
 .social-card.twitter {
     background: rgba(26, 140, 216, 0.07);
