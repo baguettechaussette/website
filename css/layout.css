@@ -18,6 +18,7 @@
     background-size: 300% 300%;
     animation: gradientWave 15s ease infinite;
     opacity: 0.15;
+    filter: saturate(0.9) contrast(0.95);
 }
 
 @keyframes gradientWave {
@@ -109,7 +110,7 @@ nav {
     padding: 25px 0;
     background: var(--bg-overlay);
     backdrop-filter: blur(20px);
-    border-bottom: 2px solid rgba(168, 213, 226, 0.2);
+    border-bottom: 2px solid rgba(140, 191, 159, 0.2);
     z-index: var(--z-nav);
     transition: all var(--transition-base);
 }
@@ -128,7 +129,7 @@ nav .container {
 .logo {
     font-size: 2em;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--blue), var(--pink));
+    background: linear-gradient(135deg, #db8f42, #f2c977);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -148,7 +149,7 @@ nav .container {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 1.2em;
     position: relative;
@@ -167,7 +168,7 @@ nav .container {
 }
 
 .nav-links a:hover {
-    color: white;
+    color: var(--text-primary);
 }
 
 .nav-links a:hover::after {
@@ -221,17 +222,20 @@ nav .container {
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 30px;
-    background: linear-gradient(135deg, white, var(--blue), var(--pink));
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--green), var(--blue), var(--pink));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 2px 18px rgba(240, 235, 224, 0.55);
 }
 
 .hero-subtitle {
     font-size: 1.8em;
     color: var(--text-secondary);
     margin-bottom: 40px;
-    line-height: 1.6;
+    line-height: 1.4;
+    font-weight: 500;
 }
 
 .hero-stats {
@@ -300,7 +304,7 @@ nav .container {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 20px 80px rgba(168, 213, 226, 0.4);
+    box-shadow: 0 20px 80px rgba(140, 191, 159, 0.4);
     animation: floatAvatar 4s ease-in-out infinite;
     overflow: hidden;
 }
@@ -331,10 +335,12 @@ nav .container {
     font-size: 3.5em;
     font-weight: 800;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, white, var(--blue));
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--green), var(--blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 2px 14px rgba(240, 235, 224, 0.55);
 }
 
 .section-subtitle {
@@ -345,7 +351,7 @@ nav .container {
 /* === Footer === */
 footer {
     background: var(--bg-blur);
-    border-top: 2px solid rgba(168, 213, 226, 0.2);
+    border-top: 2px solid rgba(140, 191, 159, 0.2);
     padding: 60px var(--spacing-md);
     text-align: center;
 }
