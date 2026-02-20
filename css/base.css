@@ -5,11 +5,11 @@
 /* === Variables CSS === */
 :root {
     /* Couleurs principales */
-    --blue: #a8d5e2;
-    --green: #b4e7ce;
-    --peach: #ffd5c2;
-    --pink: #f9c5d5;
-    --purple: #e5d4ed;
+    --blue: #7fb893;
+    --green: #5c936f;
+    --peach: #f2e3d8;
+    --pink: #c56a52;
+    --purple: #f2c96b;
 
     /* Couleurs fonctionnelles */
     --twitch: #9146ff;
@@ -19,15 +19,15 @@
     --live-red-dark: #e66767;
 
     /* Background */
-    --bg-primary: #0a0a0a;
-    --bg-overlay: rgba(10, 10, 10, 0.85);
-    --bg-blur: rgba(10, 10, 10, 0.95);
+    --bg-primary: #f0ebe0;
+    --bg-overlay: rgba(240, 235, 224, 0.90);
+    --bg-blur: rgba(240, 235, 224, 0.78);
 
     /* Texte */
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --text-tertiary: rgba(255, 255, 255, 0.6);
-    --text-muted: rgba(255, 255, 255, 0.5);
+    --text-primary: #3f2f25;
+    --text-secondary: rgba(63, 47, 37, 0.88);
+    --text-tertiary: rgba(63, 47, 37, 0.72);
+    --text-muted: rgba(63, 47, 37, 0.55);
 
     /* Spacing */
     --spacing-xs: 10px;
@@ -44,9 +44,9 @@
     --radius-full: 50px;
 
     /* Shadows */
-    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 6px 18px rgba(63, 47, 37, 0.10);
+    --shadow-md: 0 14px 40px rgba(63, 47, 37, 0.14);
+    --shadow-lg: 0 24px 70px rgba(63, 47, 37, 0.18);
 
     /* Transitions */
     --transition-fast: 0.2s ease;
