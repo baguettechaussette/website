@@ -74,7 +74,17 @@ html {
 }
 
 body {
-    font-family: 'Baloo 2', cursive;
+    font-family: "Baloo 2",
+    ui-rounded,
+    "Nunito",
+    "Quicksand",
+    "Rubik",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
     font-weight: 500;
     background: var(--bg-primary);
     color: var(--text-primary);
