@@ -276,8 +276,8 @@
 }
 
 .social-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.55);
+    border: 2px solid rgba(122, 158, 114, 0.18);
     border-radius: var(--radius-lg);
     padding: 50px 40px;
     text-align: center;
@@ -286,6 +286,8 @@
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.6s ease backwards;
+    box-shadow: 0 2px 14px rgba(63, 47, 37, 0.06);
+    color: var(--text-primary);
 }
 
 .social-card:nth-child(1) { animation-delay: 0.05s; }
@@ -301,9 +303,9 @@
     left: 50%;
     width: 0;
     height: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent);
     transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
+    transition: width 0.5s ease, height 0.5s ease;
 }
 
 .social-card:hover::before {
@@ -312,7 +314,8 @@
 }
 
 .social-card:hover {
-    transform: translateY(-15px) scale(1.05);
+    transform: translateY(-10px) scale(1.03);
+    background: rgba(255, 255, 255, 0.78);
 }
 
 .social-icon {
@@ -328,6 +331,7 @@
     margin-bottom: 10px;
     position: relative;
     z-index: 1;
+    color: var(--text-primary);
 }
 
 .social-desc {
@@ -337,83 +341,55 @@
     z-index: 1;
 }
 
-/* Social card variants */
+/* Social card variants — bordures adoucies, couleurs lisibles sur fond clair */
 .social-card.twitch {
-    border-color: var(--twitch);
+    border-color: rgba(145, 70, 255, 0.28);
 }
-
 .social-card.twitch:hover {
-    box-shadow: 0 20px 60px rgba(145, 70, 255, 0.5);
+    border-color: rgba(145, 70, 255, 0.5);
+    box-shadow: 0 14px 40px rgba(145, 70, 255, 0.10);
 }
-
-.social-card.twitch .social-name {
-    color: var(--twitch);
-}
+.social-card.twitch .social-name { color: #7b3dd8; }
 
 .social-card.youtube {
-    border-color: #ff0000;
+    border-color: rgba(210, 40, 40, 0.28);
 }
-
 .social-card.youtube:hover {
-    box-shadow: 0 20px 60px rgba(255, 0, 0, 0.5);
+    border-color: rgba(210, 40, 40, 0.5);
+    box-shadow: 0 14px 40px rgba(210, 40, 40, 0.09);
 }
-
-.social-card.youtube .social-name {
-    color: #ff0000;
-}
+.social-card.youtube .social-name { color: #c42b2b; }
 
 .social-card.tiktok {
-    border-color: #00f2ea;
+    border-color: rgba(0, 165, 160, 0.28);
 }
-
 .social-card.tiktok:hover {
-    box-shadow: 0 20px 60px rgba(0, 242, 234, 0.5);
+    border-color: rgba(0, 165, 160, 0.5);
+    box-shadow: 0 14px 40px rgba(0, 165, 160, 0.09);
 }
-
-.social-card.tiktok .social-name {
-    color: #00f2ea;
-}
+.social-card.tiktok .social-name { color: #008c87; }
 
 .social-card.instagram {
-    border-color: #e1306c;
+    border-color: rgba(193, 53, 132, 0.28);
 }
-
 .social-card.instagram:hover {
-    box-shadow: 0 20px 60px rgba(225, 48, 108, 0.5);
+    border-color: rgba(193, 53, 132, 0.5);
+    box-shadow: 0 14px 40px rgba(193, 53, 132, 0.09);
 }
-
-.social-card.instagram .social-name {
-    color: #e1306c;
-}
-
-.social-card.discord {
-    border-color: #5865f2;
-}
-
-.social-card.discord:hover {
-    box-shadow: 0 20px 60px rgba(88, 101, 242, 0.5);
-}
-
-.social-card.discord .social-name {
-    color: #5865f2;
-}
+.social-card.instagram .social-name { color: #b02860; }
 
 .social-card.discord {
     display: none;
 }
 
-
 .social-card.twitter {
-    border-color: #1da1f2;
+    border-color: rgba(26, 140, 216, 0.28);
 }
-
 .social-card.twitter:hover {
-    box-shadow: 0 20px 60px rgba(29, 161, 242, 0.5);
+    border-color: rgba(26, 140, 216, 0.5);
+    box-shadow: 0 14px 40px rgba(26, 140, 216, 0.09);
 }
-
-.social-card.twitter .social-name {
-    color: #1da1f2;
-}
+.social-card.twitter .social-name { color: #1479b8; }
 
 /* === Contact Cards === */
 .contact-container {
@@ -533,18 +509,20 @@
 
 /* === Conteneur principal d'événement === */
 .event-container {
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.35);
+    border: 2px solid rgba(122, 158, 114, 0.2);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     backdrop-filter: blur(20px);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 24px rgba(63, 47, 37, 0.07);
 }
 
 .event-container::before {
     position: absolute;
     font-size: 15em;
-    opacity: 0.05;
+    opacity: 0.06;
     top: -50px;
     right: -50px;
     animation: rotate 20s linear infinite;
@@ -556,10 +534,10 @@
 }
 
 /* === Variantes thématiques === */
-/* Baguettectober - Thème automne/Halloween */
+/* Baguettectober - Thème automne */
 .event-container.theme-autumn {
-    background: linear-gradient(135deg, rgba(255, 213, 194, 0.1), rgba(249, 197, 213, 0.1));
-    border-color: rgba(255, 213, 194, 0.3);
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.10), rgba(197, 106, 82, 0.08));
+    border-color: rgba(197, 106, 82, 0.22);
 }
 
 .event-container.theme-autumn::before {
@@ -568,8 +546,8 @@
 
 /* Chaussettember - Thème hiver/Noël */
 .event-container.theme-winter {
-    background: linear-gradient(135deg, rgba(140, 191, 159, 0.15), rgba(180, 231, 206, 0.15));
-    border-color: rgba(140, 191, 159, 0.4);
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(180, 231, 206, 0.10));
+    border-color: rgba(127, 184, 147, 0.25);
 }
 
 .event-container.theme-winter::before {
@@ -581,7 +559,7 @@
     content: '🧦';
     position: absolute;
     font-size: 8em;
-    opacity: 0.03;
+    opacity: 0.04;
     bottom: -30px;
     left: -30px;
     animation: rotate 15s linear infinite reverse;
@@ -612,13 +590,15 @@
 
 /* Badges thématiques */
 .theme-autumn .event-badge {
-    background: linear-gradient(135deg, #c987ff, #ff9252);
-    box-shadow: 0 10px 30px rgba(255, 213, 194, 0.4);
+    background: linear-gradient(135deg, #c47a5a, #f2c96b);
+    box-shadow: 0 8px 24px rgba(196, 122, 90, 0.30);
+    color: #fff;
 }
 
 .theme-winter .event-badge {
-    background: linear-gradient(135deg, #a8d5e2, #b4e7ce);
-    box-shadow: 0 10px 30px rgba(140, 191, 159, 0.5);
+    background: linear-gradient(135deg, #7fb893, #5c936f);
+    box-shadow: 0 8px 24px rgba(127, 184, 147, 0.30);
+    color: #fff;
 }
 
 .event-description {
@@ -640,14 +620,15 @@
 
 /* === Carte de galerie === */
 .gallery-item {
-    background: rgba(255, 255, 255, 0.55);
-    border: 2px solid rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.65);
+    border: 1.5px solid rgba(63, 47, 37, 0.10);
     border-radius: 25px;
     padding: 20px;
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 2px 12px rgba(63, 47, 37, 0.07);
 }
 
 .gallery-item::before {
@@ -666,63 +647,71 @@
 }
 
 .gallery-item:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(63, 47, 37, 0.12);
+    background: rgba(255, 255, 255, 0.88);
 }
 
 /* Variantes thématiques des cartes */
 .theme-autumn .gallery-item {
-    background: rgba(255, 213, 194, 0.05);
+    background: rgba(255, 248, 240, 0.72);
+    border-color: rgba(197, 106, 82, 0.15);
 }
 
 .theme-autumn .gallery-item::before {
-    background: linear-gradient(135deg, rgba(255, 213, 194, 0.1), rgba(249, 197, 213, 0.1));
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.10), rgba(197, 106, 82, 0.08));
 }
 
 .theme-autumn .gallery-item:hover {
-    border-color: var(--peach);
-    box-shadow: 0 20px 60px rgba(255, 213, 194, 0.4);
+    border-color: rgba(197, 106, 82, 0.35);
+    box-shadow: 0 16px 40px rgba(197, 106, 82, 0.14);
 }
 
 .theme-winter .gallery-item {
-    background: rgba(140, 191, 159, 0.08);
-    border: 2px solid rgba(140, 191, 159, 0.2);
+    background: rgba(245, 252, 248, 0.72);
+    border: 1.5px solid rgba(127, 184, 147, 0.18);
 }
 
 .theme-winter .gallery-item::before {
-    background: linear-gradient(135deg, rgba(140, 191, 159, 0.15), rgba(180, 231, 206, 0.15));
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.10), rgba(180, 231, 206, 0.10));
 }
 
 .theme-winter .gallery-item:hover {
-    border-color: var(--blue);
-    box-shadow: 0 20px 60px rgba(140, 191, 159, 0.5);
+    border-color: rgba(127, 184, 147, 0.40);
+    box-shadow: 0 16px 40px rgba(127, 184, 147, 0.18);
     animation: gentleSnow 0.6s ease-out;
 }
 
 @keyframes gentleSnow {
-    0% { transform: translateY(-10px) scale(1.02); }
-    50% { transform: translateY(-12px) scale(1.025); }
-    100% { transform: translateY(-10px) scale(1.02); }
+    0% { transform: translateY(-8px) scale(1.02); }
+    50% { transform: translateY(-10px) scale(1.025); }
+    100% { transform: translateY(-8px) scale(1.02); }
 }
 
 /* === Placeholder (quand pas d'images) === */
 .gallery-placeholder {
     aspect-ratio: 1;
-    background: linear-gradient(135deg, rgba(140, 191, 159, 0.2), rgba(180, 231, 206, 0.2));
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(242, 193, 107, 0.10));
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border: 2px dashed rgba(63, 47, 37, 0.12);
     position: relative;
     z-index: 1;
     overflow: hidden;
 }
 
+.theme-autumn .gallery-placeholder {
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.18), rgba(197, 106, 82, 0.10));
+    border-color: rgba(197, 106, 82, 0.22);
+}
+
 .theme-winter .gallery-placeholder {
-    background: linear-gradient(135deg, rgba(140, 191, 159, 0.25), rgba(180, 231, 206, 0.25));
-    border: 2px dashed rgba(140, 191, 159, 0.5);
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.18), rgba(180, 231, 206, 0.14));
+    border: 2px dashed rgba(127, 184, 147, 0.35);
 }
 
 .gallery-icon {
@@ -731,7 +720,7 @@
 }
 
 .theme-winter .gallery-icon {
-    filter: drop-shadow(0 0 10px rgba(140, 191, 159, 0.6));
+    filter: drop-shadow(0 0 8px rgba(127, 184, 147, 0.4));
 }
 
 .gallery-week-label {
@@ -740,7 +729,12 @@
 }
 
 .theme-winter .gallery-week-label {
-    color: rgba(140, 191, 159, 0.9);
+    color: #5c936f;
+    font-weight: 600;
+}
+
+.theme-autumn .gallery-week-label {
+    color: #a0533a;
     font-weight: 600;
 }
 
