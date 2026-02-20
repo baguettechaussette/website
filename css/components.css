@@ -34,15 +34,15 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #b78ef3, #7b3dd8);
+    background: linear-gradient(135deg, var(--blue), var(--green));
     color: white;
-    box-shadow: 0 10px 40px rgba(145, 70, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(127, 184, 147, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .btn-primary:hover {
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 15px 50px rgba(145, 70, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(127, 184, 147, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-primary:active {
@@ -50,18 +50,18 @@
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.35);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(255, 255, 255, 0.55);
+    border: 2px solid rgba(127, 184, 147, 0.35);
+    color: var(--text-primary);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(127, 184, 147, 0.6);
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 35px rgba(127, 184, 147, 0.2);
 }
 
 .btn-secondary:active {
@@ -238,7 +238,7 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.75);
     padding: 10px 18px;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgb(0 0 0 / 69%);
     border-radius: 14px;
     display: inline-block;
     backdrop-filter: blur(8px);
@@ -465,19 +465,19 @@
     font-weight: 700;
     color: white;
     text-decoration: none;
-    background: linear-gradient(135deg, #b78ef3, #7b3dd8);
+    background: linear-gradient(135deg, var(--blue), var(--green));
     padding: 15px 40px;
     border-radius: var(--radius-full);
     margin: 20px 0;
     transition: all var(--transition-base);
-    box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(127, 184, 147, 0.3);
     word-break: break-word;
     max-width: 100%;
 }
 
 .contact-email:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(145, 70, 255, 0.5);
+    box-shadow: 0 15px 40px rgba(127, 184, 147, 0.5);
 }
 
 .contact-text {
@@ -517,7 +517,7 @@
 .contact-card-title {
     font-size: 1.5em;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin-bottom: 10px;
 }
 
@@ -529,7 +529,6 @@
 
 /* ============================================
    GALLERY EVENTS - Composants génériques
-   Remplace la section "Gallery Cards" dans components.css
    ============================================ */
 
 /* === Conteneur principal d'événement === */
@@ -749,7 +748,7 @@
 .gallery-week {
     font-size: 1.3em;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin-bottom: 8px;
     position: relative;
     z-index: 1;
@@ -865,4 +864,3 @@
         gap: 20px;
     }
 }
-

@@ -4,8 +4,8 @@
 
 /* === Live Section === */
 .live-container {
-    background: rgba(145, 70, 255, 0.1);
-    border: 2px solid rgba(145, 70, 255, 0.3);
+    background: rgba(127, 184, 147, 0.08);
+    border: 2px solid rgba(127, 184, 147, 0.25);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     backdrop-filter: blur(20px);
@@ -16,14 +16,14 @@
 
 /* État online */
 .live-container.is-live {
-    background: rgba(145, 70, 255, 0.1);
-    border-color: rgba(145, 70, 255, 0.4);
+    background: rgba(127, 184, 147, 0.08);
+    border-color: rgba(127, 184, 147, 0.35);
 }
 
 /* État offline (désaturé + doux) */
 .live-container.is-offline {
-    background: rgba(80, 80, 80, 0.08);
-    border-color: rgba(90, 90, 90, 0.25);
+    background: rgba(63, 47, 37, 0.04);
+    border-color: rgba(63, 47, 37, 0.12);
 }
 
 /* === Live Indicator === */
@@ -59,14 +59,14 @@
 
 /* --- État offline --- */
 .live-indicator.offline {
-    background: rgba(150, 150, 150, 0.15);
-    border-color: rgba(180, 180, 180, 0.3);
-    color: #bbb;
+    background: rgba(63, 47, 37, 0.06);
+    border-color: rgba(63, 47, 37, 0.15);
+    color: var(--text-muted);
 }
 
 .live-indicator.offline .live-dot {
-    background: linear-gradient(145deg, #555, #777);
-    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.45);
+    background: linear-gradient(145deg, #b0a090, #c8b8a8);
+    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3);
     animation: none;
 }
 
@@ -77,13 +77,13 @@
 
 .stream-placeholder {
     aspect-ratio: 16/9;
-    background: linear-gradient(135deg, rgba(145, 70, 255, 0.2), rgba(119, 44, 232, 0.2));
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(242, 227, 216, 0.2));
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px dashed rgba(145, 70, 255, 0.4);
+    border: 2px dashed rgba(127, 184, 147, 0.35);
 }
 
 .stream-placeholder-icon {
@@ -157,7 +157,7 @@
     margin-bottom: 12px;
     color: var(--blue);
     transition: all var(--transition-base);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    /*text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);*/
     letter-spacing: 0.5px;
 }
 
@@ -178,7 +178,7 @@
 .countdown-time {
     font-size: 1.95em;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--text-primary);
     margin-bottom: 18px;
     letter-spacing: 0.5px;
     font-variant-numeric: tabular-nums;
@@ -265,16 +265,16 @@
 /*}*/
 
 .countdown-cta.upcoming {
-    background: linear-gradient(135deg, var(--blue), var(--purple));
-    color: #2a2a4a;
-    box-shadow: 0 8px 30px rgba(140, 191, 159, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(127, 184, 147, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .countdown-cta.upcoming:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 40px rgba(140, 191, 159, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    background: linear-gradient(135deg, #b8e0ee, #f0e4f5);
+    box-shadow: 0 12px 40px rgba(127, 184, 147, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, var(--green), var(--blue));
 }
 
 .countdown-cta.upcoming:active {
@@ -325,7 +325,7 @@
 .discord-widget-title {
     font-size: 1.8em;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
     margin-bottom: 10px;
 }
 

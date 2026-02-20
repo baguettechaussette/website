@@ -151,7 +151,7 @@
                 </div>
                 <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⌛</div>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">
-                    Suivre la chaîne 💜
+                    Suivre la chaîne ♥
                 </a>
             `;
         }
