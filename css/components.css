@@ -543,7 +543,7 @@
 .event-container::before {
     position: absolute;
     font-size: 15em;
-    opacity: 0.06;
+    opacity: 0.10;
     top: -50px;
     right: -50px;
     animation: rotate 20s linear infinite;

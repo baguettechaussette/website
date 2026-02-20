@@ -1,224 +1,209 @@
 // Countdown des streams
+// Architecture séparée :
+//   - tick()         → s'exécute toutes les 1s, met à jour UNIQUEMENT les textes countdown
+//   - pollLive()     → s'exécute toutes les 30s, fetch live-status.json
+//   - updateUI()     → re-render complet du DOM, appelé seulement si l'état change (diff)
 (function initStreamCountdown() {
     const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
-    const TWITCH_URL = "https://www.twitch.tv/baguettechaussette";
-    const LIVE_STATUS_URL = "/data/live-status.json";
+    const TWITCH_URL         = "https://www.twitch.tv/baguettechaussette";
+    const LIVE_STATUS_URL    = "/data/live-status.json";
 
-    // Récupère le planning depuis le DOM
+    // ─── Cache d'état : on compare avant de toucher au DOM ───────────────────
+    let cachedIsLive  = null; // null = jamais initialisé
+    let cachedNextKey = null; // "day-hour-minute" du prochain créneau
+    let liveOverride  = false;
+
+    // ─── Helpers (identiques à ta version originale) ─────────────────────────
+
     function getScheduleFromDOM() {
         return Array.from(document.querySelectorAll(".schedule-item")).map((el) => ({
-            day: +el.dataset.day,
-            hour: +el.dataset.hour,
+            day:    +el.dataset.day,
+            hour:   +el.dataset.hour,
             minute: +el.dataset.minute || 0,
             el,
         }));
     }
 
-    // Calcule la prochaine occurrence d'un créneau donné
     function nextOccurrenceOf({ day, hour, minute }, now = new Date()) {
         const next = new Date(now);
-        const nowDay = now.getDay();
-
-        // Calcul des jours jusqu'au prochain créneau
-        let daysUntil = day - nowDay;
+        let daysUntil = day - now.getDay();
         if (daysUntil < 0) daysUntil += 7;
-
         next.setDate(now.getDate() + daysUntil);
         next.setHours(hour, minute, 0, 0);
-
-        // Si l'heure est déjà passée aujourd'hui, on passe à la semaine prochaine
-        if (next <= now) {
-            next.setDate(next.getDate() + 7);
-        }
-
+        if (next <= now) next.setDate(next.getDate() + 7);
         return next;
     }
 
-    // Vérifie si on est actuellement dans la fenêtre de stream
     function isNowInWindow(start, now = new Date()) {
-        const end = new Date(start.getTime() + STREAM_DURATION_MS);
-        return now >= start && now < end;
+        return now >= start && now < new Date(start.getTime() + STREAM_DURATION_MS);
     }
 
-    // Trouve le stream actuel ou le prochain
     function getCurrentOrNext(schedule) {
         const now = new Date();
 
-        // Vérifie d'abord si un stream est en cours
         for (const s of schedule) {
             const startToday = new Date(now);
             startToday.setHours(s.hour, s.minute, 0, 0);
-
-            // Vérifie aujourd'hui
-            if (now.getDay() === s.day && isNowInWindow(startToday, now)) {
+            if (now.getDay() === s.day && isNowInWindow(startToday, now))
                 return { ...s, date: startToday, isLive: true };
-            }
 
-            // Vérifie hier (au cas où le stream a commencé hier soir et dure encore)
             const startYesterday = new Date(startToday);
             startYesterday.setDate(startYesterday.getDate() - 1);
-            if ((now.getDay() + 6) % 7 === s.day && isNowInWindow(startYesterday, now)) {
+            if ((now.getDay() + 6) % 7 === s.day && isNowInWindow(startYesterday, now))
                 return { ...s, date: startYesterday, isLive: true };
-            }
         }
 
-        // Sinon, trouve le prochain stream
-        let nextSlot = null;
-        let minDiff = Infinity;
-
+        let nextSlot = null, minDiff = Infinity;
         for (const s of schedule) {
             const next = nextOccurrenceOf(s, now);
             const diff = next - now;
-
             if (diff < minDiff) {
-                minDiff = diff;
+                minDiff  = diff;
                 nextSlot = { ...s, date: next, diff, isLive: false };
             }
         }
-
         return nextSlot;
     }
 
-    // Format countdown amélioré
     function formatCountdown(ms) {
-        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-        const days = Math.floor(totalSeconds / 86400);
-        const hours = Math.floor((totalSeconds % 86400) / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
+        const total   = Math.max(0, Math.floor(ms / 1000));
+        const days    = Math.floor(total / 86400);
+        const hours   = Math.floor((total % 86400) / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+        const seconds = total % 60;
 
-        if (days > 1) return `${days} jours ${hours}h ${minutes}min`;
-        if (days === 1) return `1 jour ${hours}h ${minutes}min`;
-        if (hours > 0) return `${hours}h ${minutes}min ${seconds}s`;
+        if (days > 1)    return `${days} jours ${hours}h ${minutes}min`;
+        if (days === 1)  return `1 jour ${hours}h ${minutes}min`;
+        if (hours > 0)   return `${hours}h ${minutes}min ${seconds}s`;
         if (minutes > 0) return `${minutes}min ${seconds}s`;
         return `${seconds}s`;
     }
 
-    // Utilitaires de formatage
     const formatTime = (h, m) =>
         `${String(h).padStart(2, "0")}h${String(m).padStart(2, "0")}`;
 
     const getDayName = (d) =>
-        ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d];
+        ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"][d];
 
-    // Lecture live-status.json (même source que le linktree)
-    async function fetchLiveStatusJSON() {
+    // ─── Fetch live-status.json (30s) ─────────────────────────────────────────
+
+    async function pollLive() {
         try {
-            const response = await fetch(LIVE_STATUS_URL, {
-                cache: "no-store",
-                headers: { Accept: "application/json" },
-            });
-
-            if (!response.ok) return null;
-            return await response.json();
-        } catch (e) {
-            return null;
-        }
+            const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
+            if (!r.ok) return;
+            const json    = await r.json();
+            const newLive = !!(json && json.is_live);
+            if (newLive !== liveOverride) {
+                liveOverride  = newLive;
+                cachedIsLive  = null; // invalide le cache → force re-render au prochain tick
+            }
+        } catch { /* silencieux */ }
     }
 
-    // Mise à jour de l'interface
-    async function updateUI() {
-        const schedule = getScheduleFromDOM();
+    // ─── Re-render complet (appelé seulement si l'état change) ───────────────
+
+    function updateUI(isLive, info) {
         const banner = document.getElementById("nextStreamCountdown");
+        if (!banner) return;
 
-        if (!banner || schedule.length === 0) return;
-
-        const now = new Date();
-        const info = getCurrentOrNext(schedule);
-
-        if (!info) return;
-
-        // --- OVERRIDE via live-status.json ---
-        const jsonStatus = await fetchLiveStatusJSON();
-        if (jsonStatus && jsonStatus.is_live) {
-            info.isLive = true;
-        }
-
-        // Bannière principale
-        if (info.isLive) {
+        if (isLive) {
             banner.classList.add("is-live");
-
             banner.innerHTML = `
                 <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-                <div class="countdown-time">On n’attend plus que toi !</div>
+                <div class="countdown-time">On n'attend plus que toi !</div>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
             `;
         } else {
             banner.classList.remove("is-live");
+            // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
             banner.innerHTML = `
-                <div class="countdown-label">
-                    Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}
-                </div>
-                <div class="countdown-time">Dans ${formatCountdown(info.diff)} ⌛</div>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">
-                    Suivre la chaîne ♥
-                </a>
+                <div class="countdown-label">Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}</div>
+                <div class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)} ⌛</span></div>
+                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">Suivre la chaîne ♥</a>
             `;
         }
 
-        // --- Synchronisation avec le live indicator global ---
+        // Live indicator
         const liveIndicator = document.querySelector(".live-indicator");
         if (liveIndicator) {
-            if (info.isLive) {
-                liveIndicator.classList.remove("offline");
-                liveIndicator.classList.add("active");
-                liveIndicator.innerHTML = `
-            <span class="live-dot" aria-hidden="true"></span>
-            EN LIVE
-        `;
-                document.querySelector(".live-container")?.classList.add("is-live");
-                document.querySelector(".live-container")?.classList.remove("is-offline");
-            } else {
-                liveIndicator.classList.remove("active");
-                liveIndicator.classList.add("offline");
-                liveIndicator.innerHTML = `
-            <span class="live-dot" aria-hidden="true"></span>
-            HORS LIGNE
-        `;
-                document.querySelector(".live-container")?.classList.add("is-offline");
-                document.querySelector(".live-container")?.classList.remove("is-live");
-            }
+            liveIndicator.className = isLive ? "live-indicator active" : "live-indicator offline";
+            liveIndicator.innerHTML = `<span class="live-dot" aria-hidden="true"></span> ${isLive ? "EN LIVE" : "HORS LIGNE"}`;
+            document.querySelector(".live-container")?.classList.toggle("is-live", isLive);
+            document.querySelector(".live-container")?.classList.toggle("is-offline", !isLive);
         }
 
-        // Mise à jour des cartes de planning
-        document.querySelectorAll(".schedule-item").forEach((card) => {
-            const d = +card.dataset.day;
-            const h = +card.dataset.hour;
-            const m = +card.dataset.minute || 0;
-            const cdEl = card.querySelector(".schedule-countdown");
+        // Classes des cartes (is-next / is-live)
+        getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
+            const now        = new Date();
+            const startToday = new Date(now);
+            startToday.setHours(hour, minute, 0, 0);
+            const isThisLive = now.getDay() === day && isNowInWindow(startToday, now);
 
-            if (!cdEl) return;
-
-            // Calcule la prochaine occurrence de ce créneau
-            const nextStart = nextOccurrenceOf({ day: d, hour: h, minute: m }, now);
-
-            // Vérifie si ce créneau est en cours maintenant
-            const todayStart = new Date(now);
-            todayStart.setHours(h, m, 0, 0);
-
-            let isThisSlotLive = false;
-            if (now.getDay() === d && isNowInWindow(todayStart, now)) {
-                isThisSlotLive = true;
-            }
-
-            card.classList.remove("is-next", "is-live");
-
-            if (isThisSlotLive) {
-                card.classList.add("is-live");
-                cdEl.textContent = `🔴 En cours`;
-            } else {
-                const diffMs = nextStart - now;
-                cdEl.textContent = `Dans ${formatCountdown(diffMs)}`;
-
-                // Marque comme "prochain" si c'est le stream le plus proche
-                if (!info.isLive && d === info.day && h === info.hour && m === info.minute) {
-                    card.classList.add("is-next");
-                }
+            el.classList.remove("is-next", "is-live");
+            if (isThisLive) {
+                el.classList.add("is-live");
+            } else if (!info.isLive && day === info.day && hour === info.hour && minute === info.minute) {
+                el.classList.add("is-next");
             }
         });
     }
 
-    // Initialisation et mise à jour continue
-    updateUI();
-    setInterval(updateUI, 15000); // on refresh le live-status.json toutes les 15s (le countdown n'a pas besoin de 1s)
+    // ─── Ticker 1s : textes uniquement, zéro innerHTML ───────────────────────
+
+    function tick() {
+        const schedule = getScheduleFromDOM();
+        if (!schedule.length) return;
+
+        const info   = getCurrentOrNext(schedule);
+        if (!info) return;
+
+        const isLive = liveOverride || info.isLive;
+        const key    = `${info.day}-${info.hour}-${info.minute}`;
+
+        // Changement d'état → re-render complet (rare)
+        if (cachedIsLive !== isLive || cachedNextKey !== key) {
+            cachedIsLive  = isLive;
+            cachedNextKey = key;
+            updateUI(isLive, info);
+            return; // updateUI a déjà écrit les textes initiaux
+        }
+
+        // Même état → on met à jour uniquement les textes countdown (1s)
+        const now = new Date();
+
+        if (!isLive) {
+            const bannerText = document.getElementById("bannerText");
+            if (bannerText) {
+                bannerText.textContent = `Dans ${formatCountdown(info.date - now)} ⌛`;
+            }
+        }
+
+        schedule.forEach(({ day, hour, minute, el }) => {
+            const cdEl = el.querySelector(".schedule-countdown");
+            if (!cdEl) return;
+
+            const startToday = new Date(now);
+            startToday.setHours(hour, minute, 0, 0);
+
+            if (now.getDay() === day && isNowInWindow(startToday, now)) {
+                if (cdEl.textContent !== "🔴 En cours") cdEl.textContent = "🔴 En cours";
+            } else {
+                const next    = nextOccurrenceOf({ day, hour, minute }, now);
+                const newText = `Dans ${formatCountdown(next - now)}`;
+                if (cdEl.textContent !== newText) cdEl.textContent = newText;
+            }
+        });
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+
+    async function init() {
+        await pollLive();              // fetch live-status avant le premier rendu
+        tick();                        // rendu immédiat
+
+        setInterval(tick,     1_000); // countdown fluide toutes les 1s
+        setInterval(pollLive, 30_000); // vérif live-status toutes les 30s
+    }
+
+    init();
 })();
