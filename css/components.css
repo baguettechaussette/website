@@ -15,7 +15,10 @@
     letter-spacing: 0.3px;
     border: none;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .btn::before {
@@ -197,13 +200,21 @@
 }
 
 .schedule-item.is-next {
-    border-color: var(--blue);
-    background: rgba(140, 191, 159, 0.1);
-    box-shadow: 0 15px 40px rgba(140, 191, 159, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    background: rgba(127, 184, 147, 0.14);
+    border-color: rgba(92, 147, 111, 0.55);
+    box-shadow: 0 8px 30px rgba(127, 184, 147, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.schedule-item.is-next .schedule-day {
+    background: linear-gradient(135deg, #3d7a56, var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .schedule-item.is-next::before {
     opacity: 1;
+    background: linear-gradient(90deg, #5c936f, var(--blue));
     animation: slideIn 0.6s ease;
 }
 
@@ -309,7 +320,7 @@
 }
 
 .social-card:hover {
-    transform: translateY(-15px) scale(1.05);
+    /* Le transform est géré par chaque variante plateforme */
 }
 
 .social-icon {
@@ -334,40 +345,52 @@
     z-index: 1;
 }
 
-/* Social card variants */
+/* Social card variants — fond teinté + bordure couleur plateforme */
 .social-card.twitch {
-    border-color: rgba(145, 70, 255, 0.28);
+    background: rgba(145, 70, 255, 0.08);
+    border-color: rgba(145, 70, 255, 0.25);
 }
 .social-card.twitch:hover {
+    background: rgba(145, 70, 255, 0.14);
     border-color: rgba(145, 70, 255, 0.5);
-    box-shadow: 0 14px 40px rgba(145, 70, 255, 0.10);
+    box-shadow: 0 14px 40px rgba(145, 70, 255, 0.14);
+    transform: translateY(-10px) scale(1.03);
 }
 .social-card.twitch .social-name { color: #7b3dd8; }
 
 .social-card.youtube {
-    border-color: rgba(210, 40, 40, 0.28);
+    background: rgba(210, 40, 40, 0.07);
+    border-color: rgba(210, 40, 40, 0.22);
 }
 .social-card.youtube:hover {
-    border-color: rgba(210, 40, 40, 0.5);
-    box-shadow: 0 14px 40px rgba(210, 40, 40, 0.09);
+    background: rgba(210, 40, 40, 0.12);
+    border-color: rgba(210, 40, 40, 0.48);
+    box-shadow: 0 14px 40px rgba(210, 40, 40, 0.12);
+    transform: translateY(-10px) scale(1.03);
 }
 .social-card.youtube .social-name { color: #c42b2b; }
 
 .social-card.tiktok {
-    border-color: rgba(0, 165, 160, 0.28);
+    background: rgba(0, 165, 160, 0.07);
+    border-color: rgba(0, 165, 160, 0.22);
 }
 .social-card.tiktok:hover {
-    border-color: rgba(0, 165, 160, 0.5);
-    box-shadow: 0 14px 40px rgba(0, 165, 160, 0.09);
+    background: rgba(0, 165, 160, 0.13);
+    border-color: rgba(0, 165, 160, 0.48);
+    box-shadow: 0 14px 40px rgba(0, 165, 160, 0.12);
+    transform: translateY(-10px) scale(1.03);
 }
 .social-card.tiktok .social-name { color: #008c87; }
 
 .social-card.instagram {
-    border-color: rgba(193, 53, 132, 0.28);
+    background: rgba(193, 53, 132, 0.07);
+    border-color: rgba(193, 53, 132, 0.22);
 }
 .social-card.instagram:hover {
-    border-color: rgba(193, 53, 132, 0.5);
-    box-shadow: 0 14px 40px rgba(193, 53, 132, 0.09);
+    background: rgba(193, 53, 132, 0.13);
+    border-color: rgba(193, 53, 132, 0.48);
+    box-shadow: 0 14px 40px rgba(193, 53, 132, 0.12);
+    transform: translateY(-10px) scale(1.03);
 }
 .social-card.instagram .social-name { color: #b02860; }
 
@@ -376,11 +399,14 @@
 }
 
 .social-card.twitter {
-    border-color: rgba(26, 140, 216, 0.28);
+    background: rgba(26, 140, 216, 0.07);
+    border-color: rgba(26, 140, 216, 0.22);
 }
 .social-card.twitter:hover {
-    border-color: rgba(26, 140, 216, 0.5);
-    box-shadow: 0 14px 40px rgba(26, 140, 216, 0.09);
+    background: rgba(26, 140, 216, 0.13);
+    border-color: rgba(26, 140, 216, 0.48);
+    box-shadow: 0 14px 40px rgba(26, 140, 216, 0.12);
+    transform: translateY(-10px) scale(1.03);
 }
 .social-card.twitter .social-name { color: #1479b8; }
 
