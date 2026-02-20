@@ -99,8 +99,8 @@
 
 /* === Schedule Cards === */
 .schedule-container {
-    background: rgba(140, 191, 159, 0.05);
-    border: 2px solid rgba(140, 191, 159, 0.2);
+    background: rgba(140, 191, 159, 0.08);
+    border: 2px solid rgba(140, 191, 159, 0.22);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     backdrop-filter: blur(20px);
@@ -122,6 +122,7 @@
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
 }
 
 .schedule-item::before {
@@ -130,7 +131,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
+    height: 4px;
     border-radius: 28px 28px 0 0;
     opacity: 0;
     transition: opacity var(--transition-base);
@@ -149,17 +150,13 @@
 }
 
 .schedule-item:hover {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.88);
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(140, 191, 159, 0.25);
-    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(63, 47, 37, 0.11);
+    border-color: rgba(127, 184, 147, 0.38);
 }
 
 .schedule-item:hover::before {
-    opacity: 1;
-}
-
-.schedule-item:hover::after {
     opacity: 1;
 }
 
@@ -236,20 +233,21 @@
     margin-top: 16px;
     font-size: 1.1em;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-secondary);
     padding: 10px 18px;
-    background: rgb(0 0 0 / 69%);
+    background: rgba(63, 47, 37, 0.07);
     border-radius: 14px;
     display: inline-block;
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1.5px solid rgba(63, 47, 37, 0.10);
     transition: all var(--transition-base);
     font-variant-numeric: tabular-nums;
 }
 
 .schedule-item:hover .schedule-countdown {
-    background: rgba(0, 0, 0, 0.45);
-    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(127, 184, 147, 0.12);
+    border-color: rgba(127, 184, 147, 0.30);
+    color: var(--text-primary);
 }
 
 .schedule-item.is-live .schedule-countdown {
@@ -261,11 +259,10 @@
 }
 
 .schedule-item.is-next .schedule-countdown {
-    color: var(--blue);
-    background: rgba(140, 191, 159, 0.25);
-    border-color: rgba(140, 191, 159, 0.4);
+    color: #5c936f;
+    background: rgba(127, 184, 147, 0.15);
+    border-color: rgba(127, 184, 147, 0.35);
     font-weight: 700;
-    box-shadow: 0 0 15px rgba(140, 191, 159, 0.3);
 }
 
 /* === Social Cards === */
@@ -276,8 +273,8 @@
 }
 
 .social-card {
-    background: rgba(255, 255, 255, 0.55);
-    border: 2px solid rgba(122, 158, 114, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.35);
     border-radius: var(--radius-lg);
     padding: 50px 40px;
     text-align: center;
@@ -286,8 +283,6 @@
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.6s ease backwards;
-    box-shadow: 0 2px 14px rgba(63, 47, 37, 0.06);
-    color: var(--text-primary);
 }
 
 .social-card:nth-child(1) { animation-delay: 0.05s; }
@@ -303,9 +298,9 @@
     left: 50%;
     width: 0;
     height: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent);
     transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
+    transition: width 0.4s ease, height 0.4s ease;
 }
 
 .social-card:hover::before {
@@ -314,8 +309,7 @@
 }
 
 .social-card:hover {
-    transform: translateY(-10px) scale(1.03);
-    background: rgba(255, 255, 255, 0.78);
+    transform: translateY(-15px) scale(1.05);
 }
 
 .social-icon {
@@ -331,7 +325,6 @@
     margin-bottom: 10px;
     position: relative;
     z-index: 1;
-    color: var(--text-primary);
 }
 
 .social-desc {
@@ -341,7 +334,7 @@
     z-index: 1;
 }
 
-/* Social card variants — bordures adoucies, couleurs lisibles sur fond clair */
+/* Social card variants */
 .social-card.twitch {
     border-color: rgba(145, 70, 255, 0.28);
 }
@@ -393,8 +386,8 @@
 
 /* === Contact Cards === */
 .contact-container {
-    background: rgba(140, 191, 159, 0.05);
-    border: 2px solid rgba(140, 191, 159, 0.2);
+    background: rgba(140, 191, 159, 0.08);
+    border: 2px solid rgba(140, 191, 159, 0.22);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     backdrop-filter: blur(20px);
@@ -471,18 +464,20 @@
 }
 
 .contact-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.55);
+    border: 2px solid rgba(63, 47, 37, 0.09);
     border-radius: 25px;
     padding: 35px 25px;
     text-align: center;
-    transition: all var(--transition-base);
+    transition: all var(--transition-smooth);
+    box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
 }
 
 .contact-card:hover {
-    background: rgba(255, 255, 255, 0.55);
-    border-color: var(--pink);
-    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(197, 106, 82, 0.32);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(63, 47, 37, 0.10);
 }
 
 .contact-card-icon {
