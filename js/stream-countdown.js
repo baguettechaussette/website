@@ -110,7 +110,7 @@
             banner.classList.add("is-live");
             banner.innerHTML = `
                 <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-                <div class="countdown-time">On n'attend plus que toi !</div>
+                <h2 class="countdown-time">On n'attend plus que toi !</h2>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
             `;
         } else {
@@ -118,7 +118,7 @@
             // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
             banner.innerHTML = `
                 <div class="countdown-label">Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}</div>
-                <div class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)} ⌛</span></div>
+                <h2 class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)} ⌛</span></h2>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">Suivre la chaîne ♥</a>
             `;
         }
@@ -186,7 +186,7 @@
             startToday.setHours(hour, minute, 0, 0);
 
             if (now.getDay() === day && isNowInWindow(startToday, now)) {
-                if (cdEl.textContent !== "🔴 En cours") cdEl.textContent = "🔴 En cours";
+                if (cdEl.textContent !== "En cours") cdEl.textContent = "En cours";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
                 const newText = `Dans ${formatCountdown(next - now)}`;

@@ -176,7 +176,6 @@
 }
 
 .countdown-time {
-    font-size: 1.95em;
     font-weight: 700;
     color: var(--text-tertiary);
     margin-bottom: 18px;
@@ -366,3 +365,4 @@
     transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(88, 101, 242, 0.5);
 }
+
