@@ -406,10 +406,3 @@ footer {
 .footer-link:hover {
     color: var(--pink);
 }
-
-img.emoji {
-    width: 1.15em;
-    height: 1.15em;
-    vertical-align: -0.15em;
-    display: inline-block;
-}

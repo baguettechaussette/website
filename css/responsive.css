@@ -534,13 +534,13 @@
         padding: 18px;
     }
 
-    .gallery-week {
-        font-size: 1.35em;  /* Augmenté de 1.2em */
-    }
+    /*.gallery-week {*/
+    /*    font-size: 1.35em;  !* Augmenté de 1.2em *!*/
+    /*}*/
 
-    .gallery-artist {
-        font-size: 1.1em;  /* Augmenté de 1em */
-    }
+    /*.gallery-artist {*/
+    /*    font-size: 1.1em;  !* Augmenté de 1em *!*/
+    /*}*/
 
     .gallery-icon {
         font-size: 3.5em;  /* Augmenté de 3em */
