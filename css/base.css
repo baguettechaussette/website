@@ -238,6 +238,30 @@ section {
     height: 24px;
 }
 
+/* Fluent Emoji Styles */
+.fluent-emoji,
+img.emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 0.05em 0 0.1em;
+    vertical-align: -0.15em;
+    display: inline-block;
+}
+
+/* Emojis plus grands dans certains contextes */
+.social-icon .fluent-emoji,
+.contact-icon .fluent-emoji {
+    height: 1.2em;
+    width: 1.2em;
+}
+
+/* Logo baguette dans le header */
+.logo .fluent-emoji {
+    height: 1.5em;
+    width: 1.5em;
+    vertical-align: -0.25em;
+}
+
 
 /* === Animations globales === */
 @keyframes fadeIn {
