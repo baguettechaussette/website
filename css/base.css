@@ -255,14 +255,6 @@ img.emoji {
     width: 1.2em;
 }
 
-/* Logo baguette dans le header */
-.logo .fluent-emoji {
-    height: 1.5em;
-    width: 1.5em;
-    vertical-align: -0.25em;
-}
-
-
 /* === Animations globales === */
 @keyframes fadeIn {
     from {
