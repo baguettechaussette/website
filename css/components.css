@@ -782,7 +782,7 @@
 }
 
 .gallery-artist {
-    font-size: 1.1em;
+    /*font-size: 1.1em;*/
     color: var(--text-tertiary);
     position: relative;
     z-index: 1;
