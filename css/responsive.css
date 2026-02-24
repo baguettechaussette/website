@@ -77,11 +77,13 @@
 
     /* Hero */
     .hero-title {
-        font-size: 2.5em;
+        font-size: 2.8em;  /* Augmenté de 2.5em */
+        line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 1.3em;
+        font-size: 1.4em;  /* Augmenté de 1.3em */
+        line-height: 1.5;
     }
 
     .hero-stats {
@@ -154,11 +156,14 @@
     }
 
     .section-title {
-        font-size: 2.5em;
+        font-size: 2.8em;  /* Augmenté de 2.5em */
+        line-height: 1.2;
+        margin-bottom: 25px;
     }
 
     .section-subtitle {
-        font-size: 1.2em;
+        font-size: 1.3em;  /* Augmenté de 1.2em */
+        line-height: 1.6;
     }
 
     /* Grids */
@@ -180,31 +185,37 @@
 
     /* Countdown banner */
     .next-stream-banner {
-        padding: 24px 20px;
+        padding: 28px 24px;  /* Padding augmenté */
         margin-bottom: 25px;
     }
 
     .next-stream-banner .countdown-label {
-        font-size: 1.25em;
-    }
-
-    .next-stream-banner .countdown-time {
-        font-size: 1.7em;
+        font-size: 1.4em;  /* Augmenté de 1.25em */
+        font-weight: 700;
     }
 
     .countdown-cta {
-        padding: 14px 32px;
-        font-size: 1.05em;
+        padding: 16px 38px;  /* Bouton plus grand */
+        font-size: 1.15em;  /* Augmenté de 1.05em */
     }
 
     /* Schedule */
     .schedule-item {
-        padding: 30px 24px;
+        padding: 35px 28px;  /* Plus d'espace */
+    }
+
+    .schedule-day {
+        font-size: 2em;  /* Maintenu à 2em pour bonne visibilité */
+    }
+
+    .schedule-time {
+        font-size: 1.6em;  /* Taille cohérente */
     }
 
     .schedule-countdown {
-        font-size: 1em;
-        padding: 8px 14px;
+        font-size: 1.1em;  /* Augmenté de 1em */
+        padding: 10px 16px;
+        font-weight: 600;
     }
 
     /* Contact */
@@ -269,19 +280,20 @@
         display: block;
     }
 
-    /* Buttons */
+    /* Buttons - Plus grands pour meilleure accessibilité */
     .btn {
-        padding: 14px 35px;
-        font-size: 1.1em;
+        padding: 16px 40px;  /* Augmenté de 14px 35px */
+        font-size: 1.2em;    /* Augmenté de 1.1em */
+        min-height: 54px;    /* Touch target WCAG */
     }
 
     /* Stats */
     .stat-number {
-        font-size: 2em;
+        font-size: 2.2em;  /* Augmenté de 2em */
     }
 
     .stat-label {
-        font-size: 0.9em;
+        font-size: 1em;  /* Augmenté de 0.9em */
     }
 
     /* Baguettectober */
@@ -296,36 +308,40 @@
 
     /* Social cards */
     .social-card {
-        padding: 40px 30px;
+        padding: 45px 35px;  /* Plus d'espace */
     }
 
     .social-icon {
-        font-size: 3.5em;
+        font-size: 4em;  /* Augmenté de 3.5em */
     }
 
     .social-name {
-        font-size: 1.6em;
+        font-size: 1.8em;  /* Augmenté de 1.6em */
+        margin-bottom: 12px;
     }
 
     .social-desc {
-        font-size: 1em;
+        font-size: 1.15em;  /* Augmenté de 1em */
+        line-height: 1.5;
     }
 }
 
 /* === Mobile (480px+) === */
 @media (max-width: 480px) {
-    /* Hero */
+    /* Hero - Tailles augmentées */
     .hero-title {
-        font-size: 2em;
+        font-size: 2.3em;  /* Augmenté de 2em */
+        line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 1.1em;
+        font-size: 1.25em;  /* Augmenté de 1.1em */
+        line-height: 1.5;
     }
 
     /* Navigation */
     .logo {
-        font-size: 1.3em;
+        font-size: 1.4em;  /* Augmenté de 1.3em */
     }
 
     nav {
@@ -338,7 +354,7 @@
     }
 
     .nav-links a {
-        font-size: 1em;
+        font-size: 1.1em;  /* Augmenté de 1em */
     }
 
     /* Hero - Avatar encore plus petit sur très petits écrans */
@@ -412,140 +428,133 @@
         border-radius: var(--radius-md);
     }
 
-    /* Schedule */
+    /* Schedule - Tailles augmentées */
     .schedule-item {
-        padding: 25px 20px;
+        padding: 28px 22px;  /* Plus d'espace */
         border-radius: var(--radius-md);
     }
 
     .schedule-day {
-        font-size: 1.6em;
+        font-size: 1.8em;  /* Augmenté de 1.6em */
+        margin-bottom: 10px;
     }
 
     .schedule-time {
-        font-size: 1.3em;
+        font-size: 1.5em;  /* Augmenté de 1.3em */
+        margin-bottom: 12px;
     }
 
     .schedule-countdown {
-        font-size: 0.95em;
-        padding: 8px 12px;
+        font-size: 1.05em;  /* Augmenté de 0.95em */
+        padding: 10px 14px;
     }
 
-    /* Countdown banner */
+    /* Countdown banner - Tailles augmentées */
     .next-stream-banner {
-        padding: 20px 15px;
+        padding: 24px 18px;
         border-radius: var(--radius-md);
     }
 
-    .countdown-label {
-        font-size: 1.1em;
-    }
-
-    .countdown-time {
-        font-size: 1.5em;
-    }
-
-    .countdown-cta {
-        padding: 12px 28px;
-        font-size: 1em;
-    }
-
-    /* Buttons */
+    /* Buttons - Plus grands pour toucher facile */
     .btn {
-        padding: 12px 28px;
-        font-size: 1em;
+        padding: 14px 32px;  /* Augmenté de 12px 28px */
+        font-size: 1.1em;    /* Augmenté de 1em */
+        min-height: 50px;
     }
 
-    /* Contact */
+    /* Contact - Tailles augmentées */
     .contact-info-box {
-        padding: 25px 15px;
+        padding: 28px 18px;
     }
 
     .contact-icon {
-        font-size: 3em;
+        font-size: 3.5em;  /* Augmenté de 3em */
     }
 
     .contact-title {
-        font-size: 1.4em;
+        font-size: 1.6em;  /* Augmenté de 1.4em */
     }
 
     .contact-email {
-        font-size: 0.9em;
-        padding: 10px 18px;
+        font-size: 1em;  /* Augmenté de 0.9em */
+        padding: 12px 20px;
     }
 
     .contact-text {
-        font-size: 0.95em;
+        font-size: 1.05em;  /* Augmenté de 0.95em */
     }
 
     .contact-card {
-        padding: 20px 15px;
+        padding: 22px 18px;
     }
 
     .contact-card-icon {
-        font-size: 2.2em;
+        font-size: 2.5em;  /* Augmenté de 2.2em */
     }
 
     .contact-card-title {
-        font-size: 1.2em;
+        font-size: 1.35em;  /* Augmenté de 1.2em */
     }
 
     .contact-card-text {
-        font-size: 0.95em;
+        font-size: 1.05em;  /* Augmenté de 0.95em */
     }
 
-    /* Social cards */
+    /* Social cards - Tailles augmentées */
     .social-card {
-        padding: 30px 25px;
+        padding: 35px 28px;
     }
 
     .social-icon {
-        font-size: 3em;
+        font-size: 3.5em;  /* Augmenté de 3em */
     }
 
     .social-name {
-        font-size: 1.4em;
+        font-size: 1.6em;  /* Augmenté de 1.4em */
     }
 
     .social-desc {
-        font-size: 0.95em;
+        font-size: 1.05em;  /* Augmenté de 0.95em */
     }
 
-    /* Baguettectober */
-    .baguettectober-badge {
-        font-size: 1em;
-        padding: 8px 20px;
+    /* Baguettectober - Tailles augmentées */
+    .baguettectober-badge,
+    .event-badge {
+        font-size: 1.15em;  /* Augmenté de 1em */
+        padding: 10px 24px;
     }
 
-    .baguettectober-desc {
-        font-size: 1em;
+    .baguettectober-desc,
+    .event-description {
+        font-size: 1.15em;  /* Augmenté de 1em */
+        line-height: 1.6;
     }
 
     .gallery-item {
-        padding: 15px;
+        padding: 18px;
     }
 
-    .gallery-week {
-        font-size: 1.2em;
-    }
+    /*.gallery-week {*/
+    /*    font-size: 1.35em;  !* Augmenté de 1.2em *!*/
+    /*}*/
 
-    .gallery-artist {
-        font-size: 1em;
-    }
+    /*.gallery-artist {*/
+    /*    font-size: 1.1em;  !* Augmenté de 1em *!*/
+    /*}*/
 
     .gallery-icon {
-        font-size: 3em;
+        font-size: 3.5em;  /* Augmenté de 3em */
     }
 
-    /* Live */
+    /* Live - Tailles augmentées */
     .live-indicator {
-        font-size: 1.1em;
-        padding: 12px 25px;
+        font-size: 1.2em;  /* Augmenté de 1.1em */
+        padding: 14px 28px;
     }
 
     .live-dot {
-        width: 12px;
-        height: 12px;
+        width: 14px;  /* Augmenté de 12px */
+        height: 14px;
     }
 
     /* Footer */
@@ -585,28 +594,24 @@
 /* === Very small screens === */
 @media (max-width: 360px) {
     .hero-title {
-        font-size: 1.8em;
+        font-size: 2em;  /* Augmenté de 1.8em */
     }
 
     .section-title {
-        font-size: 1.8em;
+        font-size: 2em;  /* Augmenté de 1.8em */
     }
 
     .logo {
-        font-size: 1.3em;
-    }
-
-    .countdown-time {
-        font-size: 1.3em;
+        font-size: 1.35em;  /* Augmenté de 1.3em */
     }
 
     .schedule-day {
-        font-size: 1.4em;
+        font-size: 1.6em;  /* Augmenté de 1.4em */
     }
 
     .contact-email {
-        font-size: 0.85em;
-        padding: 10px 15px;
+        font-size: 0.95em;  /* Augmenté de 0.85em */
+        padding: 12px 18px;
     }
 }
 
