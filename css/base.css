@@ -138,22 +138,23 @@ img {
 }
 
 /* === Scrollbar === */
-/*::-webkit-scrollbar {*/
-/*    width: 12px;*/
-/*}*/
+::-webkit-scrollbar {
+    width: 10px;
+}
 
-/*::-webkit-scrollbar-track {*/
-/*    background: var(--bg-primary);*/
-/*}*/
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
 
-/*::-webkit-scrollbar-thumb {*/
-/*    background: linear-gradient(135deg, var(--blue), var(--purple));*/
-/*    border-radius: 6px;*/
-/*}*/
+::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 6px;
+    border: 2px solid var(--bg-primary);
+}
 
-/*::-webkit-scrollbar-thumb:hover {*/
-/*    background: linear-gradient(135deg, var(--pink), var(--peach));*/
-/*}*/
+::-webkit-scrollbar-thumb:hover {
+    background: var(--green);
+}
 
 /* === Focus visible === */
 *:focus {
@@ -169,6 +170,50 @@ img {
 button:focus-visible,
 a:focus-visible {
     outline-color: var(--pink);
+}
+
+/* ============================================
+   VIEW TRANSITIONS — Navigation entre pages
+   ============================================ */
+
+/* Active les transitions cross-document (Chrome 126+, Edge 126+) */
+@view-transition {
+    navigation: auto;
+}
+
+/* Slide doux : sortie vers le haut, entrée depuis le bas */
+::view-transition-old(root) {
+    animation: vt-out 0.22s ease-in both;
+}
+
+::view-transition-new(root) {
+    animation: vt-in 0.22s ease-out both;
+}
+
+@keyframes vt-out {
+    to { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes vt-in {
+    from { opacity: 0; transform: translateY(8px); }
+}
+
+/* La navbar reste fixe et ne participe pas à la transition de page */
+#navbar {
+    view-transition-name: navbar;
+}
+
+::view-transition-old(navbar),
+::view-transition-new(navbar) {
+    animation: none;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
 }
 
 /* === Utilities === */

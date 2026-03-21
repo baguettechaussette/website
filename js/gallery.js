@@ -2,9 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------
     // Données des galeries
     // --------------------------
+    // ══════════════════════════════════════════════════════════════
+    // POUR AJOUTER UNE NOUVELLE ÉDITION DE BAGUETTECTOBER :
+    //   1. Copie le bloc baguettectober2025 ci-dessous
+    //   2. Renomme la clé → baguettectober2026 (ou l'année voulue)
+    //   3. Mets les chemins d'images dans img/baguettectober-2026/
+    //   4. Dans le querySelectorAll plus bas, ajoute :
+    //      '#baguettectober-2026 .gallery-item[data-week]'
+    //      et remplace 'baguettectober2025' par 'baguettectober2026'
+    //      dans le openGallery() correspondant
+    // ══════════════════════════════════════════════════════════════
     const GALLERIES = {
-        // Baguettectober (Octobre)
-        baguettectober: {
+        // Baguettectober — Octobre 2025
+        baguettectober2025: {
             w1: [
                 {src: 'img/baguettectober/w1/baguette.webp', caption: 'Auteur : Baguette Chaussette'},
                 {src: 'img/baguettectober/w1/barbouy.webp', caption: 'Auteur : Barbouy'},
@@ -45,16 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 {src: 'img/baguettectober/bonus/lydais.webp', caption: 'Auteur : Lydaïs'},
             ]
         },
-        // Chaussettember (Décembre)
-        chaussettember: {
-            w1: [
-                {src: 'img/chaussettember/w1/baguette.webp', caption: 'Auteur : Baguette Chaussette'},
-                {src: 'img/chaussettember/w1/barbouy.webp', caption: 'Auteur : Barbouy'},
-            ],
-            w2: [],
-            w3: [],
-            w4: []
-        }
     };
 
     // --------------------------
@@ -277,28 +277,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Ouvrir depuis les cartes - GESTION DES DEUX SECTIONS
-        document.querySelectorAll('#baguettectober .gallery-item[data-week]').forEach(card => {
+        // Baguettectober 2025
+        document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]').forEach(card => {
             const week = card.getAttribute('data-week');
-            card.addEventListener('click', () => openGallery('baguettectober', week, 0));
+            card.addEventListener('click', () => openGallery('baguettectober2025', week, 0));
             card.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    openGallery('baguettectober', week, 0);
+                    openGallery('baguettectober2025', week, 0);
                 }
             });
         });
+        // → Pour Baguettectober 2026, copie le bloc ci-dessus
+        //   et remplace -2025 par -2026 / baguettectober2025 par baguettectober2026
 
-        document.querySelectorAll('#chaussettember .gallery-item[data-week]').forEach(card => {
-            const week = card.getAttribute('data-week');
-            card.addEventListener('click', () => openGallery('chaussettember', week, 0));
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openGallery('chaussettember', week, 0);
-                }
-            });
-        });
     })();
 
     // --------------------------
@@ -308,8 +300,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const weekKey = card.dataset.week;
         const placeholder = card.querySelector('.gallery-placeholder');
 
-        // Déterminer quelle galerie utiliser selon la section parente
-        const eventType = card.closest('#baguettectober') ? 'baguettectober' : 'chaussettember';
+        // Détecte l'édition via le parent (ex: #baguettectober-2025 → clé baguettectober2025)
+        const section = card.closest('section[id^="baguettectober-"]');
+        const eventType = section ? section.id.replace('-', '') : 'baguettectober2025';
         const list = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {

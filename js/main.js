@@ -152,10 +152,11 @@ async function loadFollowersCount(retries = 3) {
             }
 
             if (i === retries - 1) {
-                // Dernière tentative - fallback élégant
-                el.textContent = '1K+';
-                el.style.opacity = '0.6';
+                // Dernière tentative - fallback avec animation
+                el.style.opacity = '1';
                 el.title = 'Données temporairement indisponibles';
+                animateCounter(el, 0, 1000, 1200);
+                setTimeout(() => { el.textContent = '1K+'; }, 1250);
             } else {
                 // Attendre avant de réessayer (backoff exponentiel)
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
@@ -259,9 +260,37 @@ function animateStaticCounters() {
 }
 
 
+// Back to top button
+(function () {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    const threshold = 400;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > threshold) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+
 // Expose les fonctions pour usage externe si nécessaire
 window.BaguetteChaussette = {
     toggleMenu,
     loadFollowersCount,
     animateCounter
 };
+
+// ── Service Worker ────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .catch(err => console.warn('SW:', err));
+    });
+}

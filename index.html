@@ -32,13 +32,21 @@
     <meta name="apple-mobile-web-app-title" content="Baguette chaussette" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Preload : image hero + font critique -->
+    <link rel="preload" href="/img/baguette-chaussette-logo.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&display=swap" as="style">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" fetchpriority="high">
     <!-- Stylesheets -->
-
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/sections.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/partners.css">
 
     <script type="application/ld+json">
         {
@@ -92,7 +100,8 @@
         <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks" role="menubar">
             <li role="none"><a href="#planning" role="menuitem" data-umami-event="Nav - Planning">Planning</a></li>
-            <li role="none"><a href="#baguettectober" role="menuitem" data-umami-event="Nav - Baguettectober">Baguettectober</a></li>
+            <li role="none"><a href="#evenements" role="menuitem" data-umami-event="Nav - Evenements">Événements</a></li>
+            <li role="none"><a href="#partenaires" role="menuitem" data-umami-event="Nav - Partenaires">Partenaires</a></li>
             <li role="none"><a href="#contact" role="menuitem" data-umami-event="Nav - Contact">Contact</a></li>
             <li role="none"><a href="#reseaux" role="menuitem" data-umami-event="Nav - Reseaux">Réseaux</a></li>
         </ul>
@@ -133,10 +142,7 @@
             <div class="avatar-container">
                 <div class="avatar-main">
                     <div class="avatar-glow" aria-hidden="true"></div>
-                    <picture>
-                        <source srcset="img/baguette-chaussette-logo.webp" type="image/webp">
-                        <img src="img/baguette-chaussette-streamer-twitch-fr.png" alt="Logo Baguette Chaussette - Streamer Twitch">
-                    </picture>
+                    <img src="img/baguette-chaussette-logo.webp" alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400">
                 </div>
             </div>
         </div>
@@ -179,69 +185,47 @@
 </section>
 
 
-<!-- Baguettectober Section -->
-<section id="baguettectober">
+<!-- ══════════════════════════════════════════════════════════════════
+     ÉVÉNEMENTS — Cards aperçu (homepage)
+     Pour ajouter un nouvel event :
+       1. Copie une .event-archive-card ci-dessous
+       2. Colle-la EN PREMIER dans la grille (ordre : plus récent d'abord)
+       3. Change : href="/events#[slug]-[année]" + textes + theme-*
+       4. Ajoute la section détaillée dans events.html (voir le guide là-bas)
+     ══════════════════════════════════════════════════════════════════ -->
+<!-- Événements Section -->
+<section id="evenements">
     <div class="section-header">
-        <h2 class="section-title">Baguettectober</h2>
-        <p class="section-subtitle">Le challenge dessin d'octobre !</p>
+        <h2 class="section-title">Événements</h2>
+        <p class="section-subtitle">Les aventures créatives de la communauté</p>
     </div>
 
-    <div class="event-container theme-autumn">
-        <div class="event-intro">
-            <div class="event-badge">🥖 Édition Octobre 2025 🧦</div>
-            <p class="event-description">
-                C'est comme Inktober... mais en fait non ! Durant chaque semaine d'octobre, un nouveau défi dessin a été révélé pour exprimer ta créativité.
-                Découvre ici la galerie d'art de la communauté 😊
-            </p>
-        </div>
+    <div class="events-archive-grid">
 
-        <div class="gallery-grid">
-            <article class="gallery-item" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🥖</div>
-                    <p class="gallery-week-label">Semaine 1</p>
-                </div>
-                <h3 class="gallery-week">La fournée maudite</h3>
-                <p class="gallery-artist">Un four ancien s'ouvre, et la fournée qui en sort n'a rien d'ordinaire...</p>
-            </article>
+        <!-- ─── DTI Heartopia (Mars 2026) ─── -->
+        <a href="/events#dti-heartopia-2026" class="event-archive-card theme-game" data-umami-event="Home - Events - DTI">
+            <div class="event-archive-meta">
+                <span class="event-type-badge">Concours</span>
+                <span class="event-status-badge passe">Mars 2026</span>
+            </div>
+            <div class="event-archive-icon" aria-hidden="true">🎮</div>
+            <h3 class="event-archive-title">DTI Heartopia</h3>
+            <p class="event-archive-desc">Concours Dress To Impress organisé sur Heartopia avec la communauté. Tenues créées, jury, et podium.</p>
+            <span class="event-archive-cta">Voir le recap →</span>
+        </a>
 
-            <article class="gallery-item" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🧦</div>
-                    <p class="gallery-week-label">Semaine 2</p>
-                </div>
-                <h3 class="gallery-week">La Chaussette DÉMONIAQUE</h3>
-                <p class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait conclu un sombre pacte avec les enfers…</p>
-            </article>
+        <!-- ─── Baguettectober (Octobre 2025) ─── -->
+        <a href="/events#baguettectober-2025" class="event-archive-card theme-autumn" data-umami-event="Home - Events - Baguettectober">
+            <div class="event-archive-meta">
+                <span class="event-type-badge">Challenge dessin</span>
+                <span class="event-status-badge passe">Octobre 2025</span>
+            </div>
+            <div class="event-archive-icon" aria-hidden="true">🥖</div>
+            <h3 class="event-archive-title">Baguettectober 2025</h3>
+            <p class="event-archive-desc">5 semaines de défis dessin inspirés d'Inktober. 33 illustrations créées par les petits pains.</p>
+            <span class="event-archive-cta">Voir la galerie →</span>
+        </a>
 
-            <article class="gallery-item" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🖌️</div>
-                    <p class="gallery-week-label">Semaine 3</p>
-                </div>
-                <h3 class="gallery-week">Le Grimoire ANCIEN</h3>
-                <p class="gallery-artist">Il s'ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d'une créature noire aux yeux jaunes, armée de crocs aussi charmants qu'effrayants…</p>
-            </article>
-
-            <article class="gallery-item" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🎭</div>
-                    <p class="gallery-week-label">Semaine 4</p>
-                </div>
-                <h3 class="gallery-week">TERREUR sous le Lit</h3>
-                <p class="gallery-artist">Serait-ce une petite chaussette effrayée sous le lit ? Mais… de quoi a-t-elle peur ?</p>
-            </article>
-
-            <article class="gallery-item" data-week="bonus" tabindex="0" aria-label="Ouvrir la galerie Challenge bonus">
-                <div class="gallery-placeholder">
-                    <div class="gallery-icon" aria-hidden="true">🌟</div>
-                    <p class="gallery-week-label">Challenge bonus</p>
-                </div>
-                <h3 class="gallery-week">Bonus : La DERNIÈRE Flamme</h3>
-                <p class="gallery-artist">Le Baguettectober touche à sa fin… Mais la flamme créative ne s'éteint pas. Le challenge bonus, c'est carte blanche !
-                    Un dernier souvenir de ce mois étrange et magique.</p>
-            </article>
-        </div>
     </div>
 </section>
 
@@ -372,25 +356,25 @@
             <!-- Colonne gauche : réseaux -->
             <div class="socials-left">
                 <div class="social-grid" aria-label="Réseaux sociaux">
-                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card twitch" data-umami-event="Social - Twitch">
+                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer me" class="social-card twitch" data-umami-event="Social - Twitch">
                         <div class="social-icon" aria-hidden="true">🎥</div>
                         <div class="social-name">Twitch</div>
                         <div class="social-desc">Mes diffusions en direct.</div>
                     </a>
 
-                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="social-card youtube" data-umami-event="Social - YouTube">
+                    <a href="https://www.youtube.com/@BaguetteChaussette-VOD?sub_confirmation=1" target="_blank" rel="noopener noreferrer me" class="social-card youtube" data-umami-event="Social - YouTube">
                         <div class="social-icon" aria-hidden="true">📺</div>
                         <div class="social-name">YouTube</div>
                         <div class="social-desc">Rediffusions & clips.</div>
                     </a>
 
-                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer" class="social-card tiktok" data-umami-event="Social - TikTok">
+                    <a href="https://www.tiktok.com/@baguettechau7" target="_blank" rel="noopener noreferrer me" class="social-card tiktok" data-umami-event="Social - TikTok">
                         <div class="social-icon" aria-hidden="true">🎵</div>
                         <div class="social-name">TikTok</div>
                         <div class="social-desc">Clips & lives.</div>
                     </a>
 
-                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer" class="social-card instagram" data-umami-event="Social - Instagram">
+                    <a href="https://www.instagram.com/baguettechaussette" target="_blank" rel="noopener noreferrer me" class="social-card instagram" data-umami-event="Social - Instagram">
                         <div class="social-icon" aria-hidden="true">📸</div>
                         <div class="social-name">Instagram</div>
                         <div class="social-desc">Stories & MP.</div>
@@ -402,7 +386,7 @@
                         <div class="social-desc">Le coin de la commu.</div>
                     </a>
 
-                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer" class="social-card twitter" data-umami-event="Social - Twitter/X">
+                    <a href="https://x.com/BaguetteCho7" target="_blank" rel="noopener noreferrer me" class="social-card twitter" data-umami-event="Social - Twitter/X">
                         <div class="social-icon" aria-hidden="true">🐦</div>
                         <div class="social-name">X (Twitter)</div>
                         <div class="social-desc">Pas grand-chose.</div>
@@ -435,6 +419,13 @@
     </div>
 </section>
 
+<!-- Bouton retour en haut -->
+<button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+</button>
+
 <!-- Footer -->
 <footer>
     <div class="footer-content">
@@ -446,9 +437,6 @@
 <!-- Scripts -->
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
-<script src="./js/gallery.js"></script>
 <script src="./js/fluent-emoji.js"></script>
-<!--<script src="https://embed.twitch.tv/embed/v1.js" async></script>-->
-<!--<script src="./js/twitch-embed.js"></script>-->
 </body>
 </html>

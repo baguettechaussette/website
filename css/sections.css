@@ -366,3 +366,478 @@
     box-shadow: 0 12px 35px rgba(88, 101, 242, 0.5);
 }
 
+/* ============================================
+   PAGE HERO - En-tête des pages internes
+   ============================================ */
+.page-hero {
+    padding: 140px var(--spacing-md) 48px;
+    text-align: center;
+}
+
+.page-hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.page-hero-badge {
+    display: inline-block;
+    background: rgba(127, 184, 147, 0.15);
+    border: 1.5px solid rgba(127, 184, 147, 0.35);
+    color: var(--green);
+    padding: 8px 22px;
+    border-radius: var(--radius-full);
+    font-size: 0.9em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.page-hero-title {
+    font-size: 3.5em;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.page-hero-subtitle {
+    font-size: 1.2em;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 120px var(--spacing-sm) 60px;
+    }
+
+    .page-hero-title {
+        font-size: 2.4em;
+    }
+}
+
+/* ============================================
+   EVENTS TEASER - Carte sur la homepage
+   ============================================ */
+.events-teaser-grid {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.event-teaser-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 56px 48px;
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.10), rgba(197, 106, 82, 0.07));
+    border: 2px solid rgba(197, 106, 82, 0.20);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-smooth);
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+}
+
+.event-teaser-card::before {
+    content: '🎃';
+    position: absolute;
+    font-size: 10em;
+    opacity: 0.04;
+    top: -20px;
+    right: -20px;
+    pointer-events: none;
+}
+
+.event-teaser-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(197, 106, 82, 0.40);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.15), rgba(197, 106, 82, 0.10));
+}
+
+.event-teaser-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #c47a5a, #f2c96b);
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: var(--radius-full);
+    font-size: 1em;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(196, 122, 90, 0.25);
+}
+
+.event-teaser-title {
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.event-teaser-desc {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0;
+}
+
+.event-teaser-cta {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--pink);
+    margin-top: 4px;
+    transition: gap var(--transition-fast);
+}
+
+.event-teaser-card:hover .event-teaser-cta {
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 480px) {
+    .event-teaser-card {
+        padding: 36px 24px;
+    }
+
+    .event-teaser-title {
+        font-size: 1.4em;
+    }
+}
+
+/* ============================================
+   EVENTS ARCHIVE — Portfolio page /events
+   ============================================ */
+
+/* --- Grille des cartes d'aperçu --- */
+.events-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.event-archive-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 40px 36px;
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+    backdrop-filter: blur(16px);
+    transition: all var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Thème automne (Baguettectober) */
+.event-archive-card.theme-autumn {
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.10), rgba(197, 106, 82, 0.07));
+    border-color: rgba(197, 106, 82, 0.22);
+}
+.event-archive-card.theme-autumn:hover {
+    border-color: rgba(197, 106, 82, 0.45);
+    background: linear-gradient(135deg, rgba(242, 193, 107, 0.16), rgba(197, 106, 82, 0.11));
+}
+
+/* Thème jeu (DTI Heartopia) */
+.event-archive-card.theme-game {
+    background: linear-gradient(135deg, rgba(162, 89, 255, 0.10), rgba(218, 100, 220, 0.07));
+    border-color: rgba(162, 89, 255, 0.22);
+}
+.event-archive-card.theme-game:hover {
+    border-color: rgba(162, 89, 255, 0.45);
+    background: linear-gradient(135deg, rgba(162, 89, 255, 0.16), rgba(218, 100, 220, 0.11));
+}
+
+.event-archive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Badges meta (type + statut) */
+.event-archive-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.event-type-badge {
+    font-size: 0.78em;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.event-status-badge {
+    font-size: 0.78em;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.event-status-badge.passe {
+    background: rgba(150, 150, 150, 0.15);
+    border: 1px solid rgba(150, 150, 150, 0.25);
+    color: var(--text-muted);
+}
+
+.event-status-badge.a-venir {
+    background: rgba(127, 184, 147, 0.18);
+    border: 1px solid rgba(127, 184, 147, 0.35);
+    color: var(--green);
+}
+
+/* Icône centrale */
+.event-archive-icon {
+    font-size: 2.8em;
+    line-height: 1;
+}
+
+/* Titre et date */
+.event-archive-title {
+    font-size: 1.6em;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.event-archive-date {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+.event-archive-desc {
+    font-size: 1em;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 4px 0 0;
+    flex: 1;
+}
+
+.event-archive-cta {
+    font-size: 0.95em;
+    font-weight: 700;
+    margin-top: 8px;
+    color: var(--pink);
+    transition: letter-spacing var(--transition-fast);
+}
+
+.event-archive-card:hover .event-archive-cta {
+    letter-spacing: 0.4px;
+}
+
+@media (max-width: 640px) {
+    .events-archive-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-archive-card {
+        padding: 28px 24px;
+    }
+    .event-archive-title {
+        font-size: 1.35em;
+    }
+}
+
+/* --- Stats strip --- */
+.event-stats-strip {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+}
+
+.event-stat-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 18px 32px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    min-width: 110px;
+}
+
+.event-stat-number {
+    font-size: 2em;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.event-stat-label {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- Podium --- */
+.event-podium-section {
+    margin-bottom: 60px;
+}
+
+.event-podium-title {
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    letter-spacing: 0.3px;
+}
+
+.event-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.podium-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 28px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 2px solid transparent;
+    transition: transform var(--transition-smooth);
+    min-width: 140px;
+}
+
+.podium-card:hover {
+    transform: translateY(-4px);
+}
+
+.podium-medal {
+    font-size: 2.2em;
+}
+
+.podium-rank {
+    font-size: 0.85em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.podium-name {
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.podium-card.rank-1 {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.10));
+    border-color: rgba(255, 215, 0, 0.35);
+    padding-bottom: 40px; /* surélevé visuellement */
+}
+
+.podium-card.rank-2 {
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.12), rgba(150, 150, 150, 0.08));
+    border-color: rgba(192, 192, 192, 0.30);
+}
+
+.podium-card.rank-3 {
+    background: linear-gradient(135deg, rgba(205, 127, 50, 0.12), rgba(180, 100, 30, 0.08));
+    border-color: rgba(205, 127, 50, 0.28);
+}
+
+@media (max-width: 480px) {
+    .event-podium {
+        flex-direction: column;
+        align-items: center;
+    }
+    .podium-card.rank-1 {
+        padding-bottom: 24px;
+        order: -1;
+    }
+    .event-stat-chip {
+        padding: 14px 20px;
+        min-width: 90px;
+    }
+}
+
+/* --- DTI Photo Grid --- */
+.dti-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.dti-photo-item {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    aspect-ratio: 3/4;
+}
+
+.dti-photo-item:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.dti-photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .dti-photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 380px) {
+    .dti-photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Thème game pour event-container */
+.event-container.theme-game {
+    background: linear-gradient(135deg, rgba(162, 89, 255, 0.10), rgba(218, 100, 220, 0.08));
+    border-color: rgba(162, 89, 255, 0.22);
+}
+
+.event-container.theme-game::before {
+    content: '🎮';
+}
+
+.theme-game .event-badge {
+    background: linear-gradient(135deg, #a259ff, #da64dc);
+    box-shadow: 0 8px 24px rgba(162, 89, 255, 0.30);
+    color: #fff;
+}
+
