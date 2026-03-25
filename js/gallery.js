@@ -288,8 +288,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-        // → Pour Baguettectober 2026, copie le bloc ci-dessus
-        //   et remplace -2025 par -2026 / baguettectober2025 par baguettectober2026
+        // DTI Heartopia 2026
+        document.querySelectorAll('.lightbox-link[data-gallery="dti-heartopia-2026"]').forEach((link, index, links) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                currentList = Array.from(links).map(item => ({
+                    src: item.getAttribute('href'),
+                    caption: item.dataset.caption || item.querySelector('img')?.alt || ''
+                }));
+
+                lastFocused = document.activeElement;
+                currentIndex = index;
+                buildThumbs();
+                fadeToImage(currentIndex);
+                lightbox.classList.add('is-open');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                btnClose.focus({ preventScroll: true });
+                startSlideshow();
+            });
+        });
 
     })();
 
