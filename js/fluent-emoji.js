@@ -14,7 +14,7 @@
         '⏰': '23f0',
         '🌙': '1f319',
         '🔴': '1f534',
-        '🎮': '1f3ae',
+        // '🎮': '1f3ae',
         '📧': '1f4e7',
         '🤝': '1f91d',
         '✨': '2728',
@@ -38,57 +38,76 @@
         '🏡': '1f3e1'
     };
 
-    const CDN_BASE = 'https://registry.npmmirror.com/@lobehub/fluent-emoji-modern/latest/files/assets';
-        function replaceEmojis() {
-            const walker = document.createTreeWalker(
-                document.body,
-                NodeFilter.SHOW_TEXT,
-                {
-                    acceptNode: function (node) {
-                        // Skip script tags
-                        if (node.parentElement.tagName === 'SCRIPT') {
-                            return NodeFilter.FILTER_REJECT;
-                        }
-                        return NodeFilter.FILTER_ACCEPT;
-                    }
-                }
-            );
+    // https://registry.npmmirror.com/@lobehub/fluent-emoji-modern/latest/files/assets
+    const CDN_BASE = '/img/emoji';
+    const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE']);
+    let observer = null;
 
-            const nodesToReplace = [];
-            while (walker.nextNode()) {
-                const text = walker.currentNode.textContent;
-                let hasEmoji = false;
+    function replaceEmojis(root) {
+        root = root || document.body;
 
-                for (const emoji in EMOJI_MAP) {
-                    if (text.includes(emoji)) {
-                        hasEmoji = true;
-                        break;
-                    }
-                }
-
-                if (hasEmoji) {
-                    nodesToReplace.push(walker.currentNode);
+        const walker = document.createTreeWalker(
+            root,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: function (node) {
+                    const parent = node.parentElement;
+                    if (!parent) return NodeFilter.FILTER_REJECT;
+                    if (SKIP_TAGS.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+                    if (parent.closest('[data-fluent-emoji-processed]')) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
                 }
             }
+        );
 
-            nodesToReplace.forEach(node => {
-                let html = node.textContent;
-
-                for (const [emoji, code] of Object.entries(EMOJI_MAP)) {
-                    const imgTag = `<img class="fluent-emoji" src="${CDN_BASE}/${code}.svg" alt="${emoji}" loading="lazy" />`;
-                    html = html.split(emoji).join(imgTag);
+        const nodesToReplace = [];
+        while (walker.nextNode()) {
+            const text = walker.currentNode.textContent;
+            for (const emoji in EMOJI_MAP) {
+                if (text.includes(emoji)) {
+                    nodesToReplace.push(walker.currentNode);
+                    break;
                 }
-
-                const span = document.createElement('span');
-                span.innerHTML = html;
-                node.parentNode.replaceChild(span, node);
-            });
+            }
         }
 
-    // Run on DOMContentLoaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', replaceEmojis);
-    } else {
+        nodesToReplace.forEach(node => {
+            let html = node.textContent;
+
+            for (const [emoji, code] of Object.entries(EMOJI_MAP)) {
+                const imgTag = `<img class="fluent-emoji" src="${CDN_BASE}/${code}.svg" alt="${emoji}" loading="lazy" />`;
+                html = html.replaceAll(emoji, imgTag);
+            }
+
+            const span = document.createElement('span');
+            span.setAttribute('data-fluent-emoji-processed', '');
+            span.innerHTML = html;
+            node.parentNode.replaceChild(span, node);
+        });
+    }
+
+    function startObserver() {
+        if (observer) return;
+        observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        replaceEmojis(node);
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function init() {
         replaceEmojis();
+        startObserver();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
 })();

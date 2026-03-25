@@ -832,7 +832,7 @@
 }
 
 .event-container.theme-game::before {
-    content: '🎮';
+    content: '📸';
 }
 
 .theme-game .event-badge {
