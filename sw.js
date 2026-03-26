@@ -5,22 +5,25 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v1';
+const CACHE_NAME = 'bc-v2';
 
 const PRECACHE_ASSETS = [
     '/',
     '/index.html',
     '/events.html',
     '/links.html',
+    '/css/main.css',
     '/css/base.css',
     '/css/layout.css',
     '/css/components.css',
     '/css/sections.css',
     '/css/responsive.css',
+    '/css/events.css',
     '/css/partners.css',
     '/css/lightbox.css',
     '/js/main.js',
     '/js/gallery.js',
+    '/js/links.js',
     '/js/stream-countdown.js',
     '/js/fluent-emoji.js',
     '/img/baguette-chaussette-logo.webp',
@@ -75,16 +78,18 @@ self.addEventListener('fetch', event => {
                 .catch(() => caches.match(request))
         );
     } else {
-        // Cache First pour les assets statiques
+        // Stale While Revalidate pour les assets statiques
+        // → sert le cache immédiatement, met à jour en arrière-plan
         event.respondWith(
-            caches.match(request).then(cached => {
-                if (cached) return cached;
-                return fetch(request).then(res => {
-                    const clone = res.clone();
-                    caches.open(CACHE_NAME).then(c => c.put(request, clone));
-                    return res;
-                });
-            })
+            caches.open(CACHE_NAME).then(cache =>
+                cache.match(request).then(cached => {
+                    const fetchPromise = fetch(request).then(res => {
+                        cache.put(request, res.clone());
+                        return res;
+                    });
+                    return cached || fetchPromise;
+                })
+            )
         );
     }
 });
