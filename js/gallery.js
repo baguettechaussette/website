@@ -60,13 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
     (function initViewer() {
         const tpl = `
     <div class="dti-viewer" id="dtiViewer" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
-      <button class="dti-viewer__close" id="dtiViewerClose" aria-label="Fermer">
-        <img src="img/symbols/close.svg" alt="">
-      </button>
-      <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir">
-        <img src="img/symbols/fullscreen.svg" alt="">
-      </button>
-      <p class="dti-viewer__caption" id="dtiViewerCaption"></p>
+      <div class="dti-viewer__toolbar">
+        <p class="dti-viewer__caption" id="dtiViewerCaption"></p>
+        <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir">
+          <img src="img/symbols/fullscreen.svg" alt="">
+        </button>
+        <button class="dti-viewer__close" id="dtiViewerClose" aria-label="Fermer">
+          <img src="img/symbols/close.svg" alt="">
+        </button>
+      </div>
       <div class="dti-viewer__stage">
         <button class="dti-viewer__nav dti-viewer__prev" id="dtiViewerPrev" aria-label="Précédent">
           <img src="img/symbols/arrow_back_ios.svg" alt="">
@@ -142,6 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
         btnNext.addEventListener('click', () => show((idx + 1) % items.length));
         btnExpand.addEventListener('click', toggleExpand);
         viewer.addEventListener('click', (e) => { if (e.target === viewer) close(); });
+
+        // Double-clic / double-tap sur l'image pour agrandir
+        imgEl.addEventListener('dblclick', toggleExpand);
+        let lastTap = 0;
+        imgEl.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTap < 300) { toggleExpand(); e.preventDefault(); }
+            lastTap = now;
+        }, { passive: false });
 
         window.addEventListener('keydown', (e) => {
             if (!viewer.classList.contains('is-open')) return;
