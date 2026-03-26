@@ -4,6 +4,7 @@
 
 /* === Variables CSS === */
 :root {
+    color-scheme: light;
     /* Couleurs principales */
     --blue: #7fb893;
     --green: #5c936f;
@@ -330,6 +331,19 @@ img.emoji {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+/* === Scroll reveal === */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    transition-delay: var(--sr-delay, 0s);
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* === Reduced motion === */

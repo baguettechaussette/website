@@ -75,7 +75,7 @@
             let html = node.textContent;
 
             for (const [emoji, code] of Object.entries(EMOJI_MAP)) {
-                const imgTag = `<img class="fluent-emoji" src="${CDN_BASE}/${code}.svg" alt="${emoji}" loading="lazy" />`;
+                const imgTag = `<img class="fluent-emoji" src="${CDN_BASE}/${code}.svg" alt="${emoji}" />`;
                 html = html.replaceAll(emoji, imgTag);
             }
 

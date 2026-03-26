@@ -7,10 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //   1. Copie le bloc baguettectober2025 ci-dessous
     //   2. Renomme la clé → baguettectober2026 (ou l'année voulue)
     //   3. Mets les chemins d'images dans img/baguettectober-2026/
-    //   4. Dans le querySelectorAll plus bas, ajoute :
-    //      '#baguettectober-2026 .gallery-item[data-week]'
-    //      et remplace 'baguettectober2025' par 'baguettectober2026'
-    //      dans le openGallery() correspondant
+    //   4. Ajoute le binding dans initViewer() plus bas
     // ══════════════════════════════════════════════════════════════
     const GALLERIES = {
         // Baguettectober — Octobre 2025
@@ -58,255 +55,136 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --------------------------
-    // Template de la lightbox
+    // Viewer d'images (DTI + Baguettectober)
     // --------------------------
-    (function setupLightbox() {
+    (function initViewer() {
         const tpl = `
-    <div class="lightbox" id="bcLightbox" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
-      <div class="lightbox__inner">
-        <div class="lightbox__stage">
-          <button type="button" class="lightbox__btn lightbox__prev" aria-label="Précédent">
-            <img src="img/symbols/arrow_back_ios.svg" alt="">
-          </button>
-          <img class="lightbox__img" id="bcLightboxImg" alt="">
-          <button type="button" class="lightbox__btn lightbox__next" aria-label="Suivant">
-            <img src="img/symbols/arrow_forward_ios.svg" alt="">
-          </button>
-
-          <button type="button" class="lightbox__close" id="bcLightboxClose" aria-label="Fermer">
-            <img src="img/symbols/close.svg" alt="">
-          </button>
-          <button type="button" class="lightbox__play" id="bcLightboxPlay" aria-label="Lecture/Pause">
-            <img src="img/symbols/pause.svg" alt="">
-          </button>
-          <button type="button" class="lightbox__zoom" id="bcLightboxZoom" aria-label="Zoom">
-            <img src="img/symbols/fullscreen.svg" alt="">
-          </button>
-        </div>
-        <div class="lightbox__thumbs" id="bcLightboxThumbs" aria-label="Vignettes"></div>
-        <div class="lightbox__caption" id="bcLightboxCaption"></div>
+    <div class="dti-viewer" id="dtiViewer" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
+      <button class="dti-viewer__close" id="dtiViewerClose" aria-label="Fermer">
+        <img src="img/symbols/close.svg" alt="">
+      </button>
+      <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir">
+        <img src="img/symbols/fullscreen.svg" alt="">
+      </button>
+      <p class="dti-viewer__caption" id="dtiViewerCaption"></p>
+      <div class="dti-viewer__stage">
+        <button class="dti-viewer__nav dti-viewer__prev" id="dtiViewerPrev" aria-label="Précédent">
+          <img src="img/symbols/arrow_back_ios.svg" alt="">
+        </button>
+        <img class="dti-viewer__img" id="dtiViewerImg" alt="">
+        <button class="dti-viewer__nav dti-viewer__next" id="dtiViewerNext" aria-label="Suivant">
+          <img src="img/symbols/arrow_forward_ios.svg" alt="">
+        </button>
       </div>
     </div>`;
         document.body.insertAdjacentHTML('beforeend', tpl);
-    })();
 
-    // --------------------------
-    // Logique de la galerie
-    // --------------------------
-    (function initGallery() {
-        const lightbox = document.getElementById('bcLightbox');
-        const imgEl = document.getElementById('bcLightboxImg');
-        const captionEl = document.getElementById('bcLightboxCaption');
-        const thumbsEl = document.getElementById('bcLightboxThumbs');
-        const btnPrev = lightbox.querySelector('.lightbox__prev');
-        const btnNext = lightbox.querySelector('.lightbox__next');
-        const btnClose = document.getElementById('bcLightboxClose');
-        const btnPlay = document.getElementById('bcLightboxPlay');
-        const btnZoom = document.getElementById('bcLightboxZoom');
+        const viewer   = document.getElementById('dtiViewer');
+        const imgEl    = document.getElementById('dtiViewerImg');
+        const captEl   = document.getElementById('dtiViewerCaption');
+        const btnClose  = document.getElementById('dtiViewerClose');
+        const btnPrev   = document.getElementById('dtiViewerPrev');
+        const btnNext   = document.getElementById('dtiViewerNext');
+        const btnExpand = document.getElementById('dtiViewerExpand');
 
-        let currentList = [];
-        let currentIndex = 0;
-        let slideTimer = null;
-        let isPlaying = false;
-        const SLIDE_INTERVAL = 4000;
+        let items = [];
+        let idx   = 0;
         let lastFocused = null;
 
-        // -------- Helpers --------
-        function setActiveThumb(i) {
-            thumbsEl.querySelectorAll('.lightbox__thumb').forEach((t, idx) => {
-                t.classList.toggle('is-active', idx === i);
-            });
-        }
-
-        function fadeToImage(newIndex) {
-            const item = currentList[newIndex];
+        // -------- Affichage --------
+        function show(i) {
+            const item = items[i];
             if (!item) return;
-
+            idx = i;
             imgEl.classList.add('is-fading');
-
-            let handled = false;
             const onLoad = () => {
-                if (handled) return;
-                handled = true;
-                imgEl.removeEventListener('load', onLoad);
-
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        imgEl.classList.remove('is-fading');
-                    });
-                });
-
-                captionEl.textContent = item.caption || '';
-                setActiveThumb(newIndex);
+                requestAnimationFrame(() => requestAnimationFrame(() => imgEl.classList.remove('is-fading')));
+                captEl.textContent = item.caption || '';
             };
-
-            imgEl.addEventListener('load', onLoad, {once: true});
-            imgEl.alt = item.caption || '';
+            imgEl.addEventListener('load', onLoad, { once: true });
             imgEl.src = item.src;
-
+            imgEl.alt = item.caption || '';
             if (imgEl.complete) onLoad();
+            const multi = items.length > 1;
+            btnPrev.hidden = !multi;
+            btnNext.hidden = !multi;
         }
 
-        function buildThumbs() {
-            thumbsEl.innerHTML = '';
-            currentList.forEach((item, i) => {
-                const t = document.createElement('button');
-                t.type = 'button';
-                t.className = 'lightbox__thumb';
-                t.setAttribute('aria-label', `Ouvrir image ${i + 1}`);
-                t.innerHTML = `<img src="${item.src}" alt="" loading="lazy">`;
-                t.addEventListener('click', () => {
-                    stopSlideshow();
-                    currentIndex = i;
-                    fadeToImage(currentIndex);
-                });
-                thumbsEl.appendChild(t);
-            });
-        }
-
-        // -------- Slideshow --------
-        function startSlideshow() {
-            if (isPlaying) return;
-            isPlaying = true;
-            btnPlay.classList.add('is-playing');
-            btnPlay.querySelector('img').src = 'img/symbols/pause.svg';
-            slideTimer = setInterval(next, SLIDE_INTERVAL);
-        }
-
-        function stopSlideshow() {
-            if (!isPlaying) return;
-            isPlaying = false;
-            btnPlay.classList.remove('is-playing');
-            btnPlay.querySelector('img').src = 'img/symbols/play.svg';
-            if (slideTimer) {
-                clearInterval(slideTimer);
-                slideTimer = null;
-            }
-        }
-
-        function toggleSlideshow() {
-            isPlaying ? stopSlideshow() : startSlideshow();
-        }
-
-        // -------- Navigation --------
-        function next() {
-            if (!currentList.length) return;
-            currentIndex = (currentIndex + 1) % currentList.length;
-            fadeToImage(currentIndex);
-        }
-
-        function prev() {
-            if (!currentList.length) return;
-            currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
-            fadeToImage(currentIndex);
-        }
-
-        // -------- Zoom --------
-        function toggleZoom() {
-            lightbox.classList.toggle('is-zoomed');
-            btnZoom.classList.toggle('is-active', lightbox.classList.contains('is-zoomed'));
-        }
-
-        // -------- Ouverture/Fermeture --------
-        function openGallery(eventType, weekKey, start = 0) {
-            currentList = GALLERIES[eventType]?.[weekKey] || [];
-            if (!currentList.length) {
-                console.warn(`Aucune image définie pour ${eventType}/${weekKey}`);
-                return;
-            }
+        // -------- Ouverture / Fermeture --------
+        function open(list, i) {
+            items = list;
             lastFocused = document.activeElement;
-            currentIndex = Math.max(0, Math.min(start, currentList.length - 1));
-            buildThumbs();
-            fadeToImage(currentIndex);
-            lightbox.classList.add('is-open');
-            lightbox.setAttribute('aria-hidden', 'false');
+            show(i);
+            viewer.classList.add('is-open');
+            viewer.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            btnClose.focus({preventScroll: true});
-            startSlideshow();
+            btnClose.focus({ preventScroll: true });
         }
 
-        function closeGallery() {
-            lightbox.classList.remove('is-open');
-            lightbox.classList.remove('is-zoomed');
-            lightbox.setAttribute('aria-hidden', 'true');
+        function close() {
+            viewer.classList.remove('is-open', 'is-expanded');
+            viewer.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
             imgEl.removeAttribute('src');
-            stopSlideshow();
-            if (document.fullscreenElement) document.exitFullscreen?.();
-            if (lastFocused && typeof lastFocused.focus === 'function') {
-                lastFocused.focus({preventScroll: true});
-            }
+            lastFocused?.focus({ preventScroll: true });
         }
 
-        // -------- Listeners UI --------
-        btnNext.addEventListener('click', () => {
-            stopSlideshow();
-            next();
-        });
-        btnPrev.addEventListener('click', () => {
-            stopSlideshow();
-            prev();
-        });
-        btnClose.addEventListener('click', closeGallery);
-        btnPlay.addEventListener('click', toggleSlideshow);
-        btnZoom.addEventListener('click', toggleZoom);
+        // -------- Agrandir --------
+        function toggleExpand() {
+            const expanded = viewer.classList.toggle('is-expanded');
+            btnExpand.classList.toggle('is-active', expanded);
+            btnExpand.setAttribute('aria-label', expanded ? 'Réduire' : 'Agrandir');
+        }
 
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeGallery();
-        });
+        // -------- Listeners --------
+        btnClose.addEventListener('click', close);
+        btnPrev.addEventListener('click', () => show((idx - 1 + items.length) % items.length));
+        btnNext.addEventListener('click', () => show((idx + 1) % items.length));
+        btnExpand.addEventListener('click', toggleExpand);
+        viewer.addEventListener('click', (e) => { if (e.target === viewer) close(); });
 
         window.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('is-open')) return;
-            if (e.key === 'Escape') closeGallery();
-            if (e.key === 'ArrowRight') {
-                stopSlideshow();
-                next();
-            }
-            if (e.key === 'ArrowLeft') {
-                stopSlideshow();
-                prev();
-            }
-            if (e.key && e.key.toLowerCase() === 'z') toggleZoom();
-            if (e.key && e.key.toLowerCase() === 'f') {
-                if (!document.fullscreenElement) lightbox.requestFullscreen?.();
-                else document.exitFullscreen?.();
-            }
-            if (e.code === 'Space') {
-                e.preventDefault();
-                toggleSlideshow();
-            }
+            if (!viewer.classList.contains('is-open')) return;
+            if (e.key === 'Escape') close();
+            if (e.key === 'ArrowRight') show((idx + 1) % items.length);
+            if (e.key === 'ArrowLeft')  show((idx - 1 + items.length) % items.length);
+            if (e.key?.toLowerCase() === 'f') toggleExpand();
         });
 
-        // Baguettectober 2025
+        // Swipe tactile
+        let tx = 0;
+        viewer.addEventListener('touchstart', (e) => { tx = e.changedTouches[0].clientX; }, { passive: true });
+        viewer.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - tx;
+            if (Math.abs(dx) > 50) dx < 0
+                ? show((idx + 1) % items.length)
+                : show((idx - 1 + items.length) % items.length);
+        }, { passive: true });
+
+        // --- DTI Heartopia 2026 ---
+        const dtiLinks = document.querySelectorAll('.lightbox-link[data-gallery="dti-heartopia-2026"]');
+        const dtiList  = Array.from(dtiLinks).map(a => ({
+            src:     a.getAttribute('href'),
+            caption: a.dataset.caption || ''
+        }));
+        dtiLinks.forEach((link, i) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                open(dtiList, i);
+            });
+        });
+
+        // --- Baguettectober 2025 ---
         document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]').forEach(card => {
             const week = card.getAttribute('data-week');
-            card.addEventListener('click', () => openGallery('baguettectober2025', week, 0));
+            const list = GALLERIES.baguettectober2025?.[week] || [];
+            if (!list.length) return;
+            card.addEventListener('click', () => open(list, 0));
             card.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    openGallery('baguettectober2025', week, 0);
+                    open(list, 0);
                 }
-            });
-        });
-        // DTI Heartopia 2026
-        document.querySelectorAll('.lightbox-link[data-gallery="dti-heartopia-2026"]').forEach((link, index, links) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                currentList = Array.from(links).map(item => ({
-                    src: item.getAttribute('href'),
-                    caption: item.dataset.caption || item.querySelector('img')?.alt || ''
-                }));
-
-                lastFocused = document.activeElement;
-                currentIndex = index;
-                buildThumbs();
-                fadeToImage(currentIndex);
-                lightbox.classList.add('is-open');
-                lightbox.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-                btnClose.focus({ preventScroll: true });
-                startSlideshow();
             });
         });
 
@@ -316,13 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Génération des mosaïques
     // --------------------------
     document.querySelectorAll('.gallery-item[data-week]').forEach(card => {
-        const weekKey = card.dataset.week;
+        const weekKey     = card.dataset.week;
         const placeholder = card.querySelector('.gallery-placeholder');
 
         // Détecte l'édition via le parent (ex: #baguettectober-2025 → clé baguettectober2025)
-        const section = card.closest('section[id^="baguettectober-"]');
-        const eventType = section ? section.id.replace('-', '') : 'baguettectober2025';
-        const list = GALLERIES[eventType]?.[weekKey];
+        const section   = card.closest('section[id^="baguettectober-"]');
+        const eventType = section ? section.id.replaceAll('-', '') : 'baguettectober2025';
+        const list      = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {
             const imgs = list.slice(0, 4).map(i => i.src);

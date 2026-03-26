@@ -201,8 +201,20 @@
         await pollLive();              // fetch live-status avant le premier rendu
         tick();                        // rendu immédiat
 
-        setInterval(tick,     1_000); // countdown fluide toutes les 1s
-        setInterval(pollLive, 30_000); // vérif live-status toutes les 30s
+        let tickInterval = setInterval(tick,     1_000);
+        let pollInterval = setInterval(pollLive, 30_000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(tickInterval);
+                clearInterval(pollInterval);
+            } else {
+                pollLive();
+                tick();
+                tickInterval = setInterval(tick,     1_000);
+                pollInterval = setInterval(pollLive, 30_000);
+            }
+        });
     }
 
     init();

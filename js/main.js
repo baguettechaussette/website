@@ -84,7 +84,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // Animation du compteur (pour les stats)
-function animateCounter(element, start, end, duration) {
+function animateCounter(element, start, end, duration, suffix = '') {
     const startTime = performance.now();
     const range = end - start;
 
@@ -96,12 +96,12 @@ function animateCounter(element, start, end, duration) {
         const easeProgress = 1 - Math.pow(1 - progress, 2);
         const current = Math.floor(start + range * easeProgress);
 
-        element.textContent = current.toLocaleString('fr-FR');
+        element.textContent = current.toLocaleString('fr-FR') + suffix;
 
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = end.toLocaleString('fr-FR');
+            element.textContent = end.toLocaleString('fr-FR') + suffix;
         }
     }
 
@@ -181,11 +181,69 @@ window.addEventListener('resize', () => {
     }, 250);
 }, { passive: true });
 
+// Animations au défilement (Intersection Observer)
+function initScrollReveal() {
+    if (!('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    // Éléments simples (fade-up sans stagger)
+    [
+        // index.html
+        '.section-header',
+        '.contact-info-box',
+        '.next-stream-banner',
+        // events.html
+        '.event-intro',
+        '.event-stats-strip',
+        '.event-podium-section',
+        '.dti-gallery-block',
+        '.dti-section-title',
+    ].forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('scroll-reveal');
+            observer.observe(el);
+        });
+    });
+
+    // Éléments avec stagger (par groupe parent)
+    [
+        // index.html
+        { parent: '.schedule-grid',        child: '.schedule-item',       delay: 0.10 },
+        { parent: '.events-archive-grid',  child: '.event-archive-card',  delay: 0.07 },
+        { parent: '.contact-cards',        child: '.contact-card',        delay: 0.10 },
+        { parent: '.partners-container',   child: '.partner-card',        delay: 0.12 },
+        { parent: '.social-grid',          child: '.social-card',         delay: 0.07 },
+        // events.html
+        { parent: '.event-stats-strip',                  child: '.event-stat-chip', delay: 0.07 },
+        { parent: '.event-podium',                       child: '.podium-card',     delay: 0.10 },
+        { parent: '.dti-photo-grid',                     child: '.dti-photo-item',  delay: 0.05 },
+        { parent: '#baguettectober-2025 .gallery-grid',  child: '.gallery-item',    delay: 0.07 },
+    ].forEach(({ parent, child, delay }) => {
+        document.querySelectorAll(parent).forEach(parentEl => {
+            parentEl.querySelectorAll(child).forEach((el, i) => {
+                el.classList.add('scroll-reveal');
+                el.style.setProperty('--sr-delay', `${i * delay}s`);
+                observer.observe(el);
+            });
+        });
+    });
+}
+
 // Initialisation au chargement
 document.addEventListener('DOMContentLoaded', () => {
     // Charge les followers
     loadFollowersCount();
     animateStaticCounters();
+    initScrollReveal();
+
     // Ajoute les attributs ARIA manquants
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
@@ -193,19 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
         menuToggle.setAttribute('aria-controls', 'navLinks');
     }
 
-    // Log de démarrage
-    console.log('🥖 Baguette Chaussette - Scripts principaux chargés');
-});
-
-// Gestion de la visibilité de la page
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        // La page redevient visible - recharge les données si nécessaire
-        const el = document.getElementById('followersCount');
-        if (el && el.textContent === '1K+') {
-            loadFollowersCount();
-        }
-    }
+    // Année dynamique dans le footer
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
 
 // Gestion des erreurs globales (pour debug)
@@ -219,43 +267,16 @@ window.addEventListener('error', (event) => {
 
 // Animation des autres compteurs statiques
 function animateStaticCounters() {
-    const counters = [
-        { selector: '.stat-box:nth-child(2) .stat-number' }, // TikTok
-        { selector: '.stat-box:nth-child(3) .stat-number' }  // Heures de stream
-    ];
-
-    counters.forEach(({ selector }) => {
+    [
+        '.stat-box:nth-child(2) .stat-number', // TikTok
+        '.stat-box:nth-child(3) .stat-number', // Heures de stream
+    ].forEach(selector => {
         const el = document.querySelector(selector);
         if (!el) return;
-
         const target = parseInt(el.textContent.replace(/\D/g, '')) || 0;
-
-        // On vide le texte avant animation
         el.textContent = '0';
         el.style.opacity = '1';
-
-        // Animation du nombre
-        const startTime = performance.now();
-        const duration = 1200;
-        const start = 0;
-        const end = target;
-
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 2);
-            const current = Math.floor(start + (end - start) * easeProgress);
-
-            el.textContent = `${current.toLocaleString('fr-FR')}+`;
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                el.textContent = `${end.toLocaleString('fr-FR')}+`;
-            }
-        }
-
-        requestAnimationFrame(update);
+        animateCounter(el, 0, target, 1200, '+');
     });
 }
 
