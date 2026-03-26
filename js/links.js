@@ -58,5 +58,6 @@ async function checkLiveStatus() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     checkLiveStatus();
-    console.log('🥖 Baguette Chaussette Links - Initialized');
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 });

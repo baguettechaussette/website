@@ -168,7 +168,6 @@
 
     /* Grids */
     .social-grid,
-    .gallery-grid,
     .schedule-grid {
         grid-template-columns: 1fr;
     }
@@ -176,7 +175,6 @@
     /* Containers */
     .schedule-container,
     .live-container,
-    .baguettectober-container,
     .contact-container,
     .socials-container {
         padding: var(--spacing-md) var(--spacing-sm);
@@ -517,34 +515,6 @@
         font-size: 1.05em;  /* Augmenté de 0.95em */
     }
 
-    /* Baguettectober - Tailles augmentées */
-    .baguettectober-badge,
-    .event-badge {
-        font-size: 1.15em;  /* Augmenté de 1em */
-        padding: 10px 24px;
-    }
-
-    .baguettectober-desc,
-    .event-description {
-        font-size: 1.15em;  /* Augmenté de 1em */
-        line-height: 1.6;
-    }
-
-    .gallery-item {
-        padding: 18px;
-    }
-
-    /*.gallery-week {*/
-    /*    font-size: 1.35em;  !* Augmenté de 1.2em *!*/
-    /*}*/
-
-    /*.gallery-artist {*/
-    /*    font-size: 1.1em;  !* Augmenté de 1em *!*/
-    /*}*/
-
-    .gallery-icon {
-        font-size: 3.5em;  /* Augmenté de 3em */
-    }
 
     /* Live - Tailles augmentées */
     .live-indicator {
