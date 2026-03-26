@@ -305,14 +305,26 @@
     display: flex;
 }
 
-/* Caption au-dessus de l'image */
+/* Barre titre : caption + boutons expand/close */
+.dti-viewer__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: min(84vw, 660px);
+    transition: opacity 0.2s;
+}
+
 .dti-viewer__caption {
+    flex: 1;
     color: rgba(255, 255, 255, 0.88);
     font-size: 1rem;
     font-weight: 600;
-    text-align: center;
     min-height: 1.4em;
-    transition: opacity 0.2s;
+}
+
+.dti-viewer.is-expanded .dti-viewer__toolbar {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Stage : wraps l'image + flèches pour un centrage précis */
@@ -334,7 +346,7 @@
     box-shadow: 0 8px 60px rgba(0, 0, 0, 0.55);
     transition: max-width 0.35s ease, max-height 0.35s ease, opacity 0.25s ease;
     user-select: none;
-    pointer-events: none;
+    pointer-events: auto; /* double-clic/tap pour agrandir */
     display: block;
 }
 
@@ -349,10 +361,6 @@
     border-radius: 8px;
 }
 
-.dti-viewer.is-expanded .dti-viewer__caption {
-    opacity: 0;
-    pointer-events: none;
-}
 
 /* Icônes blanches */
 .dti-viewer__close img,
@@ -364,15 +372,14 @@
     display: block;
 }
 
-/* Bouton fermer */
-.dti-viewer__close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+/* Boutons fermer + agrandir (dans la toolbar) */
+.dti-viewer__close,
+.dti-viewer__expand {
+    flex-shrink: 0;
     background: rgba(255, 255, 255, 0.15);
     border: 1.5px solid rgba(255, 255, 255, 0.25);
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
     display: grid;
@@ -380,7 +387,8 @@
     transition: background 0.2s;
 }
 
-.dti-viewer__close:hover {
+.dti-viewer__close:hover,
+.dti-viewer__expand:hover {
     background: rgba(255, 255, 255, 0.28);
 }
 
@@ -406,26 +414,6 @@
 
 .dti-viewer__prev { left: -3.5rem; }
 .dti-viewer__next { right: -3.5rem; }
-
-/* Bouton agrandir */
-.dti-viewer__expand {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: background 0.2s, border-color 0.2s;
-}
-
-.dti-viewer__expand:hover {
-    background: rgba(255, 255, 255, 0.28);
-}
 
 .dti-viewer__expand.is-active {
     background: rgba(162, 89, 255, 0.55);
@@ -464,13 +452,16 @@
         height: 44px;
     }
 
-    /* Sur mobile les flèches sortent moins du stage */
-    .dti-viewer__prev { left: -2.75rem; }
-    .dti-viewer__next { right: -2.75rem; }
+    /* Sur mobile les flèches sont à l'intérieur du stage */
+    .dti-viewer__prev { left: 0.25rem; }
+    .dti-viewer__next { right: 0.25rem; }
+
+    .dti-viewer__toolbar {
+        width: 92vw;
+    }
 
     .dti-viewer__caption {
         font-size: 0.9rem;
-        padding: 0 0.5rem;
     }
 }
 
