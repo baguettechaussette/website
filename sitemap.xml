@@ -2,26 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://baguettechaussette.fr/</loc>
-    <lastmod>2026-03-23T06:56:24Z</lastmod>
+    <lastmod>2026-03-30T07:13:49Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://baguettechaussette.fr/events</loc>
-    <lastmod>2026-03-21T00:00:00Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://baguettechaussette.fr/links</loc>
-    <lastmod>2026-03-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://baguettechaussette.fr/mentions-legales</loc>
-    <lastmod>2026-03-20T00:00:00Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>
