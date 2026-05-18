@@ -51,6 +51,7 @@ jobs:
           fi
 
           ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          echo "::add-mask::$ACCESS_TOKEN"
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
           echo "✅ Token successfully retrieved"
 
