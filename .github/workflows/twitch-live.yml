@@ -25,6 +25,7 @@ jobs:
             -d "client_secret=$TWITCH_CLIENT_SECRET" \
             -d "grant_type=client_credentials")
           ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          echo "::add-mask::$ACCESS_TOKEN"
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
 
       - name: Check if Stream is Live
