@@ -14,20 +14,45 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # historique complet → vraies dates de modif par page
 
       - name: Generate sitemap.xml
         run: |
-          TODAY=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           DOMAIN="https://baguettechaussette.fr"
+
+          # lastmod = date du dernier commit qui a touché la page
+          # → le sitemap ne change que si une page a réellement changé
+          lastmod() {
+            git log -1 --format=%cI -- "$1"
+          }
 
           cat <<EOF > sitemap.xml
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
               <loc>${DOMAIN}/</loc>
-              <lastmod>${TODAY}</lastmod>
+              <lastmod>$(lastmod index.html)</lastmod>
               <changefreq>weekly</changefreq>
               <priority>1.0</priority>
+            </url>
+            <url>
+              <loc>${DOMAIN}/events</loc>
+              <lastmod>$(lastmod events.html)</lastmod>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>${DOMAIN}/links</loc>
+              <lastmod>$(lastmod links.html)</lastmod>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>${DOMAIN}/mentions-legales</loc>
+              <lastmod>$(lastmod mentions-legales.html)</lastmod>
+              <changefreq>yearly</changefreq>
+              <priority>0.3</priority>
             </url>
           </urlset>
           EOF

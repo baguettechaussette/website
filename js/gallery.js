@@ -160,6 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'ArrowRight') show((idx + 1) % items.length);
             if (e.key === 'ArrowLeft')  show((idx - 1 + items.length) % items.length);
             if (e.key?.toLowerCase() === 'f') toggleExpand();
+
+            // Focus trap : Tab reste à l'intérieur du dialogue
+            if (e.key === 'Tab') {
+                const focusables = Array.from(viewer.querySelectorAll('button:not([hidden])'));
+                if (!focusables.length) return;
+                const first = focusables[0];
+                const last  = focusables[focusables.length - 1];
+                if (!viewer.contains(document.activeElement)) {
+                    e.preventDefault();
+                    first.focus();
+                } else if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
         });
 
         // Swipe tactile
@@ -172,16 +190,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 : show((idx - 1 + items.length) % items.length);
         }, { passive: true });
 
-        // --- DTI Heartopia 2026 ---
-        const dtiLinks = document.querySelectorAll('.lightbox-link[data-gallery="dti-heartopia-2026"]');
-        const dtiList  = Array.from(dtiLinks).map(a => ({
-            src:     a.getAttribute('href'),
-            caption: a.dataset.caption || ''
-        }));
-        dtiLinks.forEach((link, i) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                open(dtiList, i);
+        // --- Galeries lightbox (groupées automatiquement par data-gallery) ---
+        // Tout lien .lightbox-link[data-gallery="xxx"] est relié aux autres du même groupe :
+        // aucun JS à ajouter pour un nouvel event, l'attribut suffit.
+        const lightboxGroups = {};
+        document.querySelectorAll('.lightbox-link[data-gallery]').forEach(a => {
+            const g = a.dataset.gallery;
+            (lightboxGroups[g] = lightboxGroups[g] || []).push(a);
+        });
+        Object.values(lightboxGroups).forEach(links => {
+            const list = links.map(a => ({
+                src:     a.getAttribute('href'),
+                caption: a.dataset.caption || ''
+            }));
+            links.forEach((link, i) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    open(list, i);
+                });
             });
         });
 
