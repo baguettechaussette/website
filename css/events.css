@@ -44,6 +44,12 @@
     border-color: rgba(162, 89, 255, 0.22);
 }
 
+/* Thème été (DTI #2 — juin) */
+.event-container.theme-summer {
+    background: linear-gradient(135deg, rgba(63, 184, 175, 0.10), rgba(242, 193, 107, 0.08));
+    border-color: rgba(63, 184, 175, 0.22);
+}
+
 /* ============================================
    EVENT INTRO & BADGES
    ============================================ */
@@ -81,6 +87,11 @@
 .theme-game .event-badge {
     background: linear-gradient(135deg, #a259ff, #da64dc);
     box-shadow: 0 8px 24px rgba(162, 89, 255, 0.30);
+}
+
+.theme-summer .event-badge {
+    background: linear-gradient(135deg, #2aa79b, #f2b95a);
+    box-shadow: 0 8px 24px rgba(42, 167, 155, 0.30);
 }
 
 .event-description {

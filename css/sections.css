@@ -458,6 +458,16 @@
     background: linear-gradient(135deg, rgba(242, 193, 107, 0.16), rgba(197, 106, 82, 0.11));
 }
 
+/* Thème été (DTI Heartopia #2 — juin) */
+.event-archive-card.theme-summer {
+    background: linear-gradient(135deg, rgba(63, 184, 175, 0.10), rgba(242, 193, 107, 0.07));
+    border-color: rgba(63, 184, 175, 0.22);
+}
+.event-archive-card.theme-summer:hover {
+    border-color: rgba(63, 184, 175, 0.45);
+    background: linear-gradient(135deg, rgba(63, 184, 175, 0.16), rgba(242, 193, 107, 0.11));
+}
+
 /* Thème jeu (DTI Heartopia) */
 .event-archive-card.theme-game {
     background: linear-gradient(135deg, rgba(162, 89, 255, 0.10), rgba(218, 100, 220, 0.07));
