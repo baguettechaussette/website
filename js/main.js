@@ -254,7 +254,68 @@ document.addEventListener('DOMContentLoaded', () => {
     // Année dynamique dans le footer
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Emails assemblés côté client (anti-bots spam)
+    document.querySelectorAll('.js-email').forEach(el => {
+        const addr = `${el.dataset.user}@${el.dataset.domain}`;
+        el.setAttribute('href', 'mailto:' + addr);
+        if ('showText' in el.dataset) el.textContent = addr;
+    });
+
+    // Moments forts : top clips de la semaine (data/top-clips.json)
+    loadTopClips();
 });
+
+// Charge les clips du mois et affiche la section si on en a.
+// Les clips "pinned" (épinglés à la main dans data/top-clips.json) passent
+// en premier et ne sont jamais touchés par le workflow automatique.
+async function loadTopClips() {
+    const section = document.getElementById('clips');
+    const grid = document.getElementById('clipsGrid');
+    if (!section || !grid) return;
+
+    try {
+        const response = await fetch('/data/top-clips.json', { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const pinned = Array.isArray(data.pinned) ? data.pinned : [];
+        const autos = Array.isArray(data.clips) ? data.clips : [];
+
+        const seen = new Set();
+        const clips = [...pinned, ...autos].filter(clip => {
+            if (!clip.id || seen.has(clip.id)) return false;
+            seen.add(clip.id);
+            return true;
+        }).slice(0, 6);
+        if (!clips.length) return;
+
+        clips.forEach(clip => {
+            if (!clip.id) return;
+
+            const card = document.createElement('div');
+            card.className = 'clip-card';
+
+            const iframe = document.createElement('iframe');
+            iframe.src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip.id) +
+                '&parent=' + location.hostname + '&autoplay=false';
+            iframe.title = clip.title || 'Clip Twitch';
+            iframe.loading = 'lazy';
+            iframe.allowFullscreen = true;
+
+            const meta = document.createElement('p');
+            meta.className = 'clip-meta';
+            meta.textContent = clip.title || '';
+
+            card.append(iframe, meta);
+            grid.appendChild(card);
+        });
+
+        if (grid.children.length) section.hidden = false;
+    } catch (err) {
+        console.debug('Top clips indisponibles:', err.message);
+    }
+}
 
 // Gestion des erreurs globales (pour debug)
 window.addEventListener('error', (event) => {

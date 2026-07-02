@@ -212,12 +212,6 @@
     background-clip: text;
 }
 
-.schedule-item.is-next::before {
-    opacity: 1;
-    background: linear-gradient(90deg, #5c936f, var(--blue));
-    animation: slideIn 0.6s ease;
-}
-
 .schedule-day {
     font-size: 2em;
     font-weight: 700;
