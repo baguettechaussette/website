@@ -67,7 +67,7 @@ jobs:
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=3" \
+            --data-urlencode "first=10" \
             --data-urlencode "started_at=$STARTED_AT" \
             --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
