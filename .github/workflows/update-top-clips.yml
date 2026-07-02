@@ -2,7 +2,7 @@ name: Update top clips (monthly window)
 
 on:
   schedule:
-    - cron: "23 5 * * 1"   # rafraîchi chaque lundi à 5h23 UTC (fenêtre glissante de 30 jours)
+    - cron: "23 5 */2 * *"   # rafraîchi tous les 2 jours à 5h23 UTC (fenêtre glissante de 30 jours)
   workflow_dispatch:
 
 permissions:
