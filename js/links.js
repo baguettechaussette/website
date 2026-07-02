@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Live status check
+// Live status check (poll toutes les 30s, comme sur l'accueil)
 async function checkLiveStatus() {
     try {
         const response = await fetch('/data/live-status.json', {
@@ -44,11 +44,9 @@ async function checkLiveStatus() {
 
         const data = await response.json();
 
-        if (data.is_live) {
-            const badge = document.getElementById('liveBadge');
-            if (badge) {
-                badge.classList.add('visible');
-            }
+        const badge = document.getElementById('liveBadge');
+        if (badge) {
+            badge.classList.toggle('visible', !!data.is_live);
         }
     } catch (error) {
         console.debug('Live status check failed:', error.message);
@@ -58,6 +56,17 @@ async function checkLiveStatus() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     checkLiveStatus();
+    setInterval(() => {
+        if (!document.hidden) checkLiveStatus();
+    }, 30_000);
+
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Emails assemblés côté client (anti-bots spam)
+    document.querySelectorAll('.js-email').forEach(el => {
+        const addr = `${el.dataset.user}@${el.dataset.domain}`;
+        el.setAttribute('href', 'mailto:' + addr);
+        if ('showText' in el.dataset) el.textContent = addr;
+    });
 });

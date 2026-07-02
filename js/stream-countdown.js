@@ -118,7 +118,7 @@
             // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
             banner.innerHTML = `
                 <div class="countdown-label">Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}</div>
-                <h2 class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)} ⌛</span></h2>
+                <h2 class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)}</span> ⌛</h2>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">Suivre la chaîne ♥</a>
             `;
         }
@@ -174,7 +174,7 @@
         if (!isLive) {
             const bannerText = document.getElementById("bannerText");
             if (bannerText) {
-                bannerText.textContent = `Dans ${formatCountdown(info.date - now)} ⌛`;
+                bannerText.textContent = `Dans ${formatCountdown(info.date - now)}`;
             }
         }
 
@@ -195,9 +195,33 @@
         });
     }
 
+    // ─── Grille du planning depuis data/schedule.json ────────────────────────
+    // Source de vérité unique : la grille HTML statique sert de fallback no-JS,
+    // mais dès que le JSON est chargé, c'est lui qui fait foi.
+
+    async function renderSchedule() {
+        const grid = document.querySelector(".schedule-grid");
+        if (!grid) return;
+        try {
+            const r = await fetch("/data/schedule.json", { cache: "no-store" });
+            if (!r.ok) return;
+            const json = await r.json();
+            const slots = Array.isArray(json?.slots) ? json.slots : [];
+            if (!slots.length) return;
+
+            grid.innerHTML = slots.map(s => `
+                <article class="schedule-item" data-day="${+s.day}" data-hour="${+s.hour}" data-minute="${+s.minute || 0}">
+                    <div class="schedule-day">${getDayName(+s.day)}</div>
+                    <div class="schedule-time">${formatTime(+s.hour, +s.minute || 0)}</div>
+                    <div class="schedule-countdown"></div>
+                </article>`).join("");
+        } catch { /* silencieux : la grille HTML statique reste affichée */ }
+    }
+
     // ─── Init ─────────────────────────────────────────────────────────────────
 
     async function init() {
+        await renderSchedule();        // grille depuis data/schedule.json
         await pollLive();              // fetch live-status avant le premier rendu
         tick();                        // rendu immédiat
 
