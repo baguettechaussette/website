@@ -321,8 +321,8 @@ async function loadTopClips() {
             thumb.addEventListener('click', () => openClipModal(clip));
             card.appendChild(thumb);
 
-            // Seuls les clips épinglés affichent un titre (rédigé à la main),
-            // les titres des clips auto sont écrits par les viewers.
+            // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
+            // les viewers, affiché entre guillemets pour marquer la citation.
             if (clip.pinned) {
                 const meta = document.createElement('p');
                 meta.className = 'clip-meta';
@@ -331,6 +331,11 @@ async function loadTopClips() {
                 pin.textContent = '📌';
                 pin.title = 'Clip épinglé';
                 meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
+                card.appendChild(meta);
+            } else if (clip.title) {
+                const meta = document.createElement('p');
+                meta.className = 'clip-meta';
+                meta.textContent = `« ${clip.title} »`;
                 card.appendChild(meta);
             }
 
