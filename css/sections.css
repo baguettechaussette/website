@@ -649,6 +649,7 @@
     border: 2px solid rgba(140, 191, 159, 0.22);
     border-radius: var(--radius-md);
     overflow: hidden;
+    backdrop-filter: blur(20px);
     transition: all var(--transition-smooth);
 }
 
