@@ -279,7 +279,7 @@ async function loadTopClips() {
         if (!response.ok) return;
 
         const data = await response.json();
-        const pinned = Array.isArray(data.pinned) ? data.pinned : [];
+        const pinned = (Array.isArray(data.pinned) ? data.pinned : []).map(c => ({ ...c, pinned: true }));
         const autos = Array.isArray(data.clips) ? data.clips : [];
 
         const seen = new Set();
@@ -299,15 +299,24 @@ async function loadTopClips() {
             const iframe = document.createElement('iframe');
             iframe.src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip.id) +
                 '&parent=' + location.hostname + '&autoplay=false';
-            iframe.title = clip.title || 'Clip Twitch';
+            iframe.title = (clip.pinned && clip.title) || 'Clip Twitch';
             iframe.loading = 'lazy';
             iframe.allowFullscreen = true;
+            card.appendChild(iframe);
 
-            const meta = document.createElement('p');
-            meta.className = 'clip-meta';
-            meta.textContent = clip.title || '';
+            // Seuls les clips épinglés affichent un titre (rédigé à la main),
+            // les titres des clips auto sont écrits par les viewers.
+            if (clip.pinned) {
+                const meta = document.createElement('p');
+                meta.className = 'clip-meta';
+                const pin = document.createElement('span');
+                pin.className = 'clip-pin';
+                pin.textContent = '📌';
+                pin.title = 'Clip épinglé';
+                meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
+                card.appendChild(meta);
+            }
 
-            card.append(iframe, meta);
             grid.appendChild(card);
         });
 
