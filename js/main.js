@@ -296,13 +296,30 @@ async function loadTopClips() {
             const card = document.createElement('div');
             card.className = 'clip-card';
 
-            const iframe = document.createElement('iframe');
-            iframe.src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip.id) +
-                '&parent=' + location.hostname + '&autoplay=false';
-            iframe.title = (clip.pinned && clip.title) || 'Clip Twitch';
-            iframe.loading = 'lazy';
-            iframe.allowFullscreen = true;
-            card.appendChild(iframe);
+            // Miniature cliquable → le clip s'ouvre dans une modale centrée
+            const thumb = document.createElement('button');
+            thumb.type = 'button';
+            thumb.className = 'clip-thumb';
+            thumb.setAttribute('data-umami-event', 'Clips - Play');
+            thumb.setAttribute('aria-label',
+                clip.pinned && clip.title ? `Lire le clip : ${clip.title}` : 'Lire le clip');
+
+            if (clip.thumbnail_url) {
+                const img = document.createElement('img');
+                img.src = clip.thumbnail_url;
+                img.alt = '';
+                img.loading = 'lazy';
+                thumb.appendChild(img);
+            }
+
+            const play = document.createElement('span');
+            play.className = 'clip-play';
+            play.setAttribute('aria-hidden', 'true');
+            play.textContent = '▶';
+            thumb.appendChild(play);
+
+            thumb.addEventListener('click', () => openClipModal(clip));
+            card.appendChild(thumb);
 
             // Seuls les clips épinglés affichent un titre (rédigé à la main),
             // les titres des clips auto sont écrits par les viewers.
@@ -324,6 +341,62 @@ async function loadTopClips() {
     } catch (err) {
         console.debug('Top clips indisponibles:', err.message);
     }
+}
+
+// ── Modale de lecture des clips (créée à la première ouverture) ──
+let clipModalLastFocus = null;
+
+function ensureClipModal() {
+    let overlay = document.getElementById('clipModal');
+    if (overlay) return overlay;
+
+    overlay = document.createElement('div');
+    overlay.id = 'clipModal';
+    overlay.className = 'clip-modal';
+    overlay.innerHTML =
+        '<div class="clip-modal__content" role="dialog" aria-modal="true" aria-label="Lecture du clip">' +
+        '<button type="button" class="clip-modal__close" aria-label="Fermer">✕</button>' +
+        '<div class="clip-modal__player"></div>' +
+        '</div>';
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeClipModal();
+    });
+    overlay.querySelector('.clip-modal__close').addEventListener('click', closeClipModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeClipModal();
+    });
+
+    return overlay;
+}
+
+function openClipModal(clip) {
+    const overlay = ensureClipModal();
+    const player = overlay.querySelector('.clip-modal__player');
+
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip.id) +
+        '&parent=' + location.hostname + '&autoplay=true';
+    iframe.title = (clip.pinned && clip.title) || 'Clip Twitch';
+    iframe.allowFullscreen = true;
+    iframe.setAttribute('allow', 'autoplay; fullscreen');
+    player.replaceChildren(iframe);
+
+    clipModalLastFocus = document.activeElement;
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    overlay.querySelector('.clip-modal__close').focus();
+}
+
+function closeClipModal() {
+    const overlay = document.getElementById('clipModal');
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    // Vide le player → stoppe la lecture immédiatement
+    overlay.querySelector('.clip-modal__player').replaceChildren();
+    document.body.style.overflow = '';
+    clipModalLastFocus?.focus({ preventScroll: true });
 }
 
 // Gestion des erreurs globales (pour debug)
