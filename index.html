@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9146ff">
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
     <meta name="description" content="Streamer Twitch et créateur de contenu FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
     <!-- Open Graph / Social Media -->
@@ -13,6 +14,7 @@
     <meta property="og:title" content="Baguette Chaussette | Streamer Twitch FR Gaming">
     <meta property="og:description" content="Streamer Twitch FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante pour des lives chill !">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR, ambiance cosy et décalée, posant avec Bibou le chat noir.">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Baguette Chaussette | Streamer Twitch FR Gaming">
@@ -34,12 +36,10 @@
 
     <!-- Preload : image hero + font critique -->
     <link rel="preload" href="/img/baguette-chaussette-logo.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" as="style">
+    <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" fetchpriority="high">
+    <!-- Fonts (auto-hébergées) -->
+    <link rel="stylesheet" href="./css/fonts.css">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/layout.css">
@@ -79,10 +79,134 @@
             ]
         }
     </script>
+
+    <!-- Schema.org — Lives récurrents + FAQ -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "BroadcastEvent",
+                    "@id": "https://baguettechaussette.fr/#live",
+                    "name": "Live Twitch de Baguette Chaussette",
+                    "description": "Stream en direct : gaming cosy et humour douteux, les mercredis, vendredis et dimanches à 21h (heure de Paris).",
+                    "isLiveBroadcast": true,
+                    "videoFormat": "HD",
+                    "inLanguage": "fr",
+                    "isAccessibleForFree": true,
+                    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                    "eventStatus": "https://schema.org/EventScheduled",
+                    "location": {
+                        "@type": "VirtualLocation",
+                        "url": "https://www.twitch.tv/baguettechaussette"
+                    },
+                    "organizer": {
+                        "@type": "Person",
+                        "name": "Baguette Chaussette",
+                        "url": "https://baguettechaussette.fr"
+                    },
+                    "eventSchedule": [
+                        {
+                            "@type": "Schedule",
+                            "byDay": "https://schema.org/Wednesday",
+                            "startTime": "21:00:00",
+                            "scheduleTimezone": "Europe/Paris",
+                            "repeatFrequency": "P1W"
+                        },
+                        {
+                            "@type": "Schedule",
+                            "byDay": "https://schema.org/Friday",
+                            "startTime": "21:00:00",
+                            "scheduleTimezone": "Europe/Paris",
+                            "repeatFrequency": "P1W"
+                        },
+                        {
+                            "@type": "Schedule",
+                            "byDay": "https://schema.org/Sunday",
+                            "startTime": "21:00:00",
+                            "scheduleTimezone": "Europe/Paris",
+                            "repeatFrequency": "P1W"
+                        }
+                    ]
+                },
+                {
+                    "@type": "FAQPage",
+                    "@id": "https://baguettechaussette.fr/#faq",
+                    "mainEntity": [
+                        {
+                            "@type": "Question",
+                            "name": "Quand ont lieu les lives ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Le mercredi, le vendredi et le dimanche à 21h (heure de Paris). Les imprévus et streams surprise sont toujours annoncés sur Instagram et/ou Discord."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Comment soutenir la chaîne gratuitement ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "En étant présent pendant les lives, en passant dire coucou, en créant des clips… et si tu as Amazon Prime, tu as un sub gratuit à donner chaque mois. Ça ne coûte rien et ça aide énormément !"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "C'est quoi le sub gratuit avec Amazon Prime ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Si tu as un abonnement Amazon Prime, Twitch t'offre un sub gratuit par mois à utiliser sur la chaîne de ton choix. Lie ton compte Amazon à Twitch, clique sur S'abonner, puis choisis l'option Prime. Il ne se renouvelle pas automatiquement, pense à le refaire chaque mois."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Comment faire un don ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Direction Ko-fi (ko-fi.com/baguettechaussette) ! Tu peux y laisser un pourboire, avec ou sans petit message, et une alerte apparaîtra en live."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "Comment proposer une collab ou un partenariat ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Marques, studios et agences : écrivez via l'email professionnel indiqué dans la section Contact du site en présentant votre projet. Réponse rapide, et un media kit est disponible sur demande."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "D'où vient le pseudo Baguette Chaussette ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "De l'expression « claquette-chaussette » que j'aimais bien, et que j'ai refaite à ma sauce pour en faire un pseudo !"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "C'est quoi les petits pains ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "C'est le petit nom de la communauté de Baguette Chaussette. Avec des variantes telles que les miches, les pains ou les miettes. Ils se retrouvent en live sur Twitch et sur le serveur Discord."
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "C'est quoi « la pétabilité » ?",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "La pétabilité, c'est le fait d'être beau ou belle (pétable). Chaque jour, tu peux découvrir ton pourcentage de pétabilité en tapant la commande !petable dans le chat pendant un live."
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    </script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 </head>
 
 <body>
+<a class="skip-link" href="#main">Aller au contenu</a>
 <!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
 <div class="particles" aria-hidden="true">
@@ -101,6 +225,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#planning" data-umami-event="Nav - Planning">Planning</a></li>
             <li><a href="#evenements" data-umami-event="Nav - Evenements">Événements</a></li>
+            <li><a href="#soutenir" data-umami-event="Nav - Soutenir">Soutenir</a></li>
             <li><a href="#partenaires" data-umami-event="Nav - Partenaires">Partenaires</a></li>
             <li><a href="#contact" data-umami-event="Nav - Contact">Contact</a></li>
             <li><a href="#reseaux" data-umami-event="Nav - Reseaux">Réseaux</a></li>
@@ -109,7 +234,7 @@
 </nav>
 
 <!-- Contenu principal -->
-<main>
+<main id="main">
 
 <!-- Hero Section -->
 <header class="hero" id="accueil">
@@ -163,7 +288,9 @@
         <!-- Bannière de countdown -->
         <div id="nextStreamCountdown" class="next-stream-banner"></div>
 
-        <!-- Grille des horaires -->
+        <!-- Grille des horaires — fallback no-JS.
+             La vraie source de vérité est data/schedule.json :
+             modifie le JSON, la grille et le countdown suivent. -->
         <div class="schedule-grid">
 
             <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
@@ -187,6 +314,18 @@
     </div>
 </section>
 
+
+<!-- Moments forts Section (alimentée par data/top-clips.json, masquée si vide) -->
+<section id="clips" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Moments forts</h2>
+        <p class="section-subtitle">Le meilleur des lives, clippé par les viewers</p>
+    </div>
+
+    <div class="clips-container">
+        <div class="clips-grid" id="clipsGrid"></div>
+    </div>
+</section>
 
 <!-- ══════════════════════════════════════════════════════════════════
      ÉVÉNEMENTS — Cards aperçu (homepage)
@@ -244,11 +383,41 @@
     </div>
 </section>
 
+<!-- Soutenir Section -->
+<section id="soutenir">
+    <div class="section-header">
+        <h2 class="section-title">Me soutenir</h2>
+        <p class="section-subtitle">Être là pendant les lives, c'est déjà énorme.
+            Le reste, c'est la cerise sur la baguette 🥖</p>
+    </div>
+
+    <div class="support-container">
+        <div class="social-grid">
+            <a href="https://www.twitch.tv/subs/baguettechaussette" target="_blank" rel="noopener noreferrer"
+               class="social-card twitch" data-umami-event="Support - Sub Twitch">
+                <div class="social-icon" aria-hidden="true">💜</div>
+                <div class="social-name">Sub Twitch</div>
+                <div class="social-desc">Émotes exclusives, badge de sub et <strong>zéro pub</strong> sur
+                    les lives. Et si tu as Amazon Prime, ton sub est <strong>gratuit</strong> chaque
+                    mois !</div>
+            </a>
+
+            <a href="https://ko-fi.com/baguettechaussette" target="_blank" rel="noopener noreferrer"
+               class="social-card kofi" data-umami-event="Support - Ko-fi">
+                <div class="social-icon" aria-hidden="true">☕</div>
+                <div class="social-name">Ko-fi</div>
+                <div class="social-desc">Pour m'offrir un p'tit café si le cœur t'en dit, avec ou sans
+                    message. Et ça déclenche une alerte en live !</div>
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- Contact Section -->
 <section id="contact">
     <div class="section-header">
         <h2 class="section-title">Me contacter</h2>
-        <p class="section-subtitle">Une collab, un partenariat ou une idée un peu folle ? Écris-moi !</p>
+        <p class="section-subtitle">Marques, studios, agences : une collab, un partenariat ou une campagne ? Écrivez-moi !</p>
     </div>
 
     <div class="contact-container">
@@ -256,10 +425,10 @@
             <article class="contact-info-box">
                 <div class="contact-icon" aria-hidden="true">📧</div>
                 <h3 class="contact-title">Email professionnel</h3>
-                <a href="mailto:baguette.chaussette.contact@gmail.com"
-                   class="contact-email"
+                <a href="#" class="contact-email js-email" data-user="baguette.chaussette.contact"
+                   data-domain="gmail.com" data-show-text
                    data-umami-event="Contact - Email Click">
-                    baguette.chaussette.contact@gmail.com
+                    baguette.chaussette.contact [at] gmail.com
                 </a>
             </article>
 
@@ -423,8 +592,7 @@
                                 src="https://discord.com/widget?id=1406267514081509506&theme=dark"
                                 width="100%"
                                 height="500"
-                                allowtransparency="true"
-                                frameborder="0"
+                                style="border:0"
                                 sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
                                 title="Widget Discord - Serveur Baguette Chaussette"
                                 loading="lazy"></iframe>
@@ -435,6 +603,91 @@
                 </div>
             </aside>
         </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq">
+    <div class="section-header">
+        <h2 class="section-title">FAQ</h2>
+        <p class="section-subtitle">Les questions qui reviennent le plus souvent</p>
+    </div>
+
+    <div class="faq-container">
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Horaires">Quand ont lieu les lives ?</summary>
+            <div class="faq-answer">
+                <p>Le <strong>mercredi</strong>, le <strong>vendredi</strong> et le
+                    <strong>dimanche à 21h</strong> (heure de Paris). Les imprévus et streams surprise
+                    sont toujours annoncés sur <a href="https://www.instagram.com/baguettechaussette"
+                    target="_blank" rel="noopener">Instagram</a> et/ou
+                    <a href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener">Discord</a>.</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Soutien gratuit">Comment soutenir la chaîne gratuitement ?</summary>
+            <div class="faq-answer">
+                <p>En étant présent pendant les lives, en passant dire coucou, en créant des clips… et si
+                    tu as Amazon Prime, tu as un <strong>sub gratuit</strong> à donner chaque mois.
+                    Ça ne coûte rien et ça aide énormément !</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Sub Prime">C'est quoi le sub gratuit avec Amazon Prime ?</summary>
+            <div class="faq-answer">
+                <p>Si tu as un abonnement Amazon Prime, Twitch t'offre <strong>un sub gratuit par
+                    mois</strong> à utiliser sur la chaîne de ton choix. Lie ton compte Amazon à Twitch,
+                    clique sur « S'abonner » sur <a href="https://www.twitch.tv/baguettechaussette"
+                    target="_blank" rel="noopener">la chaîne</a>, puis choisis l'option Prime. Pense
+                    juste à le refaire chaque mois, il ne se renouvelle pas tout seul !</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Don">Comment faire un don ?</summary>
+            <div class="faq-answer">
+                <p>Direction <a href="https://ko-fi.com/baguettechaussette" target="_blank"
+                    rel="noopener">Ko-fi</a> ! Tu peux y laisser un pourboire, avec ou sans petit
+                    message, et une alerte apparaîtra en live pour que je puisse te remercier 🧡</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Collab">Comment proposer une collab ou un partenariat ?</summary>
+            <div class="faq-answer">
+                <p>Vous êtes une marque, un studio ou une agence ? Écrivez-moi via l'email pro de la
+                    section <a href="#contact">Contact</a> en présentant votre projet : je reviens vers
+                    vous rapidement. Un <strong>media kit</strong> est disponible sur demande.</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Pseudo">D'où vient le pseudo Baguette Chaussette ?</summary>
+            <div class="faq-answer">
+                <p>De l'expression « claquette-chaussette » que j'aimais bien, et que j'ai refaite à ma
+                    sauce pour en faire un pseudo !</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Petits pains">C'est quoi « les petits pains » ?</summary>
+            <div class="faq-answer">
+                <p>C'est le petit nom de la communauté 🥖 Avec des variantes telles que « les miches »,
+                    « les pains » ou « les miettes ». Tu peux les retrouver en live et sur le
+                    <a href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener">Discord</a> !</p>
+            </div>
+        </details>
+
+        <details class="faq-item">
+            <summary data-umami-event="FAQ - Petabilite">C'est quoi « la pétabilité » ?</summary>
+            <div class="faq-answer">
+                <p>La pétabilité, c'est le fait d'être beau ou belle (pétable, quoi). Chaque jour, tu
+                    peux découvrir ton pourcentage de pétabilité en tapant la commande
+                    <strong>!petable</strong> dans le chat pendant un live.</p>
+            </div>
+        </details>
     </div>
 </section>
 

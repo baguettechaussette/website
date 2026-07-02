@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9146ff">
     <title>Événements communautaires | Baguette Chaussette</title>
     <meta name="description" content="L'archive des événements communautaires de Baguette Chaussette — concours, challenges dessin, et aventures avec les petits pains.">
 
@@ -14,6 +15,7 @@
     <meta property="og:title" content="Événements communautaires | Baguette Chaussette">
     <meta property="og:description" content="L'archive des événements communautaires — concours, challenges dessin, et aventures avec les petits pains.">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:alt" content="Événements communautaires Baguette Chaussette — concours et challenges créatifs.">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -31,10 +33,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts (auto-hébergées) -->
+    <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./css/fonts.css">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/base.css">
@@ -124,6 +125,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main">Aller au contenu</a>
 
 <!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
@@ -155,7 +157,7 @@
 </nav>
 
 <!-- Contenu principal -->
-<main>
+<main id="main">
 
 <!-- Page Hero -->
 <header class="page-hero" id="accueil">
