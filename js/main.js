@@ -287,7 +287,7 @@ async function loadTopClips() {
             if (!clip.id || seen.has(clip.id)) return false;
             seen.add(clip.id);
             return true;
-        }).slice(0, 6);
+        }).slice(0, 16);
         if (!clips.length) return;
 
         clips.forEach(clip => {
