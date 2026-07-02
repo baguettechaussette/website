@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9146ff">
     <title>Tous mes réseaux | Baguette Chaussette</title>
     <meta name="description"
           content="Tous mes réseaux : Twitch, YouTube, TikTok, Discord, Instagram. Rejoins la communauté de Baguette Chaussette 🥖">
@@ -16,6 +17,7 @@
     <meta property="og:title" content="Tous mes réseaux | Baguette Chaussette">
     <meta property="og:description" content="Tous mes réseaux en un seul endroit 🥖">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR — tous ses réseaux en un seul endroit.">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -32,10 +34,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
     <link rel="manifest" href="/site.webmanifest"/>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts (auto-hébergées) -->
+    <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./css/fonts.css">
 
     <!-- Styles -->
     <link rel="stylesheet" href="./css/links.css">
@@ -92,7 +93,7 @@
         </div>
 
         <h1 class="profile-name">Baguette Chaussette</h1>
-        <p class="profile-bio">Besoin de ton shot de contenu ? Stream, replay, clips, c’est ici ! Passe me faire un
+        <p class="profile-bio">Besoin de ton shot de contenu ? Streams, replays, clips, c’est ici ! Passe me faire un
             coucou en live ou sur insta 👋</p>
 
         <!-- Social Icons Row -->
@@ -139,7 +140,7 @@
         <div class="live-badge" id="liveBadge">
             <span class="live-dot" aria-hidden="true"></span>
             EN LIVE MAINTENANT : <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener" data-umami-event="Links - Live Badge"
-                                    class="link-rejoidre">REJOINDRE</a>
+                                    class="link-rejoindre">REJOINDRE</a>
         </div>
     </div>
 
@@ -194,7 +195,7 @@
             </div>
             <div class="link-text">
                 <div class="link-name">TikTok</div>
-                <div class="link-desc">Clips & lives • 3,6K abonnés</div>
+                <div class="link-desc">Clips & lives</div>
             </div>
             <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -250,7 +251,7 @@
             </div>
             <div class="link-text">
                 <div class="link-name">Donations</div>
-                <div class="link-desc">Soutenir la chaîne 🧡</div>
+                <div class="link-desc">Soutenir la chaîne sur Ko-fi 🧡</div>
             </div>
             <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -337,7 +338,8 @@
         <div class="section-label">Contact</div>
 
         <!-- Email -->
-        <a href="mailto:baguette.chaussette.contact@gmail.com" class="link-card email" data-umami-event="Links - Email">
+        <a href="#" class="link-card email js-email" data-user="baguette.chaussette.contact" data-domain="gmail.com"
+           data-umami-event="Links - Email">
             <div class="link-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -345,7 +347,7 @@
             </div>
             <div class="link-text">
                 <div class="link-name">Email professionnel</div>
-                <div class="link-desc">Une collab, un partenariat ou une idée un peu folle ?</div>
+                <div class="link-desc">Marques & studios • collabs, partenariats, campagnes</div>
             </div>
             <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -377,8 +379,8 @@
         </div>
         <div class="modal-body">
             <p>Instant Gaming est une plateforme qui propose des <strong>jeux à prix réduit</strong>.</p>
-            <p>En passant par mon lien, tu soutiens directement la chaîne : je touche une petite commission (3%) sur les
-                achats, sans que ça ne te coûte plus cher.</p>
+            <p>En passant par mon lien, tu soutiens directement la chaîne : je touche une petite commission (3 %) sur les
+                achats, sans que ça te coûte plus cher.</p>
             <p>Tu peux l'utiliser pour n'importe quel jeu du site. Clique simplement sur le bouton ci-dessous ou passe
                 par ce lien avant de finaliser ton panier :</p>
             <p><strong>Mon lien de parrainage :</strong><br>
@@ -409,12 +411,12 @@
             <p class="modal-subtitle">Réduction de 10 % sur les téléphones Pixel</p>
         </div>
         <div class="modal-body">
-            <p><strong>Codes à usage unique à utiliser lors du règlement pour obtenir 10% de réduction :</strong></p>
+            <p><strong>Codes à usage unique à utiliser lors du règlement pour obtenir 10 % de réduction :</strong></p>
             <div class="code-block">REF-FQGL6K0ZHZLMCK9DF0AB34B</div>
             <div class="code-block">REF-LFGGSV3D3SBK487PBSF5LMR</div>
             <div class="code-block">REF-YFL5CXA41GFAMBR51YLC2O5</div>
             <div class="code-block">REF-1GIVU6ZUK52WXBHDTOHS6Q9</div>
-            <p>S'il y en a un qui ne fonctionne pas, essaye-en un autre de la liste ! 😊</p>
+            <p>S'il y en a un qui ne fonctionne pas, essaies-en un autre de la liste ! 😊</p>
             <p style="margin-top:16px;"><strong>Plus d'infos :</strong><br>
                 <a href="https://store.google.com/fr/magazine/pixel-referrals?hl=fr" target="_blank" rel="noopener">store.google.com/fr/magazine/pixel-referrals</a>
             </p>
@@ -467,18 +469,20 @@
             </svg>
         </button>
         <div class="modal-header">
-            <h2 class="modal-title">Soutenir financièrement</h2>
+            <h2 class="modal-title">Soutenir sur Ko-fi</h2>
+            <p class="modal-subtitle">M'offrir un café… ou une baguette ☕🥖</p>
         </div>
         <div class="modal-body">
-            <p>Si tu le souhaites, et <strong>que tu en as les moyens</strong>, tu peux me soutenir en laissant <strong>un
-                pourboire</strong> en cliquant sur le bouton ci-dessous.</p>
-            <p>Toute donation déclenchera une alerte sur mon stream, et je ne manquerais évidemment pas de te remercier
+            <p>Si tu le souhaites, et <strong>que tu en as les moyens</strong>, tu peux me laisser <strong>un
+                pourboire</strong> sur Ko-fi, avec ou sans petit message.</p>
+            <p>C'est <strong>simple et sans inscription</strong> : carte bancaire ou PayPal, comme tu préfères.</p>
+            <p>Toute donation déclenchera une alerte sur mon stream, et je ne manquerai évidemment pas de te remercier
                 !</p>
             <p>Merci du fond du cœur 🥖</p>
         </div>
         <div class="modal-actions">
             <button class="modal-btn modal-btn-secondary" onclick="closeModal('donation')">Fermer</button>
-            <a href="https://streamelements.com/baguettechaussette/tip" target="_blank" rel="noopener"
+            <a href="https://ko-fi.com/baguettechaussette" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
                onclick="closeModal('donation')"
                data-umami-event="Links - Donation Click">Je soutiens !</a>
@@ -501,7 +505,7 @@
 
         <div class="modal-body">
             <p>Si tu veux soutenir la chaîne autrement, tu peux aussi passer par ma <strong>wishlist Throne</strong>.</p>
-            <p>Tu peux <strong>offrir un cadeau</strong> directement, ou <strong>participer à son financement</strong> avec d’autres personnes, un peu comme du financement participatif.</p>
+            <p>Tu peux <strong>offrir un cadeau</strong> directement, ou <strong>participer à son financement</strong> avec d’autres personnes, façon cagnotte.</p>
             <p>Chaque cadeau apparaît en live avec ton pseudo, et je ne manquerai évidemment pas de te remercier 🧡</p>
             <p>Merci pour ton soutien, quel qu’il soit 🥖</p>
         </div>

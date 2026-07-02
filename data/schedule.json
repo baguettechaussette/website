@@ -1,0 +1,8 @@
+{
+  "timezone": "Europe/Paris",
+  "slots": [
+    { "day": 3, "hour": 21, "minute": 0, "label": "Mercredi" },
+    { "day": 5, "hour": 21, "minute": 0, "label": "Vendredi" },
+    { "day": 0, "hour": 21, "minute": 0, "label": "Dimanche" }
+  ]
+}

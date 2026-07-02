@@ -1,0 +1,136 @@
+name: Update top clips (monthly window)
+
+on:
+  schedule:
+    - cron: "23 5 * * 1"   # rafraîchi chaque lundi à 5h23 UTC (fenêtre glissante de 30 jours)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      # Mêmes secrets que update-followers.yml
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate secrets presence
+        run: |
+          missing=0
+          for var in TWITCH_CLIENT_ID TWITCH_CLIENT_SECRET TWITCH_BROADCASTER_ID; do
+            if [ -z "${!var}" ]; then
+              echo "::error title=Missing secret::$var is not set"
+              missing=1
+            fi
+          done
+          if [ $missing -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Get App Access Token (client_credentials)
+        run: |
+          echo "Requesting access token..."
+          RESP=$(curl -sS -X POST "https://id.twitch.tv/oauth2/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=$TWITCH_CLIENT_ID" \
+            -d "client_secret=$TWITCH_CLIENT_SECRET" \
+            -d "grant_type=client_credentials")
+
+          if ! echo "$RESP" | jq -e .access_token >/dev/null; then
+            echo "::group::Full response payload"
+            echo "$RESP"
+            echo "::endgroup::"
+            echo "::error title=Token request failed::Missing access_token field"
+            exit 1
+          fi
+
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          echo "::add-mask::$ACCESS_TOKEN"
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
+          echo "✅ Token successfully retrieved"
+
+      - name: Fetch top clips of the month
+        run: |
+          echo "Fetching top clips for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
+          mkdir -p data
+
+          STARTED_AT=$(date -u -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
+          ENDED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          RESP=$(curl -sS --fail-with-body -G \
+            -H "Client-Id: $TWITCH_CLIENT_ID" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
+            --data-urlencode "first=3" \
+            --data-urlencode "started_at=$STARTED_AT" \
+            --data-urlencode "ended_at=$ENDED_AT" \
+            "https://api.twitch.tv/helix/clips") || {
+              echo "::error title=Twitch API request failed::Unable to fetch clips"
+              exit 1
+            }
+
+          if ! echo "$RESP" | jq -e '.data' >/dev/null; then
+            echo "::group::Full response payload"
+            echo "$RESP"
+            echo "::endgroup::"
+            echo "::error title=Invalid response::Missing data field"
+            exit 1
+          fi
+
+          COUNT=$(echo "$RESP" | jq '.data | length')
+
+          # Si aucun clip ce mois-ci, on garde les clips précédents
+          if [ "$COUNT" -eq 0 ]; then
+            echo "ℹ️ No clips this month — keeping previous data."
+            exit 0
+          fi
+
+          # Les clips épinglés à la main (pinned) sont préservés tels quels,
+          # et exclus de la liste automatique pour éviter les doublons.
+          PINNED=$(jq -c '.pinned // []' data/top-clips.json 2>/dev/null || echo '[]')
+
+          # Enrichit les pinned avec leur miniature via l'API (le titre manuel est
+          # conservé s'il est renseigné). Non bloquant en cas d'échec.
+          PCOUNT=$(echo "$PINNED" | jq 'length')
+          if [ "$PCOUNT" -gt 0 ]; then
+            QS=$(echo "$PINNED" | jq -r 'map("id=" + .id) | join("&")')
+            PRESP=$(curl -sS \
+              -H "Client-Id: $TWITCH_CLIENT_ID" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              "https://api.twitch.tv/helix/clips?$QS" || echo '{"data":[]}')
+            API=$(echo "$PRESP" | jq -c '.data // []')
+            PINNED=$(echo "$PINNED" | jq -c --argjson api "$API" \
+              'map(. as $p | {
+                 id: $p.id,
+                 title: (if ($p.title // "") != "" then $p.title
+                         else (($api | map(select(.id == $p.id)) | .[0].title) // "") end),
+                 thumbnail_url: ((($api | map(select(.id == $p.id)) | .[0].thumbnail_url) // $p.thumbnail_url) // null)
+               })')
+          fi
+
+          echo "$RESP" | jq --argjson pinned "$PINNED" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{pinned: $pinned,
+              clips: [.data[] | select(.id as $i | ($pinned | map(.id) | index($i)) | not) | {id, title, view_count, created_at, thumbnail_url}],
+              updated_at: $now}' \
+            > data/top-clips.json
+
+          echo "✅ Top clips: $COUNT (pinned preserved: $(echo "$PINNED" | jq 'length'))"
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet data/top-clips.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/top-clips.json
+            git commit -m "chore: update top clips (monthly window)"
+            git push
+            echo "✅ Changes committed and pushed."
+          else
+            echo "No changes detected in top-clips.json."
+          fi
