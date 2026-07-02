@@ -2,17 +2,42 @@
   "pinned": [
     {
       "id": "DullEvilHamsterAllenHuhu-Elfpg4T72bWTa5Gp",
-      "title": "Le bit de trop"
+      "title": "Le bit de trop",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/cd6edaf5-45b1-46c7-82ae-400c537b52d6/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
       "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
-      "title": "Le tchouch dans la bruschetta"
+      "title": "Le tchouch dans la bruschetta",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/815db0b5-6868-48bb-8b28-834f82177229/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
       "id": "PlausibleConsiderateLorisSSSsss-01y7urQm-PzE5sEa",
-      "title": "Sapin monté, sapin déboîté"
+      "title": "Sapin monté, sapin déboîté",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4d039bd0-3c6a-4b7f-8a9c-d0ed12640e37/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
-  "clips": [],
-  "updated_at": "2026-07-02T00:00:00Z"
+  "clips": [
+    {
+      "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
+      "title": "la famille twerke",
+      "view_count": 18,
+      "created_at": "2026-06-03T21:26:27Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/546977ed-da95-4141-99b9-be0952512694/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "CautiousTriangularRuffSpicyBoy-7su2ujoIDqISKSfc",
+      "title": "on pousse de la fonte meme enceinte",
+      "view_count": 13,
+      "created_at": "2026-06-03T20:26:11Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9dc2ede0-9574-44b2-a4bd-0a21e33839ca/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "VenomousInventiveClipzJonCarnage-hcXgr85yrA_mZjq7",
+      "title": "twerk dans le champ de blé",
+      "view_count": 11,
+      "created_at": "2026-06-03T21:18:19Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9bd2bbe1-ec67-4bc9-a3ae-f0bce3145c44/landscape/thumb/thumb-0000000000-480x272.jpg"
+    }
+  ],
+  "updated_at": "2026-07-02T14:09:36Z"
 }
