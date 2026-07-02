@@ -5,13 +5,15 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v4';
+const CACHE_NAME = 'bc-v5';
 
 const PRECACHE_ASSETS = [
     '/',
     '/index.html',
     '/events',
     '/events.html',
+    '/clips',
+    '/clips.html',
     '/links',
     '/links.html',
     '/mentions-legales',

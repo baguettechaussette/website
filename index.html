@@ -224,10 +224,8 @@
         <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#planning" data-umami-event="Nav - Planning">Planning</a></li>
-            <li><a href="#clips" data-umami-event="Nav - Clips">Clips</a></li>
+            <li><a href="/clips" data-umami-event="Nav - Clips">Clips</a></li>
             <li><a href="#evenements" data-umami-event="Nav - Evenements">Événements</a></li>
-            <li><a href="#soutenir" data-umami-event="Nav - Soutenir">Soutenir</a></li>
-            <li><a href="#partenaires" data-umami-event="Nav - Partenaires">Partenaires</a></li>
             <li><a href="#contact" data-umami-event="Nav - Contact">Contact</a></li>
             <li><a href="#reseaux" data-umami-event="Nav - Reseaux">Réseaux</a></li>
         </ul>
@@ -315,18 +313,6 @@
     </div>
 </section>
 
-
-<!-- Moments forts Section (alimentée par data/top-clips.json, masquée si vide) -->
-<section id="clips" hidden>
-    <div class="section-header">
-        <h2 class="section-title">Moments forts</h2>
-        <p class="section-subtitle">Le meilleur des lives, clippé par les viewers</p>
-    </div>
-
-    <div class="clips-container">
-        <div class="clips-grid" id="clipsGrid"></div>
-    </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════════════════════
      ÉVÉNEMENTS — Cards aperçu (homepage)

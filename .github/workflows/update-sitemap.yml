@@ -43,6 +43,12 @@ jobs:
               <priority>0.8</priority>
             </url>
             <url>
+              <loc>${DOMAIN}/clips</loc>
+              <lastmod>$(lastmod clips.html)</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.7</priority>
+            </url>
+            <url>
               <loc>${DOMAIN}/links</loc>
               <lastmod>$(lastmod links.html)</lastmod>
               <changefreq>monthly</changefreq>
