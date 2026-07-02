@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9146ff">
+    <title>Clips | Baguette Chaussette</title>
+    <meta name="description" content="Les meilleurs moments des lives de Baguette Chaussette, clippés par les viewers. Clips épinglés et top du mois.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:url" content="https://baguettechaussette.fr/clips">
+    <meta property="og:site_name" content="Baguette Chaussette">
+    <meta property="og:title" content="Clips | Baguette Chaussette">
+    <meta property="og:description" content="Le meilleur des lives, clippé par les viewers.">
+    <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR — les meilleurs clips des lives.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Clips | Baguette Chaussette">
+    <meta name="twitter:description" content="Le meilleur des lives, clippé par les viewers.">
+    <meta name="twitter:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta name="twitter:site" content="@BaguetteCho7">
+
+    <link rel="canonical" href="https://baguettechaussette.fr/clips">
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Fonts (auto-hébergées) -->
+    <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./css/fonts.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/sections.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<!-- Background animé -->
+<div class="bg-container" aria-hidden="true"></div>
+<div class="particles" aria-hidden="true">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+    <div class="container">
+        <div class="logo">
+            <a href="/" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+            <img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30">
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/#planning" data-umami-event="Clips Nav - Planning">Planning</a></li>
+            <li><a href="/clips" data-umami-event="Clips Nav - Clips">Clips</a></li>
+            <li><a href="/#evenements" data-umami-event="Clips Nav - Evenements">Événements</a></li>
+            <li><a href="/#contact" data-umami-event="Clips Nav - Contact">Contact</a></li>
+            <li><a href="/#reseaux" data-umami-event="Clips Nav - Reseaux">Réseaux</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Contenu principal -->
+<main id="main">
+
+<!-- Page Hero -->
+<header class="page-hero" id="accueil">
+    <div class="container">
+        <div class="page-hero-content">
+            <h1 class="page-hero-title">Clips</h1>
+            <p class="page-hero-subtitle">Le meilleur des lives, clippé par les viewers. Les 📌 sont mes petits préférés !</p>
+        </div>
+    </div>
+</header>
+
+<!-- Clips Section (alimentée par data/top-clips.json) -->
+<section id="clips" hidden>
+    <div class="clips-container">
+        <div class="clips-grid" id="clipsGrid"></div>
+    </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
+        <p>
+            <a href="/" data-umami-event="Clips - Footer - Home">Accueil</a> |
+            <a href="/links" data-umami-event="Clips - Footer - Hub">Hub des Liens</a> |
+            <a href="/mentions-legales" data-umami-event="Clips - Footer - Mentions">Mentions Légales</a>
+        </p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="./js/main.js"></script>
+<script src="./js/fluent-emoji.js"></script>
+
+</body>
+</html>
