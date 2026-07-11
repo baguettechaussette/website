@@ -25,6 +25,8 @@
     <meta name="twitter:site" content="@BaguetteCho7">
 
     <link rel="canonical" href="https://baguettechaussette.fr/clips">
+    <!-- Les miniatures des clips viennent du CDN Twitch -->
+    <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -91,8 +93,15 @@
 </header>
 
 <!-- Clips Section (alimentée par data/top-clips.json) -->
-<section id="clips" hidden>
+<section id="clips">
     <div class="clips-container">
+        <p class="clips-intro">
+            Les moments forts des lives Twitch de Baguette Chaussette, capturés par les p'tits pains :
+            fous rires, clutchs improbables et humour douteux certifié. Le top du mois est mis à jour
+            automatiquement — et tu peux retrouver l'intégralité des clips
+            <a href="https://www.twitch.tv/baguettechaussette/clips" target="_blank" rel="noopener"
+               data-umami-event="Clips - Voir sur Twitch">directement sur Twitch</a>.
+        </p>
         <div class="clips-grid" id="clipsGrid"></div>
     </div>
 </section>
@@ -113,6 +122,7 @@
 
 <!-- Scripts -->
 <script src="./js/main.js"></script>
+<script src="./js/live-banner.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 
 </body>

@@ -87,17 +87,31 @@
 
     // ─── Fetch live-status.json (30s) ─────────────────────────────────────────
 
+    let liveMeta = null; // {game, title, started_at} si le workflow enrichi a tourné
+
     async function pollLive() {
         try {
             const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
             if (!r.ok) return;
             const json    = await r.json();
             const newLive = !!(json && json.is_live);
+            liveMeta      = newLive ? json : null;
             if (newLive !== liveOverride) {
                 liveOverride  = newLive;
                 cachedIsLive  = null; // invalide le cache → force re-render au prochain tick
+            } else if (newLive) {
+                renderLiveMeta(); // le jeu peut changer en cours de stream
             }
         } catch { /* silencieux */ }
+    }
+
+    // Ligne "🎮 jeu en cours" de la bannière live (textContent : pas d'injection HTML)
+    function renderLiveMeta() {
+        const el = document.getElementById("liveBannerMeta");
+        if (!el) return;
+        const text = liveMeta && liveMeta.game ? `🎮 En ce moment : ${liveMeta.game}` : "";
+        el.textContent = text;
+        el.hidden = !text;
     }
 
     // ─── Re-render complet (appelé seulement si l'état change) ───────────────
@@ -111,8 +125,10 @@
             banner.innerHTML = `
                 <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
                 <h2 class="countdown-time">On n'attend plus que toi !</h2>
+                <p class="countdown-live-meta" id="liveBannerMeta" hidden></p>
                 <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
             `;
+            renderLiveMeta();
         } else {
             banner.classList.remove("is-live");
             // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
