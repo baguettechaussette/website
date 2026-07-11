@@ -166,6 +166,15 @@
     text-shadow: none;
 }
 
+/* Ligne "🎮 jeu en cours" sous le titre de la bannière live */
+.countdown-live-meta {
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.countdown-live-meta[hidden] { display: none; }
+
 @keyframes textGlow {
     0%, 100% {
         text-shadow: 0 2px 10px rgba(255, 155, 155, 0.6), 0 0 20px rgba(230, 103, 103, 0.3);
@@ -278,6 +287,37 @@
 
 .countdown-cta.upcoming:active {
     transform: translateY(-2px) scale(1.01);
+}
+
+/* === Boutons d'abonnement au calendrier des streams === */
+.calendar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.calendar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(140, 191, 159, 0.4);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.92em;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.calendar-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(140, 191, 159, 0.7);
 }
 
 /* === Socials Section === */
@@ -606,10 +646,34 @@
     margin: 0 auto;
 }
 
+/* Intro indexable de la page clips (visible aussi sans JavaScript) */
+.clips-intro {
+    max-width: 640px;
+    margin: 0 auto 30px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
 .clips-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
+}
+
+/* Squelettes affichés pendant le fetch de data/top-clips.json */
+.clip-skeleton {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    background: linear-gradient(100deg,
+        rgba(140, 191, 159, 0.14) 40%,
+        rgba(140, 191, 159, 0.28) 50%,
+        rgba(140, 191, 159, 0.14) 60%);
+    background-size: 200% 100%;
+    animation: clipShimmer 1.2s linear infinite;
+}
+
+@keyframes clipShimmer {
+    to { background-position: -200% 0; }
 }
 
 /* Miniature cliquable (le player s'ouvre en modale) */

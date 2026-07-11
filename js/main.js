@@ -140,6 +140,7 @@ async function loadFollowersCount(retries = 3) {
                 // Animation du compteur
                 el.style.opacity = '1';
                 animateCounter(el, 0, data.followers, 1500);
+                updateFollowerGoal(data.followers);
                 return;
             } else {
                 throw new Error('Invalid followers count');
@@ -163,6 +164,31 @@ async function loadFollowersCount(retries = 3) {
             }
         }
     }
+}
+
+// ── Barre de progression vers l'objectif de followers ──
+const FOLLOWER_GOAL = 2000;
+
+function updateFollowerGoal(followers) {
+    const wrap  = document.getElementById('followerGoal');
+    const fill  = document.getElementById('followerGoalFill');
+    const label = document.getElementById('followerGoalLabel');
+    if (!wrap || !fill || !label) return;
+
+    const pct = Math.min(100, Math.round((followers / FOLLOWER_GOAL) * 100));
+    fill.setAttribute('aria-valuemax', FOLLOWER_GOAL);
+    fill.setAttribute('aria-valuenow', followers);
+
+    if (followers >= FOLLOWER_GOAL) {
+        wrap.classList.add('is-reached');
+        label.textContent = `🎉 Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains atteint — merci !`;
+    } else {
+        label.textContent = `Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains : plus que ${(FOLLOWER_GOAL - followers).toLocaleString('fr-FR')} !`;
+    }
+
+    wrap.hidden = false;
+    // La largeur est posée après le premier rendu pour déclencher la transition CSS
+    requestAnimationFrame(() => { fill.style.width = pct + '%'; });
 }
 
 // Gestion du resize avec debounce
@@ -274,8 +300,18 @@ async function loadTopClips() {
     const grid = document.getElementById('clipsGrid');
     if (!section || !grid) return;
 
+    // Skeletons le temps du chargement (le fichier change tous les 2 jours,
+    // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
+    const skeletons = Array.from({ length: 8 }, () => {
+        const s = document.createElement('div');
+        s.className = 'clip-skeleton';
+        s.setAttribute('aria-hidden', 'true');
+        grid.appendChild(s);
+        return s;
+    });
+
     try {
-        const response = await fetch('/data/top-clips.json', { cache: 'no-store' });
+        const response = await fetch('/data/top-clips.json');
         if (!response.ok) return;
 
         const data = await response.json();
@@ -342,9 +378,11 @@ async function loadTopClips() {
             grid.appendChild(card);
         });
 
-        if (grid.children.length) section.hidden = false;
+        section.hidden = false;
     } catch (err) {
         console.debug('Top clips indisponibles:', err.message);
+    } finally {
+        skeletons.forEach(s => s.remove());
     }
 }
 

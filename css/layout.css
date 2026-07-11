@@ -141,6 +141,47 @@ nav .container {
     transform: scale(1.05);
 }
 
+/* === Badge EN LIVE de la navbar (injecté par js/live-banner.js) === */
+.nav-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 14px;
+    margin-right: auto; /* groupe logo + badge à gauche */
+    padding: 5px 13px;
+    border-radius: var(--radius-full);
+    background: var(--live-red-deep);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    white-space: nowrap;
+    animation: navLivePulse 2.2s ease-in-out infinite;
+}
+
+.nav-live-badge[hidden] { display: none; }
+
+.nav-live-badge:hover { background: #c23b3b; }
+
+.nav-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    animation: navDotBlink 1.4s ease-in-out infinite;
+}
+
+@keyframes navLivePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(214, 78, 78, 0.45); }
+    50%      { box-shadow: 0 0 0 7px rgba(214, 78, 78, 0); }
+}
+
+@keyframes navDotBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
 .nav-links {
     display: flex;
     gap: 40px;

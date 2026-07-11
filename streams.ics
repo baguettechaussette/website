@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Baguette Chaussette//Planning des streams//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Lives Baguette Chaussette
+X-WR-CALDESC:Les lives Twitch de Baguette Chaussette — mercredi, vendredi
+  et dimanche à 21h (heure de Paris)
+X-WR-TIMEZONE:Europe/Paris
+BEGIN:VTIMEZONE
+TZID:Europe/Paris
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:lives-hebdo-2026@baguettechaussette.fr
+DTSTAMP:20260711T120000Z
+DTSTART;TZID=Europe/Paris:20260708T210000
+DURATION:PT3H30M
+RRULE:FREQ=WEEKLY;BYDAY=WE,FR,SU
+SUMMARY:🔴 Live Twitch — Baguette Chaussette
+DESCRIPTION:Gaming cosy et humour douteux avec les p'tits pains !\n
+ https://www.twitch.tv/baguettechaussette
+URL:https://www.twitch.tv/baguettechaussette
+END:VEVENT
+END:VCALENDAR

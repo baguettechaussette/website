@@ -259,6 +259,16 @@
                 </div>
             </div>
 
+            <!-- Barre de progression vers l'objectif de followers (remplie par main.js) -->
+            <div id="followerGoal" class="follower-goal" hidden>
+                <div class="follower-goal-track">
+                    <div id="followerGoalFill" class="follower-goal-fill" role="progressbar"
+                         aria-label="Progression vers l'objectif de followers Twitch"
+                         aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0"></div>
+                </div>
+                <p id="followerGoalLabel" class="follower-goal-label"></p>
+            </div>
+
             <div class="hero-buttons">
                 <a href="#contact" class="btn btn-primary" data-umami-event="Hero - Click Contact">Me contacter</a>
                 <a href="#reseaux" class="btn btn-secondary" data-umami-event="Hero - Click Reseaux">Me suivre ✨</a>
@@ -280,7 +290,7 @@
 <section id="planning">
     <div class="section-header">
         <h2 class="section-title">Planning des streams</h2>
-        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble !</p>
+        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble ! Tous les horaires sont en heure de Paris.</p>
     </div>
 
     <div class="schedule-container">
@@ -309,6 +319,16 @@
                 <div class="schedule-time">21h00</div>
                 <div class="schedule-countdown"></div>
             </article>
+        </div>
+
+        <!-- Abonnement au calendrier des streams -->
+        <div class="calendar-actions">
+            <a class="calendar-btn" href="webcal://baguettechaussette.fr/streams.ics"
+               data-umami-event="Planning - Calendrier Abonnement">📅 S'abonner au calendrier</a>
+            <a class="calendar-btn"
+               href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Live+Twitch+%E2%80%94+Baguette+Chaussette&amp;dates=20260708T210000/20260709T003000&amp;ctz=Europe/Paris&amp;recur=RRULE:FREQ%3DWEEKLY%3BBYDAY%3DWE,FR,SU&amp;details=Gaming+cosy+et+humour+douteux+avec+les+p%27tits+pains+%21+https%3A%2F%2Fwww.twitch.tv%2Fbaguettechaussette"
+               target="_blank" rel="noopener"
+               data-umami-event="Planning - Calendrier Google">📅 Google Agenda</a>
         </div>
     </div>
 </section>
@@ -698,6 +718,7 @@
 <!-- Scripts -->
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
+<script src="./js/live-banner.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 </body>
 </html>
