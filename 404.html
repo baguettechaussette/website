@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#9146ff">
+    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
+         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
+    <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Page introuvable | Baguette Chaussette</title>
     <meta name="description" content="Oups, cette page n'existe pas (ou plus) !">
     <meta name="robots" content="noindex">
@@ -26,6 +30,7 @@
             data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Aller au contenu</a>
 
 <!-- Background -->
 <div class="bg-layer" aria-hidden="true"></div>
@@ -33,7 +38,7 @@
 <div class="deco deco-2" aria-hidden="true"></div>
 <div class="deco deco-3" aria-hidden="true"></div>
 
-<main class="page-wrapper">
+<main class="page-wrapper" id="main">
 
     <!-- Profile Section -->
     <div class="profile">
@@ -92,10 +97,8 @@
 
 </main>
 
-<!-- Scripts -->
-<script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-</script>
+<!-- Scripts (pas de script inline : bloqué par la CSP) -->
+<script src="/js/links.js"></script>
 
 </body>
 </html>

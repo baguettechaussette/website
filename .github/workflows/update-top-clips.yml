@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -194,6 +199,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/top-clips.json data/clippers.json
             git commit -m "chore: update top clips (monthly window)"
+            git pull --rebase origin main
             git push
             echo "✅ Changes committed and pushed."
           else

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#9146ff">
+    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
+         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
+    <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Tous mes réseaux | Baguette Chaussette</title>
     <meta name="description"
           content="Tous mes réseaux : Twitch, YouTube, TikTok, Discord, Instagram. Rejoins la communauté de Baguette Chaussette 🥖">
@@ -17,6 +21,8 @@
     <meta property="og:title" content="Tous mes réseaux | Baguette Chaussette">
     <meta property="og:description" content="Tous mes réseaux en un seul endroit 🥖">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR — tous ses réseaux en un seul endroit.">
 
     <!-- Twitter -->
@@ -46,10 +52,14 @@
         {
             "@context": "https://schema.org",
             "@type": "Person",
+            "@id": "https://baguettechaussette.fr/#person",
             "name": "Baguette Chaussette",
             "url": "https://baguettechaussette.fr",
             "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
-            "nationality": "French",
+            "nationality": {
+                "@type": "Country",
+                "name": "France"
+            },
             "sameAs": [
                 "https://www.twitch.tv/baguettechaussette",
                 "https://www.youtube.com/@BaguetteChaussette-VOD",
@@ -75,6 +85,8 @@
 <div class="deco deco-3" aria-hidden="true"></div>
 
 <!-- Back to main site -->
+<a class="skip-link" href="#main">Aller au contenu</a>
+
 <a href="https://baguettechaussette.fr" class="back-link" data-umami-event="Links - Back to Site">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
          stroke-linejoin="round">
@@ -83,7 +95,7 @@
     Site principal
 </a>
 
-<main class="page-wrapper">
+<main class="page-wrapper" id="main">
 
     <!-- Profile Section -->
     <div class="profile">
@@ -243,7 +255,7 @@
         <div class="section-label">Donation</div>
 
         <!-- Donations -->
-        <button class="link-card donation" onclick="openModal('donation')" data-umami-event="Links - Donation Modal">
+        <button class="link-card donation" data-modal-open="donation" data-umami-event="Links - Donation Modal">
             <div class="link-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -260,7 +272,7 @@
         </button>
 
         <!-- Wishlist Throne -->
-        <button class="link-card wishlist" onclick="openModal('wishlist')" data-umami-event="Links - Wishlist Modal">
+        <button class="link-card wishlist" data-modal-open="wishlist" data-umami-event="Links - Wishlist Modal">
             <div class="link-icon">
                  <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 
@@ -281,7 +293,7 @@
         <div class="section-label">Mes liens de parrainage</div>
 
         <!-- Instant Gaming -->
-        <button class="link-card affiliate" onclick="openModal('instantGaming')"
+        <button class="link-card affiliate" data-modal-open="instantGaming"
                 data-umami-event="Links - Instant Gaming Modal">
             <div class="link-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -299,7 +311,7 @@
         </button>
 
         <!-- Google Store -->
-        <button class="link-card affiliate" onclick="openModal('googleStore')"
+        <button class="link-card affiliate" data-modal-open="googleStore"
                 data-umami-event="Links - Google Store Modal">
             <div class="link-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -317,7 +329,7 @@
         </button>
 
         <!-- THE FINALS -->
-        <button class="link-card affiliate" onclick="openModal('theFinals')"
+        <button class="link-card affiliate" data-modal-open="theFinals"
                 data-umami-event="Links - The Finals Modal">
             <div class="link-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -366,9 +378,9 @@
 </main>
 
 <!-- Modals -->
-<div class="modal-overlay" id="modalInstantGaming" onclick="closeModalOnBackdrop(event, 'instantGaming')">
+<div class="modal-overlay" id="modalInstantGaming">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('instantGaming')" aria-label="Fermer">
+        <button class="modal-close" data-modal-close="instantGaming" aria-label="Fermer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -389,18 +401,18 @@
             <p>Merci à toi ! 💜</p>
         </div>
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" onclick="closeModal('instantGaming')">Fermer</button>
+            <button class="modal-btn modal-btn-secondary" data-modal-close="instantGaming">Fermer</button>
             <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('instantGaming')"
+               data-modal-close="instantGaming"
                data-umami-event="Links - Instant Gaming Click">Je soutiens !</a>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalGoogleStore" onclick="closeModalOnBackdrop(event, 'googleStore')">
+<div class="modal-overlay" id="modalGoogleStore">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('googleStore')" aria-label="Fermer">
+        <button class="modal-close" data-modal-close="googleStore" aria-label="Fermer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -422,19 +434,19 @@
             </p>
         </div>
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" onclick="closeModal('googleStore')">Fermer</button>
+            <button class="modal-btn modal-btn-secondary" data-modal-close="googleStore">Fermer</button>
             <a href="https://store.google.com/fr/category/phones?hl=fr" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('googleStore')"
+               data-modal-close="googleStore"
                data-umami-event="Links - Google Store Click">Google Store</a>
 
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalTheFinals" onclick="closeModalOnBackdrop(event, 'theFinals')">
+<div class="modal-overlay" id="modalTheFinals">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('theFinals')" aria-label="Fermer">
+        <button class="modal-close" data-modal-close="theFinals" aria-label="Fermer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -451,18 +463,18 @@
                 Multibucks</strong> (la monnaie du jeu) dès que tu auras terminé 20 manches 😉</p>
         </div>
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" onclick="closeModal('theFinals')">Fermer</button>
+            <button class="modal-btn modal-btn-secondary" data-modal-close="theFinals">Fermer</button>
             <a href="https://id.embark.games/fr/id/the-finals/refer-a-friend/claim?code=JZZX46DYZ-4MXELCUPP-LBMIOOD4"
                target="_blank" rel="noopener" class="modal-btn modal-btn-primary"
-               onclick="closeModal('theFinals')"
+               data-modal-close="theFinals"
                data-umami-event="Links - The Finals Click">À moi les Multibucks !</a>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalDonation" onclick="closeModalOnBackdrop(event, 'donation')">
+<div class="modal-overlay" id="modalDonation">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('donation')" aria-label="Fermer">
+        <button class="modal-close" data-modal-close="donation" aria-label="Fermer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -481,18 +493,18 @@
             <p>Merci du fond du cœur 🥖</p>
         </div>
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" onclick="closeModal('donation')">Fermer</button>
+            <button class="modal-btn modal-btn-secondary" data-modal-close="donation">Fermer</button>
             <a href="https://ko-fi.com/baguettechaussette" target="_blank" rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('donation')"
+               data-modal-close="donation"
                data-umami-event="Links - Donation Click">Je soutiens !</a>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalWishlist" onclick="closeModalOnBackdrop(event, 'wishlist')">
+<div class="modal-overlay" id="modalWishlist">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('wishlist')" aria-label="Fermer">
+        <button class="modal-close" data-modal-close="wishlist" aria-label="Fermer">
            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -511,13 +523,13 @@
         </div>
 
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" onclick="closeModal('wishlist')">Fermer</button>
+            <button class="modal-btn modal-btn-secondary" data-modal-close="wishlist">Fermer</button>
 
             <a href="https://throne.com/baguettechaussette"
                target="_blank"
                rel="noopener"
                class="modal-btn modal-btn-primary"
-               onclick="closeModal('wishlist')"
+               data-modal-close="wishlist"
                data-umami-event="Links - Wishlist Click">
                Voir la wishlist
             </a>

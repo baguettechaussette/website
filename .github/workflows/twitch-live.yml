@@ -7,6 +7,11 @@ on:
 permissions:
   contents: write
 
+# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   update-live:
     runs-on: ubuntu-latest
@@ -78,6 +83,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/live-status.json
             git commit -m "chore: update twitch live status ($(jq -r .is_live data/live-status.json))"
+            git pull --rebase origin main
             git push
           else
             echo "No status change detected."

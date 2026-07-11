@@ -174,7 +174,6 @@
 
     /* Containers */
     .schedule-container,
-    .live-container,
     .contact-container,
     .socials-container {
         padding: var(--spacing-md) var(--spacing-sm);
@@ -418,7 +417,6 @@
     }
 
     .schedule-container,
-    .live-container,
     .event-container,
     .contact-container,
     .socials-container {
@@ -515,17 +513,6 @@
         font-size: 1.05em;  /* Augmenté de 0.95em */
     }
 
-
-    /* Live - Tailles augmentées */
-    .live-indicator {
-        font-size: 1.2em;  /* Augmenté de 1.1em */
-        padding: 14px 28px;
-    }
-
-    .live-dot {
-        width: 14px;  /* Augmenté de 12px */
-        height: 14px;
-    }
 
     /* Footer */
     footer {
@@ -665,8 +652,6 @@
     .menu-toggle,
     .hero-buttons,
     .countdown-cta,
-    .live-indicator,
-    .twitch-wrap,
     footer,
     .social-card,
     .discord-widget-container {
