@@ -353,6 +353,20 @@ async function loadTopClips() {
     });
 
     try {
+        // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
+        // sont déjà affichés au-dessus : on les retire du top du mois (doublons).
+        const exclude = new Set();
+        if (document.getElementById('cowGrid')) {
+            try {
+                const rCow = await fetch('/data/clip-of-week.json');
+                if (rCow.ok) {
+                    const cow = await rCow.json();
+                    (Array.isArray(cow.finalists) ? cow.finalists : []).forEach(f => f?.id && exclude.add(f.id));
+                    if (cow.winner?.id) exclude.add(cow.winner.id);
+                }
+            } catch { /* pas grave : au pire des doublons */ }
+        }
+
         const response = await fetch('/data/top-clips.json');
         if (!response.ok) return;
 
@@ -362,7 +376,7 @@ async function loadTopClips() {
 
         const seen = new Set();
         const clips = [...pinned, ...autos].filter(clip => {
-            if (!clip.id || seen.has(clip.id)) return false;
+            if (!clip.id || seen.has(clip.id) || exclude.has(clip.id)) return false;
             seen.add(clip.id);
             return true;
         }).slice(0, limit);

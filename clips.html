@@ -105,18 +105,24 @@
 
 <!-- Le Clip de la Semaine (alimenté par data/clip-of-week.json, vote dépouillé le dimanche) -->
 <section id="clip-semaine" hidden>
-    <div class="section-header">
-        <h2 class="section-title">Le Clip de la Semaine</h2>
-        <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
-    </div>
     <div class="clips-container">
-        <div class="cow-winner" id="cowWinner" hidden></div>
-        <div class="cow-grid" id="cowGrid"></div>
+        <div class="cow-container">
+            <div class="section-header">
+                <h2 class="section-title">Le Clip de la Semaine</h2>
+                <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
+            </div>
+            <div class="cow-winner" id="cowWinner" hidden></div>
+            <div class="cow-grid" id="cowGrid"></div>
+        </div>
     </div>
 </section>
 
 <!-- Clips Section (alimentée par data/top-clips.json) -->
 <section id="clips">
+    <div class="section-header">
+        <h2 class="section-title">Le top du mois</h2>
+        <p class="section-subtitle">Les clips les plus regardés des 30 derniers jours, 📌 compris.</p>
+    </div>
     <div class="clips-container">
         <div class="clips-grid" id="clipsGrid"></div>
     </div>
