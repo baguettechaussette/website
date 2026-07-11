@@ -181,7 +181,7 @@ function updateFollowerGoal(followers) {
 
     if (followers >= FOLLOWER_GOAL) {
         wrap.classList.add('is-reached');
-        label.textContent = `🎉 Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains atteint — merci !`;
+        label.textContent = `🎉 Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains atteint, merci !`;
     } else {
         label.textContent = `Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains : plus que ${(FOLLOWER_GOAL - followers).toLocaleString('fr-FR')} !`;
     }

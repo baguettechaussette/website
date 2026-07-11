@@ -24,7 +24,7 @@
             const json = await r.json();
             const live = !!(json && json.is_live);
             badge.hidden = !live;
-            badge.title = live && json.game ? `En live sur ${json.game} — rejoindre le stream` : 'Rejoindre le stream';
+            badge.title = live && json.game ? `En live sur ${json.game}, rejoins le stream !` : 'Rejoindre le stream';
         } catch { /* silencieux : le badge reste simplement caché */ }
     }
 
