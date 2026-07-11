@@ -615,6 +615,11 @@
     margin: 0 auto;
 }
 
+/* La section colle au hero de la page (le padding global de 120px creuserait un trou) */
+#clips {
+    padding-top: 24px;
+}
+
 /* Intro indexable de la page clips (visible aussi sans JavaScript) */
 .clips-intro {
     max-width: 640px;
