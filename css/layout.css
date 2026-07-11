@@ -129,6 +129,7 @@ nav .container {
 .logo {
     font-size: 2em;
     font-weight: 800;
+    white-space: nowrap; /* le nom ne passe jamais sur deux lignes */
     background: linear-gradient(135deg, #a8641f, #b06f26);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
