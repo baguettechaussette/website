@@ -139,15 +139,6 @@
             `;
         }
 
-        // Live indicator
-        const liveIndicator = document.querySelector(".live-indicator");
-        if (liveIndicator) {
-            liveIndicator.className = isLive ? "live-indicator active" : "live-indicator offline";
-            liveIndicator.innerHTML = `<span class="live-dot" aria-hidden="true"></span> ${isLive ? "EN LIVE" : "HORS LIGNE"}`;
-            document.querySelector(".live-container")?.classList.toggle("is-live", isLive);
-            document.querySelector(".live-container")?.classList.toggle("is-offline", !isLive);
-        }
-
         // Classes des cartes (is-next / is-live)
         getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
             const now        = new Date();
