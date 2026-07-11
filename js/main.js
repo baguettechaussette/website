@@ -292,17 +292,31 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTopClips();
 });
 
+// Titre d'affichage d'un clip : le titre s'il existe, sinon la date
+// (le workflow vide les titres capturés par le bot, qui sont ceux du stream).
+function clipDisplayTitle(clip) {
+    if (clip.title) return clip.title;
+    if (clip.created_at) {
+        const d = new Date(clip.created_at);
+        if (!isNaN(d)) return `Clip du ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`;
+    }
+    return 'Clip mystère';
+}
+
 // Charge les clips du mois et affiche la section si on en a.
 // Les clips "pinned" (épinglés à la main dans data/top-clips.json) passent
 // en premier et ne sont jamais touchés par le workflow automatique.
+// Le nombre de cartes est réglable via data-limit sur la grille (vitrine home : 3).
 async function loadTopClips() {
     const section = document.getElementById('clips');
     const grid = document.getElementById('clipsGrid');
     if (!section || !grid) return;
 
+    const limit = parseInt(grid.dataset.limit, 10) || 16;
+
     // Skeletons le temps du chargement (le fichier change tous les 2 jours,
     // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
-    const skeletons = Array.from({ length: 8 }, () => {
+    const skeletons = Array.from({ length: Math.min(limit, 8) }, () => {
         const s = document.createElement('div');
         s.className = 'clip-skeleton';
         s.setAttribute('aria-hidden', 'true');
@@ -323,7 +337,7 @@ async function loadTopClips() {
             if (!clip.id || seen.has(clip.id)) return false;
             seen.add(clip.id);
             return true;
-        }).slice(0, 16);
+        }).slice(0, limit);
         if (!clips.length) return;
 
         clips.forEach(clip => {
@@ -333,12 +347,13 @@ async function loadTopClips() {
             card.className = 'clip-card';
 
             // Miniature cliquable → le clip s'ouvre dans une modale centrée
+            const displayTitle = clipDisplayTitle(clip);
+
             const thumb = document.createElement('button');
             thumb.type = 'button';
             thumb.className = 'clip-thumb';
             thumb.setAttribute('data-umami-event', 'Clips - Play');
-            thumb.setAttribute('aria-label',
-                clip.pinned && clip.title ? `Lire le clip : ${clip.title}` : 'Lire le clip');
+            thumb.setAttribute('aria-label', `Lire le clip : ${displayTitle}`);
 
             if (clip.thumbnail_url) {
                 const img = document.createElement('img');
@@ -359,20 +374,25 @@ async function loadTopClips() {
 
             // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
             // les viewers, affiché entre guillemets pour marquer la citation.
+            const meta = document.createElement('p');
+            meta.className = 'clip-meta';
             if (clip.pinned) {
-                const meta = document.createElement('p');
-                meta.className = 'clip-meta';
                 const pin = document.createElement('span');
                 pin.className = 'clip-pin';
                 pin.textContent = '📌';
                 pin.title = 'Clip épinglé';
                 meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
-                card.appendChild(meta);
-            } else if (clip.title) {
-                const meta = document.createElement('p');
-                meta.className = 'clip-meta';
-                meta.textContent = `« ${clip.title} »`;
-                card.appendChild(meta);
+            } else {
+                meta.textContent = `« ${displayTitle} »`;
+            }
+            card.appendChild(meta);
+
+            // Le p'tit pain qui a clippé (fourni par le workflow enrichi)
+            if (clip.creator_name) {
+                const by = document.createElement('p');
+                by.className = 'clip-clipper';
+                by.textContent = `clippé par ${clip.creator_name}`;
+                card.appendChild(by);
             }
 
             grid.appendChild(card);

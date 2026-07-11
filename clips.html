@@ -88,8 +88,7 @@
         <div class="page-hero-content">
             <h1 class="page-hero-title">Clips</h1>
             <p class="page-hero-subtitle">
-                Le meilleur de mes lives, clippé par les p'tits pains : fous rires, clutchs improbables
-                et humour douteux certifié. Le top du mois se met à jour tout seul, les 📌 sont mes petits
+                Le meilleur de mes lives, clippé par les p'tits pains : fous rires et humour douteux certifié. Le top du mois se met à jour tout seul, les 📌 sont mes petits
                 préférés, et si tu en veux encore plus, tous mes clips sont
                 <a href="https://www.twitch.tv/baguettechaussette/clips" target="_blank" rel="noopener"
                    data-umami-event="Clips - Voir sur Twitch">sur Twitch</a>.
@@ -98,10 +97,33 @@
     </div>
 </header>
 
+<!-- Le Clip de la Semaine (alimenté par data/clip-of-week.json, vote dépouillé le dimanche) -->
+<section id="clip-semaine" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Le Clip de la Semaine</h2>
+        <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
+    </div>
+    <div class="clips-container">
+        <div class="cow-winner" id="cowWinner" hidden></div>
+        <div class="cow-grid" id="cowGrid"></div>
+    </div>
+</section>
+
 <!-- Clips Section (alimentée par data/top-clips.json) -->
 <section id="clips">
     <div class="clips-container">
         <div class="clips-grid" id="clipsGrid"></div>
+    </div>
+</section>
+
+<!-- Le Panthéon des clippeurs (alimenté par data/clippers.json) -->
+<section id="clippeurs" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Le Panthéon des clippeurs</h2>
+        <p class="section-subtitle">Les p'tits pains qui immortalisent mes meilleurs moments (et surtout les pires).</p>
+    </div>
+    <div class="clips-container">
+        <div class="clippers-grid" id="clippersGrid"></div>
     </div>
 </section>
 
@@ -121,6 +143,7 @@
 
 <!-- Scripts -->
 <script src="./js/main.js"></script>
+<script src="./js/clips-page.js"></script>
 <script src="./js/live-float.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 

@@ -67,7 +67,7 @@ jobs:
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=10" \
+            --data-urlencode "first=16" \
             --data-urlencode "started_at=$STARTED_AT" \
             --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
@@ -91,12 +91,20 @@ jobs:
             exit 0
           fi
 
-          # Les clips épinglés à la main (pinned) sont préservés tels quels,
-          # et exclus de la liste automatique pour éviter les doublons.
-          PINNED=$(jq -c '.pinned // []' data/top-clips.json 2>/dev/null || echo '[]')
+          # Table de correspondance game_id -> nom du jeu (1 appel batch)
+          GAME_QS=$(echo "$RESP" | jq -r '[.data[].game_id | select(. != null and . != "")] | unique | map("id=" + .) | join("&")')
+          GAMES='{}'
+          if [ -n "$GAME_QS" ]; then
+            GRESP=$(curl -sS \
+              -H "Client-Id: $TWITCH_CLIENT_ID" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              "https://api.twitch.tv/helix/games?$GAME_QS" || echo '{"data":[]}')
+            GAMES=$(echo "$GRESP" | jq -c '[(.data // [])[] | {(.id): .name}] | add // {}')
+          fi
 
-          # Enrichit les pinned avec leur miniature via l'API (le titre manuel est
-          # conservé s'il est renseigné). Non bloquant en cas d'échec.
+          # Les clips épinglés à la main (pinned) sont préservés (titre maison prioritaire),
+          # enrichis via l'API, et RETIRÉS s'ils ont été supprimés de Twitch (embed cassé sinon).
+          PINNED=$(jq -c '.pinned // []' data/top-clips.json 2>/dev/null || echo '[]')
           PCOUNT=$(echo "$PINNED" | jq 'length')
           if [ "$PCOUNT" -gt 0 ]; then
             QS=$(echo "$PINNED" | jq -r 'map("id=" + .id) | join("&")')
@@ -105,32 +113,89 @@ jobs:
               -H "Authorization: Bearer $ACCESS_TOKEN" \
               "https://api.twitch.tv/helix/clips?$QS" || echo '{"data":[]}')
             API=$(echo "$PRESP" | jq -c '.data // []')
-            PINNED=$(echo "$PINNED" | jq -c --argjson api "$API" \
-              'map(. as $p | {
-                 id: $p.id,
-                 title: (if ($p.title // "") != "" then $p.title
-                         else (($api | map(select(.id == $p.id)) | .[0].title) // "") end),
-                 thumbnail_url: ((($api | map(select(.id == $p.id)) | .[0].thumbnail_url) // $p.thumbnail_url) // null)
-               })')
+
+            DELETED=$(echo "$PINNED" | jq -r --argjson api "$API" \
+              '[.[] | select(.id as $i | ($api | map(.id) | index($i)) | not) | .id] | join(", ")')
+            if [ -n "$DELETED" ]; then
+              echo "::warning title=Clip épinglé supprimé de Twitch::Retiré du site : $DELETED"
+            fi
+
+            PINNED=$(echo "$PINNED" | jq -c --argjson api "$API" --argjson games "$GAMES" \
+              'map(. as $p | ($api | map(select(.id == $p.id)) | .[0]) as $a
+                 | select($a != null)
+                 | {
+                     id: $p.id,
+                     title: (if ($p.title // "") != "" then $p.title else ($a.title // "") end),
+                     creator_name: $a.creator_name,
+                     game: ($games[$a.game_id // ""] // null),
+                     view_count: $a.view_count,
+                     created_at: $a.created_at,
+                     duration: $a.duration,
+                     thumbnail_url: ($a.thumbnail_url // $p.thumbnail_url),
+                     url: $a.url
+                   })')
           fi
 
-          echo "$RESP" | jq --argjson pinned "$PINNED" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            '{pinned: $pinned,
-              clips: [.data[] | select(.id as $i | ($pinned | map(.id) | index($i)) | not) | {id, title, view_count, created_at, thumbnail_url}],
+          # clean_title : les titres capturés par le bot (WzBot = titre du stream, pas du clip)
+          # sont vidés — le site affiche alors "Clip du JJ mois" à la place.
+          echo "$RESP" | jq --argjson pinned "$PINNED" --argjson games "$GAMES" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
+             {pinned: $pinned,
+              clips: [.data[] | select(.id as $i | ($pinned | map(.id) | index($i)) | not) | {
+                id,
+                title: (.title | clean_title),
+                creator_name,
+                game: ($games[.game_id // ""] // null),
+                view_count, created_at, duration, thumbnail_url, url}],
               updated_at: $now}' \
             > data/top-clips.json
 
           echo "✅ Top clips: $COUNT (pinned preserved: $(echo "$PINNED" | jq 'length'))"
 
+      - name: Build clippers leaderboard (all-time)
+        run: |
+          # Parcourt tout l'historique de clips (pages de 100, plafond 10 pages)
+          # pour agréger le Panthéon des clippeurs dans data/clippers.json.
+          : > /tmp/all-clips.jsonl
+          CURSOR=""
+          for i in $(seq 1 10); do
+            URL="https://api.twitch.tv/helix/clips?broadcaster_id=$TWITCH_BROADCASTER_ID&first=100"
+            if [ -n "$CURSOR" ]; then URL="$URL&after=$CURSOR"; fi
+            PAGE=$(curl -sS \
+              -H "Client-Id: $TWITCH_CLIENT_ID" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              "$URL" || echo '{"data":[]}')
+            echo "$PAGE" | jq -c '(.data // [])[]' >> /tmp/all-clips.jsonl
+            CURSOR=$(echo "$PAGE" | jq -r '.pagination.cursor // empty')
+            if [ -z "$CURSOR" ]; then break; fi
+          done
+
+          TOTAL=$(wc -l < /tmp/all-clips.jsonl)
+          echo "Clips historiques récupérés : $TOTAL"
+
+          # En cas d'échec total de l'API on ne touche pas au fichier existant
+          if [ "$TOTAL" -gt 0 ]; then
+            jq -s --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              '{clippers: (group_by(.creator_name) | map({
+                  name: .[0].creator_name,
+                  clips: length,
+                  total_views: ([.[].view_count] | add),
+                  best_clip: (max_by(.view_count) | {id, title, view_count})
+                }) | sort_by(-.clips, -.total_views)),
+                total_clips: length,
+                updated_at: $now}' /tmp/all-clips.jsonl > data/clippers.json
+            echo "✅ Panthéon : $(jq '.clippers | length' data/clippers.json) clippeurs"
+          fi
+
       - name: Commit if changed
         run: |
-          if ! git diff --quiet data/top-clips.json; then
+          if ! git diff --quiet data/top-clips.json data/clippers.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/top-clips.json
+            git add data/top-clips.json data/clippers.json
             git commit -m "chore: update top clips (monthly window)"
             git push
             echo "✅ Changes committed and pushed."
           else
-            echo "No changes detected in top-clips.json."
+            echo "No changes detected."
           fi

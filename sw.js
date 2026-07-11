@@ -37,6 +37,7 @@ const PRECACHE_ASSETS = [
     '/js/links.js',
     '/js/stream-countdown.js',
     '/js/live-float.js',
+    '/js/clips-page.js',
     '/js/fluent-emoji.js',
     '/img/baguette-chaussette-logo.webp',
     '/img/baguette-chaussette-streamer-twitch-fr-v2.webp',
