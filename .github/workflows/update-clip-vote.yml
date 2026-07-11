@@ -1,9 +1,21 @@
 name: Update clip of the week (vote)
 
+# Fonctionnement (plan Umami gratuit, sans API) :
+#   • Le dimanche avant le live : ouvrir le dashboard Umami (section Événements),
+#     lire les compteurs vote-<semaine>-1..4, puis lancer ce workflow avec le
+#     numéro du gagnant → il couronne ET prépare les finalistes suivants.
+#   • Le cron du lundi matin est un filet de sécurité : si le dépouillement a été
+#     oublié, il fait tourner les finalistes (sans gagnant, ou via l'API si un
+#     secret UMAMI_API_KEY existe un jour — plan Pro).
 on:
   schedule:
-    - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement avant le live de 21h (Paris)
-  workflow_dispatch:        # premier lancement manuel pour amorcer les finalistes
+    - cron: "0 6 * * 1"    # lundi 6h UTC : rotation de secours si oubli du dimanche
+  workflow_dispatch:
+    inputs:
+      winner:
+        description: "Numéro du finaliste gagnant (1-4), lu dans Umami > Événements. Vide = pas de gagnant."
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -47,17 +59,35 @@ jobs:
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
 
       - name: Dépouille le vote et prépare la semaine suivante
+        env:
+          MANUAL_WINNER: ${{ github.event.inputs.winner }}
         run: |
           mkdir -p data
           PREV=$(cat data/clip-of-week.json 2>/dev/null || echo '{}')
           WEEK=$(echo "$PREV" | jq -r '.week // empty')
           FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
 
+          # Filet de sécurité du lundi : si le dimanche a déjà fait la rotation,
+          # ne rien écraser (le gagnant couronné manuellement doit survivre).
+          CURRENT_WEEK=$(date -u +%G-W%V)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$CURRENT_WEEK" ]; then
+            echo "ℹ️ Semaine $CURRENT_WEEK déjà en place (dépouillement fait dimanche) : rien à faire."
+            exit 0
+          fi
+
           # ── 1. Dépouillement de la semaine écoulée ─────────────────────
           WINNER='null'
           VOTES='null'
           if [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
-            if [ -n "$UMAMI_API_KEY" ]; then
+            if [ -n "$MANUAL_WINNER" ]; then
+              # Dépouillement manuel : numéro lu dans le dashboard Umami
+              case "$MANUAL_WINNER" in
+                [1-4]) ;;
+                *) echo "::error title=Entrée invalide::winner doit être 1, 2, 3 ou 4"; exit 1 ;;
+              esac
+              WINNER=$(echo "$PREV" | jq -c --argjson i "$MANUAL_WINNER" '.finalists[$i - 1] // null')
+              echo "🏆 Gagnant de $WEEK : finaliste #$MANUAL_WINNER (dépouillement manuel)"
+            elif [ -n "$UMAMI_API_KEY" ]; then
               START_MS=$(( $(date -u -d "last monday" +%s) * 1000 ))
               END_MS=$(( $(date -u +%s) * 1000 ))
               M=$(curl -sS -H "x-umami-api-key: $UMAMI_API_KEY" \
@@ -73,12 +103,10 @@ jobs:
                 WINNER=$(echo "$PREV" | jq -c --argjson i "$IDX" '.finalists[$i - 1] // null')
                 echo "🏆 Gagnant de $WEEK : finaliste #$IDX ($(echo "$VOTES" | jq -c .))"
               else
-                WINNER=$(echo "$PREV" | jq -c '.finalists | max_by(.view_count) // null')
-                echo "ℹ️ Aucun vote cette semaine : gagnant = finaliste le plus vu"
+                echo "ℹ️ Aucun vote enregistré cette semaine : pas de gagnant"
               fi
             else
-              echo "::warning title=UMAMI_API_KEY manquant::Vote ignoré, gagnant = finaliste le plus vu"
-              WINNER=$(echo "$PREV" | jq -c '.finalists | max_by(.view_count) // null')
+              echo "::notice title=Dépouillement sauté::Ni numéro manuel ni clé API : pas de gagnant cette semaine (les finalistes tournent quand même)."
             fi
           fi
 
@@ -106,6 +134,8 @@ jobs:
               data/top-clips.json 2>/dev/null || echo '[]')
           fi
 
+          # Lancé dimanche soir : demain = lundi = semaine de vote suivante.
+          # Cron du lundi : demain = mardi = même semaine ISO, ça tombe juste aussi.
           NEXT_WEEK=$(date -u -d "tomorrow" +%G-W%V)
 
           jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
