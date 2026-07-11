@@ -24,14 +24,62 @@
         }));
     }
 
+    // ─── Fuseau horaire : le planning est en heure de Paris, pas celle du visiteur ──
+    // Un p'tit pain à Montréal doit voir un décompte vers 21h de Paris (15h chez lui).
+
+    const SCHEDULE_TZ = "Europe/Paris";
+
+    // Formatters créés une seule fois (tick tourne chaque seconde)
+    const TZ_OFFSET_DTF = new Intl.DateTimeFormat("en-US", {
+        timeZone: SCHEDULE_TZ, hour12: false,
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+    });
+    const TZ_PARTS_DTF = new Intl.DateTimeFormat("en-US", {
+        timeZone: SCHEDULE_TZ,
+        year: "numeric", month: "2-digit", day: "2-digit", weekday: "short",
+    });
+    const WEEKDAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+    // Décalage (ms) entre l'heure murale de Paris et l'UTC à un instant donné
+    function tzOffsetMs(date) {
+        const p = {};
+        for (const { type, value } of TZ_OFFSET_DTF.formatToParts(date)) p[type] = value;
+        const wallAsUTC = Date.UTC(+p.year, p.month - 1, +p.day, p.hour % 24, +p.minute, +p.second);
+        return wallAsUTC - date.getTime();
+    }
+
+    // Date calendaire et jour de semaine actuels côté Paris
+    function parisParts(now) {
+        const p = {};
+        for (const { type, value } of TZ_PARTS_DTF.formatToParts(now)) p[type] = value;
+        return { y: +p.year, m: +p.month, d: +p.day, weekday: WEEKDAYS[p.weekday] };
+    }
+
+    // Prochaine occurrence réelle (UTC) d'un créneau "jour J à HH:MM heure de Paris".
+    // Double passe sur l'offset pour absorber les changements d'heure été/hiver.
     function nextOccurrenceOf({ day, hour, minute }, now = new Date()) {
-        const next = new Date(now);
-        let daysUntil = day - now.getDay();
+        const p = parisParts(now);
+        let daysUntil = day - p.weekday;
         if (daysUntil < 0) daysUntil += 7;
-        next.setDate(now.getDate() + daysUntil);
-        next.setHours(hour, minute, 0, 0);
-        if (next <= now) next.setDate(next.getDate() + 7);
-        return next;
+
+        const toUTC = (plusDays) => {
+            const guess = Date.UTC(p.y, p.m - 1, p.d + daysUntil + plusDays, hour, minute, 0);
+            let utc = guess - tzOffsetMs(new Date(guess));
+            utc = guess - tzOffsetMs(new Date(utc));
+            return utc;
+        };
+
+        let utc = toUTC(0);
+        if (utc <= now.getTime()) utc = toUTC(7);
+        return new Date(utc);
+    }
+
+    // Dernière occurrence passée du créneau (pour détecter une fenêtre live en cours).
+    // Approximation -7j : à cheval sur un changement d'heure elle glisse d'1h, sans
+    // conséquence réelle (le statut live affiché vient de live-status.json).
+    function lastOccurrenceOf(slot, now = new Date()) {
+        return new Date(nextOccurrenceOf(slot, now).getTime() - 7 * 86400000);
     }
 
     function isNowInWindow(start, now = new Date()) {
@@ -42,15 +90,9 @@
         const now = new Date();
 
         for (const s of schedule) {
-            const startToday = new Date(now);
-            startToday.setHours(s.hour, s.minute, 0, 0);
-            if (now.getDay() === s.day && isNowInWindow(startToday, now))
-                return { ...s, date: startToday, isLive: true };
-
-            const startYesterday = new Date(startToday);
-            startYesterday.setDate(startYesterday.getDate() - 1);
-            if ((now.getDay() + 6) % 7 === s.day && isNowInWindow(startYesterday, now))
-                return { ...s, date: startYesterday, isLive: true };
+            const last = lastOccurrenceOf(s, now);
+            if (isNowInWindow(last, now))
+                return { ...s, date: last, isLive: true };
         }
 
         let nextSlot = null, minDiff = Infinity;
@@ -142,9 +184,7 @@
         // Classes des cartes (is-next / is-live)
         getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
             const now        = new Date();
-            const startToday = new Date(now);
-            startToday.setHours(hour, minute, 0, 0);
-            const isThisLive = now.getDay() === day && isNowInWindow(startToday, now);
+            const isThisLive = isNowInWindow(lastOccurrenceOf({ day, hour, minute }, now), now);
 
             el.classList.remove("is-next", "is-live");
             if (isThisLive) {
@@ -189,10 +229,7 @@
             const cdEl = el.querySelector(".schedule-countdown");
             if (!cdEl) return;
 
-            const startToday = new Date(now);
-            startToday.setHours(hour, minute, 0, 0);
-
-            if (now.getDay() === day && isNowInWindow(startToday, now)) {
+            if (isNowInWindow(lastOccurrenceOf({ day, hour, minute }, now), now)) {
                 if (cdEl.textContent !== "En cours") cdEl.textContent = "En cours";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
