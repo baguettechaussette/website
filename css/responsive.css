@@ -73,6 +73,17 @@
 
     .menu-toggle {
         display: block;
+        flex-shrink: 0; /* le hamburger ne se fait jamais recouvrir */
+    }
+
+    /* Badge EN LIVE compact pour laisser la place au logo et au hamburger */
+    .nav-live-badge {
+        font-size: 0.62em;
+        padding: 4px 9px;
+        margin-left: 8px;
+        margin-right: 8px;
+        gap: 5px;
+        flex-shrink: 0;
     }
 
     /* Hero */
@@ -572,7 +583,12 @@
     }
 
     .logo {
-        font-size: 1.35em;  /* Augmenté de 1.3em */
+        font-size: 1.05em; /* nowrap : doit tenir avec le badge EN LIVE + hamburger */
+    }
+
+    .nav-live-badge {
+        font-size: 0.58em;
+        padding: 3px 8px;
     }
 
     .schedule-day {
