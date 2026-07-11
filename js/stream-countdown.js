@@ -123,10 +123,10 @@
         if (isLive) {
             banner.classList.add("is-live");
             banner.innerHTML = `
-                <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-                <h2 class="countdown-time">On n'attend plus que toi !</h2>
+                <div class="live-chip"><span class="live-chip-dot" aria-hidden="true"></span>En live</div>
+                <h2 class="countdown-time">Le four est allumé, je suis en live !</h2>
                 <p class="countdown-live-meta" id="liveBannerMeta" hidden></p>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
+                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">Viens te poser 🧦</a>
             `;
             renderLiveMeta();
         } else {
