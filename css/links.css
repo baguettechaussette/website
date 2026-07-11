@@ -715,12 +715,31 @@ button.link-card {
     border-color: rgba(122, 158, 114, 0.5);
 }
 
+/* === Skip link (navigation clavier) — même comportement que base.css === */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+    padding: 12px 20px;
+    background: #9146ff;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
 .modal-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
+    top: 14px;
+    right: 14px;
+    width: 44px;  /* taille tactile minimale */
+    height: 44px;
     border-radius: 50%;
     background: rgba(122, 158, 114, 0.1);
     border: none;

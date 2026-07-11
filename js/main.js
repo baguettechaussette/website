@@ -35,6 +35,26 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Échap ferme le menu mobile et rend le focus au bouton hamburger
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const navLinks = document.getElementById('navLinks');
+    if (!navLinks || !navLinks.classList.contains('active')) return;
+    navLinks.classList.remove('active');
+    document.body.style.overflow = '';
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.focus();
+    }
+});
+
+// Les défilements animés en JS doivent respecter prefers-reduced-motion
+// (le paramètre behavior a priorité sur la règle CSS scroll-behavior)
+function scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
 // Smooth scroll pour les liens d'ancres
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
@@ -64,7 +84,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
             window.scrollTo({
                 top: targetPosition,
-                behavior: 'smooth'
+                behavior: scrollBehavior()
             });
         }
     });
@@ -141,6 +161,12 @@ async function loadFollowersCount(retries = 3) {
                 el.style.opacity = '1';
                 animateCounter(el, 0, data.followers, 1500);
                 updateFollowerGoal(data.followers);
+                // Annonce unique pour les lecteurs d'écran, après l'animation
+                // (le compteur animé change ~90 fois : jamais d'aria-live dessus)
+                setTimeout(() => {
+                    const announce = document.getElementById('followersAnnounce');
+                    if (announce) announce.textContent = `${data.followers.toLocaleString('fr-FR')} followers Twitch`;
+                }, 1600);
                 return;
             } else {
                 throw new Error('Invalid followers count');
@@ -153,11 +179,11 @@ async function loadFollowersCount(retries = 3) {
             }
 
             if (i === retries - 1) {
-                // Dernière tentative - fallback avec animation
+                // Dernière tentative - fallback avec animation (proche de la vraie valeur)
                 el.style.opacity = '1';
                 el.title = 'Données temporairement indisponibles';
-                animateCounter(el, 0, 1000, 1200);
-                setTimeout(() => { el.textContent = '1K+'; }, 1250);
+                animateCounter(el, 0, 1900, 1200);
+                setTimeout(() => { el.textContent = '1,9K+'; }, 1250);
             } else {
                 // Attendre avant de réessayer (backoff exponentiel)
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
@@ -270,11 +296,13 @@ document.addEventListener('DOMContentLoaded', () => {
     animateStaticCounters();
     initScrollReveal();
 
-    // Ajoute les attributs ARIA manquants
+    // Ajoute les attributs ARIA manquants + le clic du hamburger
+    // (l'onclick inline a été retiré du HTML : incompatible avec la CSP)
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-controls', 'navLinks');
+        menuToggle.addEventListener('click', toggleMenu);
     }
 
     // Année dynamique dans le footer
@@ -503,7 +531,7 @@ function animateStaticCounters() {
     }, { passive: true });
 
     btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
 })();
 

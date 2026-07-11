@@ -277,11 +277,7 @@ section {
 .logo img,
 .menu-toggle img,
 .gallery-icon img,
-.social-icon img,
-.lightbox__btn img,
-.lightbox__close img,
-.lightbox__play img,
-.lightbox__zoom img {
+.social-icon img {
     width: 1em;
     height: 1em;
     vertical-align: middle;
@@ -295,14 +291,6 @@ section {
     height: 2.5em;
 }
 
-/* Icônes de la lightbox */
-.lightbox__btn img,
-.lightbox__close img,
-.lightbox__play img,
-.lightbox__zoom img {
-    width: 24px;
-    height: 24px;
-}
 
 /* Fluent Emoji Styles */
 .fluent-emoji,
