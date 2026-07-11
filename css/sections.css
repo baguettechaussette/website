@@ -615,10 +615,149 @@
     margin: 0 auto;
 }
 
-/* La section colle au hero de la page (le padding global de 120px creuserait un trou) */
+/* Rythme vertical de la page clips : les sections s'enchaînent sans creuser de trous */
+#clip-semaine {
+    padding-top: 24px;
+    padding-bottom: 0;
+}
+
 #clips {
     padding-top: 24px;
 }
+
+#clippeurs {
+    padding-top: 0;
+}
+
+/* ── Le Clip de la Semaine ── */
+.cow-winner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 680px;
+    margin: 0 auto 40px;
+    padding: 16px 20px;
+    background: rgba(242, 201, 107, 0.14);
+    border: 2px solid rgba(242, 201, 107, 0.55);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.cow-winner[hidden] { display: none; }
+
+.cow-winner .clip-thumb {
+    width: 240px;
+    flex-shrink: 0;
+}
+
+.cow-winner-label {
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.cow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.cow-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cow-vote-btn {
+    margin-top: auto;
+    padding: 10px 18px;
+    border-radius: var(--radius-full);
+    border: 2px solid rgba(140, 191, 159, 0.5);
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.cow-vote-btn:hover:not(:disabled) {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.cow-vote-btn:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.cow-vote-btn.is-voted {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    opacity: 1;
+}
+
+/* ── Le Panthéon des clippeurs ── */
+.clippers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.clipper-card {
+    position: relative;
+    padding: 24px 16px 18px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(140, 191, 159, 0.25);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.clipper-rank {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    font-size: 1.05em;
+    font-weight: 800;
+    color: var(--text-tertiary);
+}
+
+.clipper-badge {
+    font-size: 2.4em;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.clipper-name {
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.clipper-grade {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.85em;
+}
+
+.clipper-stats {
+    margin-top: 4px;
+    color: var(--text-tertiary);
+    font-size: 0.85em;
+}
+
+.clipper-rank-1 { border-color: rgba(242, 201, 107, 0.8); }
+.clipper-rank-2 { border-color: rgba(63, 47, 37, 0.3); }
+.clipper-rank-3 { border-color: rgba(197, 106, 82, 0.55); }
 
 .clips-grid {
     display: grid;
@@ -640,6 +779,20 @@
 
 @keyframes clipShimmer {
     to { background-position: -200% 0; }
+}
+
+/* Ligne "clippé par X" sous les cartes */
+.clip-clipper {
+    margin-top: 2px;
+    text-align: center;
+    font-size: 0.82em;
+    color: var(--text-muted);
+}
+
+/* CTA "Voir tous les clips" de la vitrine home */
+.clips-more {
+    text-align: center;
+    margin-top: 32px;
 }
 
 /* Miniature cliquable (le player s'ouvre en modale) */
