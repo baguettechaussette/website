@@ -18,6 +18,7 @@
     --live-red: #ff0000;
     --live-red-pastel: #ff9b9b;
     --live-red-dark: #e66767;
+    --live-red-deep: #d64e4e; /* variante accessible : blanc >=4:1 dessus */
 
     /* Background */
     --bg-primary: #f0ebe0;

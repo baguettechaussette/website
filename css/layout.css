@@ -129,7 +129,7 @@ nav .container {
 .logo {
     font-size: 2em;
     font-weight: 800;
-    background: linear-gradient(135deg, #db8f42, #f2c977);
+    background: linear-gradient(135deg, #a8641f, #b06f26);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -163,7 +163,7 @@ nav .container {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #db8f42, #f2c977);
+    background: linear-gradient(135deg, #a8641f, #b06f26);
     transition: width var(--transition-base);
 }
 

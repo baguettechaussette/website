@@ -240,13 +240,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const list      = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {
-            const imgs = list.slice(0, 4).map(i => i.src);
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
 
             const mosaicInner = document.createElement('div');
             mosaicInner.className = 'gallery-mosaic-inner';
-            mosaicInner.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
+
+            // Vraies <img> (indexables, avec alt) sur miniatures légères :
+            // img/baguettectober/w1/x.webp → img/baguettectober/thumbs/w1/x.webp
+            list.slice(0, 4).forEach(item => {
+                const img = document.createElement('img');
+                img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
+                img.alt = `${(item.caption || '').replace('Auteur : ', 'Dessin de ')} — Baguettectober 2025`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.width = 400;
+                img.height = 400;
+                // Si la miniature manque (nouvelle édition ?), on retombe sur l'original
+                img.addEventListener('error', () => { img.src = item.src; }, { once: true });
+                mosaicInner.appendChild(img);
+            });
 
             mosaic.appendChild(mosaicInner);
             placeholder.replaceWith(mosaic);
