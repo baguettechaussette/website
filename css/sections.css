@@ -620,14 +620,6 @@
     padding-top: 24px;
 }
 
-/* Intro indexable de la page clips (visible aussi sans JavaScript) */
-.clips-intro {
-    max-width: 640px;
-    margin: 0 auto 30px;
-    text-align: center;
-    color: var(--text-secondary);
-}
-
 .clips-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
