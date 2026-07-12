@@ -5,13 +5,14 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v6';
+const CACHE_NAME = 'bc-v7';
 
 const PRECACHE_ASSETS = [
     // Une seule forme d'URL par page : celle utilisée par les liens internes
     '/',
     '/events',
     '/clips',
+    '/bingo',
     '/links',
     '/mentions-legales',
     '/404.html',
@@ -28,7 +29,9 @@ const PRECACHE_ASSETS = [
     '/css/lightbox.css',
     '/css/links.css',
     '/css/mentions-legales.css',
+    '/css/bingo.css',
     '/js/main.js',
+    '/js/bingo.js',
     '/js/gallery.js',
     '/js/links.js',
     '/js/stream-countdown.js',
