@@ -346,16 +346,16 @@
 </section>
 
 
-<!-- Moments forts : vitrine des top clips (alimentée par data/top-clips.json) -->
+<!-- Vote de la semaine : teaser vers le vote (finalistes chargés par main.js) -->
 <section id="clips" hidden>
     <div class="section-header">
-        <h2 class="section-title">Moments forts</h2>
-        <p class="section-subtitle">Le meilleur de mes lives, clippé par les p'tits pains.</p>
+        <h2 class="section-title">Vote pour le clip de la semaine</h2>
+        <p class="section-subtitle">Choisis ton clip préféré, je révèle le gagnant dimanche en live !</p>
     </div>
-    <div class="clips-container">
-        <div class="clips-grid" id="clipsGrid" data-limit="3"></div>
+    <div class="section-panel">
+        <div class="clips-grid" id="clipsGrid" data-limit="3" data-source="week"></div>
         <div class="clips-more">
-            <a href="/clips" class="btn btn-secondary" data-umami-event="Home - Clips CTA">Voir tous les clips 🎬</a>
+            <a href="/clips#clip-semaine" class="btn btn-secondary" data-umami-event="Home - Vote CTA">Voter maintenant 🥖</a>
         </div>
     </div>
 </section>
@@ -375,6 +375,7 @@
         <p class="section-subtitle">Les pépites créatives de la communauté</p>
     </div>
 
+    <div class="section-panel">
     <div class="events-archive-grid">
 
         <!-- ─── DTI Heartopia #2 (Juin 2026) ─── -->
@@ -405,6 +406,7 @@
 
     <div class="clips-more">
         <a href="/events" class="btn btn-secondary" data-umami-event="Home - Events CTA">Voir tous les événements 🎨</a>
+    </div>
     </div>
 </section>
 
@@ -492,6 +494,7 @@
             Voici les projets que je soutiens actuellement !</p>
     </div>
 
+    <div class="section-panel">
     <div class="partners-container">
 
         <!-- Loftia - Partenaire Officiel -->
@@ -554,6 +557,7 @@
             </div>
         </article>
 
+    </div>
     </div>
 </section>
 
