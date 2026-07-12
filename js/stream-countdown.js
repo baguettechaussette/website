@@ -147,52 +147,71 @@
         } catch { /* silencieux */ }
     }
 
-    // Ligne "🎮 jeu en cours" de la bannière live (textContent : pas d'injection HTML)
+    // Ligne "🎮 jeu en cours" ajoutée à la carte live (textContent : pas d'injection HTML)
     function renderLiveMeta() {
-        const el = document.getElementById("liveBannerMeta");
+        const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
         if (!el) return;
-        const text = liveMeta && liveMeta.game ? `🎮 En ce moment : ${liveMeta.game}` : "";
+        const text = liveMeta && liveMeta.game ? `🎮 ${liveMeta.game}` : "";
         el.textContent = text;
         el.hidden = !text;
     }
 
-    // ─── Re-render complet (appelé seulement si l'état change) ───────────────
+    // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
+    function setCardCta(el, type) {
+        let cta  = el.querySelector(".schedule-cta");
+        let game = el.querySelector(".schedule-live-game");
 
-    function updateUI(isLive, info) {
-        const banner = document.getElementById("nextStreamCountdown");
-        if (!banner) return;
-
-        if (isLive) {
-            banner.classList.add("is-live");
-            banner.innerHTML = `
-                <div class="live-chip"><span class="live-chip-dot" aria-hidden="true"></span>En live</div>
-                <h2 class="countdown-time">Le four est allumé, je suis en live !</h2>
-                <p class="countdown-live-meta" id="liveBannerMeta" hidden></p>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">Viens te poser 🧦</a>
-            `;
-            renderLiveMeta();
-        } else {
-            banner.classList.remove("is-live");
-            // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
-            banner.innerHTML = `
-                <div class="countdown-label">Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}</div>
-                <h2 class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)}</span> ⌛</h2>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">Suivre la chaîne ♥</a>
-            `;
+        if (!type) {
+            cta?.remove();
+            game?.remove();
+            return;
         }
 
-        // Classes des cartes (is-next / is-live)
+        // La ligne jeu (live uniquement) se place avant le CTA
+        if (type === "live") {
+            if (!game) {
+                game = document.createElement("p");
+                game.className = "schedule-live-game";
+                game.hidden = true;
+                el.appendChild(game);
+            }
+        } else {
+            game?.remove();
+        }
+
+        if (!cta) {
+            cta = document.createElement("a");
+            cta.className = "schedule-cta";
+            cta.target = "_blank";
+            cta.rel = "noopener";
+            cta.href = TWITCH_URL;
+            el.appendChild(cta);
+        }
+        cta.classList.toggle("live", type === "live");
+        cta.textContent = type === "live" ? "Viens te poser 🧦" : "Suivre la chaîne ♥";
+        cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
+    }
+
+    // ─── Re-render (appelé seulement si l'état change) ───────────────────────
+    // Plus de bannière séparée : la carte du créneau concerné porte l'état.
+    // info = créneau courant (si live) ou prochain créneau (sinon).
+
+    function updateUI(isLive, info) {
         getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
-            const now        = new Date();
-            const isThisLive = isNowInWindow(lastOccurrenceOf({ day, hour, minute }, now), now);
+            const isThisSlot = day === info.day && hour === info.hour && minute === info.minute;
 
             el.classList.remove("is-next", "is-live");
-            if (isThisLive) {
+            if (isLive && isThisSlot) {
                 el.classList.add("is-live");
-            } else if (!info.isLive && day === info.day && hour === info.hour && minute === info.minute) {
+                setCardCta(el, "live");
+            } else if (!isLive && isThisSlot) {
                 el.classList.add("is-next");
+                setCardCta(el, "next");
+            } else {
+                setCardCta(el, null);
             }
         });
+        renderLiveMeta();
     }
 
     // ─── Ticker 1s : textes uniquement, zéro innerHTML ───────────────────────
@@ -218,19 +237,14 @@
         // Même état → on met à jour uniquement les textes countdown (1s)
         const now = new Date();
 
-        if (!isLive) {
-            const bannerText = document.getElementById("bannerText");
-            if (bannerText) {
-                bannerText.textContent = `Dans ${formatCountdown(info.date - now)}`;
-            }
-        }
-
         schedule.forEach(({ day, hour, minute, el }) => {
             const cdEl = el.querySelector(".schedule-countdown");
             if (!cdEl) return;
 
-            if (isNowInWindow(lastOccurrenceOf({ day, hour, minute }, now), now)) {
-                if (cdEl.textContent !== "En cours") cdEl.textContent = "En cours";
+            // La carte live (classe posée par updateUI) affiche "En direct",
+            // les autres leur décompte.
+            if (el.classList.contains("is-live")) {
+                if (cdEl.textContent !== "En direct") cdEl.textContent = "En direct";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
                 const newText = `Dans ${formatCountdown(next - now)}`;

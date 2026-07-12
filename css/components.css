@@ -303,6 +303,44 @@
     font-weight: 700;
 }
 
+/* CTA ajouté par stream-countdown.js sur la carte du prochain live (ou du live en cours) */
+.schedule-cta {
+    display: block;
+    width: fit-content;
+    margin: 18px auto 0;
+    padding: 11px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.98em;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    box-shadow: 0 6px 20px rgba(127, 184, 147, 0.3);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.schedule-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(127, 184, 147, 0.45);
+}
+
+.schedule-cta.live {
+    background: linear-gradient(135deg, var(--live-red-deep), var(--live-red-dark));
+    box-shadow: 0 6px 20px rgba(214, 78, 78, 0.3);
+}
+
+.schedule-cta.live:hover {
+    box-shadow: 0 10px 28px rgba(214, 78, 78, 0.45);
+}
+
+.schedule-live-game {
+    margin-top: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.schedule-live-game[hidden] { display: none; }
+
 /* === Social Cards === */
 .social-grid {
     display: grid;
