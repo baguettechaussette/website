@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#9146ff">
+    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
+         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
+    <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements communautaires | Baguette Chaussette</title>
-    <meta name="description" content="L'archive des événements communautaires de Baguette Chaussette — concours, challenges dessin, et aventures avec les petits pains.">
+    <meta name="description" content="Les événements communautaires de Baguette Chaussette : concours DTI Heartopia, challenge dessin Baguettectober, et autres aventures avec les p'tits pains.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -15,6 +19,8 @@
     <meta property="og:title" content="Événements communautaires | Baguette Chaussette">
     <meta property="og:description" content="L'archive des événements communautaires — concours, challenges dessin, et aventures avec les petits pains.">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Événements communautaires Baguette Chaussette — concours et challenges créatifs.">
 
     <!-- Twitter -->
@@ -78,7 +84,7 @@
             {
                 "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#dti-heartopia-2026",
-                "name": "DTI Heartopia — Concours Dress To Impress",
+                "name": "DTI Heartopia #1 — Concours Dress To Impress",
                 "description": "Concours Dress To Impress organisé sur Heartopia avec la communauté de Baguette Chaussette. 10 participants, 5 manches de sélection + une finale, jury composé de Baguette Chaussette et Omiilia, avec les votes des viewers en direct.",
                 "startDate": "2026-03-01",
                 "endDate": "2026-03-31",
@@ -143,7 +149,7 @@
         <div class="logo">
             <a href="/" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a>
         </div>
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+        <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
             <img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30">
         </button>
         <ul class="nav-links" id="navLinks">
@@ -163,8 +169,15 @@
 <header class="page-hero" id="accueil">
     <div class="container">
         <div class="page-hero-content">
-            <h1 class="page-hero-title">Événements</h1>
+            <h1 class="page-hero-title">Concours &amp; défis des p'tits pains</h1>
             <p class="page-hero-subtitle">Les aventures créatives et concours organisés avec les p'tits pains !</p>
+
+            <!-- Accès rapide aux événements (ajouter une puce par nouvel event) -->
+            <nav class="event-anchors" aria-label="Aller à un événement">
+                <a href="#dti-heartopia-juin-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Juin">📸 DTI · juin 2026</a>
+                <a href="#dti-heartopia-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Mars">🧦 DTI · mars 2026</a>
+                <a href="#baguettectober-2025" class="event-anchor" data-umami-event="Events - Ancre Baguettectober">🥖 Baguettectober 2025</a>
+            </nav>
         </div>
     </div>
 </header>
@@ -197,7 +210,7 @@
 <section id="dti-heartopia-juin-2026">
     <div class="event-container theme-summer" data-emoji="👗">
         <div class="event-intro">
-            <div class="event-badge">Concours DTI #2 • Juin 2026 👗</div>
+            <div class="event-badge">Concours DTI • Juin 2026 👗</div>
             <h2 class="event-title">DTI Heartopia #2</h2>
             <p class="event-description">
                 Après le succès de la première édition, Dress To Impress a fait son come-back sur Heartopia ! 10 participant·es se sont affronté·es sur 5 manches à thème, avant une grande finale sur le thème « Pays ». Chaque passage a été noté par le jury composé de moi-même et d'Omiilia, ainsi que par les votes des viewers.
@@ -227,35 +240,35 @@
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/touriste-en-vacances.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Touriste en vacances">
-                        <img src="img/dti-heartopia-juin-2026/touriste-en-vacances.webp" alt="Participants en tenue de touriste en vacances - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/touriste-en-vacances.webp" srcset="img/dti-heartopia-juin-2026/touriste-en-vacances-600.webp 600w, img/dti-heartopia-juin-2026/touriste-en-vacances-900.webp 900w, img/dti-heartopia-juin-2026/touriste-en-vacances.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue de touriste en vacances - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Touriste en vacances</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/3eme-age.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="3ème âge">
-                        <img src="img/dti-heartopia-juin-2026/3eme-age.webp" alt="Participants déguisés en personnes âgées - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/3eme-age.webp" srcset="img/dti-heartopia-juin-2026/3eme-age-600.webp 600w, img/dti-heartopia-juin-2026/3eme-age-900.webp 900w, img/dti-heartopia-juin-2026/3eme-age.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants déguisés en personnes âgées - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">3ème âge</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/pride.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Pride">
-                        <img src="img/dti-heartopia-juin-2026/pride.webp" alt="Participants en tenue colorée sur le thème Pride - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/pride.webp" srcset="img/dti-heartopia-juin-2026/pride-600.webp 600w, img/dti-heartopia-juin-2026/pride-900.webp 900w, img/dti-heartopia-juin-2026/pride.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue colorée sur le thème Pride - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Pride</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/gym-bro.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Gym bro">
-                        <img src="img/dti-heartopia-juin-2026/gym-bro.webp" alt="Participants en tenue de sport façon gym bro - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/gym-bro.webp" srcset="img/dti-heartopia-juin-2026/gym-bro-600.webp 600w, img/dti-heartopia-juin-2026/gym-bro-900.webp 900w, img/dti-heartopia-juin-2026/gym-bro.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue de sport façon gym bro - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Gym bro</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/lendemain-de-soiree.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Lendemain de soirée">
-                        <img src="img/dti-heartopia-juin-2026/lendemain-de-soiree.webp" alt="Participants en tenue de lendemain de soirée - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/lendemain-de-soiree.webp" srcset="img/dti-heartopia-juin-2026/lendemain-de-soiree-600.webp 600w, img/dti-heartopia-juin-2026/lendemain-de-soiree-900.webp 900w, img/dti-heartopia-juin-2026/lendemain-de-soiree.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue de lendemain de soirée - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Lendemain de soirée</figcaption>
                 </figure>
@@ -267,21 +280,21 @@
             <div class="dti-photo-grid dti-photo-grid-finale">
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/pays.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Finale - Pays">
-                        <img src="img/dti-heartopia-juin-2026/pays.webp" alt="Finalistes en tenue sur le thème Pays - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/pays.webp" srcset="img/dti-heartopia-juin-2026/pays-600.webp 600w, img/dti-heartopia-juin-2026/pays-900.webp 900w, img/dti-heartopia-juin-2026/pays.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Finalistes en tenue sur le thème Pays - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Finale - Pays</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/podium-dti-juin-2026.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Podium du concours">
-                        <img src="img/dti-heartopia-juin-2026/podium-dti-juin-2026.webp" alt="Podium final avec les gagnants du concours - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/podium-dti-juin-2026.webp" srcset="img/dti-heartopia-juin-2026/podium-dti-juin-2026-600.webp 600w, img/dti-heartopia-juin-2026/podium-dti-juin-2026-900.webp 900w, img/dti-heartopia-juin-2026/podium-dti-juin-2026.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Podium final avec les gagnants du concours - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Podium du concours</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-juin-2026/fireworks.webp" class="lightbox-link" data-gallery="dti-heartopia-juin-2026" data-caption="Bonus - Fireworks">
-                        <img src="img/dti-heartopia-juin-2026/fireworks.webp" alt="Tenue bonus inspirée des feux d'artifice - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-juin-2026/fireworks.webp" srcset="img/dti-heartopia-juin-2026/fireworks-600.webp 600w, img/dti-heartopia-juin-2026/fireworks-900.webp 900w, img/dti-heartopia-juin-2026/fireworks.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Tenue bonus inspirée des feux d'artifice - DTI Heartopia Juin 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Bonus - Fireworks</figcaption>
                 </figure>
@@ -322,7 +335,7 @@
     <div class="event-container theme-game" data-emoji="📸">
         <div class="event-intro">
             <div class="event-badge">Concours DTI • Mars 2026 🧦</div>
-            <h2 class="event-title">DTI Heartopia</h2>
+            <h2 class="event-title">DTI Heartopia #1</h2>
             <p class="event-description">
                 Premier concours Dress To Impress organisé sur Heartopia avec la commu ! <br>
                 Pendant toute la soirée, 10 participant·es se sont affronté·es sur 6 manches à thème. <br>
@@ -353,42 +366,42 @@
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/pyjama-party.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Pyjama party">
-                        <img src="img/dti-heartopia-mars-2026/pyjama-party.webp" alt="Participants en tenue pyjama sur scène - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/pyjama-party.webp" srcset="img/dti-heartopia-mars-2026/pyjama-party-600.webp 600w, img/dti-heartopia-mars-2026/pyjama-party-900.webp 900w, img/dti-heartopia-mars-2026/pyjama-party.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue pyjama sur scène - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Pyjama party</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/outfit-le-plus-moche.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Outfit le plus moche">
-                        <img src="img/dti-heartopia-mars-2026/outfit-le-plus-moche.webp" alt="Participants avec des tenues volontairement ridicules - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/outfit-le-plus-moche.webp" srcset="img/dti-heartopia-mars-2026/outfit-le-plus-moche-600.webp 600w, img/dti-heartopia-mars-2026/outfit-le-plus-moche-900.webp 900w, img/dti-heartopia-mars-2026/outfit-le-plus-moche.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants avec des tenues volontairement ridicules - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Outfit le plus moche</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Tenue inspirée d’un aliment">
-                        <img src="img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment.webp" alt="Tenues inspirées d’aliments colorés - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment.webp" srcset="img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment-600.webp 600w, img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment-900.webp 900w, img/dti-heartopia-mars-2026/tenue-inspirée-d-un-aliment.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Tenues inspirées d’aliments colorés - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Tenue inspirée d’un aliment</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/gala-de-luxe.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Gala de luxe">
-                        <img src="img/dti-heartopia-mars-2026/gala-de-luxe.webp" alt="Participants en tenue élégante pour un gala - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/gala-de-luxe.webp" srcset="img/dti-heartopia-mars-2026/gala-de-luxe-600.webp 600w, img/dti-heartopia-mars-2026/gala-de-luxe-900.webp 900w, img/dti-heartopia-mars-2026/gala-de-luxe.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Participants en tenue élégante pour un gala - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Gala de luxe</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/tenue-florale.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Tenue florale">
-                        <img src="img/dti-heartopia-mars-2026/tenue-florale.webp" alt="Tenues avec motifs floraux - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/tenue-florale.webp" srcset="img/dti-heartopia-mars-2026/tenue-florale-600.webp 600w, img/dti-heartopia-mars-2026/tenue-florale-900.webp 900w, img/dti-heartopia-mars-2026/tenue-florale.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Tenues avec motifs floraux - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Tenue florale</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/roi-reine.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Finale ratée - Reine / Roi">
-                        <img src="img/dti-heartopia-mars-2026/roi-reine.webp" alt="Finale avec costumes roi et reine sur scène - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/roi-reine.webp" srcset="img/dti-heartopia-mars-2026/roi-reine-600.webp 600w, img/dti-heartopia-mars-2026/roi-reine-900.webp 900w, img/dti-heartopia-mars-2026/roi-reine.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Finale avec costumes roi et reine sur scène - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Finale ratée - Reine / Roi</figcaption>
                 </figure>
@@ -400,14 +413,14 @@
             <div class="dti-photo-grid dti-photo-grid-finale">
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/premier-date.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Finale - Premier date">
-                        <img src="img/dti-heartopia-mars-2026/premier-date.webp" alt="Finale avec tenues pour un premier date - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/premier-date.webp" srcset="img/dti-heartopia-mars-2026/premier-date-600.webp 600w, img/dti-heartopia-mars-2026/premier-date-900.webp 900w, img/dti-heartopia-mars-2026/premier-date.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Finale avec tenues pour un premier date - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Finale - Premier date</figcaption>
                 </figure>
 
                 <figure class="dti-photo-item">
                     <a href="img/dti-heartopia-mars-2026/podium-dti-mars-2026.webp" class="lightbox-link" data-gallery="dti-heartopia-2026" data-caption="Podium du concours">
-                        <img src="img/dti-heartopia-mars-2026/podium-dti-mars-2026.webp" alt="Podium final avec les gagnants du concours - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
+                        <img src="img/dti-heartopia-mars-2026/podium-dti-mars-2026.webp" srcset="img/dti-heartopia-mars-2026/podium-dti-mars-2026-600.webp 600w, img/dti-heartopia-mars-2026/podium-dti-mars-2026-900.webp 900w, img/dti-heartopia-mars-2026/podium-dti-mars-2026.webp 1452w" sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 460px" alt="Podium final avec les gagnants du concours - DTI Heartopia Mars 2026" width="1452" height="817" loading="lazy">
                     </a>
                     <figcaption class="dti-photo-caption">Podium du concours</figcaption>
                 </figure>
@@ -468,7 +481,7 @@
         </div>
 
         <div class="gallery-grid">
-            <article class="gallery-item" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
+            <article class="gallery-item" role="button" data-week="w1" tabindex="0" aria-label="Ouvrir la galerie Semaine 1 - La fournée maudite">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🥖</div>
                     <p class="gallery-week-label">Semaine 1</p>
@@ -477,7 +490,7 @@
                 <p class="gallery-artist">Un four ancien s'ouvre, et la fournée qui en sort n'a rien d'ordinaire...</p>
             </article>
 
-            <article class="gallery-item" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
+            <article class="gallery-item" role="button" data-week="w2" tabindex="0" aria-label="Ouvrir la galerie Semaine 2 - La Chaussette DÉMONIAQUE">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🧦</div>
                     <p class="gallery-week-label">Semaine 2</p>
@@ -486,7 +499,7 @@
                 <p class="gallery-artist">Accablée de désespoir et sans autre échappatoire, cette chaussette aurait conclu un sombre pacte avec les enfers…</p>
             </article>
 
-            <article class="gallery-item" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3 - Le Grimoire ANCIEN">
+            <article class="gallery-item" role="button" data-week="w3" tabindex="0" aria-label="Ouvrir la galerie Semaine 3 - Le Grimoire ANCIEN">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🖌️</div>
                     <p class="gallery-week-label">Semaine 3</p>
@@ -495,7 +508,7 @@
                 <p class="gallery-artist">Il s'ouvre sur une page jaunie, où de petits croquis griffonnés accompagnent la description d'une créature noire aux yeux jaunes, armée de crocs aussi charmants qu'effrayants…</p>
             </article>
 
-            <article class="gallery-item" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4 - TERREUR sous le Lit">
+            <article class="gallery-item" role="button" data-week="w4" tabindex="0" aria-label="Ouvrir la galerie Semaine 4 - TERREUR sous le Lit">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🎭</div>
                     <p class="gallery-week-label">Semaine 4</p>
@@ -504,7 +517,7 @@
                 <p class="gallery-artist">Serait-ce une petite chaussette effrayée sous le lit ? Mais… de quoi a-t-elle peur ?</p>
             </article>
 
-            <article class="gallery-item" data-week="bonus" tabindex="0" aria-label="Ouvrir la galerie Challenge bonus - La DERNIÈRE Flamme">
+            <article class="gallery-item" role="button" data-week="bonus" tabindex="0" aria-label="Ouvrir la galerie Challenge bonus - La DERNIÈRE Flamme">
                 <div class="gallery-placeholder">
                     <div class="gallery-icon" aria-hidden="true">🌟</div>
                     <p class="gallery-week-label">Challenge bonus</p>
@@ -517,6 +530,13 @@
 </section>
 
 </main>
+
+<!-- Bouton retour en haut -->
+<button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+</button>
 
 <!-- Footer -->
 <footer>
@@ -532,6 +552,7 @@
 
 <!-- Scripts -->
 <script src="./js/main.js"></script>
+<script src="./js/live-float.js"></script>
 <script src="./js/gallery.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 

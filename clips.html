@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#9146ff">
+    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
+         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
+    <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Clips | Baguette Chaussette</title>
     <meta name="description" content="Les meilleurs moments des lives de Baguette Chaussette, clippés par les viewers. Clips épinglés et top du mois.">
 
@@ -15,6 +19,8 @@
     <meta property="og:title" content="Clips | Baguette Chaussette">
     <meta property="og:description" content="Le meilleur des lives, clippé par les viewers.">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR — les meilleurs clips des lives.">
 
     <!-- Twitter -->
@@ -22,9 +28,12 @@
     <meta name="twitter:title" content="Clips | Baguette Chaussette">
     <meta name="twitter:description" content="Le meilleur des lives, clippé par les viewers.">
     <meta name="twitter:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta name="twitter:image:alt" content="Baguette Chaussette, streamer Twitch FR — les meilleurs clips des lives.">
     <meta name="twitter:site" content="@BaguetteCho7">
 
     <link rel="canonical" href="https://baguettechaussette.fr/clips">
+    <!-- Les miniatures des clips viennent du CDN Twitch -->
+    <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -64,7 +73,7 @@
         <div class="logo">
             <a href="/" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a>
         </div>
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+        <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
             <img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30">
         </button>
         <ul class="nav-links" id="navLinks">
@@ -85,19 +94,71 @@
     <div class="container">
         <div class="page-hero-content">
             <h1 class="page-hero-title">Clips</h1>
-            <p class="page-hero-subtitle">Le meilleur des lives, clippé par les viewers. Les 📌 sont mes petits préférés !</p>
+            <p class="page-hero-subtitle">
+                Le meilleur de mes lives, clippé par les p'tits pains. Vote pour ton clip de la semaine,
+                fouille le top du mois, et si tu en veux encore plus, tous mes clips sont
+                <a href="https://www.twitch.tv/baguettechaussette/clips" target="_blank" rel="noopener"
+                   data-umami-event="Clips - Voir sur Twitch">sur Twitch</a>.
+            </p>
         </div>
     </div>
 </header>
 
+<!-- Le Clip de la Semaine (alimenté par data/clip-of-week.json, vote dépouillé le dimanche) -->
+<section id="clip-semaine" hidden>
+    <div class="clips-container">
+        <div class="cow-container">
+            <div class="section-header">
+                <h2 class="section-title">Le Clip de la Semaine</h2>
+                <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
+            </div>
+            <div class="cow-winner" id="cowWinner" hidden></div>
+            <div class="cow-grid" id="cowGrid"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Mes petits préférés : les clips épinglés à la main (data/top-clips.json > pinned) -->
+<section id="clips-pinned" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Mes petits préférés 📌</h2>
+        <p class="section-subtitle">Ceux que je garde précieusement, peu importe leur âge.</p>
+    </div>
+    <div class="clips-container">
+        <div class="clips-grid" id="pinnedGrid"></div>
+    </div>
+</section>
+
 <!-- Clips Section (alimentée par data/top-clips.json) -->
-<section id="clips" hidden>
+<section id="clips">
+    <div class="section-header">
+        <h2 class="section-title">Le top du mois</h2>
+        <p class="section-subtitle">Les clips les plus regardés des 30 derniers jours.</p>
+    </div>
     <div class="clips-container">
         <div class="clips-grid" id="clipsGrid"></div>
     </div>
 </section>
 
+<!-- Le Panthéon des clippeurs (alimenté par data/clippers.json) -->
+<section id="clippeurs" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Le Panthéon des clippeurs</h2>
+        <p class="section-subtitle">Les p'tits pains qui immortalisent mes meilleurs moments (et surtout les pires).</p>
+    </div>
+    <div class="clips-container">
+        <div class="clippers-grid" id="clippersGrid"></div>
+    </div>
+</section>
+
 </main>
+
+<!-- Bouton retour en haut -->
+<button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+</button>
 
 <!-- Footer -->
 <footer>
@@ -105,6 +166,7 @@
         <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
         <p>
             <a href="/" data-umami-event="Clips - Footer - Home">Accueil</a> |
+            <a href="/events" data-umami-event="Clips - Footer - Events">Événements</a> |
             <a href="/links" data-umami-event="Clips - Footer - Hub">Hub des Liens</a> |
             <a href="/mentions-legales" data-umami-event="Clips - Footer - Mentions">Mentions Légales</a>
         </p>
@@ -113,6 +175,8 @@
 
 <!-- Scripts -->
 <script src="./js/main.js"></script>
+<script src="./js/clips-page.js"></script>
+<script src="./js/live-float.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 
 </body>

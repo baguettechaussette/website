@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#9146ff">
+    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
+         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
+    <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
-    <meta name="description" content="Streamer Twitch et créateur de contenu FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
+    <meta name="description" content="Baguette Chaussette, streamer Twitch français : gaming cosy et humour douteux. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
@@ -14,6 +18,8 @@
     <meta property="og:title" content="Baguette Chaussette | Streamer Twitch FR Gaming">
     <meta property="og:description" content="Streamer Twitch FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante pour des lives chill !">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR, ambiance cosy et décalée, posant avec Bibou le chat noir.">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -51,31 +57,47 @@
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Baguette Chaussette",
-            "url": "https://baguettechaussette.fr",
-            "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
-            "nationality": "French",
-            "jobTitle": "Streamer et créateur de contenu",
-            "description": "Streamer Twitch FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante pour des lives chill !",
-            "knowsAbout": [
-                "Twitch streaming",
-                "Cozy games",
-                "Narrative games",
-                "Community gaming"
-            ],
-            "brand": {
-                "@type": "Brand",
-                "name": "Baguette Chaussette",
-                "logo": "https://baguettechaussette.fr/img/baguette-chaussette-logo.webp",
-                "url": "https://baguettechaussette.fr"
-            },
-            "sameAs": [
-                "https://www.twitch.tv/baguettechaussette",
-                "https://www.youtube.com/@BaguetteChaussette-VOD",
-                "https://www.tiktok.com/@baguettechau7",
-                "https://x.com/BaguetteChau7",
-                "https://www.instagram.com/baguettechaussette"
+            "@graph": [
+                {
+                    "@type": "WebSite",
+                    "@id": "https://baguettechaussette.fr/#website",
+                    "name": "Baguette Chaussette",
+                    "url": "https://baguettechaussette.fr/",
+                    "inLanguage": "fr",
+                    "publisher": { "@id": "https://baguettechaussette.fr/#person" }
+                },
+                {
+                    "@type": "Person",
+                    "@id": "https://baguettechaussette.fr/#person",
+                    "name": "Baguette Chaussette",
+                    "url": "https://baguettechaussette.fr",
+                    "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                    "nationality": {
+                        "@type": "Country",
+                        "name": "France"
+                    },
+                    "jobTitle": "Streamer et créateur de contenu",
+                    "description": "Streamer Twitch FR, gaming cosy et humour douteux. Rejoins une communauté bienveillante pour des lives chill !",
+                    "knowsAbout": [
+                        "Twitch streaming",
+                        "Cozy games",
+                        "Narrative games",
+                        "Community gaming"
+                    ],
+                    "brand": {
+                        "@type": "Brand",
+                        "name": "Baguette Chaussette",
+                        "logo": "https://baguettechaussette.fr/img/baguette-chaussette-logo.webp",
+                        "url": "https://baguettechaussette.fr"
+                    },
+                    "sameAs": [
+                        "https://www.twitch.tv/baguettechaussette",
+                        "https://www.youtube.com/@BaguetteChaussette-VOD",
+                        "https://www.tiktok.com/@baguettechau7",
+                        "https://x.com/BaguetteChau7",
+                        "https://www.instagram.com/baguettechaussette"
+                    ]
+                }
             ]
         }
     </script>
@@ -221,7 +243,7 @@
 <nav id="navbar">
     <div class="container">
         <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a></div>
-        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
+        <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#accueil" data-umami-event="Nav - Accueil">Accueil</a></li>
             <li><a href="/clips" data-umami-event="Nav - Clips">Clips</a></li>
@@ -246,8 +268,9 @@
 
             <div class="hero-stats" role="region" aria-label="Statistiques">
                 <div class="stat-box">
-                    <div id="followersCount" class="stat-number" aria-live="polite">-</div>
+                    <div id="followersCount" class="stat-number">-</div>
                     <div class="stat-label">followers Twitch</div>
+                    <span id="followersAnnounce" class="visually-hidden" aria-live="polite"></span>
                 </div>
                 <div class="stat-box">
                     <div class="stat-number">3600+</div>
@@ -257,6 +280,16 @@
                     <div class="stat-number">1000+</div>
                     <div class="stat-label">heures de stream</div>
                 </div>
+            </div>
+
+            <!-- Barre de progression vers l'objectif de followers (remplie par main.js) -->
+            <div id="followerGoal" class="follower-goal" hidden>
+                <div class="follower-goal-track">
+                    <div id="followerGoalFill" class="follower-goal-fill" role="progressbar"
+                         aria-label="Progression vers l'objectif de followers Twitch"
+                         aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0"></div>
+                </div>
+                <p id="followerGoalLabel" class="follower-goal-label"></p>
             </div>
 
             <div class="hero-buttons">
@@ -280,16 +313,15 @@
 <section id="planning">
     <div class="section-header">
         <h2 class="section-title">Planning des streams</h2>
-        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble !</p>
+        <p class="section-subtitle">Des rendez-vous réguliers pour discuter, rire et chiller ensemble ! Tous les horaires sont en heure de Paris.</p>
     </div>
 
     <div class="schedule-container">
-        <!-- Bannière de countdown -->
-        <div id="nextStreamCountdown" class="next-stream-banner"></div>
-
         <!-- Grille des horaires — fallback no-JS.
              La vraie source de vérité est data/schedule.json :
-             modifie le JSON, la grille et le countdown suivent. -->
+             modifie le JSON, la grille et le countdown suivent.
+             La carte du prochain live (ou du live en cours) reçoit un CTA,
+             ajouté par js/stream-countdown.js. -->
         <div class="schedule-grid">
 
             <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
@@ -313,6 +345,20 @@
     </div>
 </section>
 
+
+<!-- Vote de la semaine : teaser vers le vote (finalistes chargés par main.js) -->
+<section id="clips" hidden>
+    <div class="section-header">
+        <h2 class="section-title">Vote pour le clip de la semaine</h2>
+        <p class="section-subtitle">Choisis ton clip préféré, je révèle le gagnant dimanche en live !</p>
+    </div>
+    <div class="section-panel">
+        <div class="clips-grid" id="clipsGrid" data-limit="3" data-source="week"></div>
+        <div class="clips-more">
+            <a href="/clips#clip-semaine" class="btn btn-primary" data-umami-event="Home - Vote CTA">Voter maintenant 🥖</a>
+        </div>
+    </div>
+</section>
 
 <!-- ══════════════════════════════════════════════════════════════════
      ÉVÉNEMENTS — Cards aperçu (homepage)
@@ -350,23 +396,15 @@
                 <span class="event-status-badge passe">Mars 2026</span>
             </div>
             <div class="event-archive-icon" aria-hidden="true">🧦</div>
-            <h3 class="event-archive-title">DTI Heartopia</h3>
+            <h3 class="event-archive-title">DTI Heartopia #1</h3>
             <p class="event-archive-desc">Concours Dress To Impress organisé sur Heartopia avec la communauté. Tenues, jury, et podium.</p>
             <span class="event-archive-cta">Voir le recap →</span>
         </a>
 
-        <!-- ─── Baguettectober (Octobre 2025) ─── -->
-        <a href="/events#baguettectober-2025" class="event-archive-card theme-autumn" data-umami-event="Home - Events - Baguettectober">
-            <div class="event-archive-meta">
-                <span class="event-type-badge">Challenge dessin</span>
-                <span class="event-status-badge passe">Octobre 2025</span>
-            </div>
-            <div class="event-archive-icon" aria-hidden="true">🥖</div>
-            <h3 class="event-archive-title">Baguettectober 2025</h3>
-            <p class="event-archive-desc">5 semaines de défis dessin inspirés d'Inktober. 33 illustrations créées par les p'tits pains.</p>
-            <span class="event-archive-cta">Voir la galerie →</span>
-        </a>
+    </div>
 
+    <div class="clips-more">
+        <a href="/events" class="btn btn-primary" data-umami-event="Home - Events CTA">Voir tous les événements 🎨</a>
     </div>
 </section>
 
@@ -460,7 +498,7 @@
         <article class="partner-card partner-featured" data-umami-event="Partner - Loftia Card Click">
             <div class="partner-badge partner">Partenaire Officiel</div>
             <div class="partner-logo">
-                <img src="img/partners/loftia-badge-partner.png" alt="Loftia" loading="lazy" />
+                <img src="img/partners/loftia-badge-partner.webp" alt="Logo de Loftia, MMO cosy solarpunk" width="440" height="175" loading="lazy" />
             </div>
             <div class="partner-content">
                 <h3 class="partner-name">Loftia</h3>
@@ -490,7 +528,7 @@
         <article class="partner-card partner-featured" data-umami-event="Partner - inKONBINI Card Click">
             <div class="partner-badge ambassador">Ambassadeur</div>
             <div class="partner-logo">
-                <img src="img/partners/inkonbini-logo.png" alt="Inkonbini" loading="lazy" />
+                <img src="img/partners/inkonbini-logo.webp" alt="Logo de inKONBINI, jeu narratif cosy" width="440" height="118" loading="lazy" />
             </div>
             <div class="partner-content">
                 <h3 class="partner-name">Inkonbini</h3>
@@ -691,13 +729,14 @@
 <footer>
     <div class="footer-content">
         <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
-        <p><a href="https://baguettechaussette.fr/links" data-umami-event="Home - Footer - Hub">Hub des Liens</a> | <a href="https://baguettechaussette.fr/mentions-legales" data-umami-event="Home - Footer - Mentions">Mentions Légales</a> </p>
+        <p><a href="/events" data-umami-event="Home - Footer - Events">Événements</a> | <a href="https://baguettechaussette.fr/links" data-umami-event="Home - Footer - Hub">Hub des Liens</a> | <a href="https://baguettechaussette.fr/mentions-legales" data-umami-event="Home - Footer - Mentions">Mentions Légales</a> </p>
     </div>
 </footer>
 
 <!-- Scripts -->
 <script src="./js/main.js"></script>
 <script src="./js/stream-countdown.js"></script>
+<script src="./js/live-float.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 </body>
 </html>

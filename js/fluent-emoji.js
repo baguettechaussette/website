@@ -43,6 +43,16 @@
     const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE']);
     let observer = null;
 
+    // Motif de découpe construit une seule fois : les emojis les plus longs d'abord
+    // (les séquences avec variation selector, ex. ❤️, doivent matcher avant leurs préfixes)
+    const EMOJI_PATTERN = new RegExp(
+        '(' + Object.keys(EMOJI_MAP)
+            .sort((a, b) => b.length - a.length)
+            .map(e => e.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+            .join('|') + ')',
+        'g'
+    );
+
     function replaceEmojis(root) {
         root = root || document.body;
 
@@ -72,16 +82,25 @@
         }
 
         nodesToReplace.forEach(node => {
-            let html = node.textContent;
-
-            for (const [emoji, code] of Object.entries(EMOJI_MAP)) {
-                const imgTag = `<img class="fluent-emoji" src="${CDN_BASE}/${code}.svg" alt="${emoji}" />`;
-                html = html.replaceAll(emoji, imgTag);
-            }
-
+            // Reconstruction en noeuds DOM purs, jamais via innerHTML : le texte peut
+            // venir de contenus externes (titres de clips Twitch écrits par les viewers).
             const span = document.createElement('span');
             span.setAttribute('data-fluent-emoji-processed', '');
-            span.innerHTML = html;
+
+            node.textContent.split(EMOJI_PATTERN).forEach(part => {
+                if (!part) return;
+                const code = EMOJI_MAP[part];
+                if (code) {
+                    const img = document.createElement('img');
+                    img.className = 'fluent-emoji';
+                    img.src = `${CDN_BASE}/${code}.svg`;
+                    img.alt = part;
+                    span.appendChild(img);
+                } else {
+                    span.appendChild(document.createTextNode(part));
+                }
+            });
+
             node.parentNode.replaceChild(span, node);
         });
     }

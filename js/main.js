@@ -35,6 +35,26 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Échap ferme le menu mobile et rend le focus au bouton hamburger
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const navLinks = document.getElementById('navLinks');
+    if (!navLinks || !navLinks.classList.contains('active')) return;
+    navLinks.classList.remove('active');
+    document.body.style.overflow = '';
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.focus();
+    }
+});
+
+// Les défilements animés en JS doivent respecter prefers-reduced-motion
+// (le paramètre behavior a priorité sur la règle CSS scroll-behavior)
+function scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
 // Smooth scroll pour les liens d'ancres
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
@@ -64,7 +84,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
             window.scrollTo({
                 top: targetPosition,
-                behavior: 'smooth'
+                behavior: scrollBehavior()
             });
         }
     });
@@ -140,6 +160,13 @@ async function loadFollowersCount(retries = 3) {
                 // Animation du compteur
                 el.style.opacity = '1';
                 animateCounter(el, 0, data.followers, 1500);
+                updateFollowerGoal(data.followers);
+                // Annonce unique pour les lecteurs d'écran, après l'animation
+                // (le compteur animé change ~90 fois : jamais d'aria-live dessus)
+                setTimeout(() => {
+                    const announce = document.getElementById('followersAnnounce');
+                    if (announce) announce.textContent = `${data.followers.toLocaleString('fr-FR')} followers Twitch`;
+                }, 1600);
                 return;
             } else {
                 throw new Error('Invalid followers count');
@@ -152,17 +179,55 @@ async function loadFollowersCount(retries = 3) {
             }
 
             if (i === retries - 1) {
-                // Dernière tentative - fallback avec animation
+                // Dernière tentative - fallback avec animation (proche de la vraie valeur)
                 el.style.opacity = '1';
                 el.title = 'Données temporairement indisponibles';
-                animateCounter(el, 0, 1000, 1200);
-                setTimeout(() => { el.textContent = '1K+'; }, 1250);
+                animateCounter(el, 0, 1900, 1200);
+                setTimeout(() => { el.textContent = '1,9K+'; }, 1250);
             } else {
                 // Attendre avant de réessayer (backoff exponentiel)
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
             }
         }
     }
+}
+
+// ── Barre de progression vers l'objectif de followers ──
+// Le palier monte tout seul : prochain multiple de 500 (puis de 1000 au-delà
+// de 5000) strictement au-dessus du nombre actuel de followers.
+function nextFollowerGoal(followers) {
+    const step = followers < 5000 ? 500 : 1000;
+    return Math.floor(followers / step) * step + step;
+}
+
+// La barre ne s'affiche que dans la dernière ligne droite d'un palier : toujours
+// motivante (proche du but), jamais une barre morte qui stagne à 5 % pendant des
+// semaines. Au-delà, elle reste masquée jusqu'à l'approche du palier suivant.
+const FOLLOWER_GOAL_THRESHOLD = 100;
+
+function updateFollowerGoal(followers) {
+    const wrap  = document.getElementById('followerGoal');
+    const fill  = document.getElementById('followerGoalFill');
+    const label = document.getElementById('followerGoalLabel');
+    if (!wrap || !fill || !label) return;
+
+    const goal = nextFollowerGoal(followers);
+    const reste = goal - followers;
+
+    // Trop loin du palier → on n'affiche pas la barre
+    if (reste > FOLLOWER_GOAL_THRESHOLD) {
+        wrap.hidden = true;
+        return;
+    }
+
+    const pct = Math.min(100, Math.round((followers / goal) * 100));
+    fill.setAttribute('aria-valuemax', goal);
+    fill.setAttribute('aria-valuenow', followers);
+    label.textContent = `Objectif ${goal.toLocaleString('fr-FR')} p'tits pains : plus que ${reste.toLocaleString('fr-FR')} !`;
+
+    wrap.hidden = false;
+    // La largeur est posée après le premier rendu pour déclencher la transition CSS
+    requestAnimationFrame(() => { fill.style.width = pct + '%'; });
 }
 
 // Gestion du resize avec debounce
@@ -199,7 +264,6 @@ function initScrollReveal() {
         // index.html
         '.section-header',
         '.contact-info-box',
-        '.next-stream-banner',
         // events.html
         '.event-intro',
         '.event-stats-strip',
@@ -244,11 +308,13 @@ document.addEventListener('DOMContentLoaded', () => {
     animateStaticCounters();
     initScrollReveal();
 
-    // Ajoute les attributs ARIA manquants
+    // Ajoute les attributs ARIA manquants + le clic du hamburger
+    // (l'onclick inline a été retiré du HTML : incompatible avec la CSP)
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-controls', 'navLinks');
+        menuToggle.addEventListener('click', toggleMenu);
     }
 
     // Année dynamique dans le footer
@@ -266,86 +332,161 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTopClips();
 });
 
+// Titre d'affichage d'un clip : le titre s'il existe, sinon la date
+// (le workflow vide les titres capturés par le bot, qui sont ceux du stream).
+function clipDisplayTitle(clip) {
+    if (clip.title) return clip.title;
+    if (clip.created_at) {
+        const d = new Date(clip.created_at);
+        if (!isNaN(d)) return `Clip du ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`;
+    }
+    return 'Clip mystère';
+}
+
 // Charge les clips du mois et affiche la section si on en a.
 // Les clips "pinned" (épinglés à la main dans data/top-clips.json) passent
 // en premier et ne sont jamais touchés par le workflow automatique.
+// Le nombre de cartes est réglable via data-limit sur la grille (vitrine home : 3).
 async function loadTopClips() {
     const section = document.getElementById('clips');
     const grid = document.getElementById('clipsGrid');
     if (!section || !grid) return;
 
+    const limit = parseInt(grid.dataset.limit, 10) || 16;
+    const source = grid.dataset.source; // "week" = teaser de vote (accueil)
+
+    // Skeletons le temps du chargement (le fichier change tous les 2 jours,
+    // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
+    const skeletons = Array.from({ length: Math.min(limit, 8) }, () => {
+        const s = document.createElement('div');
+        s.className = 'clip-skeleton';
+        s.setAttribute('aria-hidden', 'true');
+        grid.appendChild(s);
+        return s;
+    });
+
     try {
-        const response = await fetch('/data/top-clips.json', { cache: 'no-store' });
+        // Accueil : teaser du vote → on montre les finalistes de la semaine.
+        // Tant qu'aucun vote n'est lancé (finalistes vides), la section reste masquée.
+        if (source === 'week') {
+            const rw = await fetch('/data/clip-of-week.json');
+            if (!rw.ok) return;
+            const cow = await rw.json();
+            const finalists = Array.isArray(cow.finalists) ? cow.finalists : [];
+            if (!finalists.length) return;
+            finalists.slice(0, limit).forEach(clip => grid.appendChild(buildClipCard(clip)));
+            section.hidden = false;
+            return;
+        }
+
+        // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
+        // sont déjà affichés au-dessus : on les retire du top du mois (doublons).
+        const exclude = new Set();
+        if (document.getElementById('cowGrid')) {
+            try {
+                const rCow = await fetch('/data/clip-of-week.json');
+                if (rCow.ok) {
+                    const cow = await rCow.json();
+                    (Array.isArray(cow.finalists) ? cow.finalists : []).forEach(f => f?.id && exclude.add(f.id));
+                    if (cow.winner?.id) exclude.add(cow.winner.id);
+                }
+            } catch { /* pas grave : au pire des doublons */ }
+        }
+
+        const response = await fetch('/data/top-clips.json');
         if (!response.ok) return;
 
         const data = await response.json();
         const pinned = (Array.isArray(data.pinned) ? data.pinned : []).map(c => ({ ...c, pinned: true }));
         const autos = Array.isArray(data.clips) ? data.clips : [];
 
-        const seen = new Set();
-        const clips = [...pinned, ...autos].filter(clip => {
-            if (!clip.id || seen.has(clip.id)) return false;
-            seen.add(clip.id);
-            return true;
-        }).slice(0, 16);
-        if (!clips.length) return;
+        const keep = (list, applyExclude = true) => {
+            const seen = new Set();
+            return list.filter(clip => {
+                if (!clip.id || seen.has(clip.id)) return false;
+                if (applyExclude && exclude.has(clip.id)) return false;
+                seen.add(clip.id);
+                return true;
+            });
+        };
 
-        clips.forEach(clip => {
-            if (!clip.id) return;
+        // Page clips : les épinglés ont leur propre bloc "Mes petits préférés"
+        // (les mélanger au "top du mois" était incohérent : ils n'en font pas partie).
+        // La sélection perso s'affiche TOUJOURS en entier, même si un épinglé est
+        // aussi finaliste ou couronné de la semaine. Ailleurs (vitrine home) :
+        // liste fusionnée, épinglés d'abord.
+        const pinnedSection = document.getElementById('clips-pinned');
+        const pinnedGrid = document.getElementById('pinnedGrid');
+        if (pinnedGrid) {
+            keep(pinned, false).forEach(clip => pinnedGrid.appendChild(buildClipCard(clip)));
+            if (pinnedSection && pinnedGrid.children.length) pinnedSection.hidden = false;
+        }
 
-            const card = document.createElement('div');
-            card.className = 'clip-card';
-
-            // Miniature cliquable → le clip s'ouvre dans une modale centrée
-            const thumb = document.createElement('button');
-            thumb.type = 'button';
-            thumb.className = 'clip-thumb';
-            thumb.setAttribute('data-umami-event', 'Clips - Play');
-            thumb.setAttribute('aria-label',
-                clip.pinned && clip.title ? `Lire le clip : ${clip.title}` : 'Lire le clip');
-
-            if (clip.thumbnail_url) {
-                const img = document.createElement('img');
-                img.src = clip.thumbnail_url;
-                img.alt = '';
-                img.loading = 'lazy';
-                thumb.appendChild(img);
-            }
-
-            const play = document.createElement('span');
-            play.className = 'clip-play';
-            play.setAttribute('aria-hidden', 'true');
-            play.textContent = '▶';
-            thumb.appendChild(play);
-
-            thumb.addEventListener('click', () => openClipModal(clip));
-            card.appendChild(thumb);
-
-            // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
-            // les viewers, affiché entre guillemets pour marquer la citation.
-            if (clip.pinned) {
-                const meta = document.createElement('p');
-                meta.className = 'clip-meta';
-                const pin = document.createElement('span');
-                pin.className = 'clip-pin';
-                pin.textContent = '📌';
-                pin.title = 'Clip épinglé';
-                meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
-                card.appendChild(meta);
-            } else if (clip.title) {
-                const meta = document.createElement('p');
-                meta.className = 'clip-meta';
-                meta.textContent = `« ${clip.title} »`;
-                card.appendChild(meta);
-            }
-
-            grid.appendChild(card);
-        });
-
-        if (grid.children.length) section.hidden = false;
+        const clips = keep(pinnedGrid ? autos : [...pinned, ...autos]).slice(0, limit);
+        clips.forEach(clip => grid.appendChild(buildClipCard(clip)));
+        if (grid.children.length || pinnedGrid?.children.length) section.hidden = false;
     } catch (err) {
         console.debug('Top clips indisponibles:', err.message);
+    } finally {
+        skeletons.forEach(s => s.remove());
     }
+}
+
+// Carte de clip (miniature cliquable + titre + clippeur), commune à toutes les grilles
+function buildClipCard(clip) {
+    const card = document.createElement('div');
+    card.className = 'clip-card';
+
+    // Miniature cliquable → le clip s'ouvre dans une modale centrée
+    const displayTitle = clipDisplayTitle(clip);
+
+    const thumb = document.createElement('button');
+    thumb.type = 'button';
+    thumb.className = 'clip-thumb';
+    thumb.setAttribute('data-umami-event', 'Clips - Play');
+    thumb.setAttribute('aria-label', `Lire le clip : ${displayTitle}`);
+
+    if (clip.thumbnail_url) {
+        const img = document.createElement('img');
+        img.src = clip.thumbnail_url;
+        img.alt = '';
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+    }
+
+    const play = document.createElement('span');
+    play.className = 'clip-play';
+    play.setAttribute('aria-hidden', 'true');
+    play.textContent = '▶';
+    thumb.appendChild(play);
+
+    thumb.addEventListener('click', () => openClipModal(clip));
+    card.appendChild(thumb);
+
+    // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
+    // les viewers, affiché entre guillemets pour marquer la citation.
+    const meta = document.createElement('p');
+    meta.className = 'clip-meta';
+    if (clip.pinned) {
+        const pin = document.createElement('span');
+        pin.className = 'clip-pin';
+        pin.textContent = '📌';
+        pin.title = 'Clip épinglé';
+        meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
+    } else {
+        meta.textContent = `« ${displayTitle} »`;
+    }
+    card.appendChild(meta);
+
+    // Le p'tit pain qui a clippé (fourni par le workflow enrichi)
+    if (clip.creator_name) {
+        const by = document.createElement('p');
+        by.className = 'clip-clipper';
+        by.textContent = `clippé par ${clip.creator_name}`;
+        card.appendChild(by);
+    }
+
+    return card;
 }
 
 // ── Modale de lecture des clips (créée à la première ouverture) ──
@@ -445,7 +586,7 @@ function animateStaticCounters() {
     }, { passive: true });
 
     btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
 })();
 

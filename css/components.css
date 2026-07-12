@@ -100,19 +100,51 @@
     margin-top: 5px;
 }
 
+/* === Barre de progression vers l'objectif de followers === */
+.follower-goal {
+    margin: 22px 0 28px;
+    max-width: 430px;
+}
+
+.follower-goal-track {
+    height: 12px;
+    border-radius: var(--radius-full);
+    background: rgba(140, 191, 159, 0.28);
+    border: 1px solid rgba(140, 191, 159, 0.5);
+    overflow: hidden;
+}
+
+.follower-goal-fill {
+    height: 100%;
+    width: 0;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.follower-goal-label {
+    margin-top: 8px;
+    font-size: 0.92em;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.follower-goal.is-reached .follower-goal-fill {
+    background: linear-gradient(90deg, var(--purple), var(--pink));
+}
+
 /* === Schedule Cards === */
 .schedule-container {
-    background: rgba(140, 191, 159, 0.08);
-    border: 2px solid rgba(140, 191, 159, 0.22);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-lg);
-    backdrop-filter: blur(20px);
+    /* Plus de panneau givré : les cartes se posent directement sur la page */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .schedule-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+    align-items: stretch;
 }
 
 .schedule-item {
@@ -126,6 +158,18 @@
     overflow: hidden;
     backdrop-filter: blur(8px);
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
+    /* Hauteur égale même quand une carte porte un CTA (la carte du prochain live) */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Les décors en pseudo-éléments ne doivent jamais intercepter le clic du CTA */
+.schedule-item::before,
+.schedule-item::after {
+    pointer-events: none;
 }
 
 .schedule-item::before {
@@ -255,12 +299,31 @@
     color: var(--text-primary);
 }
 
+/* Live : badge léger "🔴 En direct" (le bouton rouge en dessous est le seul
+   élément plein — on évite deux pilules rouges empilées) */
 .schedule-item.is-live .schedule-countdown {
-    color: white;
-    background: linear-gradient(135deg, var(--live-red-dark), var(--live-red-pastel));
-    border-color: rgba(230, 103, 103, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #c42b2b;
+    background: rgba(214, 78, 78, 0.1);
+    border-color: rgba(214, 78, 78, 0.28);
     font-weight: 700;
-    box-shadow: 0 0 15px rgba(230, 103, 103, 0.3);
+    box-shadow: none;
+}
+
+.schedule-item.is-live .schedule-countdown::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--live-red-deep);
+    animation: liveDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes liveDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.75); }
 }
 
 .schedule-item.is-next .schedule-countdown {
@@ -270,6 +333,44 @@
     font-weight: 700;
 }
 
+/* CTA ajouté par stream-countdown.js sur la carte du prochain live (ou du live en cours) */
+.schedule-cta {
+    display: block;
+    width: fit-content;
+    margin: 18px auto 0;
+    padding: 11px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.98em;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    box-shadow: 0 6px 20px rgba(127, 184, 147, 0.3);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.schedule-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(127, 184, 147, 0.45);
+}
+
+.schedule-cta.live {
+    background: linear-gradient(135deg, var(--live-red-deep), var(--live-red-dark));
+    box-shadow: 0 6px 20px rgba(214, 78, 78, 0.3);
+}
+
+.schedule-cta.live:hover {
+    box-shadow: 0 10px 28px rgba(214, 78, 78, 0.45);
+}
+
+.schedule-live-game {
+    margin-top: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.schedule-live-game[hidden] { display: none; }
+
 /* === Social Cards === */
 .social-grid {
     display: grid;
@@ -278,8 +379,9 @@
 }
 
 .social-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.35);
+    /* Tuile givrée autonome (comme les cartes événements) : plus de panneau derrière */
+    background: rgba(255, 255, 255, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-lg);
     padding: 50px 40px;
     text-align: center;
@@ -287,6 +389,8 @@
     transition: all var(--transition-smooth);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
     animation: fadeInUp 0.6s ease backwards;
 }
 
@@ -417,11 +521,9 @@
 
 /* === Contact Cards === */
 .contact-container {
-    background: rgba(140, 191, 159, 0.08);
-    border: 2px solid rgba(140, 191, 159, 0.22);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-lg);
-    backdrop-filter: blur(20px);
+    /* Plus de panneau givré */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .contact-content {
@@ -436,6 +538,7 @@
     padding: 50px;
     text-align: center;
     transition: all var(--transition-base);
+    backdrop-filter: blur(16px);
 }
 
 .contact-info-box:hover {
@@ -512,6 +615,7 @@
     padding: 35px 25px;
     text-align: center;
     transition: all var(--transition-smooth);
+    backdrop-filter: blur(16px);
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
 }
 
