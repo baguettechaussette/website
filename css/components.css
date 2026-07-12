@@ -146,6 +146,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+    align-items: stretch;
 }
 
 .schedule-item {
@@ -159,6 +160,18 @@
     overflow: hidden;
     backdrop-filter: blur(8px);
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
+    /* Hauteur égale même quand une carte porte un CTA (la carte du prochain live) */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Les décors en pseudo-éléments ne doivent jamais intercepter le clic du CTA */
+.schedule-item::before,
+.schedule-item::after {
+    pointer-events: none;
 }
 
 .schedule-item::before {

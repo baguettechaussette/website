@@ -340,6 +340,7 @@ async function loadTopClips() {
     if (!section || !grid) return;
 
     const limit = parseInt(grid.dataset.limit, 10) || 16;
+    const source = grid.dataset.source; // "week" = teaser de vote (accueil)
 
     // Skeletons le temps du chargement (le fichier change tous les 2 jours,
     // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
@@ -352,6 +353,19 @@ async function loadTopClips() {
     });
 
     try {
+        // Accueil : teaser du vote → on montre les finalistes de la semaine.
+        // Tant qu'aucun vote n'est lancé (finalistes vides), la section reste masquée.
+        if (source === 'week') {
+            const rw = await fetch('/data/clip-of-week.json');
+            if (!rw.ok) return;
+            const cow = await rw.json();
+            const finalists = Array.isArray(cow.finalists) ? cow.finalists : [];
+            if (!finalists.length) return;
+            finalists.slice(0, limit).forEach(clip => grid.appendChild(buildClipCard(clip)));
+            section.hidden = false;
+            return;
+        }
+
         // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
         // sont déjà affichés au-dessus : on les retire du top du mois (doublons).
         const exclude = new Set();
