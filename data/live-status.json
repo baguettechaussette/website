@@ -1,1 +1,6 @@
-{"is_live": false}
+{
+  "is_live": false,
+  "game": null,
+  "title": null,
+  "started_at": null
+}
