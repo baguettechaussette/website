@@ -30,6 +30,7 @@
     <meta name="twitter:title" content="Tous mes réseaux | Baguette Chaussette">
     <meta name="twitter:description" content="Tous mes réseaux en un seul endroit 🥖">
     <meta name="twitter:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
+    <meta name="twitter:image:alt" content="Baguette Chaussette, streamer Twitch FR — tous ses réseaux en un seul endroit.">
     <meta name="twitter:site" content="@BaguetteCho7">
 
     <!-- Canonical & Favicons -->
@@ -40,7 +41,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
     <link rel="manifest" href="/site.webmanifest"/>
 
-    <!-- Fonts (auto-hébergées) -->
+    <!-- Preload : avatar (élément LCP de cette page très partagée) + police -->
+    <link rel="preload" href="/img/baguette-chaussette-logo.webp" as="image" fetchpriority="high">
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./css/fonts.css">
 
@@ -101,7 +103,7 @@
     <div class="profile">
         <div class="avatar-wrap">
             <img class="avatar-img" src="img/baguette-chaussette-logo.webp"
-                 alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400">
+                 alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400" fetchpriority="high">
         </div>
 
         <h1 class="profile-name">Baguette Chaussette</h1>
