@@ -130,4 +130,30 @@ document.addEventListener('DOMContentLoaded', () => {
         el.setAttribute('href', 'mailto:' + addr);
         if ('showText' in el.dataset) el.textContent = addr;
     });
+
+    // Bouton « Copier » sur les codes de parrainage (sélection pénible sur mobile)
+    document.querySelectorAll('.code-block').forEach(block => {
+        const code = block.textContent.trim();
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy';
+        btn.textContent = 'Copier';
+        btn.setAttribute('data-umami-event', 'Links - Copier code');
+        btn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(code);
+                btn.textContent = 'Copié ✓';
+                btn.classList.add('is-copied');
+                setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('is-copied'); }, 1800);
+            } catch { /* presse-papier indisponible : on ne casse rien */ }
+        });
+        block.appendChild(btn);
+    });
 });
+
+// ── Service Worker (aussi sur /links et /mentions-legales, pas seulement l'accueil) ──
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.warn('SW:', err));
+    });
+}
