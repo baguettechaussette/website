@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="dti-viewer" id="dtiViewer" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
       <div class="dti-viewer__toolbar">
         <p class="dti-viewer__caption" id="dtiViewerCaption"></p>
-        <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir">
+        <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir" aria-keyshortcuts="f" title="Agrandir (F)">
           <img src="img/symbols/fullscreen.svg" alt="">
         </button>
         <button class="dti-viewer__close" id="dtiViewerClose" aria-label="Fermer">
@@ -120,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             viewer.classList.add('is-open');
             viewer.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            // Le reste de la page devient inerte : le curseur virtuel des lecteurs
+            // d'écran ne peut plus se promener derrière le dialogue
+            document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = true; });
             btnClose.focus({ preventScroll: true });
         }
 
@@ -127,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             viewer.classList.remove('is-open', 'is-expanded');
             viewer.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = false; });
             imgEl.removeAttribute('src');
             lastFocused?.focus({ preventScroll: true });
         }
