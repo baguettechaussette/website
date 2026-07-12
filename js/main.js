@@ -369,11 +369,13 @@ async function loadTopClips() {
         // Accueil : teaser du vote → on montre les finalistes de la semaine.
         // Tant qu'aucun vote n'est lancé (finalistes vides), la section reste masquée.
         if (source === 'week') {
-            const rw = await fetch('/data/clip-of-week.json');
+            const rw = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
             if (!rw.ok) return;
             const cow = await rw.json();
-            const finalists = Array.isArray(cow.finalists) ? cow.finalists : [];
-            if (!finalists.length) return;
+            const finalists = (Array.isArray(cow.finalists) ? cow.finalists : []).filter(c => c && c.id);
+            // Même seuil que la page clips (2 finalistes minimum pour un vote) :
+            // sinon le CTA "Voter maintenant" mènerait vers un bloc masqué.
+            if (finalists.length < 2) return;
             finalists.slice(0, limit).forEach(clip => grid.appendChild(buildClipCard(clip)));
             section.hidden = false;
             return;
