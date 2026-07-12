@@ -1,1 +1,40 @@
-{"week": null, "finalists": [], "winner": null, "votes": null, "updated_at": null}
+{
+  "week": "2026-W29",
+  "finalists": [
+    {
+      "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
+      "title": "",
+      "creator_name": "WizeBot",
+      "view_count": 8,
+      "created_at": "2026-07-11T16:31:00Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6a700bc4-3f57-44e4-bfa8-4aae92203d86/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "SwissBlindingPistachioPrimeMe-IUxnG2v0sG6zExNF",
+      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "view_count": 2,
+      "created_at": "2026-07-09T20:12:55Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0963b0be-34d8-40c5-8d18-090105c78fbc/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "MiniatureLitigiousQuailUWot-aGWXapViieBURQpM",
+      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "view_count": 2,
+      "created_at": "2026-07-09T22:41:54Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0505ce40-afcd-4e37-bffc-1e6d1984865c/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "RoughFastSandwichBudBlast-Li0l8Wg_7hQtdPBE",
+      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "view_count": 2,
+      "created_at": "2026-07-09T20:44:52Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/02752480-0422-4176-bf48-ac13dbbed51e/landscape/thumb/thumb-0000000000-480x272.jpg"
+    }
+  ],
+  "winner": null,
+  "votes": null,
+  "updated_at": "2026-07-12T15:38:17Z"
+}
