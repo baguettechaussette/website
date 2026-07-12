@@ -18,17 +18,7 @@
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9519a926-4448-446d-865a-b350f4433d57/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
-  "winner": {
-    "id": "LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k",
-    "title": "Découverte de Pawsome Resort ce soir ✨ | !discord !insta",
-    "creator_name": "BaguetteChaussette",
-    "view_count": 8,
-    "created_at": "2026-07-01T23:28:54Z",
-    "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9519a926-4448-446d-865a-b350f4433d57/landscape/thumb/thumb-0000000000-480x272.jpg"
-  },
-  "votes": {
-    "SplendidToughPidgeonBatChest-nHivhHJ1cWM1XT1N": 0,
-    "LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k": 1
-  },
+  "winner": null,
+  "votes": null,
   "updated_at": "2026-07-12T16:28:12Z"
 }

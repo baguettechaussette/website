@@ -74,15 +74,19 @@ jobs:
           fi
 
           # ── 1. Dépouillement de la semaine écoulée (par identité de clip) ──
-          # Automatique via le compteur Cloudflare. Un override manuel reste
-          # possible (input winner = ID de clip) mais n'est jamais nécessaire.
-          WINNER='null'
-          VOTES='null'
-          if [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
-            if [ -n "$MANUAL_WINNER" ]; then
-              WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '(.finalists[] | select(.id == $id)) // null')
-              echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
-            elif [ -n "$VOTE_API_URL" ]; then
+          # Le dépouillement (= couronner un gagnant) ne se fait QUE :
+          #   • au cron du dimanche/lundi (fin de semaine de vote), ou
+          #   • sur override manuel explicite (input winner = ID de clip).
+          # Un simple lancement manuel (bootstrap / rafraîchir les finalistes) ne
+          # recouronne PAS : on conserve le palmarès existant tel quel, sinon un
+          # re-run en milieu de semaine couronnerait sur un vote encore partiel.
+          WINNER=$(echo "$PREV" | jq -c '.winner // null')
+          VOTES=$(echo "$PREV" | jq -c '.votes // null')
+          if [ -n "$MANUAL_WINNER" ] && [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
+            WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '(.finalists[] | select(.id == $id)) // null')
+            echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
+            if [ -n "$VOTE_API_URL" ]; then
               R=$(curl -sS "$VOTE_API_URL/results/$WEEK" || echo '{}')
               # Ne compte que les votes portant sur un finaliste réel de la semaine
               VOTES=$(echo "$PREV" | jq -c --argjson r "$R" \
@@ -97,6 +101,8 @@ jobs:
             else
               echo "::notice title=Compteur absent::VOTE_API_URL non défini, pas de dépouillement."
             fi
+          else
+            echo "ℹ️ Lancement manuel sans override : palmarès conservé, pas de dépouillement."
           fi
 
           # ── 2. Finalistes : top 4 d'une semaine ISO complète (lundi 00:00 →
