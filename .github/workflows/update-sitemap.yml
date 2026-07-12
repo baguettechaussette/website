@@ -57,12 +57,6 @@ jobs:
               <priority>0.7</priority>
             </url>
             <url>
-              <loc>${DOMAIN}/bingo</loc>
-              <lastmod>$(lastmod bingo.html)</lastmod>
-              <changefreq>monthly</changefreq>
-              <priority>0.5</priority>
-            </url>
-            <url>
               <loc>${DOMAIN}/links</loc>
               <lastmod>$(lastmod links.html)</lastmod>
               <changefreq>monthly</changefreq>
