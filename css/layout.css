@@ -103,7 +103,9 @@
 }
 
 /* === Navigation === */
-nav {
+/* #navbar (et non le sélecteur générique "nav" : il attrapait aussi les autres
+   <nav> de la page, comme la barre d'ancres des événements) */
+#navbar {
     position: fixed;
     top: 0;
     width: 100%;
@@ -115,12 +117,12 @@ nav {
     transition: all var(--transition-base);
 }
 
-nav.scrolled {
+#navbar.scrolled {
     padding: 15px 0;
     background: var(--bg-blur);
 }
 
-nav .container {
+#navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
