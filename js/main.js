@@ -200,6 +200,11 @@ function nextFollowerGoal(followers) {
     return Math.floor(followers / step) * step + step;
 }
 
+// La barre ne s'affiche que dans la dernière ligne droite d'un palier : toujours
+// motivante (proche du but), jamais une barre morte qui stagne à 5 % pendant des
+// semaines. Au-delà, elle reste masquée jusqu'à l'approche du palier suivant.
+const FOLLOWER_GOAL_THRESHOLD = 100;
+
 function updateFollowerGoal(followers) {
     const wrap  = document.getElementById('followerGoal');
     const fill  = document.getElementById('followerGoalFill');
@@ -208,8 +213,14 @@ function updateFollowerGoal(followers) {
 
     const goal = nextFollowerGoal(followers);
     const reste = goal - followers;
-    const pct = Math.min(100, Math.round((followers / goal) * 100));
 
+    // Trop loin du palier → on n'affiche pas la barre
+    if (reste > FOLLOWER_GOAL_THRESHOLD) {
+        wrap.hidden = true;
+        return;
+    }
+
+    const pct = Math.min(100, Math.round((followers / goal) * 100));
     fill.setAttribute('aria-valuemax', goal);
     fill.setAttribute('aria-valuenow', followers);
     label.textContent = `Objectif ${goal.toLocaleString('fr-FR')} p'tits pains : plus que ${reste.toLocaleString('fr-FR')} !`;
