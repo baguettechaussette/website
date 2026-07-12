@@ -126,12 +126,13 @@ jobs:
             fi
 
             PINNED=$(echo "$PINNED" | jq -c --argjson api "$API" --argjson games "$GAMES" \
-              'map(. as $p | ($api | map(select(.id == $p.id)) | .[0]) as $a
+              'def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
+               map(. as $p | ($api | map(select(.id == $p.id)) | .[0]) as $a
                  | select($a != null)
                  | {
                      id: $p.id,
                      title: (if ($p.title // "") != "" then $p.title else ($a.title // "") end),
-                     creator_name: $a.creator_name,
+                     creator_name: ($a | clipper),
                      game: ($games[$a.game_id // ""] // null),
                      view_count: $a.view_count,
                      created_at: $a.created_at,
@@ -145,11 +146,12 @@ jobs:
           # sont vidés — le site affiche alors "Clip du JJ mois" à la place.
           echo "$RESP" | jq --argjson pinned "$PINNED" --argjson games "$GAMES" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
+             def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
              {pinned: $pinned,
               clips: [.data[] | select(.id as $i | ($pinned | map(.id) | index($i)) | not) | {
                 id,
                 title: (.title | clean_title),
-                creator_name,
+                creator_name: clipper,
                 game: ($games[.game_id // ""] // null),
                 view_count, created_at, duration, thumbnail_url, url}],
               updated_at: $now}' \
@@ -181,8 +183,9 @@ jobs:
           # En cas d'échec total de l'API on ne touche pas au fichier existant
           if [ "$TOTAL" -gt 0 ]; then
             jq -s --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-              '{clippers: (group_by(.creator_name) | map({
-                  name: .[0].creator_name,
+              'def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
+               {clippers: (group_by(clipper) | map({
+                  name: (.[0] | clipper),
                   clips: length,
                   total_views: ([.[].view_count] | add),
                   best_clip: (max_by(.view_count) | {id, title, view_count})
