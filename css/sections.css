@@ -7,6 +7,8 @@
    (même look que .schedule-container / .socials-container : toutes les sections
    home présentent leurs cartes dans un panneau, pour un rythme visuel uniforme) */
 .section-panel {
+    max-width: 900px;
+    margin: 0 auto;
     background: rgba(140, 191, 159, 0.05);
     border: 2px solid rgba(140, 191, 159, 0.2);
     border-radius: var(--radius-xl);

@@ -519,6 +519,7 @@
     padding: 50px;
     text-align: center;
     transition: all var(--transition-base);
+    backdrop-filter: blur(16px);
 }
 
 .contact-info-box:hover {
@@ -595,6 +596,7 @@
     padding: 35px 25px;
     text-align: center;
     transition: all var(--transition-smooth);
+    backdrop-filter: blur(16px);
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
 }
 
