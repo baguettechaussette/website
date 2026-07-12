@@ -99,13 +99,20 @@ jobs:
             fi
           fi
 
-          # ── 2. Finalistes de la semaine suivante : top 4 de la semaine ISO
-          #    qui précède immédiatement la semaine de vote (lundi 00:00 →
-          #    dimanche 23:59 UTC). On vote donc toujours pour la semaine écoulée,
-          #    jamais celle en cours — y compris pour un lancement manuel en
-          #    milieu de semaine.
-          TDOW=$(date -u -d "tomorrow" +%u)                            # 1=lun .. 7=dim
-          VOTE_MON=$(date -u -d "tomorrow -$((TDOW-1)) days" +%Y-%m-%d) # lundi de la semaine de vote
+          # ── 2. Finalistes : top 4 d'une semaine ISO complète (lundi 00:00 →
+          #    dimanche 23:59 UTC). On vote toujours pour une semaine révolue,
+          #    jamais celle en cours. Point d'ancrage :
+          #      • cron (dimanche/lundi) → "demain" : prépare la semaine à venir,
+          #        finalistes = la semaine qui vient de se terminer.
+          #      • lancement manuel → "aujourd'hui" : bootstrap immédiat, vote
+          #        pour la dernière semaine ISO déjà terminée (pas celle en cours).
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ANCHOR="today"
+          else
+            ANCHOR="tomorrow"
+          fi
+          ADOW=$(date -u -d "$ANCHOR" +%u)                              # 1=lun .. 7=dim
+          VOTE_MON=$(date -u -d "$ANCHOR -$((ADOW-1)) days" +%Y-%m-%d)  # lundi de la semaine de vote
           STARTED_AT=$(date -u -d "$VOTE_MON -7 days" +%Y-%m-%dT00:00:00Z)
           ENDED_AT=$(date -u -d "$VOTE_MON" +%Y-%m-%dT00:00:00Z)
           RESP=$(curl -sS --fail -G \
@@ -134,7 +141,7 @@ jobs:
 
           # Lancé dimanche soir : demain = lundi = semaine de vote suivante.
           # Cron du lundi : demain = mardi = même semaine ISO, ça tombe juste aussi.
-          NEXT_WEEK=$(date -u -d "tomorrow" +%G-W%V)
+          NEXT_WEEK=$(date -u -d "$ANCHOR" +%G-W%V)
 
           jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --argjson finalists "$FIN" --argjson winner "$WINNER" --argjson votes "$VOTES" \
