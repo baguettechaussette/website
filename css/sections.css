@@ -527,6 +527,11 @@
     padding-bottom: 0;
 }
 
+#clips-pinned {
+    padding-top: 56px;
+    padding-bottom: 0;
+}
+
 #clips {
     padding-top: 56px;
     padding-bottom: 56px;
@@ -538,6 +543,7 @@
 
 /* Les en-têtes de section de la page clips sont plus compacts que sur l'accueil */
 #clip-semaine .section-header,
+#clips-pinned .section-header,
 #clips .section-header,
 #clippeurs .section-header {
     margin-bottom: 34px;
