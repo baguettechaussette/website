@@ -299,12 +299,31 @@
     color: var(--text-primary);
 }
 
+/* Live : badge léger "🔴 En direct" (le bouton rouge en dessous est le seul
+   élément plein — on évite deux pilules rouges empilées) */
 .schedule-item.is-live .schedule-countdown {
-    color: white;
-    background: linear-gradient(135deg, var(--live-red-dark), var(--live-red-pastel));
-    border-color: rgba(230, 103, 103, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #c42b2b;
+    background: rgba(214, 78, 78, 0.1);
+    border-color: rgba(214, 78, 78, 0.28);
     font-weight: 700;
-    box-shadow: 0 0 15px rgba(230, 103, 103, 0.3);
+    box-shadow: none;
+}
+
+.schedule-item.is-live .schedule-countdown::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--live-red-deep);
+    animation: liveDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes liveDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.75); }
 }
 
 .schedule-item.is-next .schedule-countdown {
