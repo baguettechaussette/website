@@ -1,15 +1,20 @@
 name: Update clip of the week (vote)
 
 # Fonctionnement — 100 % automatique via le compteur Cloudflare (voir cloudflare/README.md) :
-#   • Dimanche 18h UTC : dépouille le vote de la semaine (gagnant = clip le plus
-#     voté, par identité de clip), le couronne, et fige le top 4 de la semaine
-#     écoulée comme finalistes de la semaine de vote suivante.
+#   Le dépouillement a lieu quand la semaine de vote TOURNE (quel que soit le
+#   déclencheur) : gagnant = clip le plus voté (par identité de clip), puis le
+#   top 4 de la semaine écoulée devient finaliste de la semaine suivante.
+#   • Dimanche 18h UTC : dépouillement + rotation (avant le live de 21h Paris).
 #   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué.
-#   • Override manuel possible (input = ID du clip gagnant), jamais nécessaire.
+#   • Mercredi 6h UTC : purge de mi-semaine des clips supprimés de Twitch
+#     (et second filet si dimanche ET lundi ont échoué).
+#   • Run manuel : bootstrap ou rattrapage (dépouille aussi si la semaine doit
+#     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
 on:
   schedule:
     - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement + rotation
     - cron: "0 6 * * 1"    # lundi 6h UTC : filet de sécurité si échec du dimanche
+    - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine des clips supprimés
   workflow_dispatch:
     inputs:
       winner:
@@ -20,9 +25,12 @@ on:
 permissions:
   contents: write
 
-# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
+# Groupe DÉDIÉ : dans un groupe partagé avec twitch-live (toutes les 5 min),
+# un run de dépouillement en file d'attente serait ANNULÉ silencieusement dès
+# qu'un autre run se met en file derrière lui. Les pushs concurrents sont déjà
+# gérés par le pull --rebase du step de commit.
 concurrency:
-  group: data-commits
+  group: clip-of-week
   cancel-in-progress: false
 
 jobs:
@@ -65,33 +73,107 @@ jobs:
           WEEK=$(echo "$PREV" | jq -r '.week // empty')
           FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
 
-          # Filet de sécurité du lundi : si le dimanche a déjà fait la rotation,
-          # ne rien écraser (le gagnant couronné doit survivre).
-          CURRENT_WEEK=$(date -u +%G-W%V)
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$CURRENT_WEEK" ]; then
-            echo "ℹ️ Semaine $CURRENT_WEEK déjà en place (dépouillement fait dimanche) : rien à faire."
+          # ── 0. Purge : finaliste ou gagnant supprimé de Twitch ──
+          # Un clip supprimé casse la vignette et l'embed : on le retire du vote
+          # (et du palmarès), et ses votes sont ignorés au dépouillement puisque
+          # seuls les votes portant sur un finaliste réel comptent. La purge est
+          # sautée si l'API ne répond pas (on ne vide jamais sur un doute).
+          WINNER_ID=$(echo "$PREV" | jq -r '.winner.id // empty')
+          if [ "$FCOUNT" -gt 0 ] || [ -n "$WINNER_ID" ]; then
+            QS=$(echo "$PREV" | jq -r '([(.finalists // [])[].id] + [.winner.id // empty]) | unique | map("id=" + .) | join("&")')
+            PRESP=$(curl -sS \
+              -H "Client-Id: $TWITCH_CLIENT_ID" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              "https://api.twitch.tv/helix/clips?$QS" || echo '')
+            if echo "$PRESP" | jq -e '.data' >/dev/null 2>&1; then
+              ALIVE=$(echo "$PRESP" | jq -c '[.data[].id]')
+              PRUNED=$(echo "$PREV" | jq -c --argjson alive "$ALIVE" \
+                '.finalists = [(.finalists // [])[] | select(.id as $i | $alive | index($i))]
+                 | .winner = (if (.winner | not) or ((.winner.id as $i | $alive | index($i))) then .winner else null end)')
+              if [ "$PRUNED" != "$(echo "$PREV" | jq -c .)" ]; then
+                echo "::warning title=Clip supprimé de Twitch::Retiré du vote ou du palmarès (vignette et lecture cassées sinon)."
+                PREV="$PRUNED"
+                FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
+                echo "$PREV" | jq . > data/clip-of-week.json
+              fi
+            else
+              echo "::notice title=Purge sautée::Vérification des clips impossible (API muette), on ne touche à rien."
+            fi
+          fi
+
+          # ── 1. Ancre temporelle ──
+          #   • cron → "demain" : le dimanche 18h, demain = lundi = la semaine de
+          #     vote suivante (le dimanche appartient encore à la semaine qui se
+          #     termine, comparer à "aujourd'hui" ne dépouillerait JAMAIS).
+          #   • lancement manuel → "aujourd'hui" : bootstrap immédiat, vote pour
+          #     la dernière semaine ISO déjà terminée (pas celle en cours).
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ANCHOR="today"
+          else
+            ANCHOR="tomorrow"
+          fi
+          NEXT_WEEK=$(date -u -d "$ANCHOR" +%G-W%V)
+
+          # Jamais de retour en arrière : un run manuel le dimanche soir après la
+          # rotation ne doit pas rouvrir un vote déjà dépouillé.
+          if [ -n "$WEEK" ] && [ "$WEEK" \> "$NEXT_WEEK" ]; then
+            echo "ℹ️ La semaine $WEEK est déjà en place (en avance sur $NEXT_WEEK) : rien à faire."
             exit 0
           fi
 
-          # ── 1. Dépouillement de la semaine écoulée (par identité de clip) ──
-          # Le dépouillement (= couronner un gagnant) ne se fait QUE :
-          #   • au cron du dimanche/lundi (fin de semaine de vote), ou
-          #   • sur override manuel explicite (input winner = ID de clip).
-          # Un simple lancement manuel (bootstrap / rafraîchir les finalistes) ne
-          # recouronne PAS : on conserve le palmarès existant tel quel, sinon un
-          # re-run en milieu de semaine couronnerait sur un vote encore partiel.
-          WINNER=$(echo "$PREV" | jq -c '.winner // null')
-          VOTES=$(echo "$PREV" | jq -c '.votes // null')
-          if [ -n "$MANUAL_WINNER" ] && [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
-            WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '(.finalists[] | select(.id == $id)) // null')
+          # Cron avec la semaine déjà en place (lundi/mercredi en régime normal) :
+          # la purge de l'étape 0 a déjà fait son travail, rien d'autre à faire.
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$NEXT_WEEK" ]; then
+            echo "ℹ️ Semaine $NEXT_WEEK déjà en place (dépouillement déjà fait) : purge seule."
+            exit 0
+          fi
+
+          # ── 2. Dépouillement (par identité de clip) ──
+          # On dépouille quand on FERME une semaine (la semaine du fichier va
+          # changer), quel que soit le déclencheur : cron du dimanche, filet du
+          # lundi, ou run manuel de rattrapage. Une semaine encore en cours n'est
+          # jamais dépouillée (vote partiel) : palmarès conservé tel quel.
+          ROLLING=0
+          if [ -n "$WEEK" ] && [ "$WEEK" != "$NEXT_WEEK" ]; then ROLLING=1; fi
+
+          if [ "$ROLLING" = "1" ]; then
+            # La semaine tourne : le palmarès repart de zéro (pas de gagnant
+            # fantôme d'il y a deux semaines si personne n'a voté).
+            WINNER='null'
+            VOTES='null'
+          else
+            WINNER=$(echo "$PREV" | jq -c '.winner // null')
+            VOTES=$(echo "$PREV" | jq -c '.votes // null')
+          fi
+
+          if [ -n "$MANUAL_WINNER" ]; then
+            # Override explicite : l'ID doit être un finaliste réel, sinon on
+            # refuse (une faute de frappe ne doit pas effacer le palmarès).
+            WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '((.finalists // [])[] | select(.id == $id)) // null')
+            if [ "$WINNER" = "null" ] || [ -z "$WINNER" ]; then
+              echo "::error title=Override invalide::$MANUAL_WINNER n'est pas un finaliste de $WEEK, rien n'est modifié."
+              exit 1
+            fi
             echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
-          elif [ "${{ github.event_name }}" = "schedule" ] && [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
+          elif [ "$ROLLING" = "1" ] && [ "$FCOUNT" -gt 0 ]; then
             if [ -n "$VOTE_API_URL" ]; then
-              R=$(curl -sS "$VOTE_API_URL/results/$WEEK" || echo '{}')
+              # Compteur injoignable = on ARRÊTE (job en échec, le cron suivant
+              # réessaiera). Surtout pas de repli silencieux vers "0 votes" :
+              # ça ferait tourner la semaine en jetant les votes réels.
+              R=$(curl -sS --fail "$VOTE_API_URL/results/$WEEK") || {
+                echo "::error title=Compteur injoignable::Dépouillement impossible, votes préservés, nouvel essai au prochain cron."
+                exit 1
+              }
+              echo "$R" | jq -e . >/dev/null || {
+                echo "::error title=Réponse invalide du compteur::Dépouillement annulé, votes préservés."
+                exit 1
+              }
               # Ne compte que les votes portant sur un finaliste réel de la semaine
               VOTES=$(echo "$PREV" | jq -c --argjson r "$R" \
                 '[.finalists[].id] | map({(.): ($r[.] // 0)}) | add // {}')
-              WIN_ID=$(echo "$VOTES" | jq -r '[to_entries[] | select(.value > 0)] | max_by(.value) | .key // empty')
+              # Égalité : le tri stable garde l'ordre des finalistes (viewers
+              # d'abord, puis par vues) : l'ex æquo le mieux classé l'emporte.
+              WIN_ID=$(echo "$VOTES" | jq -r '[to_entries[] | select(.value > 0)] | sort_by(-.value) | .[0].key // empty')
               if [ -n "$WIN_ID" ]; then
                 WINNER=$(echo "$PREV" | jq -c --arg id "$WIN_ID" '(.finalists[] | select(.id == $id)) // null')
                 echo "🏆 Gagnant de $WEEK : $WIN_ID ($(echo "$VOTES" | jq -c .))"
@@ -101,22 +183,25 @@ jobs:
             else
               echo "::notice title=Compteur absent::VOTE_API_URL non défini, pas de dépouillement."
             fi
+          elif [ "$ROLLING" = "1" ]; then
+            echo "ℹ️ Semaine fermée sans finalistes : rien à dépouiller."
           else
-            echo "ℹ️ Lancement manuel sans override : palmarès conservé, pas de dépouillement."
+            echo "ℹ️ Semaine $WEEK inchangée : palmarès conservé, pas de dépouillement."
           fi
 
-          # ── 2. Finalistes : top 4 d'une semaine ISO complète (lundi 00:00 →
+          # ── 3. Finalistes : top 4 d'une semaine ISO complète (lundi 00:00 →
           #    dimanche 23:59 UTC). On vote toujours pour une semaine révolue,
-          #    jamais celle en cours. Point d'ancrage :
-          #      • cron (dimanche/lundi) → "demain" : prépare la semaine à venir,
-          #        finalistes = la semaine qui vient de se terminer.
-          #      • lancement manuel → "aujourd'hui" : bootstrap immédiat, vote
-          #        pour la dernière semaine ISO déjà terminée (pas celle en cours).
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            ANCHOR="today"
+          #    jamais celle en cours.
+
+          # Les finalistes d'une semaine de vote déjà en place sont FIGÉS :
+          # les remplacer en cours de route invaliderait les votes déjà exprimés
+          # (et les votants ne peuvent pas revoter). Un re-run manuel est donc
+          # sans effet sur les finalistes tant que la semaine ne change pas.
+          if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ]; then
+            echo "ℹ️ Finalistes de $NEXT_WEEK déjà figés : conservés tels quels (protège les votes en cours)."
+            FIN=$(echo "$PREV" | jq -c '.finalists')
           else
-            ANCHOR="tomorrow"
-          fi
+
           ADOW=$(date -u -d "$ANCHOR" +%u)                              # 1=lun .. 7=dim
           VOTE_MON=$(date -u -d "$ANCHOR -$((ADOW-1)) days" +%Y-%m-%d)  # lundi de la semaine de vote
           STARTED_AT=$(date -u -d "$VOTE_MON -7 days" +%Y-%m-%dT00:00:00Z)
@@ -125,7 +210,7 @@ jobs:
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=20" \
+            --data-urlencode "first=100" \
             --data-urlencode "started_at=$STARTED_AT" \
             --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
@@ -143,20 +228,22 @@ jobs:
              | (map(select(.own | not)) + map(select(.own)))[0:4]
              | map(del(.own))')
 
-          # Semaine creuse (moins de 2 clips) : on repart du top du mois,
-          # en gardant la même priorité viewers d'abord.
+          # Semaine creuse (moins de 2 clips) : on repart du top du mois, avec
+          # les mêmes règles (nettoyage des titres bot, extraction du vrai
+          # clippeur, priorité viewers) : le fichier peut être à l'ancien format
+          # (creator_name absent), le titre reste la source de vérité.
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
             echo "ℹ️ Semaine creuse, finalistes pris dans le top du mois"
             FIN=$(jq -c \
-              '[(.clips // [])[] | {id, title, creator_name, view_count, created_at, thumbnail_url, own: (((.creator_name // "") | ascii_downcase) == "baguettechaussette")}]
+              'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
+               def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
+               [(.clips // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: (((clipper // "") | ascii_downcase) == "baguettechaussette")}]
                | (map(select(.own | not)) + map(select(.own)))[0:4]
                | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
           fi
 
-          # Lancé dimanche soir : demain = lundi = semaine de vote suivante.
-          # Cron du lundi : demain = mardi = même semaine ISO, ça tombe juste aussi.
-          NEXT_WEEK=$(date -u -d "$ANCHOR" +%G-W%V)
+          fi  # fin du bloc "finalistes à recalculer"
 
           jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --argjson finalists "$FIN" --argjson winner "$WINNER" --argjson votes "$VOTES" \
@@ -167,6 +254,12 @@ jobs:
 
       - name: Commit if changed
         run: |
+          # Garde-fou : un dispatch lancé par mégarde depuis une autre branche
+          # ne doit pas y injecter l'historique de main via pull --rebase.
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "ℹ️ Branche ${{ github.ref_name }} : pas de commit (réservé à main)."
+            exit 0
+          fi
           if ! git diff --quiet data/clip-of-week.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

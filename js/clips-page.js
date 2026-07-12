@@ -59,6 +59,15 @@ function makeEl(tag, cls, text) {
     return e;
 }
 
+// localStorage peut être interdit (navigation privée stricte) : dans ce cas
+// on vote quand même, c'est le worker qui déduplique par IP.
+function lsGet(key) {
+    try { return localStorage.getItem(key); } catch { return null; }
+}
+function lsSet(key, value) {
+    try { localStorage.setItem(key, value); } catch { /* privé strict : tant pis */ }
+}
+
 // Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
 function makeClipThumb(clip, umamiEvent) {
     const thumb = document.createElement('button');
@@ -71,6 +80,12 @@ function makeClipThumb(clip, umamiEvent) {
         img.src = clip.thumbnail_url;
         img.alt = '';
         img.loading = 'lazy';
+        // Vignette morte = clip supprimé de Twitch entre deux purges du
+        // workflow : on masque la carte (ses votes sont ignorés au dépouillement).
+        img.addEventListener('error', () => {
+            const dead = thumb.closest('.cow-card, .cow-winner');
+            if (dead) dead.hidden = true;
+        });
         thumb.appendChild(img);
     }
     const play = makeEl('span', 'clip-play', '▶');
@@ -110,10 +125,12 @@ async function loadClipOfWeek() {
     if (!section || !voteBlock || !winnerBox || !grid) return;
 
     try {
-        const r = await fetch('/data/clip-of-week.json');
+        // no-store : après la rotation du dimanche, pas de finalistes périmés
+        // servis par le cache HTTP (même politique que followers.json)
+        const r = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
         if (!r.ok) return;
         const data = await r.json();
-        const finalists = Array.isArray(data.finalists) ? data.finalists : [];
+        const finalists = (Array.isArray(data.finalists) ? data.finalists : []).filter(c => c && c.id);
         const week = data.week;
 
         // Le vote d'abord : c'est l'action principale de la section
@@ -122,15 +139,20 @@ async function loadClipOfWeek() {
             if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
             const votedKey = `clip-vote-${week}`;
             finalists.forEach(clip => {
-                if (clip.id) grid.appendChild(buildFinalistCard(clip, week, votedKey));
+                grid.appendChild(buildFinalistCard(clip, week, votedKey));
             });
-            refreshVoteButtons(grid, localStorage.getItem(votedKey));
+            // Confirmation de vote annoncée aux lecteurs d'écran
+            const status = makeEl('p', 'visually-hidden');
+            status.id = 'cowVoteStatus';
+            status.setAttribute('aria-live', 'polite');
+            voteBlock.appendChild(status);
+            refreshVoteButtons(grid, lsGet(votedKey));
             voteBlock.hidden = false;
         }
 
         // Puis le palmarès : le clip élu la semaine dernière
         if (data.winner && data.winner.id) {
-            winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip de la semaine dernière'));
+            winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
             const card = makeEl('div', 'cow-winner-card');
             card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
             const info = makeEl('div', 'cow-winner-info');
@@ -162,7 +184,7 @@ function buildFinalistCard(clip, week, votedKey) {
     btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
     btn.textContent = 'Voter pour ce clip 🥖';
     btn.addEventListener('click', () => {
-        if (localStorage.getItem(votedKey)) return;
+        if (lsGet(votedKey)) return;
         // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine)
         if (VOTE_API) {
             fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' })
@@ -170,8 +192,10 @@ function buildFinalistCard(clip, week, votedKey) {
         }
         // Umami en parallèle : pour tes stats
         try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
-        localStorage.setItem(votedKey, clip.id);
+        lsSet(votedKey, clip.id);
         refreshVoteButtons(card.parentElement, clip.id);
+        const status = document.getElementById('cowVoteStatus');
+        if (status) status.textContent = 'Vote enregistré, merci !';
     });
     card.appendChild(btn);
     return card;
