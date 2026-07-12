@@ -51,6 +51,9 @@ export default {
         const url = new URL(request.url);
 
         // ── POST /vote/<semaine>/<n> ────────────────────────────
+        // Une clé par IP hashée : un re-vote (accidentel ou malveillant) ne fait
+        // qu'écraser la même clé. Impossible de compter double, par construction
+        // (le KV est à cohérence différée : un compteur incrémental serait truquable).
         let m = url.pathname.match(/^\/vote\/([^/]+)\/([1-4])$/);
         if (request.method === "POST" && m) {
             const [, week, n] = m;
@@ -58,31 +61,33 @@ export default {
 
             const ip = request.headers.get("CF-Connecting-IP") || "0.0.0.0";
             const hash = await ipHash(ip, week, env.SALT || "petit-pain");
-            const ipKey = `ip:${week}:${hash}`;
 
-            // Déjà voté cette semaine ? On répond gentiment sans recompter.
-            if (await env.VOTES.get(ipKey)) {
-                return json({ ok: true, already: true }, cors);
-            }
-            await env.VOTES.put(ipKey, n, { expirationTtl: 60 * 60 * 24 * 8 });
-
-            const countKey = `count:${week}:${n}`;
-            const current = parseInt((await env.VOTES.get(countKey)) || "0", 10);
-            await env.VOTES.put(countKey, String(current + 1));
+            await env.VOTES.put(`vote:${week}:${hash}`, n, {
+                expirationTtl: 60 * 60 * 24 * 10, // la semaine + marge de dépouillement
+                metadata: { n },
+            });
 
             return json({ ok: true }, cors);
         }
 
         // ── GET /results/<semaine> ──────────────────────────────
+        // Compte les clés de vote (le n est dans les métadonnées : zéro lecture en plus)
         m = url.pathname.match(/^\/results\/([^/]+)$/);
         if (request.method === "GET" && m) {
             const week = m[1];
             if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
 
-            const out = {};
-            for (const n of ["1", "2", "3", "4"]) {
-                out[n] = parseInt((await env.VOTES.get(`count:${week}:${n}`)) || "0", 10);
-            }
+            const out = { "1": 0, "2": 0, "3": 0, "4": 0 };
+            let cursor;
+            do {
+                const page = await env.VOTES.list({ prefix: `vote:${week}:`, cursor, limit: 1000 });
+                for (const key of page.keys) {
+                    const n = key.metadata && key.metadata.n;
+                    if (out[n] !== undefined) out[n]++;
+                }
+                cursor = page.list_complete ? null : page.cursor;
+            } while (cursor);
+
             return json(out, cors);
         }
 
