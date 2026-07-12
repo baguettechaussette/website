@@ -317,12 +317,11 @@
     </div>
 
     <div class="schedule-container">
-        <!-- Bannière de countdown -->
-        <div id="nextStreamCountdown" class="next-stream-banner"></div>
-
         <!-- Grille des horaires — fallback no-JS.
              La vraie source de vérité est data/schedule.json :
-             modifie le JSON, la grille et le countdown suivent. -->
+             modifie le JSON, la grille et le countdown suivent.
+             La carte du prochain live (ou du live en cours) reçoit un CTA,
+             ajouté par js/stream-countdown.js. -->
         <div class="schedule-grid">
 
             <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
@@ -397,21 +396,9 @@
                 <span class="event-status-badge passe">Mars 2026</span>
             </div>
             <div class="event-archive-icon" aria-hidden="true">🧦</div>
-            <h3 class="event-archive-title">DTI Heartopia</h3>
+            <h3 class="event-archive-title">DTI Heartopia #1</h3>
             <p class="event-archive-desc">Concours Dress To Impress organisé sur Heartopia avec la communauté. Tenues, jury, et podium.</p>
             <span class="event-archive-cta">Voir le recap →</span>
-        </a>
-
-        <!-- ─── Baguettectober (Octobre 2025) ─── -->
-        <a href="/events#baguettectober-2025" class="event-archive-card theme-autumn" data-umami-event="Home - Events - Baguettectober">
-            <div class="event-archive-meta">
-                <span class="event-type-badge">Challenge dessin</span>
-                <span class="event-status-badge passe">Octobre 2025</span>
-            </div>
-            <div class="event-archive-icon" aria-hidden="true">🥖</div>
-            <h3 class="event-archive-title">Baguettectober 2025</h3>
-            <p class="event-archive-desc">5 semaines de défis dessin inspirés d'Inktober. 33 illustrations créées par les p'tits pains.</p>
-            <span class="event-archive-cta">Voir la galerie →</span>
         </a>
 
     </div>

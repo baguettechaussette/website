@@ -251,7 +251,6 @@ function initScrollReveal() {
         // index.html
         '.section-header',
         '.contact-info-box',
-        '.next-stream-banner',
         // events.html
         '.event-intro',
         '.event-stats-strip',
