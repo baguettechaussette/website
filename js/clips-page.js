@@ -6,10 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Compteur de votes (Cloudflare Worker, voir cloudflare/README.md).
-// Tant que l'URL est vide, le vote repose sur Umami seul + dépouillement manuel.
-// Après déploiement : renseigner l'URL ici ET l'ajouter au connect-src de la CSP
-// de clips.html, ET créer la variable de dépôt GitHub VOTE_API_URL.
-const VOTE_API = '';
+// L'URL doit aussi figurer dans le connect-src de la CSP de clips.html,
+// et dans la variable de dépôt GitHub VOTE_API_URL (dépouillement auto).
+const VOTE_API = 'https://bc-vote.baguette-chaussette.workers.dev';
 
 // ── Petits helpers DOM ──────────────────────────────────────
 function makeEl(tag, cls, text) {
