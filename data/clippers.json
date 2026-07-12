@@ -1,1 +1,486 @@
-{"clippers": [], "total_clips": 0, "updated_at": null}
+{
+  "clippers": [
+    {
+      "name": "Barbouy",
+      "clips": 23,
+      "total_views": 406,
+      "best_clip": {
+        "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
+        "title": "Cochon va...",
+        "view_count": 100
+      }
+    },
+    {
+      "name": "emelinevdb",
+      "clips": 16,
+      "total_views": 157,
+      "best_clip": {
+        "id": "SpotlessTameLegPupper-inUjNcjLUh49LF_K",
+        "title": "Fais pas tomber hein Bibou ? Oh !",
+        "view_count": 19
+      }
+    },
+    {
+      "name": "gloubiboulgars",
+      "clips": 14,
+      "total_views": 102,
+      "best_clip": {
+        "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
+        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
+        "view_count": 20
+      }
+    },
+    {
+      "name": "gwendo05052020",
+      "clips": 12,
+      "total_views": 83,
+      "best_clip": {
+        "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
+        "title": "la famille twerke",
+        "view_count": 19
+      }
+    },
+    {
+      "name": "poketicyt",
+      "clips": 12,
+      "total_views": 66,
+      "best_clip": {
+        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
+        "title": "Ca restera dans quoi ?",
+        "view_count": 17
+      }
+    },
+    {
+      "name": "Sarang0n",
+      "clips": 10,
+      "total_views": 67,
+      "best_clip": {
+        "id": "EagerCalmGuanacoYouWHY-RPZyj4pNbeCzATZK",
+        "title": "J'vais pas mourir hein...? 4...3...2...1",
+        "view_count": 18
+      }
+    },
+    {
+      "name": "Hiimaxou",
+      "clips": 9,
+      "total_views": 225,
+      "best_clip": {
+        "id": "ImpossibleZealousPlumBrainSlug-6-iQJokipMsSWHjM",
+        "title": "Mattage de baguette en cours",
+        "view_count": 50
+      }
+    },
+    {
+      "name": "alizee_ngs",
+      "clips": 9,
+      "total_views": 69,
+      "best_clip": {
+        "id": "TangibleTemperedCakeYouWHY-t8q3mA-qB3zo_owP",
+        "title": "WzBot CLIP | Évènement sur Pokémon Poko Loko  ✨ | !discord !insta (by alizee_ngs)",
+        "view_count": 12
+      }
+    },
+    {
+      "name": "sanaross",
+      "clips": 8,
+      "total_views": 38,
+      "best_clip": {
+        "id": "JazzyAssiduousWoodpeckerNerfBlueBlaster-hMNwqFuGsTVQo_hd",
+        "title": "WzBot CLIP | Cooking with Baguette (en duo) volume 3 - SPÉCIAL NOEL 🎄✨ (by sanaross)",
+        "view_count": 9
+      }
+    },
+    {
+      "name": "oceane0510",
+      "clips": 7,
+      "total_views": 84,
+      "best_clip": {
+        "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
+        "title": "et il tombe à l’infini 🤣",
+        "view_count": 23
+      }
+    },
+    {
+      "name": "kyuwha",
+      "clips": 7,
+      "total_views": 24,
+      "best_clip": {
+        "id": "RichVictoriousWallabyPJSugar-xeWhZhalxXgSPjl5",
+        "title": "Comment ça mon reuf ????",
+        "view_count": 17
+      }
+    },
+    {
+      "name": "francebbgg",
+      "clips": 6,
+      "total_views": 58,
+      "best_clip": {
+        "id": "LitigiousPhilanthropicPassionfruitDatBoi-qjF_NSvm0O7_pcA2",
+        "title": "WzBot CLIP | OMG LA SWITCH 2 ?? ✨ | !discord !insta (by francebbgg)",
+        "view_count": 21
+      }
+    },
+    {
+      "name": "mllereve",
+      "clips": 6,
+      "total_views": 51,
+      "best_clip": {
+        "id": "HeartlessOilyNoodlePeoplesChamp-eeh0hLdwF6zLz9co",
+        "title": "son aléatoire",
+        "view_count": 14
+      }
+    },
+    {
+      "name": "Omiilia",
+      "clips": 5,
+      "total_views": 95,
+      "best_clip": {
+        "id": "ExuberantBoldDogTwitchRaid-qvSWRBC3HnYpG6DK",
+        "title": "le coup de gueule 🤣🤣",
+        "view_count": 27
+      }
+    },
+    {
+      "name": "TsukinoArisu",
+      "clips": 5,
+      "total_views": 36,
+      "best_clip": {
+        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
+        "title": "Stalké la Stalkeuse qui se faxe.....",
+        "view_count": 16
+      }
+    },
+    {
+      "name": "morado290",
+      "clips": 5,
+      "total_views": 31,
+      "best_clip": {
+        "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
+        "title": "Gourmand",
+        "view_count": 10
+      }
+    },
+    {
+      "name": "WizeBot",
+      "clips": 4,
+      "total_views": 60,
+      "best_clip": {
+        "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
+        "title": "Le tchouch dans la bruschetta",
+        "view_count": 41
+      }
+    },
+    {
+      "name": "Antz_Virtual",
+      "clips": 4,
+      "total_views": 27,
+      "best_clip": {
+        "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
+        "title": "1 2 3.. QUOI ?",
+        "view_count": 15
+      }
+    },
+    {
+      "name": "france_bb",
+      "clips": 4,
+      "total_views": 16,
+      "best_clip": {
+        "id": "HelpfulPeacefulEaglePrimeMe-imMHzDWlP9SNnWRQ",
+        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by france_bb)",
+        "view_count": 8
+      }
+    },
+    {
+      "name": "sneakylachemou",
+      "clips": 3,
+      "total_views": 78,
+      "best_clip": {
+        "id": "HonorableLachrymoseMelonKAPOW-gDB2_SwUKX-R9WZC",
+        "title": "Une rando difficile",
+        "view_count": 40
+      }
+    },
+    {
+      "name": "sunnyhaze69",
+      "clips": 3,
+      "total_views": 63,
+      "best_clip": {
+        "id": "TsundereCuriousMagpieBloodTrail-utJSl7nU17s_MFo6",
+        "title": "LA SNCF",
+        "view_count": 43
+      }
+    },
+    {
+      "name": "eirian2311",
+      "clips": 3,
+      "total_views": 24,
+      "best_clip": {
+        "id": "AssiduousCourageousHumanVoteNay-e-hX6vv2BpDJnCFo",
+        "title": "Toc toc toc",
+        "view_count": 9
+      }
+    },
+    {
+      "name": "Sanaross",
+      "clips": 3,
+      "total_views": 13,
+      "best_clip": {
+        "id": "ImpossibleCallousGullUnSane-eew34xeNAsiEFi-s",
+        "title": "Bim dans ma gueule...",
+        "view_count": 9
+      }
+    },
+    {
+      "name": "Maxime_pr",
+      "clips": 3,
+      "total_views": 12,
+      "best_clip": {
+        "id": "DullPolishedSkunkThisIsSparta-l64_npO7TGFCCyS9",
+        "title": "POV : tu croises le fou du bus",
+        "view_count": 8
+      }
+    },
+    {
+      "name": "dylanos564",
+      "clips": 3,
+      "total_views": 10,
+      "best_clip": {
+        "id": "MistyAlluringDinosaurMcaT-g0ifYQLCZMFtAX94",
+        "title": "WzBot CLIP | Nous l'attendions, il est enfin là ! ✨ | !discord !insta (by dylanos564)",
+        "view_count": 6
+      }
+    },
+    {
+      "name": "DragonoZelos",
+      "clips": 2,
+      "total_views": 105,
+      "best_clip": {
+        "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
+        "title": "Pardon ?",
+        "view_count": 70
+      }
+    },
+    {
+      "name": "Ryzser22",
+      "clips": 2,
+      "total_views": 102,
+      "best_clip": {
+        "id": "OriginalOilyOrcaDerp-M5oRiR5cvN49DGsk",
+        "title": "Baguette le cowboy",
+        "view_count": 62
+      }
+    },
+    {
+      "name": "Natsukyaa",
+      "clips": 2,
+      "total_views": 49,
+      "best_clip": {
+        "id": "DullEvilHamsterAllenHuhu-Elfpg4T72bWTa5Gp",
+        "title": "Merci Océane !!!!",
+        "view_count": 40
+      }
+    },
+    {
+      "name": "kriiofeu",
+      "clips": 2,
+      "total_views": 46,
+      "best_clip": {
+        "id": "EncouragingBlatantWasabiOSfrog-mYpQLHrYzcA6FCGX",
+        "title": "WzBot CLIP | BONSOIR RETAAARD ✨ | !discord !insta !inkonbini (by kriiofeu)",
+        "view_count": 45
+      }
+    },
+    {
+      "name": "damndam1",
+      "clips": 2,
+      "total_views": 35,
+      "best_clip": {
+        "id": "TangibleCallousPistachioDatBoi-vVDeZvbX6zq3IqNJ",
+        "title": "Les grolles vivantes",
+        "view_count": 23
+      }
+    },
+    {
+      "name": "OmbreFou1",
+      "clips": 2,
+      "total_views": 32,
+      "best_clip": {
+        "id": "LachrymoseNimbleDaikonChocolateRain-prdVY2Po3aLIYrKl",
+        "title": "oups",
+        "view_count": 21
+      }
+    },
+    {
+      "name": "clopetyi",
+      "clips": 2,
+      "total_views": 15,
+      "best_clip": {
+        "id": "SpotlessBloodyCurlewLeeroyJenkins-YaiM283cJE6C_nNI",
+        "title": "WzBot CLIP | OMG découverte PARALIVES ✨ | !Japhy !discord !insta (by clopetyi)",
+        "view_count": 13
+      }
+    },
+    {
+      "name": "eles_7",
+      "clips": 2,
+      "total_views": 11,
+      "best_clip": {
+        "id": "LightThankfulDolphinShadyLulu-aqS5vo7Ifm1iWah5",
+        "title": "WzBot CLIP | La chasse aux vieilles reprend de plus belle ✨ | !discord !insta (by eles_7)",
+        "view_count": 6
+      }
+    },
+    {
+      "name": "nao_playgaming",
+      "clips": 2,
+      "total_views": 8,
+      "best_clip": {
+        "id": "ProtectiveDepressedChipmunkTTours-iME-2yjBUwSnWs9M",
+        "title": "WzBot CLIP | Clim installée dans la boulange, viens te rafraîchir ✨ | !Japhy !discor (by nao_playgaming)",
+        "view_count": 5
+      }
+    },
+    {
+      "name": "teph_woot_woot",
+      "clips": 2,
+      "total_views": 6,
+      "best_clip": {
+        "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
+        "title": "WzBot CLIP | Découverte Palworld !!  (à l'occasion de la 1.0) ✨ | !discord !insta (by teph_woot_woot)",
+        "view_count": 4
+      }
+    },
+    {
+      "name": "alannnvl08",
+      "clips": 1,
+      "total_views": 30,
+      "best_clip": {
+        "id": "PlayfulDepressedStarlingFeelsBadMan-PQr5D8-ziuVnBpK4",
+        "title": "peur",
+        "view_count": 30
+      }
+    },
+    {
+      "name": "july21716",
+      "clips": 1,
+      "total_views": 19,
+      "best_clip": {
+        "id": "RelentlessFaithfulToothTriHard-1eLIaR-q26JvWJjn",
+        "title": "Téter la faucheuse ?",
+        "view_count": 19
+      }
+    },
+    {
+      "name": "Arthuronorbert",
+      "clips": 1,
+      "total_views": 14,
+      "best_clip": {
+        "id": "BashfulFunnyMeerkatPJSugar-mFvPfK6A-_OZWUNp",
+        "title": "les quoi ?",
+        "view_count": 14
+      }
+    },
+    {
+      "name": "babygirls374",
+      "clips": 1,
+      "total_views": 12,
+      "best_clip": {
+        "id": "CleverProudChinchillaItsBoshyTime-oVNlFlO1523fUiQX",
+        "title": "baguette a le seum",
+        "view_count": 12
+      }
+    },
+    {
+      "name": "CrystalCloud69",
+      "clips": 1,
+      "total_views": 10,
+      "best_clip": {
+        "id": "RudeLitigiousScorpionTBTacoLeft-RhvkGkKOKLsfJe0V",
+        "title": "pop",
+        "view_count": 10
+      }
+    },
+    {
+      "name": "hokita_tv",
+      "clips": 1,
+      "total_views": 7,
+      "best_clip": {
+        "id": "ObliqueEphemeralBillOptimizePrime-N7gryAazFjd3__wH",
+        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by hokita_tv)",
+        "view_count": 7
+      }
+    },
+    {
+      "name": "Ayriiiia",
+      "clips": 1,
+      "total_views": 6,
+      "best_clip": {
+        "id": "EncouragingPleasantGoosePanicVis-_3ANA1KCePrAxfGM",
+        "title": "du colorant chez le boulanger",
+        "view_count": 6
+      }
+    },
+    {
+      "name": "aktinidia_k",
+      "clips": 1,
+      "total_views": 3,
+      "best_clip": {
+        "id": "VivaciousProductiveDootSSSsss-ZWpBzWBjC8BgShoy",
+        "title": "WzBot CLIP | On teste un jeu en exclusivité ! ✨ | !discord !insta !inkonbini (by aktinidia_k)",
+        "view_count": 3
+      }
+    },
+    {
+      "name": "capitainkrabss",
+      "clips": 1,
+      "total_views": 3,
+      "best_clip": {
+        "id": "FaintFaintHamTTours-ReztFcYtb_y58fK1",
+        "title": "WzBot CLIP | DÉCOUVERTE TOMODACHI LIFE ✨ | !discord !insta (by capitainkrabss)",
+        "view_count": 3
+      }
+    },
+    {
+      "name": "LinkDemon81",
+      "clips": 1,
+      "total_views": 2,
+      "best_clip": {
+        "id": "CorrectDeadCroquetteANELE-BQzJHuevefVTZzpb",
+        "title": "Baguette wiki",
+        "view_count": 2
+      }
+    },
+    {
+      "name": "rafoulecamp",
+      "clips": 1,
+      "total_views": 2,
+      "best_clip": {
+        "id": "VivaciousGracefulFinchYee-e9_fy1ZjpJbcnnlR",
+        "title": "WzBot CLIP | La chasse aux vieilles reprend de plus belle ✨ | !discord !insta (by rafoulecamp)",
+        "view_count": 2
+      }
+    },
+    {
+      "name": "Daimset",
+      "clips": 1,
+      "total_views": 1,
+      "best_clip": {
+        "id": "InquisitiveExquisitePorpoiseEleGiggle-l-XKk0L3vfgIKz6I",
+        "title": "Le timing parfait",
+        "view_count": 1
+      }
+    },
+    {
+      "name": "Punishr_Fr_Fan",
+      "clips": 1,
+      "total_views": 1,
+      "best_clip": {
+        "id": "WimpyManlyRedpandaPRChase-voBfI_DCWZE7Jw9P",
+        "title": "miaouuu",
+        "view_count": 1
+      }
+    }
+  ],
+  "total_clips": 217,
+  "updated_at": "2026-07-12T16:28:03Z"
+}
