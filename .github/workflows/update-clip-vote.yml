@@ -1,0 +1,149 @@
+name: Update clip of the week (vote)
+
+# Fonctionnement — 100 % automatique via le compteur Cloudflare (voir cloudflare/README.md) :
+#   • Dimanche 18h UTC : dépouille le vote de la semaine (gagnant = clip le plus
+#     voté, par identité de clip), le couronne, et fige le top 4 de la semaine
+#     écoulée comme finalistes de la semaine de vote suivante.
+#   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué.
+#   • Override manuel possible (input = ID du clip gagnant), jamais nécessaire.
+on:
+  schedule:
+    - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement + rotation
+    - cron: "0 6 * * 1"    # lundi 6h UTC : filet de sécurité si échec du dimanche
+  workflow_dispatch:
+    inputs:
+      winner:
+        description: "Override : ID du clip gagnant (laisser vide = dépouillement auto par les votes)."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+      TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get App Access Token (client_credentials)
+        run: |
+          RESP=$(curl -sS --fail -X POST "https://id.twitch.tv/oauth2/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=$TWITCH_CLIENT_ID" \
+            -d "client_secret=$TWITCH_CLIENT_SECRET" \
+            -d "grant_type=client_credentials") || {
+              echo "::error title=Token request failed::HTTP error from id.twitch.tv"
+              exit 1
+            }
+          if ! echo "$RESP" | jq -e '.access_token' >/dev/null; then
+            echo "::error title=Token request failed::Missing access_token field"
+            exit 1
+          fi
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          echo "::add-mask::$ACCESS_TOKEN"
+          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
+
+      - name: Dépouille le vote et prépare la semaine suivante
+        env:
+          MANUAL_WINNER: ${{ github.event.inputs.winner }}
+          # URL du Worker Cloudflare (variable de dépôt, ex. https://bc-vote.xxx.workers.dev)
+          VOTE_API_URL: ${{ vars.VOTE_API_URL }}
+        run: |
+          mkdir -p data
+          PREV=$(cat data/clip-of-week.json 2>/dev/null || echo '{}')
+          WEEK=$(echo "$PREV" | jq -r '.week // empty')
+          FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
+
+          # Filet de sécurité du lundi : si le dimanche a déjà fait la rotation,
+          # ne rien écraser (le gagnant couronné doit survivre).
+          CURRENT_WEEK=$(date -u +%G-W%V)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$CURRENT_WEEK" ]; then
+            echo "ℹ️ Semaine $CURRENT_WEEK déjà en place (dépouillement fait dimanche) : rien à faire."
+            exit 0
+          fi
+
+          # ── 1. Dépouillement de la semaine écoulée (par identité de clip) ──
+          # Automatique via le compteur Cloudflare. Un override manuel reste
+          # possible (input winner = ID de clip) mais n'est jamais nécessaire.
+          WINNER='null'
+          VOTES='null'
+          if [ -n "$WEEK" ] && [ "$FCOUNT" -gt 0 ]; then
+            if [ -n "$MANUAL_WINNER" ]; then
+              WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '(.finalists[] | select(.id == $id)) // null')
+              echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
+            elif [ -n "$VOTE_API_URL" ]; then
+              R=$(curl -sS "$VOTE_API_URL/results/$WEEK" || echo '{}')
+              # Ne compte que les votes portant sur un finaliste réel de la semaine
+              VOTES=$(echo "$PREV" | jq -c --argjson r "$R" \
+                '[.finalists[].id] | map({(.): ($r[.] // 0)}) | add // {}')
+              WIN_ID=$(echo "$VOTES" | jq -r '[to_entries[] | select(.value > 0)] | max_by(.value) | .key // empty')
+              if [ -n "$WIN_ID" ]; then
+                WINNER=$(echo "$PREV" | jq -c --arg id "$WIN_ID" '(.finalists[] | select(.id == $id)) // null')
+                echo "🏆 Gagnant de $WEEK : $WIN_ID ($(echo "$VOTES" | jq -c .))"
+              else
+                echo "ℹ️ Aucun vote cette semaine : pas de gagnant"
+              fi
+            else
+              echo "::notice title=Compteur absent::VOTE_API_URL non défini, pas de dépouillement."
+            fi
+          fi
+
+          # ── 2. Finalistes de la semaine suivante : top 4 des 7 derniers jours ──
+          STARTED_AT=$(date -u -d "7 days ago" +%Y-%m-%dT%H:%M:%SZ)
+          RESP=$(curl -sS --fail -G \
+            -H "Client-Id: $TWITCH_CLIENT_ID" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
+            --data-urlencode "first=4" \
+            --data-urlencode "started_at=$STARTED_AT" \
+            "https://api.twitch.tv/helix/clips") || {
+              echo "::error title=Twitch API request failed::Unable to fetch weekly clips"
+              exit 1
+            }
+
+          FIN=$(echo "$RESP" | jq -c \
+            'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
+             [(.data // [])[] | {id, title: (.title | clean_title), creator_name, view_count, created_at, thumbnail_url}]')
+
+          # Semaine creuse (moins de 2 clips) : on repart du top du mois
+          if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
+            echo "ℹ️ Semaine creuse, finalistes pris dans le top du mois"
+            FIN=$(jq -c '[(.clips // [])[0:4][] | {id, title, creator_name, view_count, created_at, thumbnail_url}]' \
+              data/top-clips.json 2>/dev/null || echo '[]')
+          fi
+
+          # Lancé dimanche soir : demain = lundi = semaine de vote suivante.
+          # Cron du lundi : demain = mardi = même semaine ISO, ça tombe juste aussi.
+          NEXT_WEEK=$(date -u -d "tomorrow" +%G-W%V)
+
+          jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --argjson finalists "$FIN" --argjson winner "$WINNER" --argjson votes "$VOTES" \
+            '{week: $week, finalists: $finalists, winner: $winner, votes: $votes, updated_at: $now}' \
+            > data/clip-of-week.json
+
+          echo "✅ Semaine $NEXT_WEEK : $(echo "$FIN" | jq 'length') finalistes"
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet data/clip-of-week.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/clip-of-week.json
+            git commit -m "chore: update clip of the week (vote + finalistes)"
+            git pull --rebase origin main
+            git push
+            echo "✅ Changes committed and pushed."
+          else
+            echo "No changes detected."
+          fi

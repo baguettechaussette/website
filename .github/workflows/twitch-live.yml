@@ -7,6 +7,11 @@ on:
 permissions:
   contents: write
 
+# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   update-live:
     runs-on: ubuntu-latest
@@ -20,10 +25,19 @@ jobs:
 
       - name: Get Access Token
         run: |
-          RESP=$(curl -sS -X POST "https://id.twitch.tv/oauth2/token" \
+          RESP=$(curl -sS --fail -X POST "https://id.twitch.tv/oauth2/token" \
             -d "client_id=$TWITCH_CLIENT_ID" \
             -d "client_secret=$TWITCH_CLIENT_SECRET" \
-            -d "grant_type=client_credentials")
+            -d "grant_type=client_credentials") || {
+              echo "::error title=Token request failed::HTTP error from id.twitch.tv"
+              exit 1
+            }
+
+          if ! echo "$RESP" | jq -e '.access_token' >/dev/null; then
+            echo "::error title=Token request failed::Missing access_token field"
+            exit 1
+          fi
+
           ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
           echo "::add-mask::$ACCESS_TOKEN"
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
@@ -32,18 +46,35 @@ jobs:
         run: |
           echo "Checking status for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
           mkdir -p data
-          
+
           # On interroge l'API Streams
-          RESP=$(curl -sS -H "Client-Id: $TWITCH_CLIENT_ID" \
+          RESP=$(curl -sS --fail -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
-            "https://api.twitch.tv/helix/streams?user_id=$TWITCH_BROADCASTER_ID")
-          
-          # Si l'objet 'data' n'est pas vide, alors c'est LIVE
-          IS_LIVE=$(echo "$RESP" | jq -r '.data | length > 0')
-          
-          # On crée le fichier JSON
-          echo "{\"is_live\": $IS_LIVE}" > data/live-status.json
-          echo "✅ Live status: $IS_LIVE"
+            "https://api.twitch.tv/helix/streams?user_id=$TWITCH_BROADCASTER_ID") || {
+              echo "::error title=Twitch API request failed::Unable to fetch stream status"
+              exit 1
+            }
+
+          # Refus d'écrire is_live=false sur une réponse invalide :
+          # un run rouge (= alerte) vaut mieux qu'un faux "hors ligne" commité.
+          if ! echo "$RESP" | jq -e 'has("data")' >/dev/null; then
+            echo "::group::Full response payload"
+            echo "$RESP"
+            echo "::endgroup::"
+            echo "::error title=Invalid response::Missing data field"
+            exit 1
+          fi
+
+          # JSON enrichi : jeu, titre et début du stream — des champs stables
+          # pendant un live (pas de viewer_count : il changerait à chaque run
+          # de 5 min et générerait un commit par run).
+          echo "$RESP" | jq '{
+            is_live: (.data | length > 0),
+            game: (.data[0].game_name // null),
+            title: (.data[0].title // null),
+            started_at: (.data[0].started_at // null)
+          }' > data/live-status.json
+          echo "✅ Live status: $(jq -r .is_live data/live-status.json)"
 
       - name: Commit if changed
         run: |
@@ -52,6 +83,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/live-status.json
             git commit -m "chore: update twitch live status ($(jq -r .is_live data/live-status.json))"
+            git pull --rebase origin main
             git push
           else
             echo "No status change detected."

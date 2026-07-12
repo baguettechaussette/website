@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="dti-viewer" id="dtiViewer" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
       <div class="dti-viewer__toolbar">
         <p class="dti-viewer__caption" id="dtiViewerCaption"></p>
-        <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir">
+        <button class="dti-viewer__expand" id="dtiViewerExpand" aria-label="Agrandir" aria-keyshortcuts="f" title="Agrandir (F)">
           <img src="img/symbols/fullscreen.svg" alt="">
         </button>
         <button class="dti-viewer__close" id="dtiViewerClose" aria-label="Fermer">
@@ -120,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             viewer.classList.add('is-open');
             viewer.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            // Le reste de la page devient inerte : le curseur virtuel des lecteurs
+            // d'écran ne peut plus se promener derrière le dialogue
+            document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = true; });
             btnClose.focus({ preventScroll: true });
         }
 
@@ -127,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             viewer.classList.remove('is-open', 'is-expanded');
             viewer.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = false; });
             imgEl.removeAttribute('src');
             lastFocused?.focus({ preventScroll: true });
         }
@@ -240,13 +244,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const list      = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {
-            const imgs = list.slice(0, 4).map(i => i.src);
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
 
             const mosaicInner = document.createElement('div');
             mosaicInner.className = 'gallery-mosaic-inner';
-            mosaicInner.innerHTML = imgs.map(src => `<div style="background-image:url('${src}')"></div>`).join('');
+
+            // Vraies <img> (indexables, avec alt) sur miniatures légères :
+            // img/baguettectober/w1/x.webp → img/baguettectober/thumbs/w1/x.webp
+            list.slice(0, 4).forEach(item => {
+                const img = document.createElement('img');
+                img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
+                img.alt = `${(item.caption || '').replace('Auteur : ', 'Dessin de ')} — Baguettectober 2025`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.width = 400;
+                img.height = 400;
+                // Si la miniature manque (nouvelle édition ?), on retombe sur l'original
+                img.addEventListener('error', () => { img.src = item.src; }, { once: true });
+                mosaicInner.appendChild(img);
+            });
 
             mosaic.appendChild(mosaicInner);
             placeholder.replaceWith(mosaic);

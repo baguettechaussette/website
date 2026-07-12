@@ -1,0 +1,202 @@
+// Page /clips : Le Clip de la Semaine (vote) + Le Panthéon des clippeurs.
+// Chargé après main.js (réutilise openClipModal et clipDisplayTitle).
+document.addEventListener('DOMContentLoaded', () => {
+    loadClipOfWeek();
+    loadClippers();
+    injectVideoSchema();
+});
+
+// Données structurées VideoObject pour les clips (onglet Vidéos de Google).
+// Injecté côté client depuis data/top-clips.json : Google rend le JS pour le
+// balisage, avec un délai — acceptable pour ce contenu communautaire.
+async function injectVideoSchema() {
+    try {
+        const r = await fetch('/data/top-clips.json');
+        if (!r.ok) return;
+        const data = await r.json();
+        const all = [...(data.pinned || []), ...(data.clips || [])];
+
+        const videos = all.filter(c => c && c.id && c.thumbnail_url).slice(0, 20).map(c => {
+            const name = c.title || 'Clip de Baguette Chaussette';
+            const vo = {
+                '@type': 'VideoObject',
+                name,
+                description: c.creator_name ? `${name} — clip Twitch de Baguette Chaussette, clippé par ${c.creator_name}.` : `${name} — clip Twitch de Baguette Chaussette.`,
+                thumbnailUrl: c.thumbnail_url,
+                contentUrl: c.url || `https://clips.twitch.tv/${c.id}`,
+                embedUrl: `https://clips.twitch.tv/embed?clip=${c.id}`,
+                creator: { '@type': 'Person', '@id': 'https://baguettechaussette.fr/#person' }
+            };
+            if (c.created_at) vo.uploadDate = c.created_at;
+            return vo;
+        });
+        if (!videos.length) return;
+
+        const ld = {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Clips de Baguette Chaussette',
+            itemListElement: videos.map((v, i) => ({ '@type': 'ListItem', position: i + 1, item: v }))
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(ld);
+        document.head.appendChild(script);
+    } catch { /* silencieux : le balisage est un bonus, pas un bloquant */ }
+}
+
+// Compteur de votes (Cloudflare Worker, voir cloudflare/README.md).
+// L'URL doit aussi figurer dans le connect-src de la CSP de clips.html,
+// et dans la variable de dépôt GitHub VOTE_API_URL (dépouillement auto).
+const VOTE_API = 'https://bc-vote.baguette-chaussette.workers.dev';
+
+// ── Petits helpers DOM ──────────────────────────────────────
+function makeEl(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+}
+
+// Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
+function makeClipThumb(clip, umamiEvent) {
+    const thumb = document.createElement('button');
+    thumb.type = 'button';
+    thumb.className = 'clip-thumb';
+    thumb.setAttribute('data-umami-event', umamiEvent);
+    thumb.setAttribute('aria-label', `Regarder le clip : ${clipDisplayTitle(clip)}`);
+    if (clip.thumbnail_url) {
+        const img = document.createElement('img');
+        img.src = clip.thumbnail_url;
+        img.alt = '';
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+    }
+    const play = makeEl('span', 'clip-play', '▶');
+    play.setAttribute('aria-hidden', 'true');
+    thumb.appendChild(play);
+    thumb.addEventListener('click', () => openClipModal(clip));
+    return thumb;
+}
+
+// ── Le Clip de la Semaine ───────────────────────────────────
+async function loadClipOfWeek() {
+    const section = document.getElementById('clip-semaine');
+    const winnerBox = document.getElementById('cowWinner');
+    const grid = document.getElementById('cowGrid');
+    if (!section || !winnerBox || !grid) return;
+
+    try {
+        const r = await fetch('/data/clip-of-week.json');
+        if (!r.ok) return;
+        const data = await r.json();
+        const finalists = Array.isArray(data.finalists) ? data.finalists : [];
+        const week = data.week;
+
+        // Gagnant de la semaine passée
+        if (data.winner && data.winner.id) {
+            winnerBox.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
+            const info = makeEl('div', 'cow-winner-info');
+            info.append(
+                makeEl('p', 'cow-winner-label', '👑 Élu par les p\'tits pains la semaine passée :'),
+                makeEl('p', 'clip-meta', `« ${clipDisplayTitle(data.winner)} »`)
+            );
+            if (data.winner.creator_name) {
+                info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
+            }
+            winnerBox.appendChild(info);
+            winnerBox.hidden = false;
+        }
+
+        // Finalistes de la semaine en cours
+        if (week && finalists.length >= 2) {
+            const votedKey = `clip-vote-${week}`;
+            finalists.forEach(clip => {
+                if (clip.id) grid.appendChild(buildFinalistCard(clip, week, votedKey));
+            });
+            refreshVoteButtons(grid, localStorage.getItem(votedKey));
+        }
+
+        if (!winnerBox.hidden || grid.children.length) section.hidden = false;
+    } catch { /* silencieux : la section reste cachée */ }
+}
+
+function buildFinalistCard(clip, week, votedKey) {
+    const card = makeEl('div', 'cow-card');
+    card.appendChild(makeClipThumb(clip, 'Clips - Play Finalist'));
+    card.appendChild(makeEl('p', 'clip-meta', `« ${clipDisplayTitle(clip)} »`));
+    if (clip.creator_name) {
+        card.appendChild(makeEl('p', 'clip-clipper', `clippé par ${clip.creator_name}`));
+    }
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cow-vote-btn';
+    btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
+    btn.textContent = 'Voter pour ce clip 🥖';
+    btn.addEventListener('click', () => {
+        if (localStorage.getItem(votedKey)) return;
+        // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine)
+        if (VOTE_API) {
+            fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' })
+                .catch(() => { /* silencieux */ });
+        }
+        // Umami en parallèle : pour tes stats
+        try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
+        localStorage.setItem(votedKey, clip.id);
+        refreshVoteButtons(card.parentElement, clip.id);
+    });
+    card.appendChild(btn);
+    return card;
+}
+
+function refreshVoteButtons(grid, votedClip) {
+    if (!votedClip || !grid) return;
+    grid.querySelectorAll('.cow-vote-btn').forEach(btn => {
+        btn.disabled = true;
+        if (btn.dataset.clip === votedClip) {
+            btn.classList.add('is-voted');
+            btn.textContent = 'Voté, merci ! ✔';
+        }
+    });
+}
+
+// ── Le Panthéon des clippeurs ───────────────────────────────
+const CLIPPER_BADGES = [
+    { min: 30, emoji: '🍞', label: 'Miche d\'or' },
+    { min: 15, emoji: '🥖', label: 'Baguette d\'argent' },
+    { min: 5,  emoji: '🥐', label: 'Croissant doré' },
+    { min: 0,  emoji: '🌾', label: 'P\'tit épi' },
+];
+
+async function loadClippers() {
+    const section = document.getElementById('clippeurs');
+    const grid = document.getElementById('clippersGrid');
+    if (!section || !grid) return;
+
+    try {
+        const r = await fetch('/data/clippers.json');
+        if (!r.ok) return;
+        const data = await r.json();
+        const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 6);
+        if (!clippers.length) return;
+
+        const medals = ['🥇', '🥈', '🥉'];
+        clippers.forEach((c, i) => {
+            const badge = CLIPPER_BADGES.find(b => c.clips >= b.min);
+            const card = makeEl('div', 'clipper-card' + (i < 3 ? ` clipper-rank-${i + 1}` : ''));
+            card.append(
+                makeEl('div', 'clipper-rank', medals[i] || `#${i + 1}`),
+                makeEl('div', 'clipper-badge', badge.emoji),
+                makeEl('p', 'clipper-name', c.name),
+                makeEl('p', 'clipper-grade', badge.label),
+                makeEl('p', 'clipper-stats',
+                    `${c.clips} clip${c.clips > 1 ? 's' : ''} · ${(c.total_views || 0).toLocaleString('fr-FR')} vues`)
+            );
+            grid.appendChild(card);
+        });
+
+        section.hidden = false;
+    } catch { /* silencieux : la section reste cachée */ }
+}

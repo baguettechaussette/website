@@ -5,19 +5,15 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v5';
+const CACHE_NAME = 'bc-v6';
 
 const PRECACHE_ASSETS = [
+    // Une seule forme d'URL par page : celle utilisée par les liens internes
     '/',
-    '/index.html',
     '/events',
-    '/events.html',
     '/clips',
-    '/clips.html',
     '/links',
-    '/links.html',
     '/mentions-legales',
-    '/mentions-legales.html',
     '/404.html',
     '/css/fonts.css',
     '/fonts/baloo2-latin.woff2',
@@ -36,19 +32,27 @@ const PRECACHE_ASSETS = [
     '/js/gallery.js',
     '/js/links.js',
     '/js/stream-countdown.js',
+    '/js/live-float.js',
+    '/js/clips-page.js',
     '/js/fluent-emoji.js',
     '/img/baguette-chaussette-logo.webp',
     '/img/baguette-chaussette-streamer-twitch-fr-v2.webp',
     '/img/symbols/menu.svg',
+    '/img/symbols/close.svg',
+    '/img/symbols/fullscreen.svg',
+    '/img/symbols/arrow_back_ios.svg',
+    '/img/symbols/arrow_forward_ios.svg',
     '/favicons/favicon-96x96.png',
     '/favicons/apple-touch-icon.png',
 ];
 
 // ── Install : précache des assets principaux ──────────────
+// allSettled : un fichier renommé/supprimé ne bloque pas toute l'installation
+// (cache.addAll échouerait en tout-ou-rien et figerait le SW sur l'ancienne version)
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(PRECACHE_ASSETS))
+            .then(cache => Promise.allSettled(PRECACHE_ASSETS.map(a => cache.add(a))))
             .then(() => self.skipWaiting())
     );
 });
@@ -73,20 +77,27 @@ self.addEventListener('fetch', event => {
     if (request.method !== 'GET' || url.origin !== location.origin) return;
 
     // Ignore le suivi analytics et les données temps-réel
-    if (url.pathname.startsWith('/data/') || url.pathname.includes('followers')) return;
+    if (url.pathname.startsWith('/data/')) return;
 
     const isHTML = request.headers.get('accept')?.includes('text/html');
 
     if (isHTML) {
-        // Network First pour le HTML → contenu toujours à jour
+        // Network First pour le HTML → contenu toujours à jour.
+        // Seules les réponses saines sont mises en cache (jamais une 404/500 transitoire),
+        // et hors-ligne une page inconnue retombe sur la 404 maison plutôt que sur
+        // la page d'erreur du navigateur.
         event.respondWith(
             fetch(request)
                 .then(res => {
-                    const clone = res.clone();
-                    caches.open(CACHE_NAME).then(c => c.put(request, clone));
+                    if (res.ok) {
+                        const clone = res.clone();
+                        caches.open(CACHE_NAME).then(c => c.put(request, clone));
+                    }
                     return res;
                 })
-                .catch(() => caches.match(request))
+                .catch(() =>
+                    caches.match(request).then(r => r || caches.match('/404.html'))
+                )
         );
     } else {
         // Stale While Revalidate pour les assets statiques
@@ -94,10 +105,12 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             caches.open(CACHE_NAME).then(cache =>
                 cache.match(request).then(cached => {
-                    const fetchPromise = fetch(request).then(res => {
-                        cache.put(request, res.clone());
-                        return res;
-                    });
+                    const fetchPromise = fetch(request)
+                        .then(res => {
+                            if (res.ok) cache.put(request, res.clone());
+                            return res;
+                        })
+                        .catch(() => cached); // offline : pas de rejet non géré dans la console
                     return cached || fetchPromise;
                 })
             )
