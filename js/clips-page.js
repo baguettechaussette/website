@@ -3,7 +3,48 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadClipOfWeek();
     loadClippers();
+    injectVideoSchema();
 });
+
+// Données structurées VideoObject pour les clips (onglet Vidéos de Google).
+// Injecté côté client depuis data/top-clips.json : Google rend le JS pour le
+// balisage, avec un délai — acceptable pour ce contenu communautaire.
+async function injectVideoSchema() {
+    try {
+        const r = await fetch('/data/top-clips.json');
+        if (!r.ok) return;
+        const data = await r.json();
+        const all = [...(data.pinned || []), ...(data.clips || [])];
+
+        const videos = all.filter(c => c && c.id && c.thumbnail_url).slice(0, 20).map(c => {
+            const name = c.title || 'Clip de Baguette Chaussette';
+            const vo = {
+                '@type': 'VideoObject',
+                name,
+                description: c.creator_name ? `${name} — clip Twitch de Baguette Chaussette, clippé par ${c.creator_name}.` : `${name} — clip Twitch de Baguette Chaussette.`,
+                thumbnailUrl: c.thumbnail_url,
+                contentUrl: c.url || `https://clips.twitch.tv/${c.id}`,
+                embedUrl: `https://clips.twitch.tv/embed?clip=${c.id}`,
+                creator: { '@type': 'Person', '@id': 'https://baguettechaussette.fr/#person' }
+            };
+            if (c.created_at) vo.uploadDate = c.created_at;
+            return vo;
+        });
+        if (!videos.length) return;
+
+        const ld = {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Clips de Baguette Chaussette',
+            itemListElement: videos.map((v, i) => ({ '@type': 'ListItem', position: i + 1, item: v }))
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(ld);
+        document.head.appendChild(script);
+    } catch { /* silencieux : le balisage est un bonus, pas un bloquant */ }
+}
 
 // Compteur de votes (Cloudflare Worker, voir cloudflare/README.md).
 // L'URL doit aussi figurer dans le connect-src de la CSP de clips.html,

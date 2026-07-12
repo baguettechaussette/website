@@ -53,6 +53,17 @@
 
 /* === Tablet (768px+) === */
 @media (max-width: 768px) {
+    /* Décor allégé sur mobile : les particules et le gradient animé du fond
+       coûtent cher en compositing GPU (scroll saccadé, batterie) pour un effet
+       à peine perceptible sur petit écran. On coupe l'animation, pas le décor. */
+    .particles {
+        display: none;
+    }
+
+    .bg-container {
+        animation: none;
+    }
+
     /* Navigation mobile */
     .nav-links {
         display: none;
