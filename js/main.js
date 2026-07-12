@@ -374,10 +374,11 @@ async function loadTopClips() {
         const pinned = (Array.isArray(data.pinned) ? data.pinned : []).map(c => ({ ...c, pinned: true }));
         const autos = Array.isArray(data.clips) ? data.clips : [];
 
-        const keep = (list) => {
+        const keep = (list, applyExclude = true) => {
             const seen = new Set();
             return list.filter(clip => {
-                if (!clip.id || seen.has(clip.id) || exclude.has(clip.id)) return false;
+                if (!clip.id || seen.has(clip.id)) return false;
+                if (applyExclude && exclude.has(clip.id)) return false;
                 seen.add(clip.id);
                 return true;
             });
@@ -385,11 +386,13 @@ async function loadTopClips() {
 
         // Page clips : les épinglés ont leur propre bloc "Mes petits préférés"
         // (les mélanger au "top du mois" était incohérent : ils n'en font pas partie).
-        // Ailleurs (vitrine home) : liste fusionnée, épinglés d'abord.
+        // La sélection perso s'affiche TOUJOURS en entier, même si un épinglé est
+        // aussi finaliste ou couronné de la semaine. Ailleurs (vitrine home) :
+        // liste fusionnée, épinglés d'abord.
         const pinnedSection = document.getElementById('clips-pinned');
         const pinnedGrid = document.getElementById('pinnedGrid');
         if (pinnedGrid) {
-            keep(pinned).forEach(clip => pinnedGrid.appendChild(buildClipCard(clip)));
+            keep(pinned, false).forEach(clip => pinnedGrid.appendChild(buildClipCard(clip)));
             if (pinnedSection && pinnedGrid.children.length) pinnedSection.hidden = false;
         }
 
