@@ -62,7 +62,7 @@
       "title": "C'est l'heure du blabla et du Dreamsnap 😎 | !discord !insta",
       "creator_name": "BaguetteChaussette",
       "game": "Disney Dreamlight Valley",
-      "view_count": 9,
+      "view_count": 10,
       "created_at": "2026-07-03T22:47:28Z",
       "duration": 38.4,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/bbd9b8e9-0784-4dd7-ac95-434a6a0a7a7a/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -84,7 +84,7 @@
       "title": "Découverte de Pawsome Resort ce soir ✨ | !discord !insta",
       "creator_name": "BaguetteChaussette",
       "game": "Pawsome Resort",
-      "view_count": 8,
+      "view_count": 9,
       "created_at": "2026-07-01T23:28:54Z",
       "duration": 29.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9519a926-4448-446d-865a-b350f4433d57/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -168,15 +168,15 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/SwissBlindingPistachioPrimeMe-IUxnG2v0sG6zExNF"
     },
     {
-      "id": "LightBusyZebraHumbleLife-osIlzwPgmLpqNCHL",
-      "title": "C'est l'heure du blabla et du Dreamsnap 😎 | !discord !insta",
+      "id": "BlindingHilariousPelicanCharlieBitMe-B3ubnPUtyVdZwssc",
+      "title": "Déjà vu",
       "creator_name": "BaguetteChaussette",
       "game": "Disney Dreamlight Valley",
-      "view_count": 3,
-      "created_at": "2026-07-03T22:45:43Z",
-      "duration": 29.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/34741b77-ecd9-402b-b06f-57ecbce13ebd/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/LightBusyZebraHumbleLife-osIlzwPgmLpqNCHL"
+      "view_count": 2,
+      "created_at": "2026-07-09T12:13:45Z",
+      "duration": 16.2,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/006ec55a-b3a8-4735-9a73-2b49b5742638/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/BlindingHilariousPelicanCharlieBitMe-B3ubnPUtyVdZwssc"
     },
     {
       "id": "ShakingSneakyKoalaFailFish-N4kVZTAKmRT6SwNl",
@@ -190,17 +190,6 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/ShakingSneakyKoalaFailFish-N4kVZTAKmRT6SwNl"
     },
     {
-      "id": "BlindingHilariousPelicanCharlieBitMe-B3ubnPUtyVdZwssc",
-      "title": "Déjà vu",
-      "creator_name": "BaguetteChaussette",
-      "game": "Disney Dreamlight Valley",
-      "view_count": 2,
-      "created_at": "2026-07-09T12:13:45Z",
-      "duration": 16.2,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/006ec55a-b3a8-4735-9a73-2b49b5742638/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/BlindingHilariousPelicanCharlieBitMe-B3ubnPUtyVdZwssc"
-    },
-    {
       "id": "SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC",
       "title": "",
       "creator_name": "teph_woot_woot",
@@ -210,7 +199,18 @@
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/7e1c2b0e-3b30-403b-ba50-c19bb15ecb83/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC"
+    },
+    {
+      "id": "RoughFastSandwichBudBlast-Li0l8Wg_7hQtdPBE",
+      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "game": "Aniimo",
+      "view_count": 2,
+      "created_at": "2026-07-09T20:44:52Z",
+      "duration": 29.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/02752480-0422-4176-bf48-ac13dbbed51e/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/RoughFastSandwichBudBlast-Li0l8Wg_7hQtdPBE"
     }
   ],
-  "updated_at": "2026-07-12T16:03:09Z"
+  "updated_at": "2026-07-12T16:24:03Z"
 }

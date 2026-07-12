@@ -1,16 +1,6 @@
 {
   "clippers": [
     {
-      "name": "BaguetteChaussette",
-      "clips": 335,
-      "total_views": 783,
-      "best_clip": {
-        "id": "ElegantDeliciousSeahorseCurseLit-anIsPol6X2DmLgbV",
-        "title": "1h avant la maintenance",
-        "view_count": 54
-      }
-    },
-    {
       "name": "Barbouy",
       "clips": 23,
       "total_views": 406,
@@ -491,6 +481,6 @@
       }
     }
   ],
-  "total_clips": 552,
-  "updated_at": "2026-07-12T16:03:10Z"
+  "total_clips": 217,
+  "updated_at": "2026-07-12T16:24:05Z"
 }
