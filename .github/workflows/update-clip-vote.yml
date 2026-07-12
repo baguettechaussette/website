@@ -99,14 +99,22 @@ jobs:
             fi
           fi
 
-          # ── 2. Finalistes de la semaine suivante : top 4 des 7 derniers jours ──
-          STARTED_AT=$(date -u -d "7 days ago" +%Y-%m-%dT%H:%M:%SZ)
+          # ── 2. Finalistes de la semaine suivante : top 4 de la semaine ISO
+          #    qui précède immédiatement la semaine de vote (lundi 00:00 →
+          #    dimanche 23:59 UTC). On vote donc toujours pour la semaine écoulée,
+          #    jamais celle en cours — y compris pour un lancement manuel en
+          #    milieu de semaine.
+          TDOW=$(date -u -d "tomorrow" +%u)                            # 1=lun .. 7=dim
+          VOTE_MON=$(date -u -d "tomorrow -$((TDOW-1)) days" +%Y-%m-%d) # lundi de la semaine de vote
+          STARTED_AT=$(date -u -d "$VOTE_MON -7 days" +%Y-%m-%dT00:00:00Z)
+          ENDED_AT=$(date -u -d "$VOTE_MON" +%Y-%m-%dT00:00:00Z)
           RESP=$(curl -sS --fail -G \
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
             --data-urlencode "first=4" \
             --data-urlencode "started_at=$STARTED_AT" \
+            --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
               echo "::error title=Twitch API request failed::Unable to fetch weekly clips"
               exit 1
