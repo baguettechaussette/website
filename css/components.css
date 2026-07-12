@@ -135,11 +135,9 @@
 
 /* === Schedule Cards === */
 .schedule-container {
-    background: rgba(140, 191, 159, 0.08);
-    border: 2px solid rgba(140, 191, 159, 0.22);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-lg);
-    backdrop-filter: blur(20px);
+    /* Plus de panneau givré : les cartes se posent directement sur la page */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .schedule-grid {
@@ -362,8 +360,9 @@
 }
 
 .social-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.35);
+    /* Tuile givrée autonome (comme les cartes événements) : plus de panneau derrière */
+    background: rgba(255, 255, 255, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-lg);
     padding: 50px 40px;
     text-align: center;
@@ -371,6 +370,8 @@
     transition: all var(--transition-smooth);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
     animation: fadeInUp 0.6s ease backwards;
 }
 
@@ -501,11 +502,9 @@
 
 /* === Contact Cards === */
 .contact-container {
-    background: rgba(140, 191, 159, 0.08);
-    border: 2px solid rgba(140, 191, 159, 0.22);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-lg);
-    backdrop-filter: blur(20px);
+    /* Plus de panneau givré */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .contact-content {
