@@ -112,8 +112,8 @@ async function loadClipOfWeek() {
         // Finalistes de la semaine en cours
         if (week && finalists.length >= 2) {
             const votedKey = `clip-vote-${week}`;
-            finalists.forEach((clip, i) => {
-                grid.appendChild(buildFinalistCard(clip, i + 1, week, votedKey));
+            finalists.forEach(clip => {
+                if (clip.id) grid.appendChild(buildFinalistCard(clip, week, votedKey));
             });
             refreshVoteButtons(grid, localStorage.getItem(votedKey));
         }
@@ -122,7 +122,7 @@ async function loadClipOfWeek() {
     } catch { /* silencieux : la section reste cachée */ }
 }
 
-function buildFinalistCard(clip, n, week, votedKey) {
+function buildFinalistCard(clip, week, votedKey) {
     const card = makeEl('div', 'cow-card');
     card.appendChild(makeClipThumb(clip, 'Clips - Play Finalist'));
     card.appendChild(makeEl('p', 'clip-meta', `« ${clipDisplayTitle(clip)} »`));
@@ -133,28 +133,29 @@ function buildFinalistCard(clip, n, week, votedKey) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'cow-vote-btn';
-    btn.dataset.n = String(n);
+    btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
     btn.textContent = 'Voter pour ce clip 🥖';
     btn.addEventListener('click', () => {
         if (localStorage.getItem(votedKey)) return;
         // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine)
         if (VOTE_API) {
-            fetch(`${VOTE_API}/vote/${week}/${n}`, { method: 'POST' }).catch(() => { /* silencieux */ });
+            fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' })
+                .catch(() => { /* silencieux */ });
         }
-        // Umami en parallèle : stats + filet de secours du dépouillement manuel
-        try { window.umami?.track(`vote-${week}-${n}`); } catch { /* adblock : tant pis */ }
-        localStorage.setItem(votedKey, String(n));
-        refreshVoteButtons(card.parentElement, String(n));
+        // Umami en parallèle : pour tes stats
+        try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
+        localStorage.setItem(votedKey, clip.id);
+        refreshVoteButtons(card.parentElement, clip.id);
     });
     card.appendChild(btn);
     return card;
 }
 
-function refreshVoteButtons(grid, votedN) {
-    if (!votedN || !grid) return;
+function refreshVoteButtons(grid, votedClip) {
+    if (!votedClip || !grid) return;
     grid.querySelectorAll('.cow-vote-btn').forEach(btn => {
         btn.disabled = true;
-        if (btn.dataset.n === votedN) {
+        if (btn.dataset.clip === votedClip) {
             btn.classList.add('is-voted');
             btn.textContent = 'Voté, merci ! ✔';
         }

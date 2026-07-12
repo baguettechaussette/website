@@ -22,9 +22,9 @@ npx wrangler deploy       # (npx wrangler login la première fois)
 ## Vérifier que ça marche
 
 ```bash
-curl -X POST https://bc-vote.baguette-chaussette.workers.dev/vote/2099-W01/1
+curl -X POST https://bc-vote.baguette-chaussette.workers.dev/vote/2099-W01/MonClipDeTest-abc
 curl https://bc-vote.baguette-chaussette.workers.dev/results/2099-W01
-# → {"1":1,"2":0,"3":0,"4":0}
+# → {"MonClipDeTest-abc":1}
 ```
 
 ## Notes
