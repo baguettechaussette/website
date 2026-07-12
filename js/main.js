@@ -374,78 +374,90 @@ async function loadTopClips() {
         const pinned = (Array.isArray(data.pinned) ? data.pinned : []).map(c => ({ ...c, pinned: true }));
         const autos = Array.isArray(data.clips) ? data.clips : [];
 
-        const seen = new Set();
-        const clips = [...pinned, ...autos].filter(clip => {
-            if (!clip.id || seen.has(clip.id) || exclude.has(clip.id)) return false;
-            seen.add(clip.id);
-            return true;
-        }).slice(0, limit);
-        if (!clips.length) return;
+        const keep = (list) => {
+            const seen = new Set();
+            return list.filter(clip => {
+                if (!clip.id || seen.has(clip.id) || exclude.has(clip.id)) return false;
+                seen.add(clip.id);
+                return true;
+            });
+        };
 
-        clips.forEach(clip => {
-            if (!clip.id) return;
+        // Page clips : les épinglés ont leur propre bloc "Mes petits préférés"
+        // (les mélanger au "top du mois" était incohérent : ils n'en font pas partie).
+        // Ailleurs (vitrine home) : liste fusionnée, épinglés d'abord.
+        const pinnedSection = document.getElementById('clips-pinned');
+        const pinnedGrid = document.getElementById('pinnedGrid');
+        if (pinnedGrid) {
+            keep(pinned).forEach(clip => pinnedGrid.appendChild(buildClipCard(clip)));
+            if (pinnedSection && pinnedGrid.children.length) pinnedSection.hidden = false;
+        }
 
-            const card = document.createElement('div');
-            card.className = 'clip-card';
-
-            // Miniature cliquable → le clip s'ouvre dans une modale centrée
-            const displayTitle = clipDisplayTitle(clip);
-
-            const thumb = document.createElement('button');
-            thumb.type = 'button';
-            thumb.className = 'clip-thumb';
-            thumb.setAttribute('data-umami-event', 'Clips - Play');
-            thumb.setAttribute('aria-label', `Lire le clip : ${displayTitle}`);
-
-            if (clip.thumbnail_url) {
-                const img = document.createElement('img');
-                img.src = clip.thumbnail_url;
-                img.alt = '';
-                img.loading = 'lazy';
-                thumb.appendChild(img);
-            }
-
-            const play = document.createElement('span');
-            play.className = 'clip-play';
-            play.setAttribute('aria-hidden', 'true');
-            play.textContent = '▶';
-            thumb.appendChild(play);
-
-            thumb.addEventListener('click', () => openClipModal(clip));
-            card.appendChild(thumb);
-
-            // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
-            // les viewers, affiché entre guillemets pour marquer la citation.
-            const meta = document.createElement('p');
-            meta.className = 'clip-meta';
-            if (clip.pinned) {
-                const pin = document.createElement('span');
-                pin.className = 'clip-pin';
-                pin.textContent = '📌';
-                pin.title = 'Clip épinglé';
-                meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
-            } else {
-                meta.textContent = `« ${displayTitle} »`;
-            }
-            card.appendChild(meta);
-
-            // Le p'tit pain qui a clippé (fourni par le workflow enrichi)
-            if (clip.creator_name) {
-                const by = document.createElement('p');
-                by.className = 'clip-clipper';
-                by.textContent = `clippé par ${clip.creator_name}`;
-                card.appendChild(by);
-            }
-
-            grid.appendChild(card);
-        });
-
-        section.hidden = false;
+        const clips = keep(pinnedGrid ? autos : [...pinned, ...autos]).slice(0, limit);
+        clips.forEach(clip => grid.appendChild(buildClipCard(clip)));
+        if (grid.children.length || pinnedGrid?.children.length) section.hidden = false;
     } catch (err) {
         console.debug('Top clips indisponibles:', err.message);
     } finally {
         skeletons.forEach(s => s.remove());
     }
+}
+
+// Carte de clip (miniature cliquable + titre + clippeur), commune à toutes les grilles
+function buildClipCard(clip) {
+    const card = document.createElement('div');
+    card.className = 'clip-card';
+
+    // Miniature cliquable → le clip s'ouvre dans une modale centrée
+    const displayTitle = clipDisplayTitle(clip);
+
+    const thumb = document.createElement('button');
+    thumb.type = 'button';
+    thumb.className = 'clip-thumb';
+    thumb.setAttribute('data-umami-event', 'Clips - Play');
+    thumb.setAttribute('aria-label', `Lire le clip : ${displayTitle}`);
+
+    if (clip.thumbnail_url) {
+        const img = document.createElement('img');
+        img.src = clip.thumbnail_url;
+        img.alt = '';
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+    }
+
+    const play = document.createElement('span');
+    play.className = 'clip-play';
+    play.setAttribute('aria-hidden', 'true');
+    play.textContent = '▶';
+    thumb.appendChild(play);
+
+    thumb.addEventListener('click', () => openClipModal(clip));
+    card.appendChild(thumb);
+
+    // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
+    // les viewers, affiché entre guillemets pour marquer la citation.
+    const meta = document.createElement('p');
+    meta.className = 'clip-meta';
+    if (clip.pinned) {
+        const pin = document.createElement('span');
+        pin.className = 'clip-pin';
+        pin.textContent = '📌';
+        pin.title = 'Clip épinglé';
+        meta.append(pin, document.createTextNode(clip.title || 'Clip épinglé'));
+    } else {
+        meta.textContent = `« ${displayTitle} »`;
+    }
+    card.appendChild(meta);
+
+    // Le p'tit pain qui a clippé (fourni par le workflow enrichi)
+    if (clip.creator_name) {
+        const by = document.createElement('p');
+        by.className = 'clip-clipper';
+        by.textContent = `clippé par ${clip.creator_name}`;
+        card.appendChild(by);
+    }
+
+    return card;
 }
 
 // ── Modale de lecture des clips (créée à la première ouverture) ──
