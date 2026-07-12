@@ -193,7 +193,12 @@ async function loadFollowersCount(retries = 3) {
 }
 
 // ── Barre de progression vers l'objectif de followers ──
-const FOLLOWER_GOAL = 2000;
+// Le palier monte tout seul : prochain multiple de 500 (puis de 1000 au-delà
+// de 5000) strictement au-dessus du nombre actuel de followers.
+function nextFollowerGoal(followers) {
+    const step = followers < 5000 ? 500 : 1000;
+    return Math.floor(followers / step) * step + step;
+}
 
 function updateFollowerGoal(followers) {
     const wrap  = document.getElementById('followerGoal');
@@ -201,16 +206,13 @@ function updateFollowerGoal(followers) {
     const label = document.getElementById('followerGoalLabel');
     if (!wrap || !fill || !label) return;
 
-    const pct = Math.min(100, Math.round((followers / FOLLOWER_GOAL) * 100));
-    fill.setAttribute('aria-valuemax', FOLLOWER_GOAL);
-    fill.setAttribute('aria-valuenow', followers);
+    const goal = nextFollowerGoal(followers);
+    const reste = goal - followers;
+    const pct = Math.min(100, Math.round((followers / goal) * 100));
 
-    if (followers >= FOLLOWER_GOAL) {
-        wrap.classList.add('is-reached');
-        label.textContent = `🎉 Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains atteint, merci !`;
-    } else {
-        label.textContent = `Objectif ${FOLLOWER_GOAL.toLocaleString('fr-FR')} p'tits pains : plus que ${(FOLLOWER_GOAL - followers).toLocaleString('fr-FR')} !`;
-    }
+    fill.setAttribute('aria-valuemax', goal);
+    fill.setAttribute('aria-valuenow', followers);
+    label.textContent = `Objectif ${goal.toLocaleString('fr-FR')} p'tits pains : plus que ${reste.toLocaleString('fr-FR')} !`;
 
     wrap.hidden = false;
     // La largeur est posée après le premier rendu pour déclencher la transition CSS
