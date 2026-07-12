@@ -81,11 +81,33 @@ function makeClipThumb(clip, umamiEvent) {
 }
 
 // ── Le Clip de la Semaine ───────────────────────────────────
+// "2026-W28" → lundi de cette semaine ISO (UTC)
+function isoWeekMonday(week) {
+    const m = /^(\d{4})-W(\d{2})$/.exec(week || '');
+    if (!m) return null;
+    const jan4 = new Date(Date.UTC(+m[1], 0, 4));
+    const monday = new Date(jan4);
+    monday.setUTCDate(jan4.getUTCDate() - (jan4.getUTCDay() || 7) + 1 + (+m[2] - 1) * 7);
+    return monday;
+}
+
+// Les finalistes viennent de la semaine ISO qui précède la semaine de vote
+function finalistWeekRange(week) {
+    const voteMonday = isoWeekMonday(week);
+    if (!voteMonday) return null;
+    const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 7);
+    const end = new Date(voteMonday); end.setUTCDate(end.getUTCDate() - 1);
+    const fmt = d => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
+    return `${fmt(start)} au ${fmt(end)}`;
+}
+
 async function loadClipOfWeek() {
     const section = document.getElementById('clip-semaine');
+    const voteBlock = document.getElementById('cowVoteBlock');
+    const voteHeading = document.getElementById('cowVoteHeading');
     const winnerBox = document.getElementById('cowWinner');
     const grid = document.getElementById('cowGrid');
-    if (!section || !winnerBox || !grid) return;
+    if (!section || !voteBlock || !winnerBox || !grid) return;
 
     try {
         const r = await fetch('/data/clip-of-week.json');
@@ -94,32 +116,35 @@ async function loadClipOfWeek() {
         const finalists = Array.isArray(data.finalists) ? data.finalists : [];
         const week = data.week;
 
-        // Gagnant de la semaine passée
-        if (data.winner && data.winner.id) {
-            winnerBox.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
-            const info = makeEl('div', 'cow-winner-info');
-            info.append(
-                makeEl('span', 'cow-winner-badge', '👑 Clip de la semaine'),
-                makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`)
-            );
-            if (data.winner.creator_name) {
-                info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
-            }
-            info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains la semaine passée'));
-            winnerBox.appendChild(info);
-            winnerBox.hidden = false;
-        }
-
-        // Finalistes de la semaine en cours
+        // Le vote d'abord : c'est l'action principale de la section
         if (week && finalists.length >= 2) {
+            const range = finalistWeekRange(week);
+            if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
             const votedKey = `clip-vote-${week}`;
             finalists.forEach(clip => {
                 if (clip.id) grid.appendChild(buildFinalistCard(clip, week, votedKey));
             });
             refreshVoteButtons(grid, localStorage.getItem(votedKey));
+            voteBlock.hidden = false;
         }
 
-        if (!winnerBox.hidden || grid.children.length) section.hidden = false;
+        // Puis le palmarès : le clip élu la semaine dernière
+        if (data.winner && data.winner.id) {
+            winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip de la semaine dernière'));
+            const card = makeEl('div', 'cow-winner-card');
+            card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
+            const info = makeEl('div', 'cow-winner-info');
+            info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
+            if (data.winner.creator_name) {
+                info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
+            }
+            info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains au live du dimanche'));
+            card.appendChild(info);
+            winnerBox.appendChild(card);
+            winnerBox.hidden = false;
+        }
+
+        if (!winnerBox.hidden || !voteBlock.hidden) section.hidden = false;
     } catch { /* silencieux : la section reste cachée */ }
 }
 
