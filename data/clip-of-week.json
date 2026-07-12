@@ -1,1 +1,24 @@
-{"week": null, "finalists": [], "winner": null, "votes": null, "updated_at": null}
+{
+  "week": "2026-W28",
+  "finalists": [
+    {
+      "id": "SplendidToughPidgeonBatChest-nHivhHJ1cWM1XT1N",
+      "title": "C'est l'heure du blabla et du Dreamsnap 😎 | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "view_count": 10,
+      "created_at": "2026-07-03T22:47:28Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/bbd9b8e9-0784-4dd7-ac95-434a6a0a7a7a/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k",
+      "title": "Découverte de Pawsome Resort ce soir ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "view_count": 9,
+      "created_at": "2026-07-01T23:28:54Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9519a926-4448-446d-865a-b350f4433d57/landscape/thumb/thumb-0000000000-480x272.jpg"
+    }
+  ],
+  "winner": null,
+  "votes": null,
+  "updated_at": "2026-07-12T16:28:12Z"
+}
