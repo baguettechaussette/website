@@ -279,6 +279,36 @@
     z-index: 1;
 }
 
+/* Accès rapide aux événements (puces sous le hero) */
+.event-anchors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.event-anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1.5px solid rgba(140, 191, 159, 0.4);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.event-anchor:hover {
+    transform: translateY(-2px);
+    border-color: rgba(140, 191, 159, 0.7);
+    background: rgba(255, 255, 255, 0.75);
+}
+
 /* Mosaïque floutée (quand il y a des images) */
 .gallery-mosaic {
     position: relative;
@@ -308,6 +338,13 @@
     height: 100%;
 }
 
+.gallery-mosaic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .has-gallery { position: relative; }
 
 .has-gallery .gallery-mosaic {
@@ -335,9 +372,11 @@
     z-index: 2;
 }
 
-.has-gallery:hover .gallery-mosaic::after { opacity: 1; }
+.has-gallery:hover .gallery-mosaic::after,
+.has-gallery:focus-visible .gallery-mosaic::after { opacity: 1; }
 
-.has-gallery:hover .gallery-mosaic-inner {
+.has-gallery:hover .gallery-mosaic-inner,
+.has-gallery:focus-visible .gallery-mosaic-inner {
     filter: blur(5px) brightness(1);
     transform: scale(1.05);
 }

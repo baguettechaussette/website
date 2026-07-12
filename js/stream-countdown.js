@@ -24,14 +24,62 @@
         }));
     }
 
+    // ─── Fuseau horaire : le planning est en heure de Paris, pas celle du visiteur ──
+    // Un p'tit pain à Montréal doit voir un décompte vers 21h de Paris (15h chez lui).
+
+    const SCHEDULE_TZ = "Europe/Paris";
+
+    // Formatters créés une seule fois (tick tourne chaque seconde)
+    const TZ_OFFSET_DTF = new Intl.DateTimeFormat("en-US", {
+        timeZone: SCHEDULE_TZ, hour12: false,
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+    });
+    const TZ_PARTS_DTF = new Intl.DateTimeFormat("en-US", {
+        timeZone: SCHEDULE_TZ,
+        year: "numeric", month: "2-digit", day: "2-digit", weekday: "short",
+    });
+    const WEEKDAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+    // Décalage (ms) entre l'heure murale de Paris et l'UTC à un instant donné
+    function tzOffsetMs(date) {
+        const p = {};
+        for (const { type, value } of TZ_OFFSET_DTF.formatToParts(date)) p[type] = value;
+        const wallAsUTC = Date.UTC(+p.year, p.month - 1, +p.day, p.hour % 24, +p.minute, +p.second);
+        return wallAsUTC - date.getTime();
+    }
+
+    // Date calendaire et jour de semaine actuels côté Paris
+    function parisParts(now) {
+        const p = {};
+        for (const { type, value } of TZ_PARTS_DTF.formatToParts(now)) p[type] = value;
+        return { y: +p.year, m: +p.month, d: +p.day, weekday: WEEKDAYS[p.weekday] };
+    }
+
+    // Prochaine occurrence réelle (UTC) d'un créneau "jour J à HH:MM heure de Paris".
+    // Double passe sur l'offset pour absorber les changements d'heure été/hiver.
     function nextOccurrenceOf({ day, hour, minute }, now = new Date()) {
-        const next = new Date(now);
-        let daysUntil = day - now.getDay();
+        const p = parisParts(now);
+        let daysUntil = day - p.weekday;
         if (daysUntil < 0) daysUntil += 7;
-        next.setDate(now.getDate() + daysUntil);
-        next.setHours(hour, minute, 0, 0);
-        if (next <= now) next.setDate(next.getDate() + 7);
-        return next;
+
+        const toUTC = (plusDays) => {
+            const guess = Date.UTC(p.y, p.m - 1, p.d + daysUntil + plusDays, hour, minute, 0);
+            let utc = guess - tzOffsetMs(new Date(guess));
+            utc = guess - tzOffsetMs(new Date(utc));
+            return utc;
+        };
+
+        let utc = toUTC(0);
+        if (utc <= now.getTime()) utc = toUTC(7);
+        return new Date(utc);
+    }
+
+    // Dernière occurrence passée du créneau (pour détecter une fenêtre live en cours).
+    // Approximation -7j : à cheval sur un changement d'heure elle glisse d'1h, sans
+    // conséquence réelle (le statut live affiché vient de live-status.json).
+    function lastOccurrenceOf(slot, now = new Date()) {
+        return new Date(nextOccurrenceOf(slot, now).getTime() - 7 * 86400000);
     }
 
     function isNowInWindow(start, now = new Date()) {
@@ -42,15 +90,9 @@
         const now = new Date();
 
         for (const s of schedule) {
-            const startToday = new Date(now);
-            startToday.setHours(s.hour, s.minute, 0, 0);
-            if (now.getDay() === s.day && isNowInWindow(startToday, now))
-                return { ...s, date: startToday, isLive: true };
-
-            const startYesterday = new Date(startToday);
-            startYesterday.setDate(startYesterday.getDate() - 1);
-            if ((now.getDay() + 6) % 7 === s.day && isNowInWindow(startYesterday, now))
-                return { ...s, date: startYesterday, isLive: true };
+            const last = lastOccurrenceOf(s, now);
+            if (isNowInWindow(last, now))
+                return { ...s, date: last, isLive: true };
         }
 
         let nextSlot = null, minDiff = Infinity;
@@ -87,65 +129,89 @@
 
     // ─── Fetch live-status.json (30s) ─────────────────────────────────────────
 
+    let liveMeta = null; // {game, title, started_at} si le workflow enrichi a tourné
+
     async function pollLive() {
         try {
             const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
             if (!r.ok) return;
             const json    = await r.json();
             const newLive = !!(json && json.is_live);
+            liveMeta      = newLive ? json : null;
             if (newLive !== liveOverride) {
                 liveOverride  = newLive;
                 cachedIsLive  = null; // invalide le cache → force re-render au prochain tick
+            } else if (newLive) {
+                renderLiveMeta(); // le jeu peut changer en cours de stream
             }
         } catch { /* silencieux */ }
     }
 
-    // ─── Re-render complet (appelé seulement si l'état change) ───────────────
+    // Ligne "🎮 jeu en cours" ajoutée à la carte live (textContent : pas d'injection HTML)
+    function renderLiveMeta() {
+        const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
+        if (!el) return;
+        const text = liveMeta && liveMeta.game ? `🎮 ${liveMeta.game}` : "";
+        el.textContent = text;
+        el.hidden = !text;
+    }
+
+    // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
+    function setCardCta(el, type) {
+        let cta  = el.querySelector(".schedule-cta");
+        let game = el.querySelector(".schedule-live-game");
+
+        if (!type) {
+            cta?.remove();
+            game?.remove();
+            return;
+        }
+
+        // La ligne jeu (live uniquement) se place avant le CTA
+        if (type === "live") {
+            if (!game) {
+                game = document.createElement("p");
+                game.className = "schedule-live-game";
+                game.hidden = true;
+                el.appendChild(game);
+            }
+        } else {
+            game?.remove();
+        }
+
+        if (!cta) {
+            cta = document.createElement("a");
+            cta.className = "schedule-cta";
+            cta.target = "_blank";
+            cta.rel = "noopener";
+            cta.href = TWITCH_URL;
+            el.appendChild(cta);
+        }
+        cta.classList.toggle("live", type === "live");
+        cta.textContent = type === "live" ? "Viens te poser 🧦" : "Suivre la chaîne ♥";
+        cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
+    }
+
+    // ─── Re-render (appelé seulement si l'état change) ───────────────────────
+    // Plus de bannière séparée : la carte du créneau concerné porte l'état.
+    // info = créneau courant (si live) ou prochain créneau (sinon).
 
     function updateUI(isLive, info) {
-        const banner = document.getElementById("nextStreamCountdown");
-        if (!banner) return;
-
-        if (isLive) {
-            banner.classList.add("is-live");
-            banner.innerHTML = `
-                <div class="countdown-label">🔴 EN LIVE MAINTENANT</div>
-                <h2 class="countdown-time">On n'attend plus que toi !</h2>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta live">REJOINDRE LE STREAM</a>
-            `;
-        } else {
-            banner.classList.remove("is-live");
-            // Le span #bannerText est ciblé par tick() pour mettre à jour le countdown sans innerHTML
-            banner.innerHTML = `
-                <div class="countdown-label">Prochain stream — ${getDayName(info.day)} ${formatTime(info.hour, info.minute)}</div>
-                <h2 class="countdown-time"><span id="bannerText">Dans ${formatCountdown(info.diff)}</span> ⌛</h2>
-                <a href="${TWITCH_URL}" target="_blank" rel="noopener" class="countdown-cta upcoming">Suivre la chaîne ♥</a>
-            `;
-        }
-
-        // Live indicator
-        const liveIndicator = document.querySelector(".live-indicator");
-        if (liveIndicator) {
-            liveIndicator.className = isLive ? "live-indicator active" : "live-indicator offline";
-            liveIndicator.innerHTML = `<span class="live-dot" aria-hidden="true"></span> ${isLive ? "EN LIVE" : "HORS LIGNE"}`;
-            document.querySelector(".live-container")?.classList.toggle("is-live", isLive);
-            document.querySelector(".live-container")?.classList.toggle("is-offline", !isLive);
-        }
-
-        // Classes des cartes (is-next / is-live)
         getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
-            const now        = new Date();
-            const startToday = new Date(now);
-            startToday.setHours(hour, minute, 0, 0);
-            const isThisLive = now.getDay() === day && isNowInWindow(startToday, now);
+            const isThisSlot = day === info.day && hour === info.hour && minute === info.minute;
 
             el.classList.remove("is-next", "is-live");
-            if (isThisLive) {
+            if (isLive && isThisSlot) {
                 el.classList.add("is-live");
-            } else if (!info.isLive && day === info.day && hour === info.hour && minute === info.minute) {
+                setCardCta(el, "live");
+            } else if (!isLive && isThisSlot) {
                 el.classList.add("is-next");
+                setCardCta(el, "next");
+            } else {
+                setCardCta(el, null);
             }
         });
+        renderLiveMeta();
     }
 
     // ─── Ticker 1s : textes uniquement, zéro innerHTML ───────────────────────
@@ -171,22 +237,14 @@
         // Même état → on met à jour uniquement les textes countdown (1s)
         const now = new Date();
 
-        if (!isLive) {
-            const bannerText = document.getElementById("bannerText");
-            if (bannerText) {
-                bannerText.textContent = `Dans ${formatCountdown(info.date - now)}`;
-            }
-        }
-
         schedule.forEach(({ day, hour, minute, el }) => {
             const cdEl = el.querySelector(".schedule-countdown");
             if (!cdEl) return;
 
-            const startToday = new Date(now);
-            startToday.setHours(hour, minute, 0, 0);
-
-            if (now.getDay() === day && isNowInWindow(startToday, now)) {
-                if (cdEl.textContent !== "En cours") cdEl.textContent = "En cours";
+            // La carte live (classe posée par updateUI) affiche "En direct",
+            // les autres leur décompte.
+            if (el.classList.contains("is-live")) {
+                if (cdEl.textContent !== "En direct") cdEl.textContent = "En direct";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
                 const newText = `Dans ${formatCountdown(next - now)}`;

@@ -660,10 +660,13 @@ button.link-card {
 }
 
 .code-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: var(--sage-pale);
     border: 1.5px solid rgba(122, 158, 114, 0.3);
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
     color: var(--warm-brown);
@@ -671,6 +674,24 @@ button.link-card {
     word-break: break-all;
     font-weight: 600;
 }
+
+.code-copy {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--sage-dark);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.85em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.code-copy:hover { background: #5f8a56; }
+.code-copy.is-copied { background: #3f7a56; }
 
 .modal-actions {
     padding: 20px 28px 32px;
@@ -715,12 +736,31 @@ button.link-card {
     border-color: rgba(122, 158, 114, 0.5);
 }
 
+/* === Skip link (navigation clavier) — même comportement que base.css === */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+    padding: 12px 20px;
+    background: #9146ff;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
 .modal-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
+    top: 14px;
+    right: 14px;
+    width: 44px;  /* taille tactile minimale */
+    height: 44px;
     border-radius: 50%;
     background: rgba(122, 158, 114, 0.1);
     border: none;

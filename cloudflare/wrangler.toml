@@ -1,0 +1,8 @@
+# Config wrangler du compteur de votes (déployé avec : npx wrangler deploy)
+name = "bc-vote"
+main = "vote-worker.js"
+compatibility_date = "2026-07-01"
+
+[[kv_namespaces]]
+binding = "VOTES"
+id = "9e36a9f25e6d444c8db89964955dba3f"

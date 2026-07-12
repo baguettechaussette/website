@@ -53,6 +53,17 @@
 
 /* === Tablet (768px+) === */
 @media (max-width: 768px) {
+    /* Décor allégé sur mobile : les particules et le gradient animé du fond
+       coûtent cher en compositing GPU (scroll saccadé, batterie) pour un effet
+       à peine perceptible sur petit écran. On coupe l'animation, pas le décor. */
+    .particles {
+        display: none;
+    }
+
+    .bg-container {
+        animation: none;
+    }
+
     /* Navigation mobile */
     .nav-links {
         display: none;
@@ -174,7 +185,6 @@
 
     /* Containers */
     .schedule-container,
-    .live-container,
     .contact-container,
     .socials-container {
         padding: var(--spacing-md) var(--spacing-sm);
@@ -418,7 +428,6 @@
     }
 
     .schedule-container,
-    .live-container,
     .event-container,
     .contact-container,
     .socials-container {
@@ -516,17 +525,6 @@
     }
 
 
-    /* Live - Tailles augmentées */
-    .live-indicator {
-        font-size: 1.2em;  /* Augmenté de 1.1em */
-        padding: 14px 28px;
-    }
-
-    .live-dot {
-        width: 14px;  /* Augmenté de 12px */
-        height: 14px;
-    }
-
     /* Footer */
     footer {
         padding: 40px 15px;
@@ -620,6 +618,15 @@
 
 /* === Tablet landscape === */
 @media (min-width: 769px) and (max-width: 1024px) {
+    /* Navbar : le logo (nowrap) et les 5 liens doivent tenir côte à côte */
+    .logo {
+        font-size: 1.5em;
+    }
+
+    .nav-links {
+        gap: 22px;
+    }
+
     .hero-content {
         gap: 50px;
     }
@@ -656,8 +663,6 @@
     .menu-toggle,
     .hero-buttons,
     .countdown-cta,
-    .live-indicator,
-    .twitch-wrap,
     footer,
     .social-card,
     .discord-widget-container {

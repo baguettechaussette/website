@@ -1,3 +1,6 @@
 /.idea
 mailmap.txt
 /.claude
+
+# Cache local de wrangler (jamais versionne)
+cloudflare/.wrangler/

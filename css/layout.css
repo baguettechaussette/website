@@ -103,7 +103,9 @@
 }
 
 /* === Navigation === */
-nav {
+/* #navbar (et non le sélecteur générique "nav" : il attrapait aussi les autres
+   <nav> de la page, comme la barre d'ancres des événements) */
+#navbar {
     position: fixed;
     top: 0;
     width: 100%;
@@ -115,12 +117,12 @@ nav {
     transition: all var(--transition-base);
 }
 
-nav.scrolled {
+#navbar.scrolled {
     padding: 15px 0;
     background: var(--bg-blur);
 }
 
-nav .container {
+#navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -129,7 +131,8 @@ nav .container {
 .logo {
     font-size: 2em;
     font-weight: 800;
-    background: linear-gradient(135deg, #db8f42, #f2c977);
+    white-space: nowrap; /* le nom ne passe jamais sur deux lignes */
+    background: linear-gradient(135deg, #a8641f, #b06f26);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -139,6 +142,55 @@ nav .container {
 
 .logo:hover {
     transform: scale(1.05);
+}
+
+/* === Pastille flottante EN LIVE (injectée par js/live-float.js) === */
+.live-float {
+    position: fixed;
+    top: 45%;
+    right: 0;
+    z-index: var(--z-nav);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 15px 11px 13px;
+    border-radius: var(--radius-full) 0 0 var(--radius-full);
+    background: var(--live-red-deep);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: -4px 6px 18px rgba(214, 78, 78, 0.35);
+    animation: liveFloatPulse 2.2s ease-in-out infinite;
+    transition: transform var(--transition-base), background var(--transition-base);
+}
+
+.live-float[hidden] { display: none; }
+
+.live-float:hover,
+.live-float:focus-visible {
+    background: #c23b3b;
+    transform: translateX(-4px);
+}
+
+.live-float-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    animation: liveFloatBlink 1.4s ease-in-out infinite;
+}
+
+@keyframes liveFloatPulse {
+    0%, 100% { box-shadow: -4px 6px 18px rgba(214, 78, 78, 0.35); }
+    50%      { box-shadow: -4px 6px 26px rgba(214, 78, 78, 0.6); }
+}
+
+@keyframes liveFloatBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
 }
 
 .nav-links {
@@ -163,7 +215,7 @@ nav .container {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #db8f42, #f2c977);
+    background: linear-gradient(135deg, #a8641f, #b06f26);
     transition: width var(--transition-base);
 }
 
