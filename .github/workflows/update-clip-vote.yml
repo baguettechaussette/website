@@ -114,7 +114,8 @@ jobs:
 
           FIN=$(echo "$RESP" | jq -c \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
-             [(.data // [])[] | {id, title: (.title | clean_title), creator_name, view_count, created_at, thumbnail_url}]')
+             def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
+             [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url}]')
 
           # Semaine creuse (moins de 2 clips) : on repart du top du mois
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
