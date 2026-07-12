@@ -125,7 +125,7 @@ jobs:
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=4" \
+            --data-urlencode "first=20" \
             --data-urlencode "started_at=$STARTED_AT" \
             --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
@@ -133,15 +133,24 @@ jobs:
               exit 1
             }
 
+          # On privilégie les clips des viewers ; les clips du streamer ne
+          # complètent la liste que s'il n'y a pas assez de clips communautaires
+          # pour remplir les 4 places (Twitch renvoie déjà trié par vues desc).
           FIN=$(echo "$RESP" | jq -c \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
-             [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url}]')
+             [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: ((clipper | ascii_downcase) == "baguettechaussette")}]
+             | (map(select(.own | not)) + map(select(.own)))[0:4]
+             | map(del(.own))')
 
-          # Semaine creuse (moins de 2 clips) : on repart du top du mois
+          # Semaine creuse (moins de 2 clips) : on repart du top du mois,
+          # en gardant la même priorité viewers d'abord.
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
             echo "ℹ️ Semaine creuse, finalistes pris dans le top du mois"
-            FIN=$(jq -c '[(.clips // [])[0:4][] | {id, title, creator_name, view_count, created_at, thumbnail_url}]' \
+            FIN=$(jq -c \
+              '[(.clips // [])[] | {id, title, creator_name, view_count, created_at, thumbnail_url, own: (((.creator_name // "") | ascii_downcase) == "baguettechaussette")}]
+               | (map(select(.own | not)) + map(select(.own)))[0:4]
+               | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
           fi
 
