@@ -99,12 +99,13 @@ async function loadClipOfWeek() {
             winnerBox.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
             const info = makeEl('div', 'cow-winner-info');
             info.append(
-                makeEl('p', 'cow-winner-label', '👑 Élu par les p\'tits pains la semaine passée :'),
-                makeEl('p', 'clip-meta', `« ${clipDisplayTitle(data.winner)} »`)
+                makeEl('span', 'cow-winner-badge', '👑 Clip de la semaine'),
+                makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`)
             );
             if (data.winner.creator_name) {
                 info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
             }
+            info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains la semaine passée'));
             winnerBox.appendChild(info);
             winnerBox.hidden = false;
         }
