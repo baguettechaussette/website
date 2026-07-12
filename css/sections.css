@@ -3,6 +3,23 @@
    ============================================ */
 
 
+/* === Panneau givré commun aux sections de contenu de l'accueil ===
+   (même look que .schedule-container / .socials-container : toutes les sections
+   home présentent leurs cartes dans un panneau, pour un rythme visuel uniforme) */
+.section-panel {
+    background: rgba(140, 191, 159, 0.05);
+    border: 2px solid rgba(140, 191, 159, 0.2);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(20px);
+}
+
+.section-panel .events-archive-grid,
+.section-panel .partners-container {
+    max-width: none;
+    margin: 0;
+}
+
 /* === Socials Section === */
 .socials-container {
     background: rgba(140, 191, 159, 0.05);
