@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loadClippers();
 });
 
+// Compteur de votes (Cloudflare Worker, voir cloudflare/README.md).
+// Tant que l'URL est vide, le vote repose sur Umami seul + dépouillement manuel.
+// Après déploiement : renseigner l'URL ici ET l'ajouter au connect-src de la CSP
+// de clips.html, ET créer la variable de dépôt GitHub VOTE_API_URL.
+const VOTE_API = '';
+
 // ── Petits helpers DOM ──────────────────────────────────────
 function makeEl(tag, cls, text) {
     const e = document.createElement(tag);
@@ -91,7 +97,11 @@ function buildFinalistCard(clip, n, week, votedKey) {
     btn.textContent = 'Voter pour ce clip 🥖';
     btn.addEventListener('click', () => {
         if (localStorage.getItem(votedKey)) return;
-        // Umami compte les votes (event "vote-<semaine>-<n>", dépouillé le dimanche)
+        // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine)
+        if (VOTE_API) {
+            fetch(`${VOTE_API}/vote/${week}/${n}`, { method: 'POST' }).catch(() => { /* silencieux */ });
+        }
+        // Umami en parallèle : stats + filet de secours du dépouillement manuel
         try { window.umami?.track(`vote-${week}-${n}`); } catch { /* adblock : tant pis */ }
         localStorage.setItem(votedKey, String(n));
         refreshVoteButtons(card.parentElement, String(n));

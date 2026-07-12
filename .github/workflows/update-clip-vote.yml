@@ -1,14 +1,15 @@
 name: Update clip of the week (vote)
 
-# Fonctionnement (plan Umami gratuit, sans API) :
-#   • Le dimanche avant le live : ouvrir le dashboard Umami (section Événements),
-#     lire les compteurs vote-<semaine>-1..4, puis lancer ce workflow avec le
-#     numéro du gagnant → il couronne ET prépare les finalistes suivants.
-#   • Le cron du lundi matin est un filet de sécurité : si le dépouillement a été
-#     oublié, il fait tourner les finalistes (sans gagnant, ou via l'API si un
-#     secret UMAMI_API_KEY existe un jour — plan Pro).
+# Fonctionnement :
+#   • Automatique : si la variable de dépôt VOTE_API_URL pointe vers le Worker
+#     Cloudflare (voir cloudflare/README.md), le cron du lundi couronne tout seul.
+#   • Manuel (secours) : lancer ce workflow avec le numéro du gagnant (input),
+#     lu dans le dashboard Umami → il couronne ET prépare les finalistes suivants.
+#   • Le cron du lundi matin fait au minimum tourner les finalistes si le
+#     dimanche a été oublié (UMAMI_API_KEY, plan Pro, reste supporté aussi).
 on:
   schedule:
+    - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement auto (si compteur Cloudflare branché)
     - cron: "0 6 * * 1"    # lundi 6h UTC : rotation de secours si oubli du dimanche
   workflow_dispatch:
     inputs:
@@ -61,6 +62,8 @@ jobs:
       - name: Dépouille le vote et prépare la semaine suivante
         env:
           MANUAL_WINNER: ${{ github.event.inputs.winner }}
+          # URL du Worker Cloudflare (variable de dépôt, ex. https://bc-vote.xxx.workers.dev)
+          VOTE_API_URL: ${{ vars.VOTE_API_URL }}
         run: |
           mkdir -p data
           PREV=$(cat data/clip-of-week.json 2>/dev/null || echo '{}')
@@ -68,10 +71,18 @@ jobs:
           FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
 
           # Filet de sécurité du lundi : si le dimanche a déjà fait la rotation,
-          # ne rien écraser (le gagnant couronné manuellement doit survivre).
+          # ne rien écraser (le gagnant couronné doit survivre).
           CURRENT_WEEK=$(date -u +%G-W%V)
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$CURRENT_WEEK" ]; then
             echo "ℹ️ Semaine $CURRENT_WEEK déjà en place (dépouillement fait dimanche) : rien à faire."
+            exit 0
+          fi
+
+          # Le cron du dimanche ne dépouille automatiquement que si le compteur
+          # Cloudflare est branché ; sinon on laisse la main au dépouillement
+          # manuel du dimanche soir (le cron du lundi fera la rotation au pire).
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%u)" = "7" ] && [ -z "$VOTE_API_URL" ]; then
+            echo "ℹ️ Pas de compteur automatique configuré : dépouillement manuel attendu ce soir."
             exit 0
           fi
 
@@ -87,6 +98,17 @@ jobs:
               esac
               WINNER=$(echo "$PREV" | jq -c --argjson i "$MANUAL_WINNER" '.finalists[$i - 1] // null')
               echo "🏆 Gagnant de $WEEK : finaliste #$MANUAL_WINNER (dépouillement manuel)"
+            elif [ -n "$VOTE_API_URL" ]; then
+              # Dépouillement automatique via le compteur Cloudflare (1 vote/IP/semaine)
+              R=$(curl -sS "$VOTE_API_URL/results/$WEEK" || echo '{}')
+              VOTES=$(echo "$R" | jq -c 'with_entries(select(.key | test("^[1-4]$"))) // {}')
+              IDX=$(echo "$VOTES" | jq -r '[to_entries[] | select((.value | tonumber? // 0) > 0)] | max_by(.value) | .key // empty')
+              if [ -n "$IDX" ]; then
+                WINNER=$(echo "$PREV" | jq -c --argjson i "$IDX" '.finalists[$i - 1] // null')
+                echo "🏆 Gagnant de $WEEK : finaliste #$IDX via le compteur Cloudflare ($(echo "$VOTES" | jq -c .))"
+              else
+                echo "ℹ️ Aucun vote sur le compteur cette semaine : pas de gagnant"
+              fi
             elif [ -n "$UMAMI_API_KEY" ]; then
               START_MS=$(( $(date -u -d "last monday" +%s) * 1000 ))
               END_MS=$(( $(date -u +%s) * 1000 ))
