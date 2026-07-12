@@ -93,8 +93,8 @@
     flex-shrink: 0;
     background: rgba(255, 255, 255, 0.15);
     border: 1.5px solid rgba(255, 255, 255, 0.25);
-    width: 36px;
-    height: 36px;
+    width: 44px;  /* taille tactile minimale */
+    height: 44px;
     border-radius: 50%;
     cursor: pointer;
     display: grid;

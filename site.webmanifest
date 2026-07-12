@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "Baguette Chaussette",
   "short_name": "Baguette",
   "description": "Streamer Twitch FR | Ambiance cosy & humour décalé | Communauté bienveillante",
@@ -34,6 +35,23 @@
       "sizes": "720x1280",
       "type": "image/webp",
       "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Les clips",
+      "url": "/clips",
+      "icons": [{ "src": "/favicons/web-app-manifest-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Les événements",
+      "url": "/events",
+      "icons": [{ "src": "/favicons/web-app-manifest-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tous mes liens",
+      "url": "/links",
+      "icons": [{ "src": "/favicons/web-app-manifest-192x192.png", "sizes": "192x192" }]
     }
   ],
   "categories": ["entertainment", "streaming", "gaming"],
