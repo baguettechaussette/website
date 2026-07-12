@@ -37,11 +37,25 @@ function json(data, cors, status = 200) {
     });
 }
 
+// En IPv6, un abonné dispose de tout un préfixe /64 : hasher l'adresse
+// complète permettrait de voter des milliards de fois. On ne garde donc
+// que les 4 premiers hextets (le préfixe réseau = le foyer).
+function normalizeIp(ip) {
+    if (!ip.includes(":")) return ip; // IPv4 : telle quelle
+    // Expanse les "::" pour obtenir les 8 hextets, puis garde les 4 premiers
+    const [head, tail = ""] = ip.split("::");
+    const h = head ? head.split(":") : [];
+    const t = tail ? tail.split(":") : [];
+    const full = [...h, ...Array(Math.max(0, 8 - h.length - t.length)).fill("0"), ...t];
+    // Hextets canonisés (0db8 → db8) : une même box = un même hash
+    return full.slice(0, 4).map(x => (parseInt(x || "0", 16) || 0).toString(16)).join(":");
+}
+
 // Hash SHA-256 : on ne stocke jamais l'IP en clair (cohérent avec la
 // politique "aucune donnée personnelle" du site). Le sel + la semaine
 // rendent le hash inutilisable en dehors de ce compteur.
 async function ipHash(ip, week, salt) {
-    const data = new TextEncoder().encode(`${ip}|${week}|${salt}`);
+    const data = new TextEncoder().encode(`${normalizeIp(ip)}|${week}|${salt}`);
     const digest = await crypto.subtle.digest("SHA-256", data);
     return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
@@ -68,7 +82,9 @@ export default {
             const hash = await ipHash(ip, week, env.SALT || "petit-pain");
 
             await env.VOTES.put(`vote:${week}:${hash}`, clipId, {
-                expirationTtl: 60 * 60 * 24 * 10, // la semaine + marge de dépouillement
+                // 16 jours : un vote posé le lundi reste lisible même si le
+                // dépouillement glisse jusqu'au dimanche suivant (crons en échec)
+                expirationTtl: 60 * 60 * 24 * 16,
                 metadata: { clip: clipId },
             });
 

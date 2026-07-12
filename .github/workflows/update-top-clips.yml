@@ -116,9 +116,19 @@ jobs:
             PRESP=$(curl -sS \
               -H "Client-Id: $TWITCH_CLIENT_ID" \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
-              "https://api.twitch.tv/helix/clips?$QS" || echo '{"data":[]}')
-            API=$(echo "$PRESP" | jq -c '.data // []')
-
+              "https://api.twitch.tv/helix/clips?$QS" || echo '')
+            # Réponse invalide (panne réseau, 401, HTML d'erreur) : surtout ne pas
+            # confondre avec "clips supprimés" : les épinglés seraient effacés
+            # définitivement (ils n'existent que dans ce fichier). On saute
+            # l'enrichissement et on garde les épinglés tels quels.
+            if ! echo "$PRESP" | jq -e '.data' >/dev/null 2>&1; then
+              echo "::notice title=Enrichissement sauté::API muette, épinglés conservés tels quels."
+              PRESP='{"data": null}'
+            fi
+            API=$(echo "$PRESP" | jq -c '.data')
+            if [ "$API" = "null" ]; then API=''; fi
+          fi
+          if [ "$PCOUNT" -gt 0 ] && [ -n "$API" ]; then
             DELETED=$(echo "$PINNED" | jq -r --argjson api "$API" \
               '[.[] | select(.id as $i | ($api | map(.id) | index($i)) | not) | .id] | join(", ")')
             if [ -n "$DELETED" ]; then
@@ -165,13 +175,21 @@ jobs:
           # pour agréger le Panthéon des clippeurs dans data/clippers.json.
           : > /tmp/all-clips.jsonl
           CURSOR=""
+          PARTIAL=""
           for i in $(seq 1 10); do
             URL="https://api.twitch.tv/helix/clips?broadcaster_id=$TWITCH_BROADCASTER_ID&first=100"
             if [ -n "$CURSOR" ]; then URL="$URL&after=$CURSOR"; fi
             PAGE=$(curl -sS \
               -H "Client-Id: $TWITCH_CLIENT_ID" \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
-              "$URL" || echo '{"data":[]}')
+              "$URL" || echo '')
+            # Page en échec : on n'écrase pas le Panthéon avec un historique
+            # tronqué (compteurs faussés à la baisse) ; on garde le fichier actuel.
+            if ! echo "$PAGE" | jq -e '.data' >/dev/null 2>&1; then
+              echo "::warning title=Pagination interrompue::Page $i en échec, Panthéon conservé tel quel."
+              PARTIAL=1
+              break
+            fi
             echo "$PAGE" | jq -c '(.data // [])[]' >> /tmp/all-clips.jsonl
             CURSOR=$(echo "$PAGE" | jq -r '.pagination.cursor // empty')
             if [ -z "$CURSOR" ]; then break; fi
@@ -180,8 +198,8 @@ jobs:
           TOTAL=$(wc -l < /tmp/all-clips.jsonl)
           echo "Clips historiques récupérés : $TOTAL"
 
-          # En cas d'échec total de l'API on ne touche pas au fichier existant
-          if [ "$TOTAL" -gt 0 ]; then
+          # En cas d'échec (total ou partiel) on ne touche pas au fichier existant
+          if [ "$TOTAL" -gt 0 ] && [ -z "$PARTIAL" ]; then
             jq -s --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               'def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                # Le Panthéon valorise les clippeurs de la communauté : on retire le streamer lui-même.
