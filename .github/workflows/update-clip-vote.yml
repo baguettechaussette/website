@@ -302,20 +302,25 @@ jobs:
             echo "Pas de gagnant à annoncer."
             exit 0
           fi
-          MSG="👑 On a notre Clip de la Semaine ! Élu par les p'tits pains 🥖"
+          MSG="On a notre Clip de la Semaine élu par la commu ! 👑"
+          # Lien du site entre < > : Discord ne le deplie PAS (sinon 2e embed en
+          # plus du lecteur du clip), il reste juste cliquable.
+          VOTE="🗳️ Pour voter pour le prochain, c'est par ici : <https://baguettechaussette.fr/clips>"
           # On met l'URL du clip dans le CONTENU du message (pas dans un embed) :
           # Discord la deplie automatiquement en lecteur Twitch jouable. Un embed
           # envoye par webhook ne peut afficher qu'une image figee, jamais un
           # lecteur video. Repli de titre si le clip du bot a un titre vide.
-          # (aucune apostrophe dans le programme jq : elles casseraient le quoting)
-          PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '
+          # (msg et vote passes en --arg : leurs apostrophes casseraient le quoting
+          #  si elles etaient dans le programme jq entre quotes simples)
+          PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" --arg vote "$VOTE" '
             ($w.title // "") as $t
             | (if $t != "" then $t else ("Clip du " + (($w.created_at // "") | split("T")[0])) end) as $title
             | ($w.creator_name // "") as $c
             | { content: ($msg
                 + "\n**" + $title + "**"
-                + (if $c != "" then " — clippé par **" + $c + "**" else "" end)
-                + "\nhttps://clips.twitch.tv/" + $w.id) }')
+                + (if $c != "" then "\nClippé par **" + $c + "**" else "" end)
+                + "\nhttps://clips.twitch.tv/" + $w.id
+                + "\n\n" + $vote) }')
           CODE=$(curl -sS -o /dev/null -w "%{http_code}" -X POST \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL" || echo "000")
