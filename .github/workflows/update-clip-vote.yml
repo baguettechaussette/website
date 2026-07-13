@@ -303,21 +303,19 @@ jobs:
             exit 0
           fi
           MSG="👑 On a notre Clip de la Semaine ! Élu par les p'tits pains 🥖"
-          # Titre de repli si le clip du bot a un titre vide (sinon embed Discord
-          # sans titre = lien non cliquable). Commentaire hors du programme jq :
-          # une apostrophe dedans casserait le quoting bash (jq entre quotes simples).
-          PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '{
-            content: $msg,
-            embeds: [{
-              title: (if ($w.title // "") != "" then $w.title
-                      else ("Clip du " + (($w.created_at // "") | split("T")[0])) end),
-              url: ("https://clips.twitch.tv/" + $w.id),
-              description: (if ($w.creator_name // "") != "" then ("Clippé par **" + $w.creator_name + "**") else null end),
-              color: 6066543,
-              image: { url: ($w.thumbnail_url // "") },
-              footer: { text: "baguettechaussette.fr/clips" }
-            }]
-          }')
+          # On met l'URL du clip dans le CONTENU du message (pas dans un embed) :
+          # Discord la deplie automatiquement en lecteur Twitch jouable. Un embed
+          # envoye par webhook ne peut afficher qu'une image figee, jamais un
+          # lecteur video. Repli de titre si le clip du bot a un titre vide.
+          # (aucune apostrophe dans le programme jq : elles casseraient le quoting)
+          PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '
+            ($w.title // "") as $t
+            | (if $t != "" then $t else ("Clip du " + (($w.created_at // "") | split("T")[0])) end) as $title
+            | ($w.creator_name // "") as $c
+            | { content: ($msg
+                + "\n**" + $title + "**"
+                + (if $c != "" then " — clippé par **" + $c + "**" else "" end)
+                + "\nhttps://clips.twitch.tv/" + $w.id) }')
           CODE=$(curl -sS -o /dev/null -w "%{http_code}" -X POST \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL" || echo "000")
