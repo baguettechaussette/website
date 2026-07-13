@@ -355,7 +355,8 @@
         <p class="section-subtitle">Choisis ton clip préféré, je révèle le gagnant dimanche en live !</p>
     </div>
     <div class="section-panel">
-        <div class="clips-grid" id="clipsGrid" data-limit="3" data-source="week"></div>
+        <!-- data-limit large : on affiche TOUS les finalistes (en cacher un fausserait le vote) -->
+        <div class="clips-grid" id="clipsGrid" data-limit="8" data-source="week"></div>
         <div class="clips-more">
             <a href="/clips#clip-semaine" class="btn btn-primary" data-umami-event="Home - Vote CTA">Voter maintenant 🥖</a>
         </div>
