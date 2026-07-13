@@ -214,20 +214,23 @@ function refreshVoteButtons(grid, votedClip) {
 
 // ── Le Panthéon des clippeurs ───────────────────────────────
 // Rang combiné : le pain + le métal selon le nombre de clips…
+// Seuils larges et espacés : les hauts paliers se méritent sur la durée
+// (clips et vues sont cumulés all-time), pas débloqués dès le début.
 const CLIPPER_BADGES = [
-    { min: 25, emoji: '👨‍🍳', label: 'Maître boulanger' },
-    { min: 15, emoji: '🍞', label: 'Miche d\'or' },
-    { min: 10, emoji: '🥐', label: 'Croissant doré' },
-    { min: 6,  emoji: '🥖', label: 'Baguette d\'argent' },
-    { min: 3,  emoji: '🥨', label: 'Bretzel de bronze' },
-    { min: 0,  emoji: '🌾', label: 'P\'tit épi' },
+    { min: 100, emoji: '👨‍🍳', label: 'Maître boulanger' },
+    { min: 60,  emoji: '🍞', label: 'Miche d\'or' },
+    { min: 30,  emoji: '🥐', label: 'Croissant doré' },
+    { min: 15,  emoji: '🥖', label: 'Baguette d\'argent' },
+    { min: 5,   emoji: '🥨', label: 'Bretzel de bronze' },
+    { min: 0,   emoji: '🌾', label: 'P\'tit épi' },
 ];
-// … et un suffixe selon les vues totales (récompense la popularité).
+// … et un suffixe selon les vues totales (somme des vues de tous ses clips :
+// ça grimpe vite, donc le haut est très espacé pour rester un vrai Graal).
 const CLIPPER_SUFFIXES = [
-    { min: 300, label: 'légende du fournil' },
-    { min: 150, label: 'qui cartonne' },
-    { min: 50,  label: 'graine de star' },
-    { min: 0,   label: 'débutant' },
+    { min: 2000, label: 'légende du fournil' },
+    { min: 500,  label: 'qui cartonne' },
+    { min: 100,  label: 'graine de star' },
+    { min: 0,    label: 'débutant' },
 ];
 
 async function loadClippers() {
