@@ -303,7 +303,10 @@ jobs:
           PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '{
             content: $msg,
             embeds: [{
-              title: ($w.title // "Le clip de la semaine"),
+              # Titre vide (clip du bot nettoyé) : repli sur une date, sinon
+              # l'embed Discord n'a pas de titre et le lien n'est pas cliquable.
+              title: (if ($w.title // "") != "" then $w.title
+                      else ("Clip du " + (($w.created_at // "") | split("T")[0])) end),
               url: ("https://clips.twitch.tv/" + $w.id),
               description: (if ($w.creator_name // "") != "" then ("Clippé par **" + $w.creator_name + "**") else null end),
               color: 6066543,
