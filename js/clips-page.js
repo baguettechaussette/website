@@ -213,11 +213,20 @@ function refreshVoteButtons(grid, votedClip) {
 }
 
 // ── Le Panthéon des clippeurs ───────────────────────────────
+// Rang combiné : le pain + le métal selon le nombre de clips…
 const CLIPPER_BADGES = [
-    { min: 30, emoji: '🍞', label: 'Miche d\'or' },
-    { min: 15, emoji: '🥖', label: 'Baguette d\'argent' },
-    { min: 5,  emoji: '🥐', label: 'Croissant doré' },
+    { min: 25, emoji: '👨‍🍳', label: 'Maître boulanger' },
+    { min: 15, emoji: '🍞', label: 'Miche d\'or' },
+    { min: 10, emoji: '🥐', label: 'Croissant doré' },
+    { min: 6,  emoji: '🥖', label: 'Baguette d\'argent' },
+    { min: 3,  emoji: '🥨', label: 'Bretzel de bronze' },
     { min: 0,  emoji: '🌾', label: 'P\'tit épi' },
+];
+// … et un suffixe selon les vues totales (récompense la popularité).
+const CLIPPER_SUFFIXES = [
+    { min: 300, label: 'légende du fournil' },
+    { min: 150, label: 'qui cartonne' },
+    { min: 50,  label: 'graine de star' },
 ];
 
 async function loadClippers() {
@@ -229,21 +238,24 @@ async function loadClippers() {
         const r = await fetch('/data/clippers.json');
         if (!r.ok) return;
         const data = await r.json();
-        const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 6);
+        const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 12);
         if (!clippers.length) return;
 
         const medals = ['🥇', '🥈', '🥉'];
         clippers.forEach((c, i) => {
+            const views = c.total_views || 0;
             const badge = CLIPPER_BADGES.find(b => c.clips >= b.min);
+            const suffix = CLIPPER_SUFFIXES.find(s => views >= s.min);
             const card = makeEl('div', 'clipper-card' + (i < 3 ? ` clipper-rank-${i + 1}` : ''));
             card.append(
                 makeEl('div', 'clipper-rank', medals[i] || `#${i + 1}`),
                 makeEl('div', 'clipper-badge', badge.emoji),
                 makeEl('p', 'clipper-name', c.name),
-                makeEl('p', 'clipper-grade', badge.label),
-                makeEl('p', 'clipper-stats',
-                    `${c.clips} clip${c.clips > 1 ? 's' : ''} · ${(c.total_views || 0).toLocaleString('fr-FR')} vues`)
+                makeEl('p', 'clipper-grade', badge.label)
             );
+            if (suffix) card.appendChild(makeEl('p', 'clipper-suffix', suffix.label));
+            card.appendChild(makeEl('p', 'clipper-stats',
+                `${c.clips} clip${c.clips > 1 ? 's' : ''} · ${views.toLocaleString('fr-FR')} vues`));
             grid.appendChild(card);
         });
 
