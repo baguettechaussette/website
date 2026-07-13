@@ -4,7 +4,7 @@
 
 /* === Variables CSS === */
 :root {
-    color-scheme: light;
+    color-scheme: only light;
     /* Couleurs principales */
     --blue: #7fb893;
     --green: #5c936f;
