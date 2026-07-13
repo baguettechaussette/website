@@ -10,6 +10,13 @@ name: Update clip of the week (vote)
 #     (et second filet si dimanche ET lundi ont échoué).
 #   • Run manuel : bootstrap ou rattrapage (dépouille aussi si la semaine doit
 #     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
+#
+# Annonce Discord (optionnelle) : dès qu'un gagnant est couronné, un embed est
+# posté sur Discord via un webhook. Pour l'activer, crée un webhook Discord
+# (Paramètres du salon > Intégrations > Webhooks > Nouveau webhook > Copier
+# l'URL) et ajoute-la en secret de dépôt GitHub nommé DISCORD_WEBHOOK_URL
+# (Settings > Secrets and variables > Actions > New repository secret).
+# Sans ce secret, l'annonce est simplement sautée, le reste fonctionne.
 on:
   schedule:
     - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement + rotation
@@ -155,6 +162,7 @@ jobs:
               exit 1
             fi
             echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
+            echo "CROWNED_ID=$MANUAL_WINNER" >> "$GITHUB_ENV"
           elif [ "$ROLLING" = "1" ] && [ "$FCOUNT" -gt 0 ]; then
             if [ -n "$VOTE_API_URL" ]; then
               # Compteur injoignable = on ARRÊTE (job en échec, le cron suivant
@@ -177,6 +185,7 @@ jobs:
               if [ -n "$WIN_ID" ]; then
                 WINNER=$(echo "$PREV" | jq -c --arg id "$WIN_ID" '(.finalists[] | select(.id == $id)) // null')
                 echo "🏆 Gagnant de $WEEK : $WIN_ID ($(echo "$VOTES" | jq -c .))"
+                echo "CROWNED_ID=$WIN_ID" >> "$GITHUB_ENV"
               else
                 echo "ℹ️ Aucun vote cette semaine : pas de gagnant"
               fi
@@ -270,4 +279,43 @@ jobs:
             echo "✅ Changes committed and pushed."
           else
             echo "No changes detected."
+          fi
+
+      # Annonce le gagnant sur Discord — seulement quand un gagnant vient d'être
+      # fraîchement couronné (CROWNED_ID posé à l'étape de dépouillement) ET après
+      # le commit réussi (le gagnant est bien persisté sur le site). Best-effort :
+      # un échec Discord ne fait pas rater le job, le clip reste publié.
+      - name: Annonce Discord du gagnant
+        if: ${{ env.CROWNED_ID != '' && github.ref_name == 'main' }}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::notice title=Webhook Discord absent::DISCORD_WEBHOOK_URL non défini, pas d'annonce."
+            exit 0
+          fi
+          W=$(jq -c '.winner' data/clip-of-week.json)
+          if [ "$W" = "null" ] || [ -z "$W" ]; then
+            echo "Pas de gagnant à annoncer."
+            exit 0
+          fi
+          MSG="👑 On a notre Clip de la Semaine ! Élu par les p'tits pains 🥖"
+          PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '{
+            content: $msg,
+            embeds: [{
+              title: ($w.title // "Le clip de la semaine"),
+              url: ("https://clips.twitch.tv/" + $w.id),
+              description: (if ($w.creator_name // "") != "" then ("Clippé par **" + $w.creator_name + "**") else null end),
+              color: 6066543,
+              image: { url: ($w.thumbnail_url // "") },
+              footer: { text: "baguettechaussette.fr/clips" }
+            }]
+          }')
+          CODE=$(curl -sS -o /dev/null -w "%{http_code}" -X POST \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL" || echo "000")
+          if [ "$CODE" = "204" ] || [ "$CODE" = "200" ]; then
+            echo "✅ Annonce Discord envoyée (HTTP $CODE)."
+          else
+            echo "::warning title=Annonce Discord échouée (HTTP $CODE)::Le gagnant est publié sur le site malgré tout."
           fi
