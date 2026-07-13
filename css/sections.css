@@ -551,6 +551,14 @@
     font-size: 0.85em;
 }
 
+.clipper-suffix {
+    margin-top: 2px;
+    font-size: 0.8em;
+    font-style: italic;
+    font-weight: 700;
+    color: #c9902e;
+}
+
 .clipper-stats {
     margin-top: 4px;
     color: var(--text-tertiary);
