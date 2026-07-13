@@ -227,6 +227,7 @@ const CLIPPER_SUFFIXES = [
     { min: 300, label: 'légende du fournil' },
     { min: 150, label: 'qui cartonne' },
     { min: 50,  label: 'graine de star' },
+    { min: 0,   label: 'débutant' },
 ];
 
 async function loadClippers() {
