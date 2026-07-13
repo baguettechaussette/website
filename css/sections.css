@@ -508,11 +508,16 @@
 
 /* ── Le Panthéon des clippeurs ── */
 .clippers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     max-width: 1000px;
     margin: 0 auto;
+}
+
+.clippers-grid .clipper-card {
+    flex: 0 1 180px;
 }
 
 .clipper-card {
