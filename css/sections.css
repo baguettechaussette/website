@@ -413,6 +413,7 @@
 .cow-winner-card {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 24px;
     max-width: 640px;
@@ -562,7 +563,8 @@
 
 .clips-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* min(300px, 100%) : sur petit écran la colonne ne peut pas déborder du panneau */
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 30px;
 }
 
