@@ -357,7 +357,7 @@ async function loadTopClips() {
 
     // Skeletons le temps du chargement (le fichier change tous les 2 jours,
     // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
-    const skeletons = Array.from({ length: Math.min(limit, 8) }, () => {
+    const skeletons = Array.from({ length: Math.min(limit, source === 'week' ? 4 : 8) }, () => {
         const s = document.createElement('div');
         s.className = 'clip-skeleton';
         s.setAttribute('aria-hidden', 'true');
