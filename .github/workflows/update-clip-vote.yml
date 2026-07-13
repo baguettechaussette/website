@@ -303,11 +303,12 @@ jobs:
             exit 0
           fi
           MSG="👑 On a notre Clip de la Semaine ! Élu par les p'tits pains 🥖"
+          # Titre de repli si le clip du bot a un titre vide (sinon embed Discord
+          # sans titre = lien non cliquable). Commentaire hors du programme jq :
+          # une apostrophe dedans casserait le quoting bash (jq entre quotes simples).
           PAYLOAD=$(jq -n --argjson w "$W" --arg msg "$MSG" '{
             content: $msg,
             embeds: [{
-              # Titre vide (clip du bot nettoyé) : repli sur une date, sinon
-              # l'embed Discord n'a pas de titre et le lien n'est pas cliquable.
               title: (if ($w.title // "") != "" then $w.title
                       else ("Clip du " + (($w.created_at // "") | split("T")[0])) end),
               url: ("https://clips.twitch.tv/" + $w.id),
