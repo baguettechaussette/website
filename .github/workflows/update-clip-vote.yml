@@ -154,11 +154,14 @@ jobs:
           fi
 
           if [ -n "$MANUAL_WINNER" ]; then
-            # Override explicite : l'ID doit être un finaliste réel, sinon on
-            # refuse (une faute de frappe ne doit pas effacer le palmarès).
-            WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" '((.finalists // [])[] | select(.id == $id)) // null')
+            # Override explicite : l'ID doit être un finaliste de la semaine OU
+            # le gagnant déjà couronné (re-couronner le même clip = re-poster
+            # l'annonce sans rien changer). Un ID inconnu est refusé (une faute
+            # de frappe ne doit pas effacer le palmarès).
+            WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" \
+              '([ (.finalists // [])[], (.winner // empty) ] | map(select(.id == $id)) | .[0]) // null')
             if [ "$WINNER" = "null" ] || [ -z "$WINNER" ]; then
-              echo "::error title=Override invalide::$MANUAL_WINNER n'est pas un finaliste de $WEEK, rien n'est modifié."
+              echo "::error title=Override invalide::$MANUAL_WINNER n'est ni un finaliste ni le gagnant actuel, rien n'est modifié."
               exit 1
             fi
             echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
