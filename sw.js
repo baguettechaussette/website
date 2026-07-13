@@ -5,7 +5,7 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v6';
+const CACHE_NAME = 'bc-v7';
 
 const PRECACHE_ASSETS = [
     // Une seule forme d'URL par page : celle utilisée par les liens internes
