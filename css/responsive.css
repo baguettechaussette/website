@@ -336,6 +336,18 @@
 
 /* === Mobile (480px+) === */
 @media (max-width: 480px) {
+    /* Panneaux de section : le padding desktop (60px) mangeait presque
+       toute la largeur et écrasait les grilles internes (clips, planning…) */
+    .section-panel {
+        padding: 30px 18px;
+    }
+
+    /* Clip gagnant : la miniature passe au-dessus du texte, tout est centré */
+    .cow-winner-info,
+    .cow-winner-card .clip-clipper {
+        text-align: center;
+    }
+
     /* Hero - Tailles augmentées */
     .hero-title {
         font-size: 2.3em;  /* Augmenté de 2em */
