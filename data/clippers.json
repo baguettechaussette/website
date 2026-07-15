@@ -3,11 +3,11 @@
     {
       "name": "Barbouy",
       "clips": 23,
-      "total_views": 407,
+      "total_views": 409,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
-        "view_count": 101
+        "view_count": 103
       }
     },
     {
@@ -73,11 +73,11 @@
     {
       "name": "alizee_ngs",
       "clips": 9,
-      "total_views": 74,
+      "total_views": 81,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
-        "view_count": 14
+        "view_count": 21
       }
     },
     {
@@ -253,11 +253,11 @@
     {
       "name": "DragonoZelos",
       "clips": 2,
-      "total_views": 106,
+      "total_views": 107,
       "best_clip": {
         "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
         "title": "Pardon ?",
-        "view_count": 71
+        "view_count": 72
       }
     },
     {
@@ -321,6 +321,16 @@
       }
     },
     {
+      "name": "teph_woot_woot",
+      "clips": 2,
+      "total_views": 14,
+      "best_clip": {
+        "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
+        "title": "WzBot CLIP | Découverte Palworld !!  (à l'occasion de la 1.0) ✨ | !discord !insta (by teph_woot_woot)",
+        "view_count": 9
+      }
+    },
+    {
       "name": "eles_7",
       "clips": 2,
       "total_views": 11,
@@ -338,16 +348,6 @@
         "id": "ProtectiveDepressedChipmunkTTours-iME-2yjBUwSnWs9M",
         "title": "WzBot CLIP | Clim installée dans la boulange, viens te rafraîchir ✨ | !Japhy !discor (by nao_playgaming)",
         "view_count": 5
-      }
-    },
-    {
-      "name": "teph_woot_woot",
-      "clips": 2,
-      "total_views": 6,
-      "best_clip": {
-        "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
-        "title": "WzBot CLIP | Découverte Palworld !!  (à l'occasion de la 1.0) ✨ | !discord !insta (by teph_woot_woot)",
-        "view_count": 4
       }
     },
     {
@@ -482,5 +482,5 @@
     }
   ],
   "total_clips": 217,
-  "updated_at": "2026-07-13T08:28:53Z"
+  "updated_at": "2026-07-15T07:25:16Z"
 }
