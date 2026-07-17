@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "Barbouy",
-      "clips": 23,
-      "total_views": 409,
+      "clips": 24,
+      "total_views": 412,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
@@ -22,8 +22,8 @@
     },
     {
       "name": "gloubiboulgars",
-      "clips": 14,
-      "total_views": 102,
+      "clips": 13,
+      "total_views": 101,
       "best_clip": {
         "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
         "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
@@ -73,11 +73,11 @@
     {
       "name": "alizee_ngs",
       "clips": 9,
-      "total_views": 81,
+      "total_views": 83,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
-        "view_count": 21
+        "view_count": 23
       }
     },
     {
@@ -98,6 +98,16 @@
         "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
         "title": "et il tombe à l’infini 🤣",
         "view_count": 23
+      }
+    },
+    {
+      "name": "france_bb",
+      "clips": 7,
+      "total_views": 28,
+      "best_clip": {
+        "id": "HelpfulPeacefulEaglePrimeMe-imMHzDWlP9SNnWRQ",
+        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by france_bb)",
+        "view_count": 8
       }
     },
     {
@@ -163,11 +173,11 @@
     {
       "name": "WizeBot",
       "clips": 4,
-      "total_views": 63,
+      "total_views": 64,
       "best_clip": {
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
-        "view_count": 44
+        "view_count": 45
       }
     },
     {
@@ -178,16 +188,6 @@
         "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
         "title": "1 2 3.. QUOI ?",
         "view_count": 15
-      }
-    },
-    {
-      "name": "france_bb",
-      "clips": 4,
-      "total_views": 16,
-      "best_clip": {
-        "id": "HelpfulPeacefulEaglePrimeMe-imMHzDWlP9SNnWRQ",
-        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by france_bb)",
-        "view_count": 8
       }
     },
     {
@@ -311,6 +311,26 @@
       }
     },
     {
+      "name": "virginieopal",
+      "clips": 2,
+      "total_views": 25,
+      "best_clip": {
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 15
+      }
+    },
+    {
+      "name": "teph_woot_woot",
+      "clips": 2,
+      "total_views": 17,
+      "best_clip": {
+        "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
+        "title": "WzBot CLIP | Découverte Palworld !!  (à l'occasion de la 1.0) ✨ | !discord !insta (by teph_woot_woot)",
+        "view_count": 10
+      }
+    },
+    {
       "name": "clopetyi",
       "clips": 2,
       "total_views": 15,
@@ -318,16 +338,6 @@
         "id": "SpotlessBloodyCurlewLeeroyJenkins-YaiM283cJE6C_nNI",
         "title": "WzBot CLIP | OMG découverte PARALIVES ✨ | !Japhy !discord !insta (by clopetyi)",
         "view_count": 13
-      }
-    },
-    {
-      "name": "teph_woot_woot",
-      "clips": 2,
-      "total_views": 14,
-      "best_clip": {
-        "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
-        "title": "WzBot CLIP | Découverte Palworld !!  (à l'occasion de la 1.0) ✨ | !discord !insta (by teph_woot_woot)",
-        "view_count": 9
       }
     },
     {
@@ -451,6 +461,16 @@
       }
     },
     {
+      "name": "gagi49",
+      "clips": 1,
+      "total_views": 2,
+      "best_clip": {
+        "id": "BlitheWildFriseeGOWSkull-d8P6jMilStOHf5Kh",
+        "title": "PT pan",
+        "view_count": 2
+      }
+    },
+    {
       "name": "rafoulecamp",
       "clips": 1,
       "total_views": 2,
@@ -481,6 +501,6 @@
       }
     }
   ],
-  "total_clips": 217,
-  "updated_at": "2026-07-15T07:25:16Z"
+  "total_clips": 223,
+  "updated_at": "2026-07-17T07:30:06Z"
 }
