@@ -1,50 +1,52 @@
 {
-  "week": "2026-W29",
+  "week": "2026-W30",
   "finalists": [
     {
-      "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
-      "title": "",
-      "creator_name": "alizee_ngs",
+      "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+      "title": "le rêve",
+      "creator_name": "virginieopal",
+      "view_count": 20,
+      "created_at": "2026-07-15T19:36:12Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3a2e4870-2e97-4b7a-a688-dd672c0529fb/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "TemperedLitigiousCakeChocolateRain-thT5Sk5xlbwc5Rri",
+      "title": "Crustule ✝️⚰️",
+      "creator_name": "virginieopal",
       "view_count": 14,
-      "created_at": "2026-07-11T16:31:00Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6a700bc4-3f57-44e4-bfa8-4aae92203d86/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "created_at": "2026-07-15T21:52:26Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/2aec71d1-8bbb-4620-9e15-34b2fb4f889b/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
-      "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
+      "id": "UnsightlyKathishHerdPMSTwin-QeACPIg1KjSYslbu",
       "title": "",
-      "creator_name": "teph_woot_woot",
-      "view_count": 4,
-      "created_at": "2026-07-10T19:49:43Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/2c910185-1709-46b5-8ba6-01a9771ad22d/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "creator_name": "france_bb",
+      "view_count": 8,
+      "created_at": "2026-07-15T21:50:31Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/5897383d-6868-4217-8ca4-1404fb06ad7a/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
-      "id": "SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC",
+      "id": "TastyHilariousWolfDansGame-DyHP_CipCGHGHwvg",
       "title": "",
-      "creator_name": "teph_woot_woot",
-      "view_count": 2,
-      "created_at": "2026-07-10T19:36:05Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/7e1c2b0e-3b30-403b-ba50-c19bb15ecb83/landscape/thumb/thumb-0000000000-480x272.jpg"
-    },
-    {
-      "id": "MiniatureLitigiousQuailUWot-aGWXapViieBURQpM",
-      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
-      "creator_name": "BaguetteChaussette",
-      "view_count": 3,
-      "created_at": "2026-07-09T22:41:54Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0505ce40-afcd-4e37-bffc-1e6d1984865c/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "creator_name": "france_bb",
+      "view_count": 7,
+      "created_at": "2026-07-15T21:46:45Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f317d2e3-3f95-4eb6-8872-f740b05cefcf/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
   "winner": {
-    "id": "LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k",
-    "title": "Découverte de Pawsome Resort ce soir ✨ | !discord !insta",
-    "creator_name": "BaguetteChaussette",
-    "view_count": 9,
-    "created_at": "2026-07-01T23:28:54Z",
-    "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9519a926-4448-446d-865a-b350f4433d57/landscape/thumb/thumb-0000000000-480x272.jpg"
+    "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
+    "title": "",
+    "creator_name": "alizee_ngs",
+    "view_count": 14,
+    "created_at": "2026-07-11T16:31:00Z",
+    "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6a700bc4-3f57-44e4-bfa8-4aae92203d86/landscape/thumb/thumb-0000000000-480x272.jpg"
   },
   "votes": {
-    "SplendidToughPidgeonBatChest-nHivhHJ1cWM1XT1N": 2,
-    "LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k": 5
+    "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR": 3,
+    "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud": 0,
+    "SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC": 0,
+    "MiniatureLitigiousQuailUWot-aGWXapViieBURQpM": 0
   },
-  "updated_at": "2026-07-13T21:07:07Z"
+  "updated_at": "2026-07-19T18:51:59Z"
 }
