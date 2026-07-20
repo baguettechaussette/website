@@ -1,28 +1,33 @@
 name: Update clip of the week (vote)
 
 # Fonctionnement — 100 % automatique via le compteur Cloudflare (voir cloudflare/README.md) :
-#   Le dépouillement a lieu quand la semaine de vote TOURNE (quel que soit le
-#   déclencheur) : gagnant = clip le plus voté (par identité de clip), puis le
-#   top 4 de la semaine écoulée devient finaliste de la semaine suivante.
-#   • Dimanche 18h UTC : dépouillement + rotation (avant le live de 21h Paris).
-#   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué.
-#   • Mercredi 6h UTC : purge de mi-semaine des clips supprimés de Twitch
-#     (et second filet si dimanche ET lundi ont échoué).
+#   La semaine de clips va de DIMANCHE à DIMANCHE, calée sur le dépouillement
+#   (17h45 UTC) : tout clip créé après un dépouillement concourt pour le vote
+#   suivant, avec une semaine pleine devant lui. Le dépouillement a lieu quand
+#   la semaine de vote TOURNE (quel que soit le déclencheur) : gagnant = clip
+#   le plus voté (par identité de clip), archivé au Palmarès
+#   (data/hall-of-fame.json, non affiché sur le site), puis le top 4 de la
+#   fenêtre écoulée devient finaliste de la semaine suivante.
+#   • Dimanche 17h45 UTC : dépouillement + rotation (avant le live de 21h Paris).
+#   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué + filet annonce.
+#   • Mercredi 6h UTC : purge mi-semaine des clips supprimés + filet annonce.
+#   • Jeudi 10h UTC (midi Paris l'été) : rappel de vote sur Discord.
 #   • Run manuel : bootstrap ou rattrapage (dépouille aussi si la semaine doit
 #     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
 #
 # Annonce Discord : manuelle, depuis le tableau de suivi privé du worker
 # Cloudflare (bouton sur /board), pendant le live du dimanche. Le cron du
 # dimanche n'envoie rien sur Discord : pas de spoiler avant la révélation.
-# Le lundi rafraîchit les finalistes (les clips du dimanche soir, créés après
-# le dépouillement, entrent en lice) et sert de filet d'annonce anti-oubli.
 on:
   schedule:
     # 17h45 UTC (pas :00 : créneau surchargé chez GitHub, retards fréquents)
     # = 19h45 Paris l'été / 18h45 l'hiver : large marge avant le live de 21h.
+    # NB : cette heure est AUSSI la frontière de la fenêtre des clips
+    # (voir STARTED_AT/ENDED_AT) : si tu la changes, change-la aux deux endroits.
     - cron: "45 17 * * 0"  # dimanche : dépouillement + rotation
-    - cron: "0 6 * * 1"    # lundi 6h UTC : filet si échec dimanche + refresh finalistes + filet annonce
+    - cron: "0 6 * * 1"    # lundi 6h UTC : filet si échec dimanche + filet annonce
     - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine + filet annonce
+    - cron: "0 10 * * 4"   # jeudi 10h UTC : rappel de vote (midi Paris l'été, 11h l'hiver)
   workflow_dispatch:
     inputs:
       winner:
@@ -132,21 +137,13 @@ jobs:
             exit 0
           fi
 
-          # Cron avec la semaine déjà en place (régime normal) :
-          #   • lundi : on continue pour RAFRAÎCHIR les finalistes — le fetch du
-          #     dimanche 17h45 UTC rate les clips créés ensuite (dont tout le
-          #     live de révélation de 21h) ; lundi la semaine source est complète.
-          #     Les votes déjà exprimés suivent leur clip (vote par identité).
-          #   • mercredi : la purge de l'étape 0 a déjà fait son travail, stop.
-          REFRESH_FIN=0
+          # Cron avec la semaine déjà en place (régime normal lundi/mercredi/jeudi) :
+          # la purge de l'étape 0 a déjà fait son travail, rien d'autre ici
+          # (la fenêtre dimanche→dimanche fait qu'aucun clip éligible ne peut
+          # apparaître après le dépouillement : pas de refresh nécessaire).
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$NEXT_WEEK" ]; then
-            if [ "${{ github.event.schedule }}" = "0 6 * * 1" ]; then
-              echo "ℹ️ Lundi : finalistes rafraîchis sur la semaine source complète (clips du dimanche soir inclus)."
-              REFRESH_FIN=1
-            else
-              echo "ℹ️ Semaine $NEXT_WEEK déjà en place (dépouillement déjà fait) : purge seule."
-              exit 0
-            fi
+            echo "ℹ️ Semaine $NEXT_WEEK déjà en place (dépouillement déjà fait) : purge seule."
+            exit 0
           fi
 
           # ── 2. Dépouillement (par identité de clip) ──
@@ -228,24 +225,28 @@ jobs:
             echo "ℹ️ Semaine $WEEK inchangée : palmarès conservé, pas de dépouillement."
           fi
 
-          # ── 3. Finalistes : top 4 d'une semaine ISO complète (lundi 00:00 →
-          #    dimanche 23:59 UTC). On vote toujours pour une semaine révolue,
-          #    jamais celle en cours.
+          # ── 3. Finalistes : top 4 de la fenêtre DIMANCHE → DIMANCHE, calée
+          #    sur l'heure nominale du dépouillement (17h45 UTC, comme le cron).
+          #    Tout clip créé après un dépouillement concourt pour le vote
+          #    suivant, avec une semaine pleine de vote : rien ne rejoint ni ne
+          #    quitte la course en cours de semaine. L'heure NOMINALE (pas
+          #    l'heure réelle du run, qui dérive) garantit des fenêtres
+          #    parfaitement jointives d'une semaine à l'autre.
 
-          # Les finalistes d'une semaine de vote déjà en place sont FIGÉS
-          # (les remplacer invaliderait les votes déjà exprimés), avec UNE
-          # exception : le refresh du lundi matin (REFRESH_FIN), qui complète
-          # la semaine source avec les clips du dimanche soir. Les votes de la
-          # nuit suivent leur clip par identité s'il reste finaliste.
-          if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ] && [ "$REFRESH_FIN" != "1" ]; then
+          # Les finalistes d'une semaine de vote déjà en place sont FIGÉS :
+          # les remplacer en cours de route invaliderait les votes déjà exprimés
+          # (et les votants ne peuvent pas revoter).
+          if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ]; then
             echo "ℹ️ Finalistes de $NEXT_WEEK déjà figés : conservés tels quels (protège les votes en cours)."
             FIN=$(echo "$PREV" | jq -c '.finalists')
           else
 
           ADOW=$(date -u -d "$ANCHOR" +%u)                              # 1=lun .. 7=dim
           VOTE_MON=$(date -u -d "$ANCHOR -$((ADOW-1)) days" +%Y-%m-%d)  # lundi de la semaine de vote
-          STARTED_AT=$(date -u -d "$VOTE_MON -7 days" +%Y-%m-%dT00:00:00Z)
-          ENDED_AT=$(date -u -d "$VOTE_MON" +%Y-%m-%dT00:00:00Z)
+          # Fenêtre = du dimanche 17h45 UTC (8 jours avant ce lundi) au
+          # dimanche 17h45 UTC suivant (veille de ce lundi) : dimanche→dimanche.
+          STARTED_AT=$(date -u -d "$VOTE_MON -8 days" +%Y-%m-%dT17:45:00Z)
+          ENDED_AT=$(date -u -d "$VOTE_MON -1 day" +%Y-%m-%dT17:45:00Z)
           RESP=$(curl -sS --fail -G \
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
@@ -320,9 +321,9 @@ jobs:
       # dimanche, qui tombe avant le live) demandent au worker d'envoyer
       # l'annonce. Le marqueur KV du worker garantit qu'elle ne part qu'une
       # fois : si le clic du live a eu lieu, le filet ne fait rien (409).
-      # NB : la condition doit désigner la chaîne EXACTE du cron du dimanche.
+      # NB : les chaînes doivent être EXACTEMENT celles des crons ci-dessus.
       - name: Filet anti-oubli de l'annonce Discord
-        if: ${{ github.event_name == 'schedule' && github.event.schedule != '45 17 * * 0' }}
+        if: ${{ github.event_name == 'schedule' && (github.event.schedule == '0 6 * * 1' || github.event.schedule == '0 6 * * 3') }}
         env:
           BOARD_KEY: ${{ secrets.BOARD_KEY }}
           VOTE_API_URL: ${{ vars.VOTE_API_URL }}
@@ -347,11 +348,11 @@ jobs:
             *)   echo "::error title=Filet annonce en échec (HTTP ${CODE:-aucun})::$BODY"; exit 1 ;;
           esac
 
-      # Rappel de vote en milieu de semaine (mercredi uniquement) : relance la
+      # Rappel de vote en milieu de semaine (jeudi midi) : relance la
       # participation avec le nombre de votants, sans jamais dire qui mène.
       # Idempotent côté worker (marqueur par semaine), non bloquant si échec.
-      - name: Rappel de vote du mercredi
-        if: ${{ github.event_name == 'schedule' && github.event.schedule == '0 6 * * 3' }}
+      - name: Rappel de vote du jeudi midi
+        if: ${{ github.event_name == 'schedule' && github.event.schedule == '0 10 * * 4' }}
         env:
           BOARD_KEY: ${{ secrets.BOARD_KEY }}
           VOTE_API_URL: ${{ vars.VOTE_API_URL }}
