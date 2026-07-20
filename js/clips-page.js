@@ -205,6 +205,7 @@ function buildFinalistCard(clip, week, votedKey) {
 
 // Participation affichée sous le titre du vote : uniquement le TOTAL de
 // votants (le worker ne révèle jamais qui mène : le suspense reste entier).
+// Masqué sous 4 voix : "2 p'tits pains ont voté" ferait plus vide qu'incitatif.
 async function showTurnout(week, after) {
     if (!VOTE_API || !after) return;
     try {
@@ -212,10 +213,9 @@ async function showTurnout(week, after) {
         if (!r.ok) return;
         const { count } = await r.json();
         const n = Number(count) || 0;
-        const text = n > 0
-            ? `${n} p'tit${n > 1 ? 's' : ''} pain${n > 1 ? 's ont' : ' a'} déjà voté 🥖`
-            : 'Sois le premier à voter 🥖';
-        after.insertAdjacentElement('afterend', makeEl('p', 'cow-turnout', text));
+        if (n <= 3) return;
+        after.insertAdjacentElement('afterend',
+            makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
     } catch { /* silencieux : simple bonus d'ambiance */ }
 }
 
