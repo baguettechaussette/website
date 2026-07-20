@@ -394,6 +394,15 @@
 
 .cow-vote-block[hidden] { display: none; }
 
+/* Participation (total de votants, sans le détail) sous le titre du vote */
+.cow-turnout {
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #c9902e;
+    margin: -12px 0 18px;
+}
+
 /* Palmarès : le clip élu la semaine dernière, séparé du vote par un liseré */
 .cow-winner {
     margin-top: 36px;
@@ -517,6 +526,45 @@
 
 .clippers-grid .clipper-card {
     flex: 0 1 180px;
+}
+
+/* ── Le Palmarès : les anciens Clips de la Semaine ── */
+#palmares {
+    padding-top: 0;
+    padding-bottom: 56px;
+}
+
+#palmares .section-header {
+    margin-bottom: 34px;
+}
+
+.hof-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hof-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 0 1 300px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 2px solid rgba(242, 201, 107, 0.45);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.hof-meta {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.82em;
+    font-weight: 700;
+    color: #c9902e;
 }
 
 .clipper-card {
