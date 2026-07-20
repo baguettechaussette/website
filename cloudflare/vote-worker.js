@@ -5,12 +5,15 @@
 //  Endpoints :
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
 //    GET  /results/<semaine>         -> {"<clipId>": 12, "<clipId>": 5, ...}
+//    GET  /board?key=<BOARD_KEY>     tableau de suivi privé du vote en cours
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
 //  des finalistes peut donc changer sans jamais fausser les votes déjà exprimés.
 //
 //  Binding requis : un KV namespace attaché sous le nom VOTES.
-//  Variable optionnelle : SALT (chaîne secrète pour le hash des IP).
+//  Secrets : SALT (hash des IP) et BOARD_KEY (accès au tableau de suivi).
+//  Les secrets vivent chez Cloudflare (wrangler secret put), jamais dans le
+//  repo public : lire ce code ne donne pas accès au tableau.
 // ============================================================
 
 const ALLOWED_ORIGINS = [
@@ -60,6 +63,95 @@ async function ipHash(ip, week, salt) {
     return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Agrège les votes d'une semaine par clip (le clipId est dans les
+// métadonnées des clés KV : zéro lecture supplémentaire). Partagé par
+// /results et /board.
+async function tallyWeek(env, week) {
+    const out = {};
+    let cursor;
+    do {
+        const page = await env.VOTES.list({ prefix: `vote:${week}:`, cursor, limit: 1000 });
+        for (const key of page.keys) {
+            const clip = key.metadata && key.metadata.clip;
+            if (clip) out[clip] = (out[clip] || 0) + 1;
+        }
+        cursor = page.list_complete ? null : page.cursor;
+    } while (cursor);
+    return out;
+}
+
+// Échappement HTML : les titres de clips sont écrits par les viewers.
+function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => (
+        { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]
+    ));
+}
+
+// Page HTML du tableau de suivi (rafraîchie toute seule chaque minute).
+function boardHtml(data, votes) {
+    const week = (data && data.week) || "?";
+    const finalists = (data && Array.isArray(data.finalists)) ? data.finalists : [];
+    const total = finalists.reduce((a, f) => a + (votes[f.id] || 0), 0);
+    const max = Math.max(1, ...finalists.map(f => votes[f.id] || 0));
+
+    const rows = finalists
+        .map(f => ({ f, v: votes[f.id] || 0 }))
+        .sort((a, b) => b.v - a.v)
+        .map(({ f, v }, i) => {
+            const title = (f.title && f.title !== "")
+                ? f.title
+                : "Clip du " + String(f.created_at || "").split("T")[0];
+            const pct = Math.round((v / max) * 100);
+            const lead = (i === 0 && v > 0) ? " lead" : "";
+            return `<li class="row${lead}">
+              <span class="pos">${i + 1}</span>
+              <div class="who">
+                <a href="https://clips.twitch.tv/${esc(f.id)}" target="_blank" rel="noopener">${esc(title)}</a>
+                <small>${esc(f.creator_name || "?")}</small>
+                <div class="bar"><i style="width:${pct}%"></i></div>
+              </div>
+              <b class="n">${v}</b>
+            </li>`;
+        }).join("");
+
+    const winner = (data && data.winner && data.winner.id)
+        ? `<p class="winner">👑 Couronné la semaine passée : <b>${esc(data.winner.creator_name || "?")}</b></p>`
+        : "";
+
+    return `<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="refresh" content="60">
+<title>Coulisses du vote</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#f6ead8;color:#3f2f25;margin:0;padding:24px;display:flex;justify-content:center}
+  main{width:100%;max-width:560px}
+  h1{font-size:1.3em;margin:0 0 4px}
+  .meta{color:#8a7360;font-size:.85em;margin:0 0 20px}
+  ul{list-style:none;margin:0;padding:0}
+  .row{display:flex;align-items:center;gap:14px;background:#fff8;border-radius:14px;padding:12px 16px;margin-bottom:10px}
+  .row.lead{border:2px solid #5c936f;background:#fff}
+  .pos{font-weight:800;color:#8a7360;width:1.2em;text-align:center}
+  .who{flex:1;min-width:0}
+  .who a{color:#3f2f25;font-weight:700;text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .who small{color:#5c936f;font-weight:700}
+  .bar{height:6px;background:#3f2f2514;border-radius:3px;margin-top:6px;overflow:hidden}
+  .bar i{display:block;height:100%;background:#5c936f;border-radius:3px}
+  .n{font-size:1.4em;font-weight:800;color:#5c936f}
+  .winner{color:#8a7360;font-size:.9em}
+  footer{color:#b5a08c;font-size:.75em;margin-top:18px}
+</style>
+</head><body><main>
+  <h1>🗳️ Coulisses du vote, semaine ${esc(week)}</h1>
+  <p class="meta">${total} voix. Page privée, actualisée toutes les 60 s.</p>
+  <ul>${rows || "<li class='row'>Aucun finaliste pour le moment.</li>"}</ul>
+  ${winner}
+  <footer>Dépouillement officiel le dimanche. Ne partage pas cette adresse. 🥖</footer>
+</main></body></html>`;
+}
+
 export default {
     async fetch(request, env) {
         const cors = corsHeaders(request);
@@ -92,24 +184,36 @@ export default {
         }
 
         // ── GET /results/<semaine> ──────────────────────────────
-        // Agrège les votes par clip (le clipId est dans les métadonnées : zéro lecture en plus)
         m = url.pathname.match(/^\/results\/([^/]+)$/);
         if (request.method === "GET" && m) {
             const week = m[1];
             if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
+            return json(await tallyWeek(env, week), cors);
+        }
 
-            const out = {};
-            let cursor;
-            do {
-                const page = await env.VOTES.list({ prefix: `vote:${week}:`, cursor, limit: 1000 });
-                for (const key of page.keys) {
-                    const clip = key.metadata && key.metadata.clip;
-                    if (clip) out[clip] = (out[clip] || 0) + 1;
-                }
-                cursor = page.list_complete ? null : page.cursor;
-            } while (cursor);
-
-            return json(out, cors);
+        // ── GET /board?key=… : tableau de suivi privé ───────────
+        // Répond 404 (et non 403) sur mauvaise clé : ne confirme même pas
+        // que la route existe. La clé n'est jamais loguée.
+        if (request.method === "GET" && url.pathname === "/board") {
+            if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
+                return json({ error: "not found" }, cors, 404);
+            }
+            let data = null;
+            try {
+                const r = await fetch("https://baguettechaussette.fr/data/clip-of-week.json", {
+                    headers: { "Cache-Control": "no-cache" },
+                });
+                if (r.ok) data = await r.json();
+            } catch { /* data reste null : la page affiche "aucun finaliste" */ }
+            const votes = (data && data.week) ? await tallyWeek(env, data.week) : {};
+            return new Response(boardHtml(data, votes), {
+                status: 200,
+                headers: {
+                    "Content-Type": "text/html; charset=utf-8",
+                    "X-Robots-Tag": "noindex, nofollow",
+                    "Cache-Control": "no-store",
+                },
+            });
         }
 
         return json({ error: "not found" }, cors, 404);
