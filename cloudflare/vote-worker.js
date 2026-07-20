@@ -22,7 +22,8 @@
 
 const ALLOWED_ORIGINS = [
     "https://baguettechaussette.fr",
-    "http://localhost:8123", // tests locaux
+    "http://localhost:8123",  // tests locaux
+    "http://127.0.0.1:8123",  // tests locaux (alias)
 ];
 
 const WEEK_RE = /^\d{4}-W\d{2}$/;
@@ -341,6 +342,74 @@ export default {
             try {
                 await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
             } catch { /* le marqueur manque : le prochain filet enverra un 2e message, rare et bénin */ }
+            return json({ ok: true }, cors);
+        }
+
+        // ── GET /turnout/<semaine> : participation SANS le détail ──
+        // Public (affiché sur la page clips) : uniquement le TOTAL de votants,
+        // jamais la répartition (le suspense reste entier, /results est privé).
+        // Mis en cache 5 min au edge : chaque visite du site ne coûte pas une
+        // opération list KV (quota gratuit : 1000 lists/jour).
+        m = url.pathname.match(/^\/turnout\/([^/]+)$/);
+        if (request.method === "GET" && m) {
+            const week = m[1];
+            if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
+            // Le cache stocke la réponse SANS en-têtes CORS : ils dépendent de
+            // l'Origin de chaque requête (sinon le premier appelant fige son
+            // origine dans le cache et bloque les autres).
+            const cache = caches.default;
+            const cacheKey = new Request(url.origin + url.pathname);
+            const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" };
+            const hit = await cache.match(cacheKey);
+            if (hit) {
+                return new Response(hit.body, { headers: { ...baseHeaders, ...cors } });
+            }
+            const votes = await tallyWeek(env, week);
+            const count = Object.values(votes).reduce((a, b) => a + b, 0);
+            const payload = JSON.stringify({ count });
+            await cache.put(cacheKey, new Response(payload, { headers: baseHeaders }));
+            return new Response(payload, { headers: { ...baseHeaders, ...cors } });
+        }
+
+        // ── POST /remind?key=… : rappel de vote de mi-semaine ──────
+        // Déclenché par le cron du mercredi. Un marqueur par semaine évite le
+        // spam en cas de re-run. Ne dit JAMAIS qui mène, juste le total.
+        if (request.method === "POST" && url.pathname === "/remind") {
+            if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
+                return json({ error: "not found" }, cors, 404);
+            }
+            if (!env.DISCORD_WEBHOOK) {
+                return json({ ok: false, error: "webhook non configuré (secret DISCORD_WEBHOOK)" }, cors, 500);
+            }
+            const data = await fetchClipOfWeek();
+            const finalists = (data && Array.isArray(data.finalists)) ? data.finalists : [];
+            if (!data || !data.week || finalists.length < 2) {
+                return json({ ok: false, error: "pas de vote en cours" }, cors, 409);
+            }
+            const marker = `remind:${data.week}`;
+            if (url.searchParams.get("force") !== "1" && await env.VOTES.get(marker)) {
+                return json({ ok: false, error: "rappel déjà envoyé cette semaine" }, cors, 409);
+            }
+
+            const votes = await tallyWeek(env, data.week);
+            const count = Object.values(votes).reduce((a, b) => a + b, 0);
+            const content = "🗳️ Le vote du Clip de la Semaine bat son plein !"
+                + (count > 0
+                    ? `\nDéjà ${count} p'tit${count > 1 ? "s" : ""} pain${count > 1 ? "s ont" : " a"} voté. Et toi ?`
+                    : "\nSois le premier à voter !")
+                + "\n<https://baguettechaussette.fr/clips>";
+
+            const res = await fetch(env.DISCORD_WEBHOOK, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content, allowed_mentions: { parse: [] } }),
+            });
+            if (res.status !== 204 && res.status !== 200) {
+                return json({ ok: false, error: `Discord a répondu HTTP ${res.status}` }, cors, 502);
+            }
+            try {
+                await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 10 });
+            } catch { /* re-run possible : rare et bénin */ }
             return json({ ok: true }, cors);
         }
 
