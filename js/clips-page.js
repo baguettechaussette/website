@@ -248,7 +248,10 @@ async function loadClippers() {
         const medals = ['🥇', '🥈', '🥉'];
         clippers.forEach((c, i) => {
             const views = c.total_views || 0;
-            const badge = CLIPPER_BADGES.find(b => c.clips >= b.min);
+            // (c.clips || 0) : un champ manquant ne doit pas faire échouer le
+            // find (undefined >= 0 est faux) et masquer tout le Panthéon.
+            const badge = CLIPPER_BADGES.find(b => (c.clips || 0) >= b.min);
+            if (!badge) return;
             const suffix = CLIPPER_SUFFIXES.find(s => views >= s.min);
             const card = makeEl('div', 'clipper-card' + (i < 3 ? ` clipper-rank-${i + 1}` : ''));
             card.append(
