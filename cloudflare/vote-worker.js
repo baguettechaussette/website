@@ -6,14 +6,18 @@
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
 //    GET  /results/<semaine>         -> {"<clipId>": 12, "<clipId>": 5, ...}
 //    GET  /board?key=<BOARD_KEY>     tableau de suivi privé du vote en cours
+//    POST /announce?key=<BOARD_KEY>  envoie l'annonce Discord du gagnant
+//                                    (déclenchée à la main depuis le board,
+//                                    pendant le live : zéro spoiler)
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
 //  des finalistes peut donc changer sans jamais fausser les votes déjà exprimés.
 //
 //  Binding requis : un KV namespace attaché sous le nom VOTES.
-//  Secrets : SALT (hash des IP) et BOARD_KEY (accès au tableau de suivi).
-//  Les secrets vivent chez Cloudflare (wrangler secret put), jamais dans le
-//  repo public : lire ce code ne donne pas accès au tableau.
+//  Secrets : SALT (hash des IP), BOARD_KEY (accès au tableau) et
+//  DISCORD_WEBHOOK (URL du webhook pour l'annonce). Les secrets vivent chez
+//  Cloudflare (wrangler secret put), jamais dans le repo public : lire ce
+//  code ne donne accès ni au tableau ni au webhook.
 // ============================================================
 
 const ALLOWED_ORIGINS = [
@@ -80,6 +84,18 @@ async function tallyWeek(env, week) {
     return out;
 }
 
+// Lit l'état du vote publié par le site (finalistes + gagnant).
+// null si le site ne répond pas : les routes affichent un état vide.
+async function fetchClipOfWeek() {
+    try {
+        const r = await fetch("https://baguettechaussette.fr/data/clip-of-week.json", {
+            headers: { "Cache-Control": "no-cache" },
+        });
+        if (r.ok) return await r.json();
+    } catch { /* réseau : tant pis */ }
+    return null;
+}
+
 // Échappement HTML : les titres de clips sont écrits par les viewers.
 function esc(s) {
     return String(s ?? "").replace(/[&<>"']/g, c => (
@@ -88,7 +104,8 @@ function esc(s) {
 }
 
 // Page HTML du tableau de suivi (rafraîchie toute seule chaque minute).
-function boardHtml(data, votes) {
+// announced : true si l'annonce Discord du gagnant courant est déjà partie.
+function boardHtml(data, votes, announced) {
     const week = (data && data.week) || "?";
     const finalists = (data && Array.isArray(data.finalists)) ? data.finalists : [];
     const total = finalists.reduce((a, f) => a + (votes[f.id] || 0), 0);
@@ -114,9 +131,35 @@ function boardHtml(data, votes) {
             </li>`;
         }).join("");
 
-    const winner = (data && data.winner && data.winner.id)
-        ? `<p class="winner">👑 Couronné la semaine passée : <b>${esc(data.winner.creator_name || "?")}</b></p>`
-        : "";
+    // Bloc gagnant + bouton d'annonce Discord (déclenchement manuel, pendant
+    // le live). Le bouton se verrouille une fois l'annonce partie.
+    let winner = "";
+    if (data && data.winner && data.winner.id) {
+        const btn = announced
+            ? `<button class="announce" disabled>Annonce Discord déjà envoyée ✔</button>`
+            : `<button class="announce" id="announceBtn">📣 Envoyer l'annonce Discord</button>
+               <script>
+                 document.getElementById("announceBtn").addEventListener("click", async (e) => {
+                   if (!confirm("Envoyer l'annonce du gagnant sur Discord ?")) return;
+                   const b = e.target;
+                   b.disabled = true; b.textContent = "Envoi…";
+                   try {
+                     const key = new URLSearchParams(location.search).get("key");
+                     const r = await fetch("/announce?key=" + encodeURIComponent(key), { method: "POST" });
+                     const d = await r.json();
+                     b.textContent = d.ok ? "Annonce Discord envoyée ✔" : ("Échec : " + (d.error || r.status));
+                     if (!d.ok) b.disabled = false;
+                   } catch {
+                     b.textContent = "Échec réseau, réessaie";
+                     b.disabled = false;
+                   }
+                 });
+               <\/script>`;
+        winner = `<div class="winner">
+            <p>👑 Couronné la semaine passée : <b>${esc(data.winner.creator_name || "?")}</b></p>
+            ${btn}
+          </div>`;
+    }
 
     return `<!doctype html>
 <html lang="fr"><head>
@@ -140,7 +183,9 @@ function boardHtml(data, votes) {
   .bar{height:6px;background:#3f2f2514;border-radius:3px;margin-top:6px;overflow:hidden}
   .bar i{display:block;height:100%;background:#5c936f;border-radius:3px}
   .n{font-size:1.4em;font-weight:800;color:#5c936f}
-  .winner{color:#8a7360;font-size:.9em}
+  .winner{color:#8a7360;font-size:.9em;margin-top:18px}
+  .announce{font:inherit;font-weight:700;color:#fff;background:#5c936f;border:0;border-radius:24px;padding:10px 18px;cursor:pointer}
+  .announce:disabled{background:#b5a08c;cursor:default}
   footer{color:#b5a08c;font-size:.75em;margin-top:18px}
 </style>
 </head><body><main>
@@ -198,15 +243,11 @@ export default {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
                 return json({ error: "not found" }, cors, 404);
             }
-            let data = null;
-            try {
-                const r = await fetch("https://baguettechaussette.fr/data/clip-of-week.json", {
-                    headers: { "Cache-Control": "no-cache" },
-                });
-                if (r.ok) data = await r.json();
-            } catch { /* data reste null : la page affiche "aucun finaliste" */ }
+            const data = await fetchClipOfWeek();
             const votes = (data && data.week) ? await tallyWeek(env, data.week) : {};
-            return new Response(boardHtml(data, votes), {
+            const wid = data && data.winner && data.winner.id;
+            const announced = wid ? Boolean(await env.VOTES.get(`announced:${wid}`)) : false;
+            return new Response(boardHtml(data, votes, announced), {
                 status: 200,
                 headers: {
                     "Content-Type": "text/html; charset=utf-8",
@@ -214,6 +255,44 @@ export default {
                     "Cache-Control": "no-store",
                 },
             });
+        }
+
+        // ── POST /announce?key=… : annonce Discord du gagnant ───
+        // Déclenchée à la main depuis le board (pendant le live). Une clé KV
+        // par clip gagnant empêche le double envoi (?force=1 pour repasser).
+        if (request.method === "POST" && url.pathname === "/announce") {
+            if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
+                return json({ error: "not found" }, cors, 404);
+            }
+            if (!env.DISCORD_WEBHOOK) {
+                return json({ ok: false, error: "webhook non configuré (secret DISCORD_WEBHOOK)" }, cors, 500);
+            }
+            const data = await fetchClipOfWeek();
+            const w = data && data.winner;
+            if (!w || !w.id) {
+                return json({ ok: false, error: "pas de gagnant couronné pour le moment" }, cors, 409);
+            }
+            const marker = `announced:${w.id}`;
+            if (!url.searchParams.get("force") && await env.VOTES.get(marker)) {
+                return json({ ok: false, error: "annonce déjà envoyée pour ce gagnant" }, cors, 409);
+            }
+
+            const content = "On a notre Clip de la Semaine élu par la commu ! 👑"
+                + (w.creator_name ? `\nClippé par **${w.creator_name}**` : "")
+                + `\nhttps://clips.twitch.tv/${w.id}`
+                + "\n\n🗳️ Pour voter pour le prochain, c'est par ici : <https://baguettechaussette.fr/clips>";
+
+            const res = await fetch(env.DISCORD_WEBHOOK, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content }),
+            });
+            if (res.status !== 204 && res.status !== 200) {
+                return json({ ok: false, error: `Discord a répondu HTTP ${res.status}` }, cors, 502);
+            }
+            // 30 jours : le temps que ce gagnant sorte du cycle
+            await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+            return json({ ok: true }, cors);
         }
 
         return json({ error: "not found" }, cors, 404);
