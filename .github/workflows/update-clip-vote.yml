@@ -12,13 +12,17 @@ name: Update clip of the week (vote)
 #     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
 #
 # Annonce Discord : manuelle, depuis le tableau de suivi privé du worker
-# Cloudflare (bouton sur /board), pendant le live du dimanche. Ce workflow
-# n'envoie rien sur Discord : pas de spoiler avant la révélation en live.
+# Cloudflare (bouton sur /board), pendant le live du dimanche. Le cron du
+# dimanche n'envoie rien sur Discord : pas de spoiler avant la révélation.
+# Le lundi rafraîchit les finalistes (les clips du dimanche soir, créés après
+# le dépouillement, entrent en lice) et sert de filet d'annonce anti-oubli.
 on:
   schedule:
-    - cron: "0 18 * * 0"   # dimanche 18h UTC : dépouillement + rotation
-    - cron: "0 6 * * 1"    # lundi 6h UTC : filet de sécurité si échec du dimanche
-    - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine des clips supprimés
+    # 17h45 UTC (pas :00 : créneau surchargé chez GitHub, retards fréquents)
+    # = 19h45 Paris l'été / 18h45 l'hiver : large marge avant le live de 21h.
+    - cron: "45 17 * * 0"  # dimanche : dépouillement + rotation
+    - cron: "0 6 * * 1"    # lundi 6h UTC : filet si échec dimanche + refresh finalistes + filet annonce
+    - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine + filet annonce
   workflow_dispatch:
     inputs:
       winner:
@@ -71,6 +75,9 @@ jobs:
           MANUAL_WINNER: ${{ github.event.inputs.winner }}
           # URL du Worker Cloudflare (variable de dépôt, ex. https://bc-vote.xxx.workers.dev)
           VOTE_API_URL: ${{ vars.VOTE_API_URL }}
+          # /results est verrouillé derrière la clé du board (un décompte public
+          # en direct révélerait le gagnant probable avant le live)
+          BOARD_KEY: ${{ secrets.BOARD_KEY }}
         run: |
           mkdir -p data
           PREV=$(cat data/clip-of-week.json 2>/dev/null || echo '{}')
@@ -125,11 +132,21 @@ jobs:
             exit 0
           fi
 
-          # Cron avec la semaine déjà en place (lundi/mercredi en régime normal) :
-          # la purge de l'étape 0 a déjà fait son travail, rien d'autre à faire.
+          # Cron avec la semaine déjà en place (régime normal) :
+          #   • lundi : on continue pour RAFRAÎCHIR les finalistes — le fetch du
+          #     dimanche 17h45 UTC rate les clips créés ensuite (dont tout le
+          #     live de révélation de 21h) ; lundi la semaine source est complète.
+          #     Les votes déjà exprimés suivent leur clip (vote par identité).
+          #   • mercredi : la purge de l'étape 0 a déjà fait son travail, stop.
+          REFRESH_FIN=0
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$WEEK" = "$NEXT_WEEK" ]; then
-            echo "ℹ️ Semaine $NEXT_WEEK déjà en place (dépouillement déjà fait) : purge seule."
-            exit 0
+            if [ "${{ github.event.schedule }}" = "0 6 * * 1" ]; then
+              echo "ℹ️ Lundi : finalistes rafraîchis sur la semaine source complète (clips du dimanche soir inclus)."
+              REFRESH_FIN=1
+            else
+              echo "ℹ️ Semaine $NEXT_WEEK déjà en place (dépouillement déjà fait) : purge seule."
+              exit 0
+            fi
           fi
 
           # ── 2. Dépouillement (par identité de clip) ──
@@ -167,7 +184,7 @@ jobs:
               # Compteur injoignable = on ARRÊTE (job en échec, le cron suivant
               # réessaiera). Surtout pas de repli silencieux vers "0 votes" :
               # ça ferait tourner la semaine en jetant les votes réels.
-              R=$(curl -sS --fail "$VOTE_API_URL/results/$WEEK") || {
+              R=$(curl -sS --fail "$VOTE_API_URL/results/$WEEK?key=$BOARD_KEY") || {
                 echo "::error title=Compteur injoignable::Dépouillement impossible, votes préservés, nouvel essai au prochain cron."
                 exit 1
               }
@@ -188,7 +205,11 @@ jobs:
                 echo "ℹ️ Aucun vote cette semaine : pas de gagnant"
               fi
             else
-              echo "::notice title=Compteur absent::VOTE_API_URL non défini, pas de dépouillement."
+              # Même exigence que "compteur injoignable" : on n'accepte JAMAIS
+              # de tourner la semaine en jetant les votes. Variable effacée par
+              # erreur = job rouge, pas de perte silencieuse.
+              echo "::error title=Compteur absent::VOTE_API_URL non défini : rotation refusée, votes préservés."
+              exit 1
             fi
           elif [ "$ROLLING" = "1" ]; then
             echo "ℹ️ Semaine fermée sans finalistes : rien à dépouiller."
@@ -200,11 +221,12 @@ jobs:
           #    dimanche 23:59 UTC). On vote toujours pour une semaine révolue,
           #    jamais celle en cours.
 
-          # Les finalistes d'une semaine de vote déjà en place sont FIGÉS :
-          # les remplacer en cours de route invaliderait les votes déjà exprimés
-          # (et les votants ne peuvent pas revoter). Un re-run manuel est donc
-          # sans effet sur les finalistes tant que la semaine ne change pas.
-          if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ]; then
+          # Les finalistes d'une semaine de vote déjà en place sont FIGÉS
+          # (les remplacer invaliderait les votes déjà exprimés), avec UNE
+          # exception : le refresh du lundi matin (REFRESH_FIN), qui complète
+          # la semaine source avec les clips du dimanche soir. Les votes de la
+          # nuit suivent leur clip par identité s'il reste finaliste.
+          if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ] && [ "$REFRESH_FIN" != "1" ]; then
             echo "ℹ️ Finalistes de $NEXT_WEEK déjà figés : conservés tels quels (protège les votes en cours)."
             FIN=$(echo "$PREV" | jq -c '.finalists')
           else
@@ -287,20 +309,29 @@ jobs:
       # dimanche, qui tombe avant le live) demandent au worker d'envoyer
       # l'annonce. Le marqueur KV du worker garantit qu'elle ne part qu'une
       # fois : si le clic du live a eu lieu, le filet ne fait rien (409).
+      # NB : la condition doit désigner la chaîne EXACTE du cron du dimanche.
       - name: Filet anti-oubli de l'annonce Discord
-        if: ${{ github.event_name == 'schedule' && github.event.schedule != '0 18 * * 0' }}
+        if: ${{ github.event_name == 'schedule' && github.event.schedule != '45 17 * * 0' }}
         env:
           BOARD_KEY: ${{ secrets.BOARD_KEY }}
+          VOTE_API_URL: ${{ vars.VOTE_API_URL }}
         run: |
-          if [ -z "$BOARD_KEY" ]; then
-            echo "::notice title=Filet annonce inactif::Secret BOARD_KEY absent côté GitHub."
+          if [ -z "$BOARD_KEY" ] || [ -z "$VOTE_API_URL" ]; then
+            echo "::notice title=Filet annonce inactif::BOARD_KEY ou VOTE_API_URL manquant."
             exit 0
           fi
+          # Si CE run vient de couronner (rattrapage), le worker lit le JSON du
+          # site derrière un CDN (~10 min de cache, insensible aux cache-busters)
+          # + le rebuild Pages : on patiente pour annoncer le BON gagnant.
+          echo "Patience anti-cache CDN (7 min)…"
+          sleep 420
           CODE=$(curl -sS -o /tmp/announce.json -w "%{http_code}" -X POST \
-            "https://bc-vote.baguette-chaussette.workers.dev/announce?key=$BOARD_KEY" || echo "000")
+            "$VOTE_API_URL/announce?key=$BOARD_KEY" || true)
           BODY=$(cat /tmp/announce.json 2>/dev/null || echo '')
           case "$CODE" in
             200) echo "📣 Annonce envoyée par le filet (oubliée au live)." ;;
             409) echo "ℹ️ Rien à faire : $BODY" ;;
-            *)   echo "::warning title=Filet annonce en échec (HTTP $CODE)::$BODY" ;;
+            # Échec réel = job ROUGE : une annonce qui saute en silence pourrait
+            # être définitivement perdue à la rotation suivante.
+            *)   echo "::error title=Filet annonce en échec (HTTP ${CODE:-aucun})::$BODY"; exit 1 ;;
           esac
