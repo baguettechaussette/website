@@ -85,15 +85,27 @@ async function tallyWeek(env, week) {
 }
 
 // Lit l'état du vote publié par le site (finalistes + gagnant).
-// null si le site ne répond pas : les routes affichent un état vide.
+// Deux sources en parallèle : GitHub Pages (cache CDN ~10 min, qui IGNORE
+// les cache-busters) et raw.githubusercontent (~5 min). On garde la plus
+// fraîche (updated_at) pour réduire la fenêtre où un couronnement tout
+// juste commité n'est pas encore visible. null si aucune ne répond.
 async function fetchClipOfWeek() {
-    try {
-        const r = await fetch("https://baguettechaussette.fr/data/clip-of-week.json", {
-            headers: { "Cache-Control": "no-cache" },
-        });
-        if (r.ok) return await r.json();
-    } catch { /* réseau : tant pis */ }
-    return null;
+    const sources = [
+        "https://baguettechaussette.fr/data/clip-of-week.json",
+        "https://raw.githubusercontent.com/baguettechaussette/website/main/data/clip-of-week.json",
+    ];
+    const results = await Promise.allSettled(sources.map(async u => {
+        const r = await fetch(u);
+        if (!r.ok) throw new Error(String(r.status));
+        return await r.json();
+    }));
+    let best = null;
+    for (const res of results) {
+        if (res.status !== "fulfilled" || !res.value) continue;
+        const d = res.value;
+        if (!best || String(d.updated_at || "") > String(best.updated_at || "")) best = d;
+    }
+    return best;
 }
 
 // Échappement HTML : les titres de clips sont écrits par les viewers.
@@ -161,6 +173,18 @@ function boardHtml(data, votes, announced) {
           </div>`;
     }
 
+    // Horodatage de l'état lu (les caches CDN peuvent retarder de quelques
+    // minutes) : le streamer voit tout de suite si les données sont fraîches.
+    let asOf = "";
+    if (data && data.updated_at) {
+        try {
+            asOf = " État du site : " + new Intl.DateTimeFormat("fr-FR", {
+                timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit",
+                day: "2-digit", month: "2-digit",
+            }).format(new Date(data.updated_at)) + " (heure de Paris).";
+        } catch { /* horodatage illisible : on n'affiche rien */ }
+    }
+
     return `<!doctype html>
 <html lang="fr"><head>
 <meta charset="utf-8">
@@ -190,7 +214,7 @@ function boardHtml(data, votes, announced) {
 </style>
 </head><body><main>
   <h1>🗳️ Coulisses du vote, semaine ${esc(week)}</h1>
-  <p class="meta">${total} voix. Page privée, actualisée toutes les 60 s.</p>
+  <p class="meta">${total} voix. Page privée, actualisée toutes les 60 s.${esc(asOf)}</p>
   <ul>${rows || "<li class='row'>Aucun finaliste pour le moment.</li>"}</ul>
   ${winner}
   <footer>Dépouillement officiel le dimanche. Ne partage pas cette adresse. 🥖</footer>
@@ -228,9 +252,15 @@ export default {
             return json({ ok: true }, cors);
         }
 
-        // ── GET /results/<semaine> ──────────────────────────────
+        // ── GET /results/<semaine>?key=… ────────────────────────
+        // Réservé au dépouillement (workflow) et au streamer : un décompte
+        // public en direct révélerait le gagnant probable avant le live.
+        // Même clé que le board, même 404 muet sans elle.
         m = url.pathname.match(/^\/results\/([^/]+)$/);
         if (request.method === "GET" && m) {
+            if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
+                return json({ error: "not found" }, cors, 404);
+            }
             const week = m[1];
             if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
             return json(await tallyWeek(env, week), cors);
@@ -246,13 +276,19 @@ export default {
             const data = await fetchClipOfWeek();
             const votes = (data && data.week) ? await tallyWeek(env, data.week) : {};
             const wid = data && data.winner && data.winner.id;
-            const announced = wid ? Boolean(await env.VOTES.get(`announced:${wid}`)) : false;
+            // Marqueur par semaine + clip : un même clip peut regagner plus
+            // tard (repli "semaine creuse" du workflow), sa nouvelle annonce
+            // ne doit pas être bloquée par celle de sa première victoire.
+            const announced = wid ? Boolean(await env.VOTES.get(`announced:${data.week}:${wid}`)) : false;
             return new Response(boardHtml(data, votes, announced), {
                 status: 200,
                 headers: {
                     "Content-Type": "text/html; charset=utf-8",
                     "X-Robots-Tag": "noindex, nofollow",
                     "Cache-Control": "no-store",
+                    "X-Content-Type-Options": "nosniff",
+                    "X-Frame-Options": "DENY",
+                    "Referrer-Policy": "no-referrer",
                 },
             });
         }
@@ -272,8 +308,13 @@ export default {
             if (!w || !w.id) {
                 return json({ ok: false, error: "pas de gagnant couronné pour le moment" }, cors, 409);
             }
-            const marker = `announced:${w.id}`;
-            if (!url.searchParams.get("force") && await env.VOTES.get(marker)) {
+            // L'id vient du JSON du site, mais on revalide avant de le mettre
+            // dans une URL (fichier corrompu = lien cassé + texte injecté).
+            if (!CLIP_RE.test(w.id)) {
+                return json({ ok: false, error: "id de clip invalide dans le fichier du site" }, cors, 500);
+            }
+            const marker = `announced:${data.week}:${w.id}`;
+            if (url.searchParams.get("force") !== "1" && await env.VOTES.get(marker)) {
                 return json({ ok: false, error: "annonce déjà envoyée pour ce gagnant" }, cors, 409);
             }
 
@@ -285,13 +326,21 @@ export default {
             const res = await fetch(env.DISCORD_WEBHOOK, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content }),
+                // allowed_mentions vide : le nom du clippeur vient du TITRE du
+                // clip (écrit par les viewers) — un "(by @everyone)" ne doit
+                // jamais pinger le serveur.
+                body: JSON.stringify({ content, allowed_mentions: { parse: [] } }),
             });
             if (res.status !== 204 && res.status !== 200) {
                 return json({ ok: false, error: `Discord a répondu HTTP ${res.status}` }, cors, 502);
             }
-            // 30 jours : le temps que ce gagnant sorte du cycle
-            await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+            // 30 jours : couvre largement la semaine d'affichage du gagnant.
+            // L'annonce est PARTIE : si la pose du marqueur échoue, on répond
+            // quand même ok (le bouton se verrouille côté board) plutôt que de
+            // laisser croire à un échec et provoquer un re-clic en double.
+            try {
+                await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+            } catch { /* le marqueur manque : le prochain filet enverra un 2e message, rare et bénin */ }
             return json({ ok: true }, cors);
         }
 
