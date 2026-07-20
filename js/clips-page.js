@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadClipOfWeek();
     loadClippers();
-    loadHallOfFame();
     injectVideoSchema();
 });
 
@@ -107,11 +106,12 @@ function isoWeekMonday(week) {
     return monday;
 }
 
-// Les finalistes viennent de la semaine ISO qui précède la semaine de vote
+// Les finalistes viennent de la fenêtre dimanche → dimanche qui précède la
+// semaine de vote (calée sur le dépouillement, voir update-clip-vote.yml)
 function finalistWeekRange(week) {
     const voteMonday = isoWeekMonday(week);
     if (!voteMonday) return null;
-    const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 7);
+    const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 8);
     const end = new Date(voteMonday); end.setUTCDate(end.getUTCDate() - 1);
     const fmt = d => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
     return `${fmt(start)} au ${fmt(end)}`;
@@ -288,40 +288,5 @@ async function loadClippers() {
     } catch { /* silencieux : la section reste cachée */ }
 }
 
-// ── Le Palmarès : tous les Clips de la Semaine élus ─────────
-async function loadHallOfFame() {
-    const section = document.getElementById('palmares');
-    const grid = document.getElementById('hofGrid');
-    if (!section || !grid) return;
-
-    try {
-        const r = await fetch('/data/hall-of-fame.json');
-        if (!r.ok) return;
-        const data = await r.json();
-        const winners = (Array.isArray(data.winners) ? data.winners : [])
-            .filter(w => w && w.id)
-            .sort((a, b) => String(b.week).localeCompare(String(a.week)))
-            .slice(0, 12);
-        if (!winners.length) return;
-
-        winners.forEach(w => {
-            const card = makeEl('div', 'hof-card');
-            card.appendChild(makeClipThumb(w, 'Clips - Play HallOfFame'));
-            card.appendChild(makeEl('p', 'clip-meta', `« ${clipDisplayTitle(w)} »`));
-            if (w.creator_name) {
-                card.appendChild(makeEl('p', 'clip-clipper', `clippé par ${w.creator_name}`));
-            }
-            const when = w.crowned_at
-                ? new Date(w.crowned_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })
-                : null;
-            const voix = (Number(w.votes) > 0)
-                ? `${w.votes} voix`
-                : null;
-            card.appendChild(makeEl('p', 'hof-meta',
-                `👑 ${[when ? `élu le ${when}` : null, voix].filter(Boolean).join(' · ')}`));
-            grid.appendChild(card);
-        });
-
-        section.hidden = false;
-    } catch { /* silencieux : la section reste cachée */ }
-}
+// NB : le Palmarès (data/hall-of-fame.json) est archivé par le workflow à
+// chaque couronnement mais n'est PAS affiché sur le site (choix éditorial).
