@@ -201,6 +201,17 @@ jobs:
               if [ -n "$WIN_ID" ]; then
                 WINNER=$(echo "$PREV" | jq -c --arg id "$WIN_ID" '(.finalists[] | select(.id == $id)) // null')
                 echo "🏆 Gagnant de $WEEK : $WIN_ID ($(echo "$VOTES" | jq -c .))"
+                # ── Palmarès : chaque couronné rejoint data/hall-of-fame.json ──
+                # (dédupliqué par semaine : un re-dépouillement remplace l'entrée)
+                HOF=$(cat data/hall-of-fame.json 2>/dev/null || echo '{"winners":[]}')
+                WVOTES=$(echo "$VOTES" | jq --arg id "$WIN_ID" '.[$id] // 0')
+                echo "$HOF" | jq --argjson w "$WINNER" --arg week "$WEEK" --argjson v "$WVOTES" \
+                  --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                  '.winners = ([(.winners // [])[] | select(.week != $week)]
+                     + [{week: $week, votes: $v, crowned_at: $now}
+                        + ($w | {id, title, creator_name, view_count, thumbnail_url})])
+                   | .updated_at = $now' > data/hall-of-fame.json
+                echo "👑 Palmarès : $(jq '.winners | length' data/hall-of-fame.json) gagnants archivés"
               else
                 echo "ℹ️ Aucun vote cette semaine : pas de gagnant"
               fi
@@ -289,11 +300,11 @@ jobs:
             echo "ℹ️ Branche ${{ github.ref_name }} : pas de commit (réservé à main)."
             exit 0
           fi
-          if ! git diff --quiet data/clip-of-week.json; then
+          if ! git diff --quiet data/clip-of-week.json data/hall-of-fame.json 2>/dev/null || [ -n "$(git status --porcelain data/hall-of-fame.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/clip-of-week.json
-            git commit -m "chore: update clip of the week (vote + finalistes)"
+            git add data/clip-of-week.json data/hall-of-fame.json
+            git commit -m "chore: update clip of the week (vote + finalistes + palmares)"
             git pull --rebase origin main
             git push
             echo "✅ Changes committed and pushed."
@@ -334,4 +345,26 @@ jobs:
             # Échec réel = job ROUGE : une annonce qui saute en silence pourrait
             # être définitivement perdue à la rotation suivante.
             *)   echo "::error title=Filet annonce en échec (HTTP ${CODE:-aucun})::$BODY"; exit 1 ;;
+          esac
+
+      # Rappel de vote en milieu de semaine (mercredi uniquement) : relance la
+      # participation avec le nombre de votants, sans jamais dire qui mène.
+      # Idempotent côté worker (marqueur par semaine), non bloquant si échec.
+      - name: Rappel de vote du mercredi
+        if: ${{ github.event_name == 'schedule' && github.event.schedule == '0 6 * * 3' }}
+        env:
+          BOARD_KEY: ${{ secrets.BOARD_KEY }}
+          VOTE_API_URL: ${{ vars.VOTE_API_URL }}
+        run: |
+          if [ -z "$BOARD_KEY" ] || [ -z "$VOTE_API_URL" ]; then
+            echo "::notice title=Rappel inactif::BOARD_KEY ou VOTE_API_URL manquant."
+            exit 0
+          fi
+          CODE=$(curl -sS -o /tmp/remind.json -w "%{http_code}" -X POST \
+            "$VOTE_API_URL/remind?key=$BOARD_KEY" || true)
+          BODY=$(cat /tmp/remind.json 2>/dev/null || echo '')
+          case "$CODE" in
+            200) echo "🗳️ Rappel de vote envoyé sur Discord." ;;
+            409) echo "ℹ️ Rappel déjà envoyé ou pas de vote en cours : $BODY" ;;
+            *)   echo "::warning title=Rappel non envoyé (HTTP ${CODE:-aucun})::$BODY" ;;
           esac
