@@ -11,9 +11,12 @@ name: Update clip of the week (vote)
 #   • Dimanche 17h45 UTC : dépouillement + rotation (avant le live de 21h Paris).
 #   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué + filet annonce.
 #   • Mercredi 6h UTC : purge mi-semaine des clips supprimés + filet annonce.
-#   • Jeudi 10h UTC (midi Paris l'été) : rappel de vote sur Discord.
 #   • Run manuel : bootstrap ou rattrapage (dépouille aussi si la semaine doit
 #     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
+#
+# Pas de rappel de vote automatique : le streamer le fait en live + annonce
+# WizeBot dans le chat, et l'annonce du gagnant contient déjà le lien du vote.
+# (La route POST /remind du worker existe toujours si besoin un jour.)
 #
 # Annonce Discord : manuelle, depuis le tableau de suivi privé du worker
 # Cloudflare (bouton sur /board), pendant le live du dimanche. Le cron du
@@ -27,7 +30,6 @@ on:
     - cron: "45 17 * * 0"  # dimanche : dépouillement + rotation
     - cron: "0 6 * * 1"    # lundi 6h UTC : filet si échec dimanche + filet annonce
     - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine + filet annonce
-    - cron: "0 10 * * 4"   # jeudi 10h UTC : rappel de vote (midi Paris l'été, 11h l'hiver)
   workflow_dispatch:
     inputs:
       winner:
@@ -346,26 +348,4 @@ jobs:
             # Échec réel = job ROUGE : une annonce qui saute en silence pourrait
             # être définitivement perdue à la rotation suivante.
             *)   echo "::error title=Filet annonce en échec (HTTP ${CODE:-aucun})::$BODY"; exit 1 ;;
-          esac
-
-      # Rappel de vote en milieu de semaine (jeudi midi) : relance la
-      # participation avec le nombre de votants, sans jamais dire qui mène.
-      # Idempotent côté worker (marqueur par semaine), non bloquant si échec.
-      - name: Rappel de vote du jeudi midi
-        if: ${{ github.event_name == 'schedule' && github.event.schedule == '0 10 * * 4' }}
-        env:
-          BOARD_KEY: ${{ secrets.BOARD_KEY }}
-          VOTE_API_URL: ${{ vars.VOTE_API_URL }}
-        run: |
-          if [ -z "$BOARD_KEY" ] || [ -z "$VOTE_API_URL" ]; then
-            echo "::notice title=Rappel inactif::BOARD_KEY ou VOTE_API_URL manquant."
-            exit 0
-          fi
-          CODE=$(curl -sS -o /tmp/remind.json -w "%{http_code}" -X POST \
-            "$VOTE_API_URL/remind?key=$BOARD_KEY" || true)
-          BODY=$(cat /tmp/remind.json 2>/dev/null || echo '')
-          case "$CODE" in
-            200) echo "🗳️ Rappel de vote envoyé sur Discord." ;;
-            409) echo "ℹ️ Rappel déjà envoyé ou pas de vote en cours : $BODY" ;;
-            *)   echo "::warning title=Rappel non envoyé (HTTP ${CODE:-aucun})::$BODY" ;;
           esac
