@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadClipOfWeek();
     loadClippers();
+    loadHallOfFame();
     injectVideoSchema();
 });
 
@@ -148,6 +149,7 @@ async function loadClipOfWeek() {
             voteBlock.appendChild(status);
             refreshVoteButtons(grid, lsGet(votedKey));
             voteBlock.hidden = false;
+            showTurnout(week, voteHeading);
         }
 
         // Puis le palmarès : le clip élu la semaine dernière
@@ -199,6 +201,22 @@ function buildFinalistCard(clip, week, votedKey) {
     });
     card.appendChild(btn);
     return card;
+}
+
+// Participation affichée sous le titre du vote : uniquement le TOTAL de
+// votants (le worker ne révèle jamais qui mène : le suspense reste entier).
+async function showTurnout(week, after) {
+    if (!VOTE_API || !after) return;
+    try {
+        const r = await fetch(`${VOTE_API}/turnout/${encodeURIComponent(week)}`);
+        if (!r.ok) return;
+        const { count } = await r.json();
+        const n = Number(count) || 0;
+        const text = n > 0
+            ? `${n} p'tit${n > 1 ? 's' : ''} pain${n > 1 ? 's ont' : ' a'} déjà voté 🥖`
+            : 'Sois le premier à voter 🥖';
+        after.insertAdjacentElement('afterend', makeEl('p', 'cow-turnout', text));
+    } catch { /* silencieux : simple bonus d'ambiance */ }
 }
 
 function refreshVoteButtons(grid, votedClip) {
@@ -263,6 +281,44 @@ async function loadClippers() {
             if (suffix) card.appendChild(makeEl('p', 'clipper-suffix', suffix.label));
             card.appendChild(makeEl('p', 'clipper-stats',
                 `${c.clips} clip${c.clips > 1 ? 's' : ''} · ${views.toLocaleString('fr-FR')} vues`));
+            grid.appendChild(card);
+        });
+
+        section.hidden = false;
+    } catch { /* silencieux : la section reste cachée */ }
+}
+
+// ── Le Palmarès : tous les Clips de la Semaine élus ─────────
+async function loadHallOfFame() {
+    const section = document.getElementById('palmares');
+    const grid = document.getElementById('hofGrid');
+    if (!section || !grid) return;
+
+    try {
+        const r = await fetch('/data/hall-of-fame.json');
+        if (!r.ok) return;
+        const data = await r.json();
+        const winners = (Array.isArray(data.winners) ? data.winners : [])
+            .filter(w => w && w.id)
+            .sort((a, b) => String(b.week).localeCompare(String(a.week)))
+            .slice(0, 12);
+        if (!winners.length) return;
+
+        winners.forEach(w => {
+            const card = makeEl('div', 'hof-card');
+            card.appendChild(makeClipThumb(w, 'Clips - Play HallOfFame'));
+            card.appendChild(makeEl('p', 'clip-meta', `« ${clipDisplayTitle(w)} »`));
+            if (w.creator_name) {
+                card.appendChild(makeEl('p', 'clip-clipper', `clippé par ${w.creator_name}`));
+            }
+            const when = w.crowned_at
+                ? new Date(w.crowned_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })
+                : null;
+            const voix = (Number(w.votes) > 0)
+                ? `${w.votes} voix`
+                : null;
+            card.appendChild(makeEl('p', 'hof-meta',
+                `👑 ${[when ? `élu le ${when}` : null, voix].filter(Boolean).join(' · ')}`));
             grid.appendChild(card);
         });
 
