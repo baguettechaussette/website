@@ -279,7 +279,28 @@ jobs:
             echo "No changes detected."
           fi
 
-      # L'annonce Discord du gagnant n'est PLUS automatique : elle se déclenche
-      # à la main depuis le tableau de suivi privé (route /board du worker
-      # Cloudflare, bouton "Envoyer l'annonce Discord"), pendant le live du
-      # dimanche. Zéro spoiler avant la révélation. Voir cloudflare/vote-worker.js.
+      # L'annonce Discord du gagnant se déclenche à la main depuis le tableau
+      # de suivi privé (route /board du worker, bouton "Envoyer l'annonce"),
+      # pendant le live du dimanche. Zéro spoiler avant la révélation.
+      #
+      # Filet anti-oubli : les crons du lundi et du mercredi (JAMAIS celui du
+      # dimanche, qui tombe avant le live) demandent au worker d'envoyer
+      # l'annonce. Le marqueur KV du worker garantit qu'elle ne part qu'une
+      # fois : si le clic du live a eu lieu, le filet ne fait rien (409).
+      - name: Filet anti-oubli de l'annonce Discord
+        if: ${{ github.event_name == 'schedule' && github.event.schedule != '0 18 * * 0' }}
+        env:
+          BOARD_KEY: ${{ secrets.BOARD_KEY }}
+        run: |
+          if [ -z "$BOARD_KEY" ]; then
+            echo "::notice title=Filet annonce inactif::Secret BOARD_KEY absent côté GitHub."
+            exit 0
+          fi
+          CODE=$(curl -sS -o /tmp/announce.json -w "%{http_code}" -X POST \
+            "https://bc-vote.baguette-chaussette.workers.dev/announce?key=$BOARD_KEY" || echo "000")
+          BODY=$(cat /tmp/announce.json 2>/dev/null || echo '')
+          case "$CODE" in
+            200) echo "📣 Annonce envoyée par le filet (oubliée au live)." ;;
+            409) echo "ℹ️ Rien à faire : $BODY" ;;
+            *)   echo "::warning title=Filet annonce en échec (HTTP $CODE)::$BODY" ;;
+          esac
