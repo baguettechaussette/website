@@ -1,6 +1,6 @@
 {
-  "is_live": true,
-  "game": "Hello Kitty Island Adventure",
-  "title": "Bonjour minou ce soir ? ✨ | !discord !insta",
-  "started_at": "2026-07-22T19:05:29Z"
+  "is_live": false,
+  "game": null,
+  "title": null,
+  "started_at": null
 }
