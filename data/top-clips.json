@@ -5,7 +5,7 @@
       "title": "Le bit de trop",
       "creator_name": "Natsukyaa",
       "game": "Just Chatting",
-      "view_count": 42,
+      "view_count": 44,
       "created_at": "2026-03-11T20:25:11Z",
       "duration": 25.1,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/cd6edaf5-45b1-46c7-82ae-400c537b52d6/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -16,7 +16,7 @@
       "title": "Le tchouch dans la bruschetta",
       "creator_name": "WizeBot",
       "game": null,
-      "view_count": 46,
+      "view_count": 50,
       "created_at": "2026-03-21T21:58:46Z",
       "duration": 47.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/815db0b5-6868-48bb-8b28-834f82177229/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -27,7 +27,7 @@
       "title": "Sapin monté, sapin déboîté",
       "creator_name": "Omiilia",
       "game": "Just Chatting",
-      "view_count": 26,
+      "view_count": 28,
       "created_at": "2025-12-01T21:00:15Z",
       "duration": 12,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4d039bd0-3c6a-4b7f-8a9c-d0ed12640e37/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -51,7 +51,7 @@
       "title": "le rêve",
       "creator_name": "virginieopal",
       "game": "Just Chatting",
-      "view_count": 25,
+      "view_count": 27,
       "created_at": "2026-07-15T19:36:12Z",
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3a2e4870-2e97-4b7a-a688-dd672c0529fb/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -62,11 +62,22 @@
       "title": "je suis boucheuu bée",
       "creator_name": "sieeteee7",
       "game": "Just Chatting",
-      "view_count": 19,
+      "view_count": 26,
       "created_at": "2026-07-22T20:39:43Z",
       "duration": 32.8,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/b2e127cc-4861-49d4-9359-d0fe9658bc64/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80"
+    },
+    {
+      "id": "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN",
+      "title": "Humus uwu ouhhh mouss",
+      "creator_name": "PtitMiki_",
+      "game": "Just Chatting",
+      "view_count": 18,
+      "created_at": "2026-07-22T20:42:36Z",
+      "duration": 5.7,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/40f3ad2b-38bd-48af-933f-5c41e6be37b3/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN"
     },
     {
       "id": "TemperedLitigiousCakeChocolateRain-thT5Sk5xlbwc5Rri",
@@ -102,6 +113,28 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/LachrymoseBoxyZebraTF2John-WGquhluklsXpHx0k"
     },
     {
+      "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
+      "title": "",
+      "creator_name": "france_bb",
+      "game": "Moonlight Peaks",
+      "view_count": 14,
+      "created_at": "2026-07-19T21:40:48Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ce8af1b9-c3fa-4823-8759-f523ae36bc00/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD"
+    },
+    {
+      "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
+      "title": "",
+      "creator_name": "teph_woot_woot",
+      "game": "Disney Dreamlight Valley",
+      "view_count": 14,
+      "created_at": "2026-07-24T22:33:32Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6668d39b-602c-486e-8446-43c283151eeb/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE"
+    },
+    {
       "id": "TangibleTemperedCakeYouWHY-t8q3mA-qB3zo_owP",
       "title": "",
       "creator_name": "alizee_ngs",
@@ -111,17 +144,6 @@
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/8d57d803-6274-43cb-a72d-cfb7266b03e5/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/TangibleTemperedCakeYouWHY-t8q3mA-qB3zo_owP"
-    },
-    {
-      "id": "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN",
-      "title": "Humus uwu ouhhh mouss",
-      "creator_name": "PtitMiki_",
-      "game": "Just Chatting",
-      "view_count": 12,
-      "created_at": "2026-07-22T20:42:36Z",
-      "duration": 5.7,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/40f3ad2b-38bd-48af-933f-5c41e6be37b3/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN"
     },
     {
       "id": "BoxyObeseAxeTooSpicy-ZRsoeBgDwedfzfud",
@@ -157,15 +179,15 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/UnsightlyKathishHerdPMSTwin-QeACPIg1KjSYslbu"
     },
     {
-      "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
-      "title": "",
-      "creator_name": "france_bb",
-      "game": "Moonlight Peaks",
-      "view_count": 10,
-      "created_at": "2026-07-19T21:40:48Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ce8af1b9-c3fa-4823-8759-f523ae36bc00/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD"
+      "id": "MiniatureLitigiousQuailUWot-aGWXapViieBURQpM",
+      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "game": "Aniimo",
+      "view_count": 8,
+      "created_at": "2026-07-09T22:41:54Z",
+      "duration": 29.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0505ce40-afcd-4e37-bffc-1e6d1984865c/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/MiniatureLitigiousQuailUWot-aGWXapViieBURQpM"
     },
     {
       "id": "SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC",
@@ -179,17 +201,6 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/SpoopyShinyKuduDancingBanana-I2aGsW-7e87E5_CC"
     },
     {
-      "id": "MiniatureLitigiousQuailUWot-aGWXapViieBURQpM",
-      "title": "Découverte Aniimo [Beta fermée] Trop hâte ! ✨ | !discord !insta",
-      "creator_name": "BaguetteChaussette",
-      "game": "Aniimo",
-      "view_count": 8,
-      "created_at": "2026-07-09T22:41:54Z",
-      "duration": 29.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0505ce40-afcd-4e37-bffc-1e6d1984865c/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/MiniatureLitigiousQuailUWot-aGWXapViieBURQpM"
-    },
-    {
       "id": "TastyHilariousWolfDansGame-DyHP_CipCGHGHwvg",
       "title": "",
       "creator_name": "france_bb",
@@ -199,18 +210,7 @@
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f317d2e3-3f95-4eb6-8872-f740b05cefcf/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/TastyHilariousWolfDansGame-DyHP_CipCGHGHwvg"
-    },
-    {
-      "id": "AliveTalentedHerbsFloof-BHZOGtGJmQIm1Sud",
-      "title": "Houston, on a un problème",
-      "creator_name": "Mimie_chan",
-      "game": "Just Chatting",
-      "view_count": 8,
-      "created_at": "2026-07-22T19:30:18Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3c71fe15-fcb4-4555-acb8-e94fb8705804/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/AliveTalentedHerbsFloof-BHZOGtGJmQIm1Sud"
     }
   ],
-  "updated_at": "2026-07-25T07:29:48Z"
+  "updated_at": "2026-07-27T08:49:08Z"
 }
