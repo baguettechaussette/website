@@ -33,11 +33,11 @@
     {
       "name": "gwendo05052020",
       "clips": 12,
-      "total_views": 83,
+      "total_views": 98,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
-        "view_count": 19
+        "view_count": 20
       }
     },
     {
@@ -53,7 +53,7 @@
     {
       "name": "alizee_ngs",
       "clips": 11,
-      "total_views": 102,
+      "total_views": 104,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -62,8 +62,8 @@
     },
     {
       "name": "Sarang0n",
-      "clips": 10,
-      "total_views": 67,
+      "clips": 11,
+      "total_views": 69,
       "best_clip": {
         "id": "EagerCalmGuanacoYouWHY-RPZyj4pNbeCzATZK",
         "title": "J'vais pas mourir hein...? 4...3...2...1",
@@ -193,11 +193,11 @@
     {
       "name": "teph_woot_woot",
       "clips": 4,
-      "total_views": 40,
+      "total_views": 41,
       "best_clip": {
         "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
         "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
-        "view_count": 14
+        "view_count": 15
       }
     },
     {
@@ -361,6 +361,16 @@
       }
     },
     {
+      "name": "kekew02",
+      "clips": 2,
+      "total_views": 10,
+      "best_clip": {
+        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
+        "title": "La queue robuste",
+        "view_count": 7
+      }
+    },
+    {
       "name": "Mimie_chan",
       "clips": 2,
       "total_views": 9,
@@ -368,16 +378,6 @@
         "id": "AliveTalentedHerbsFloof-BHZOGtGJmQIm1Sud",
         "title": "Houston, on a un problème",
         "view_count": 8
-      }
-    },
-    {
-      "name": "kekew02",
-      "clips": 2,
-      "total_views": 8,
-      "best_clip": {
-        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
-        "title": "La queue robuste",
-        "view_count": 5
       }
     },
     {
@@ -393,11 +393,11 @@
     {
       "name": "flofloria9",
       "clips": 2,
-      "total_views": 6,
+      "total_views": 7,
       "best_clip": {
         "id": "ProtectiveBitterCucumberNerfRedBlaster-mKbTPj7tMYD9Nfe0",
         "title": "Une pendule ? 🤣",
-        "view_count": 4
+        "view_count": 5
       }
     },
     {
@@ -571,6 +571,6 @@
       }
     }
   ],
-  "total_clips": 246,
-  "updated_at": "2026-07-27T08:49:10Z"
+  "total_clips": 247,
+  "updated_at": "2026-07-29T08:00:48Z"
 }
