@@ -253,16 +253,20 @@ jobs:
              | (map(select(.own | not)) + map(select(.own)))[0:4]
              | map(del(.own))')
 
-          # Semaine creuse (moins de 2 clips) : on repart du top du mois, avec
+          # Semaine creuse (moins de 2 clips) : on repart des clips du mois, avec
           # les mêmes règles (nettoyage des titres bot, extraction du vrai
           # clippeur, priorité viewers) : le fichier peut être à l'ancien format
           # (creator_name absent), le titre reste la source de vérité.
+          # Tri explicite par vues : ce fichier est désormais ordonné par date
+          # (section "Les derniers clips"), mais un vote se dispute entre les
+          # clips les plus vus.
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
-            echo "ℹ️ Semaine creuse, finalistes pris dans le top du mois"
+            echo "ℹ️ Semaine creuse, finalistes pris dans les clips du mois (les plus vus)"
             FIN=$(jq -c \
               'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                [(.clips // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: (((clipper // "") | ascii_downcase) == "baguettechaussette")}]
+               | sort_by(-(.view_count // 0))
                | (map(select(.own | not)) + map(select(.own)))[0:4]
                | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
