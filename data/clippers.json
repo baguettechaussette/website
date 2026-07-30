@@ -12,8 +12,8 @@
     },
     {
       "name": "emelinevdb",
-      "clips": 16,
-      "total_views": 159,
+      "clips": 17,
+      "total_views": 160,
       "best_clip": {
         "id": "SpotlessTameLegPupper-inUjNcjLUh49LF_K",
         "title": "Fais pas tomber hein Bibou ? Oh !",
@@ -21,9 +21,19 @@
       }
     },
     {
+      "name": "gwendo05052020",
+      "clips": 15,
+      "total_views": 113,
+      "best_clip": {
+        "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
+        "title": "la famille twerke",
+        "view_count": 20
+      }
+    },
+    {
       "name": "gloubiboulgars",
-      "clips": 14,
-      "total_views": 102,
+      "clips": 15,
+      "total_views": 104,
       "best_clip": {
         "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
         "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
@@ -31,12 +41,22 @@
       }
     },
     {
-      "name": "gwendo05052020",
-      "clips": 12,
-      "total_views": 98,
+      "name": "france_bb",
+      "clips": 13,
+      "total_views": 68,
       "best_clip": {
-        "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
-        "title": "la famille twerke",
+        "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
+        "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
+        "view_count": 14
+      }
+    },
+    {
+      "name": "teph_woot_woot",
+      "clips": 12,
+      "total_views": 80,
+      "best_clip": {
+        "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
+        "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
         "view_count": 20
       }
     },
@@ -53,7 +73,7 @@
     {
       "name": "alizee_ngs",
       "clips": 11,
-      "total_views": 104,
+      "total_views": 106,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -62,22 +82,12 @@
     },
     {
       "name": "Sarang0n",
-      "clips": 11,
-      "total_views": 69,
+      "clips": 10,
+      "total_views": 67,
       "best_clip": {
         "id": "EagerCalmGuanacoYouWHY-RPZyj4pNbeCzATZK",
         "title": "J'vais pas mourir hein...? 4...3...2...1",
         "view_count": 18
-      }
-    },
-    {
-      "name": "france_bb",
-      "clips": 10,
-      "total_views": 53,
-      "best_clip": {
-        "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
-        "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
-        "view_count": 14
       }
     },
     {
@@ -108,6 +118,16 @@
         "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
         "title": "et il tombe à l’infini 🤣",
         "view_count": 23
+      }
+    },
+    {
+      "name": "clopetyi",
+      "clips": 7,
+      "total_views": 36,
+      "best_clip": {
+        "id": "SpotlessBloodyCurlewLeeroyJenkins-YaiM283cJE6C_nNI",
+        "title": "WzBot CLIP | OMG découverte PARALIVES ✨ | !Japhy !discord !insta (by clopetyi)",
+        "view_count": 13
       }
     },
     {
@@ -151,13 +171,13 @@
       }
     },
     {
-      "name": "TsukinoArisu",
+      "name": "Mimie_chan",
       "clips": 5,
-      "total_views": 36,
+      "total_views": 32,
       "best_clip": {
-        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
-        "title": "Stalké la Stalkeuse qui se faxe.....",
-        "view_count": 16
+        "id": "FilthySincereWebHassanChop-XQ9WydMXDAo7bbOv",
+        "title": "\"Arrêtez, vous allez tous me péter ! \"",
+        "view_count": 10
       }
     },
     {
@@ -171,19 +191,9 @@
       }
     },
     {
-      "name": "clopetyi",
-      "clips": 5,
-      "total_views": 26,
-      "best_clip": {
-        "id": "SpotlessBloodyCurlewLeeroyJenkins-YaiM283cJE6C_nNI",
-        "title": "WzBot CLIP | OMG découverte PARALIVES ✨ | !Japhy !discord !insta (by clopetyi)",
-        "view_count": 13
-      }
-    },
-    {
       "name": "WizeBot",
       "clips": 4,
-      "total_views": 70,
+      "total_views": 71,
       "best_clip": {
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
@@ -191,13 +201,13 @@
       }
     },
     {
-      "name": "teph_woot_woot",
+      "name": "TsukinoArisu",
       "clips": 4,
-      "total_views": 41,
+      "total_views": 35,
       "best_clip": {
-        "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
-        "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
-        "view_count": 15
+        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
+        "title": "Stalké la Stalkeuse qui se faxe.....",
+        "view_count": 16
       }
     },
     {
@@ -241,12 +251,32 @@
       }
     },
     {
+      "name": "virginieopal",
+      "clips": 3,
+      "total_views": 48,
+      "best_clip": {
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 27
+      }
+    },
+    {
       "name": "eirian2311",
       "clips": 3,
       "total_views": 24,
       "best_clip": {
         "id": "AssiduousCourageousHumanVoteNay-e-hX6vv2BpDJnCFo",
         "title": "Toc toc toc",
+        "view_count": 9
+      }
+    },
+    {
+      "name": "kekew02",
+      "clips": 3,
+      "total_views": 15,
+      "best_clip": {
+        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
+        "title": "La queue robuste",
         "view_count": 9
       }
     },
@@ -321,13 +351,13 @@
       }
     },
     {
-      "name": "virginieopal",
+      "name": "sieeteee7",
       "clips": 2,
-      "total_views": 44,
+      "total_views": 43,
       "best_clip": {
-        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
-        "title": "le rêve",
-        "view_count": 27
+        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
+        "title": "je suis boucheuu bée",
+        "view_count": 28
       }
     },
     {
@@ -361,26 +391,6 @@
       }
     },
     {
-      "name": "kekew02",
-      "clips": 2,
-      "total_views": 10,
-      "best_clip": {
-        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
-        "title": "La queue robuste",
-        "view_count": 7
-      }
-    },
-    {
-      "name": "Mimie_chan",
-      "clips": 2,
-      "total_views": 9,
-      "best_clip": {
-        "id": "AliveTalentedHerbsFloof-BHZOGtGJmQIm1Sud",
-        "title": "Houston, on a un problème",
-        "view_count": 8
-      }
-    },
-    {
       "name": "nao_playgaming",
       "clips": 2,
       "total_views": 8,
@@ -411,13 +421,13 @@
       }
     },
     {
-      "name": "sieeteee7",
+      "name": "PtitMiki_",
       "clips": 1,
-      "total_views": 26,
+      "total_views": 20,
       "best_clip": {
-        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
-        "title": "je suis boucheuu bée",
-        "view_count": 26
+        "id": "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN",
+        "title": "Humus uwu ouhhh mouss",
+        "view_count": 20
       }
     },
     {
@@ -428,16 +438,6 @@
         "id": "RelentlessFaithfulToothTriHard-1eLIaR-q26JvWJjn",
         "title": "Téter la faucheuse ?",
         "view_count": 19
-      }
-    },
-    {
-      "name": "PtitMiki_",
-      "clips": 1,
-      "total_views": 18,
-      "best_clip": {
-        "id": "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN",
-        "title": "Humus uwu ouhhh mouss",
-        "view_count": 18
       }
     },
     {
@@ -571,6 +571,6 @@
       }
     }
   ],
-  "total_clips": 247,
-  "updated_at": "2026-07-29T08:00:48Z"
+  "total_clips": 269,
+  "updated_at": "2026-07-30T21:19:06Z"
 }
