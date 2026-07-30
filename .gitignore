@@ -2,5 +2,7 @@
 mailmap.txt
 /.claude
 
-# Cache local de wrangler (jamais versionne)
-cloudflare/.wrangler/
+# Worker Cloudflare : hors du repo public (il cartographie les routes et la
+# logique du compteur de votes). Les fichiers restent en local, le deploiement
+# se fait depuis la machine avec `npx wrangler deploy`. A sauvegarder ailleurs.
+/cloudflare/
