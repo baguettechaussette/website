@@ -343,7 +343,8 @@ function clipDisplayTitle(clip) {
     return 'Clip mystère';
 }
 
-// Charge les clips du mois et affiche la section si on en a.
+// Charge les derniers clips (data/top-clips.json, déjà trié du plus récent au
+// plus ancien par le workflow) et affiche la section si on en a.
 // Les clips "pinned" (épinglés à la main dans data/top-clips.json) passent
 // en premier et ne sont jamais touchés par le workflow automatique.
 // Le nombre de cartes est réglable via data-limit sur la grille (vitrine home : 3).
@@ -382,7 +383,7 @@ async function loadTopClips() {
         }
 
         // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
-        // sont déjà affichés au-dessus : on les retire du top du mois (doublons).
+        // sont déjà affichés au-dessus : on les retire des derniers clips (doublons).
         const exclude = new Set();
         if (document.getElementById('cowGrid')) {
             try {
@@ -413,7 +414,7 @@ async function loadTopClips() {
         };
 
         // Page clips : les épinglés ont leur propre bloc "Mes petits préférés"
-        // (les mélanger au "top du mois" était incohérent : ils n'en font pas partie).
+        // (les mélanger aux derniers clips était incohérent : ils n'en font pas partie).
         // La sélection perso s'affiche TOUJOURS en entier, même si un épinglé est
         // aussi finaliste ou couronné de la semaine. Ailleurs (vitrine home) :
         // liste fusionnée, épinglés d'abord.
