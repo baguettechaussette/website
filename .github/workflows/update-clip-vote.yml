@@ -1,35 +1,18 @@
 name: Update clip of the week (vote)
 
-# Fonctionnement — 100 % automatique via le compteur Cloudflare (voir cloudflare/README.md) :
-#   La semaine de clips va de DIMANCHE à DIMANCHE, calée sur le dépouillement
-#   (17h45 UTC) : tout clip créé après un dépouillement concourt pour le vote
-#   suivant, avec une semaine pleine devant lui. Le dépouillement a lieu quand
-#   la semaine de vote TOURNE (quel que soit le déclencheur) : gagnant = clip
-#   le plus voté (par identité de clip), archivé au Palmarès
-#   (data/hall-of-fame.json, non affiché sur le site), puis le top 4 de la
-#   fenêtre écoulée devient finaliste de la semaine suivante.
-#   • Dimanche 17h45 UTC : dépouillement + rotation (avant le live de 21h Paris).
-#   • Lundi 6h UTC : filet de sécurité si le run du dimanche a échoué + filet annonce.
-#   • Mercredi 6h UTC : purge mi-semaine des clips supprimés + filet annonce.
-#   • Run manuel : bootstrap ou rattrapage (dépouille aussi si la semaine doit
-#     tourner) ; override possible (input = ID du clip gagnant), jamais requis.
-#
-# Pas de rappel de vote automatique : le streamer le fait en live + annonce
-# WizeBot dans le chat, et l'annonce du gagnant contient déjà le lien du vote.
-# (La route POST /remind du worker existe toujours si besoin un jour.)
-#
-# Annonce Discord : manuelle, depuis le tableau de suivi privé du worker
-# Cloudflare (bouton sur /board), pendant le live du dimanche. Le cron du
-# dimanche n'envoie rien sur Discord : pas de spoiler avant la révélation.
+# Vote "Clip de la Semaine" : dépouillement le dimanche (par identité de clip,
+# via le compteur Cloudflare), fenêtre de clips dimanche→dimanche calée sur
+# l'heure nominale du cron, finalistes figés pendant la semaine de vote,
+# gagnant archivé dans data/hall-of-fame.json. Lundi et mercredi : filets de
+# sécurité + purge des clips supprimés de Twitch. Run manuel : bootstrap ou
+# rattrapage ; override possible (input = ID d'un finaliste).
 on:
   schedule:
-    # 17h45 UTC (pas :00 : créneau surchargé chez GitHub, retards fréquents)
-    # = 19h45 Paris l'été / 18h45 l'hiver : large marge avant le live de 21h.
-    # NB : cette heure est AUSSI la frontière de la fenêtre des clips
-    # (voir STARTED_AT/ENDED_AT) : si tu la changes, change-la aux deux endroits.
+    # NB : l'heure du cron du dimanche est AUSSI la frontière de la fenêtre
+    # des clips (voir STARTED_AT/ENDED_AT) : toujours changer les deux ensemble.
     - cron: "45 17 * * 0"  # dimanche : dépouillement + rotation
-    - cron: "0 6 * * 1"    # lundi 6h UTC : filet si échec dimanche + filet annonce
-    - cron: "0 6 * * 3"    # mercredi 6h UTC : purge mi-semaine + filet annonce
+    - cron: "0 6 * * 1"    # lundi : filet si échec dimanche
+    - cron: "0 6 * * 3"    # mercredi : purge mi-semaine
   workflow_dispatch:
     inputs:
       winner:
@@ -82,8 +65,7 @@ jobs:
           MANUAL_WINNER: ${{ github.event.inputs.winner }}
           # URL du Worker Cloudflare (variable de dépôt, ex. https://bc-vote.xxx.workers.dev)
           VOTE_API_URL: ${{ vars.VOTE_API_URL }}
-          # /results est verrouillé derrière la clé du board (un décompte public
-          # en direct révélerait le gagnant probable avant le live)
+          # /results exige la clé (le décompte en cours n'est pas public)
           BOARD_KEY: ${{ secrets.BOARD_KEY }}
         run: |
           mkdir -p data
@@ -315,15 +297,9 @@ jobs:
             echo "No changes detected."
           fi
 
-      # L'annonce Discord du gagnant se déclenche à la main depuis le tableau
-      # de suivi privé (route /board du worker, bouton "Envoyer l'annonce"),
-      # pendant le live du dimanche. Zéro spoiler avant la révélation.
-      #
-      # Filet anti-oubli : les crons du lundi et du mercredi (JAMAIS celui du
-      # dimanche, qui tombe avant le live) demandent au worker d'envoyer
-      # l'annonce. Le marqueur KV du worker garantit qu'elle ne part qu'une
-      # fois : si le clic du live a eu lieu, le filet ne fait rien (409).
-      # NB : les chaînes doivent être EXACTEMENT celles des crons ci-dessus.
+      # Filet d'annonce : idempotent côté worker (409 si déjà partie), jamais
+      # sur le cron du dimanche. Les chaînes doivent être EXACTEMENT celles
+      # des crons déclarés plus haut.
       - name: Filet anti-oubli de l'annonce Discord
         if: ${{ github.event_name == 'schedule' && (github.event.schedule == '0 6 * * 1' || github.event.schedule == '0 6 * * 3') }}
         env:
@@ -343,7 +319,7 @@ jobs:
             "$VOTE_API_URL/announce?key=$BOARD_KEY" || true)
           BODY=$(cat /tmp/announce.json 2>/dev/null || echo '')
           case "$CODE" in
-            200) echo "📣 Annonce envoyée par le filet (oubliée au live)." ;;
+            200) echo "📣 Annonce envoyée par le filet." ;;
             409) echo "ℹ️ Rien à faire : $BODY" ;;
             # Échec réel = job ROUGE : une annonce qui saute en silence pourrait
             # être définitivement perdue à la rotation suivante.
