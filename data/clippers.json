@@ -32,8 +32,8 @@
     },
     {
       "name": "gloubiboulgars",
-      "clips": 15,
-      "total_views": 104,
+      "clips": 14,
+      "total_views": 102,
       "best_clip": {
         "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
         "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
@@ -61,16 +61,6 @@
       }
     },
     {
-      "name": "poketicyt",
-      "clips": 12,
-      "total_views": 66,
-      "best_clip": {
-        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
-        "title": "Ca restera dans quoi ?",
-        "view_count": 17
-      }
-    },
-    {
       "name": "alizee_ngs",
       "clips": 11,
       "total_views": 106,
@@ -88,6 +78,16 @@
         "id": "EagerCalmGuanacoYouWHY-RPZyj4pNbeCzATZK",
         "title": "J'vais pas mourir hein...? 4...3...2...1",
         "view_count": 18
+      }
+    },
+    {
+      "name": "poketicyt",
+      "clips": 10,
+      "total_views": 64,
+      "best_clip": {
+        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
+        "title": "Ca restera dans quoi ?",
+        "view_count": 17
       }
     },
     {
@@ -571,6 +571,6 @@
       }
     }
   ],
-  "total_clips": 269,
-  "updated_at": "2026-07-30T21:19:06Z"
+  "total_clips": 266,
+  "updated_at": "2026-07-30T21:31:46Z"
 }
