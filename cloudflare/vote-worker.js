@@ -2,22 +2,17 @@
 //  Compteur de votes "Clip de la Semaine" — Cloudflare Worker
 //  Déploiement : voir cloudflare/README.md (5 minutes)
 //
-//  Endpoints :
+//  Endpoints publics :
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
-//    GET  /results/<semaine>         -> {"<clipId>": 12, "<clipId>": 5, ...}
-//    GET  /board?key=<BOARD_KEY>     tableau de suivi privé du vote en cours
-//    POST /announce?key=<BOARD_KEY>  envoie l'annonce Discord du gagnant
-//                                    (déclenchée à la main depuis le board,
-//                                    pendant le live : zéro spoiler)
+//    GET  /turnout/<semaine>         -> {"count": N} (total seul)
+//  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
 //  des finalistes peut donc changer sans jamais fausser les votes déjà exprimés.
 //
 //  Binding requis : un KV namespace attaché sous le nom VOTES.
-//  Secrets : SALT (hash des IP), BOARD_KEY (accès au tableau) et
-//  DISCORD_WEBHOOK (URL du webhook pour l'annonce). Les secrets vivent chez
-//  Cloudflare (wrangler secret put), jamais dans le repo public : lire ce
-//  code ne donne accès ni au tableau ni au webhook.
+//  Secrets (wrangler secret put, jamais dans le repo) : SALT, BOARD_KEY,
+//  DISCORD_WEBHOOK.
 // ============================================================
 
 const ALLOWED_ORIGINS = [
@@ -144,8 +139,8 @@ function boardHtml(data, votes, announced) {
             </li>`;
         }).join("");
 
-    // Bloc gagnant + bouton d'annonce Discord (déclenchement manuel, pendant
-    // le live). Le bouton se verrouille une fois l'annonce partie.
+    // Bloc gagnant + bouton d'annonce Discord (déclenchement manuel).
+    // Le bouton se verrouille une fois l'annonce partie.
     let winner = "";
     if (data && data.winner && data.winner.id) {
         const btn = announced
@@ -175,7 +170,7 @@ function boardHtml(data, votes, announced) {
     }
 
     // Horodatage de l'état lu (les caches CDN peuvent retarder de quelques
-    // minutes) : le streamer voit tout de suite si les données sont fraîches.
+    // minutes) : la fraîcheur des données est visible d'un coup d'œil.
     let asOf = "";
     if (data && data.updated_at) {
         try {
@@ -254,9 +249,7 @@ export default {
         }
 
         // ── GET /results/<semaine>?key=… ────────────────────────
-        // Réservé au dépouillement (workflow) et au streamer : un décompte
-        // public en direct révélerait le gagnant probable avant le live.
-        // Même clé que le board, même 404 muet sans elle.
+        // Le décompte détaillé n'est pas public : clé requise, 404 muet sans.
         m = url.pathname.match(/^\/results\/([^/]+)$/);
         if (request.method === "GET" && m) {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
@@ -295,8 +288,8 @@ export default {
         }
 
         // ── POST /announce?key=… : annonce Discord du gagnant ───
-        // Déclenchée à la main depuis le board (pendant le live). Une clé KV
-        // par clip gagnant empêche le double envoi (?force=1 pour repasser).
+        // Un marqueur KV par gagnant empêche le double envoi (?force=1 pour
+        // outrepasser).
         if (request.method === "POST" && url.pathname === "/announce") {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
                 return json({ error: "not found" }, cors, 404);
@@ -346,8 +339,7 @@ export default {
         }
 
         // ── GET /turnout/<semaine> : participation SANS le détail ──
-        // Public (affiché sur la page clips) : uniquement le TOTAL de votants,
-        // jamais la répartition (le suspense reste entier, /results est privé).
+        // Public (affiché sur la page clips) : uniquement le TOTAL de votants.
         // Mis en cache 5 min au edge : chaque visite du site ne coûte pas une
         // opération list KV (quota gratuit : 1000 lists/jour).
         m = url.pathname.match(/^\/turnout\/([^/]+)$/);
