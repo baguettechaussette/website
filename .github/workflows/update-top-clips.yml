@@ -60,19 +60,22 @@ jobs:
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> "$GITHUB_ENV"
           echo "✅ Token successfully retrieved"
 
-      - name: Fetch top clips of the month
+      - name: Fetch latest clips
         run: |
-          echo "Fetching top clips for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
+          echo "Fetching latest clips for broadcaster_id=$TWITCH_BROADCASTER_ID ..."
           mkdir -p data
 
           STARTED_AT=$(date -u -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
           ENDED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
+          # first=100 (le maximum) : l'API trie par vues décroissantes, donc pour
+          # obtenir les plus RÉCENTS il faut ratisser large puis retrier par date
+          # (avec first=16 on aurait "les 16 plus vus, rangés par date").
           RESP=$(curl -sS --fail-with-body -G \
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=16" \
+            --data-urlencode "first=100" \
             --data-urlencode "started_at=$STARTED_AT" \
             --data-urlencode "ended_at=$ENDED_AT" \
             "https://api.twitch.tv/helix/clips") || {
@@ -154,6 +157,9 @@ jobs:
 
           # clean_title : les titres capturés par le bot (WzBot = titre du stream, pas du clip)
           # sont vidés — le site affiche alors "Clip du JJ mois" à la place.
+          # Tri par date décroissante puis 16 premiers : la section montre les
+          # derniers clips, pas les plus vus (un clip récent n'a pas encore eu le
+          # temps d'accumuler des vues, il serait invisible sinon).
           echo "$RESP" | jq --argjson pinned "$PINNED" --argjson games "$GAMES" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
@@ -163,11 +169,12 @@ jobs:
                 title: (.title | clean_title),
                 creator_name: clipper,
                 game: ($games[.game_id // ""] // null),
-                view_count, created_at, duration, thumbnail_url, url}],
+                view_count, created_at, duration, thumbnail_url, url}]
+                | sort_by(.created_at) | reverse | .[0:16],
               updated_at: $now}' \
             > data/top-clips.json
 
-          echo "✅ Top clips: $COUNT (pinned preserved: $(echo "$PINNED" | jq 'length'))"
+          echo "✅ Derniers clips : $(jq '.clips | length' data/top-clips.json) retenus sur $COUNT (épinglés préservés : $(echo "$PINNED" | jq 'length'))"
 
       - name: Build clippers leaderboard (all-time)
         run: |
