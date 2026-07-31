@@ -23,7 +23,7 @@
     {
       "name": "gwendo05052020",
       "clips": 15,
-      "total_views": 113,
+      "total_views": 115,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -53,11 +53,21 @@
     {
       "name": "teph_woot_woot",
       "clips": 12,
-      "total_views": 80,
+      "total_views": 81,
       "best_clip": {
         "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
         "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
-        "view_count": 20
+        "view_count": 21
+      }
+    },
+    {
+      "name": "poketicyt",
+      "clips": 12,
+      "total_views": 66,
+      "best_clip": {
+        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
+        "title": "Ca restera dans quoi ?",
+        "view_count": 17
       }
     },
     {
@@ -78,16 +88,6 @@
         "id": "EagerCalmGuanacoYouWHY-RPZyj4pNbeCzATZK",
         "title": "J'vais pas mourir hein...? 4...3...2...1",
         "view_count": 18
-      }
-    },
-    {
-      "name": "poketicyt",
-      "clips": 10,
-      "total_views": 64,
-      "best_clip": {
-        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
-        "title": "Ca restera dans quoi ?",
-        "view_count": 17
       }
     },
     {
@@ -353,7 +353,7 @@
     {
       "name": "sieeteee7",
       "clips": 2,
-      "total_views": 43,
+      "total_views": 44,
       "best_clip": {
         "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
         "title": "je suis boucheuu bée",
@@ -571,6 +571,6 @@
       }
     }
   ],
-  "total_clips": 266,
-  "updated_at": "2026-07-30T21:31:46Z"
+  "total_clips": 268,
+  "updated_at": "2026-07-31T08:10:53Z"
 }
