@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "Barbouy",
-      "clips": 23,
-      "total_views": 414,
+      "clips": 22,
+      "total_views": 405,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
@@ -12,8 +12,8 @@
     },
     {
       "name": "emelinevdb",
-      "clips": 17,
-      "total_views": 160,
+      "clips": 18,
+      "total_views": 171,
       "best_clip": {
         "id": "SpotlessTameLegPupper-inUjNcjLUh49LF_K",
         "title": "Fais pas tomber hein Bibou ? Oh !",
@@ -23,7 +23,7 @@
     {
       "name": "france_bb",
       "clips": 17,
-      "total_views": 73,
+      "total_views": 74,
       "best_clip": {
         "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
         "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
@@ -32,12 +32,12 @@
     },
     {
       "name": "gwendo05052020",
-      "clips": 15,
-      "total_views": 115,
+      "clips": 16,
+      "total_views": 141,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
-        "view_count": 20
+        "view_count": 21
       }
     },
     {
@@ -53,7 +53,7 @@
     {
       "name": "alizee_ngs",
       "clips": 13,
-      "total_views": 109,
+      "total_views": 112,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -113,11 +113,11 @@
     {
       "name": "oceane0510",
       "clips": 7,
-      "total_views": 84,
+      "total_views": 87,
       "best_clip": {
         "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
         "title": "et il tombe à l’infini 🤣",
-        "view_count": 23
+        "view_count": 25
       }
     },
     {
@@ -161,39 +161,39 @@
       }
     },
     {
+      "name": "Mimie_chan",
+      "clips": 6,
+      "total_views": 49,
+      "best_clip": {
+        "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
+        "title": "Twerker sur la bouse",
+        "view_count": 16
+      }
+    },
+    {
       "name": "Omiilia",
       "clips": 5,
-      "total_views": 99,
+      "total_views": 101,
       "best_clip": {
         "id": "PlausibleConsiderateLorisSSSsss-01y7urQm-PzE5sEa",
         "title": "et le sapin tombe",
-        "view_count": 28
+        "view_count": 30
       }
     },
     {
-      "name": "Mimie_chan",
+      "name": "flofloria9",
       "clips": 5,
-      "total_views": 34,
+      "total_views": 37,
       "best_clip": {
-        "id": "FilthySincereWebHassanChop-XQ9WydMXDAo7bbOv",
-        "title": "\"Arrêtez, vous allez tous me péter ! \"",
-        "view_count": 11
-      }
-    },
-    {
-      "name": "WizeBot",
-      "clips": 4,
-      "total_views": 72,
-      "best_clip": {
-        "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
-        "title": "Le tchouch dans la bruschetta",
-        "view_count": 51
+        "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
+        "title": "Baguette Grande ?",
+        "view_count": 18
       }
     },
     {
       "name": "TsukinoArisu",
-      "clips": 4,
-      "total_views": 35,
+      "clips": 5,
+      "total_views": 36,
       "best_clip": {
         "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
         "title": "Stalké la Stalkeuse qui se faxe.....",
@@ -202,12 +202,22 @@
     },
     {
       "name": "morado290",
-      "clips": 4,
-      "total_views": 30,
+      "clips": 5,
+      "total_views": 31,
       "best_clip": {
         "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
         "title": "Gourmand",
         "view_count": 10
+      }
+    },
+    {
+      "name": "WizeBot",
+      "clips": 4,
+      "total_views": 74,
+      "best_clip": {
+        "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
+        "title": "Le tchouch dans la bruschetta",
+        "view_count": 53
       }
     },
     {
@@ -218,6 +228,16 @@
         "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
         "title": "1 2 3.. QUOI ?",
         "view_count": 15
+      }
+    },
+    {
+      "name": "kekew02",
+      "clips": 4,
+      "total_views": 17,
+      "best_clip": {
+        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
+        "title": "La queue robuste",
+        "view_count": 10
       }
     },
     {
@@ -243,7 +263,7 @@
     {
       "name": "sunnyhaze69",
       "clips": 3,
-      "total_views": 64,
+      "total_views": 65,
       "best_clip": {
         "id": "TsundereCuriousMagpieBloodTrail-utJSl7nU17s_MFo6",
         "title": "LA SNCF",
@@ -251,13 +271,23 @@
       }
     },
     {
+      "name": "virginieopal",
+      "clips": 3,
+      "total_views": 51,
+      "best_clip": {
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 28
+      }
+    },
+    {
       "name": "PtitMiki_",
       "clips": 3,
-      "total_views": 35,
+      "total_views": 46,
       "best_clip": {
         "id": "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN",
         "title": "Humus uwu ouhhh mouss",
-        "view_count": 20
+        "view_count": 22
       }
     },
     {
@@ -267,16 +297,6 @@
       "best_clip": {
         "id": "AssiduousCourageousHumanVoteNay-e-hX6vv2BpDJnCFo",
         "title": "Toc toc toc",
-        "view_count": 9
-      }
-    },
-    {
-      "name": "kekew02",
-      "clips": 3,
-      "total_views": 15,
-      "best_clip": {
-        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
-        "title": "La queue robuste",
         "view_count": 9
       }
     },
@@ -313,11 +333,11 @@
     {
       "name": "DragonoZelos",
       "clips": 2,
-      "total_views": 114,
+      "total_views": 115,
       "best_clip": {
         "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
         "title": "Pardon ?",
-        "view_count": 78
+        "view_count": 79
       }
     },
     {
@@ -333,11 +353,21 @@
     {
       "name": "Natsukyaa",
       "clips": 2,
-      "total_views": 54,
+      "total_views": 57,
       "best_clip": {
         "id": "DullEvilHamsterAllenHuhu-Elfpg4T72bWTa5Gp",
         "title": "Merci Océane !!!!",
-        "view_count": 45
+        "view_count": 48
+      }
+    },
+    {
+      "name": "sieeteee7",
+      "clips": 2,
+      "total_views": 51,
+      "best_clip": {
+        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
+        "title": "je suis boucheuu bée",
+        "view_count": 31
       }
     },
     {
@@ -348,26 +378,6 @@
         "id": "EncouragingBlatantWasabiOSfrog-mYpQLHrYzcA6FCGX",
         "title": "WzBot CLIP | BONSOIR RETAAARD ✨ | !discord !insta !inkonbini (by kriiofeu)",
         "view_count": 46
-      }
-    },
-    {
-      "name": "sieeteee7",
-      "clips": 2,
-      "total_views": 44,
-      "best_clip": {
-        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
-        "title": "je suis boucheuu bée",
-        "view_count": 28
-      }
-    },
-    {
-      "name": "virginieopal",
-      "clips": 2,
-      "total_views": 44,
-      "best_clip": {
-        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
-        "title": "le rêve",
-        "view_count": 27
       }
     },
     {
@@ -401,6 +411,16 @@
       }
     },
     {
+      "name": "sassa53",
+      "clips": 2,
+      "total_views": 11,
+      "best_clip": {
+        "id": "LachrymoseHelplessMooseDeIlluminati-lBnfqHImf7-rA_Kt",
+        "title": "ils lui chient a la gueule 😂",
+        "view_count": 10
+      }
+    },
+    {
       "name": "nao_playgaming",
       "clips": 2,
       "total_views": 8,
@@ -411,13 +431,13 @@
       }
     },
     {
-      "name": "flofloria9",
+      "name": "nanacrossing_",
       "clips": 2,
-      "total_views": 7,
+      "total_views": 5,
       "best_clip": {
-        "id": "ProtectiveBitterCucumberNerfRedBlaster-mKbTPj7tMYD9Nfe0",
-        "title": "Une pendule ? 🤣",
-        "view_count": 5
+        "id": "RacyUninterestedDillOSfrog-0fYxVkksskBvaZfK",
+        "title": "WzBot CLIP | Découverte de Mazey Village en avant première ✨ | !discord !insta (by nanacrossing_)",
+        "view_count": 3
       }
     },
     {
@@ -491,6 +511,16 @@
       }
     },
     {
+      "name": "Ti_Ch0u",
+      "clips": 1,
+      "total_views": 3,
+      "best_clip": {
+        "id": "SingleRoughDelicataOneHand-v6h5HQAbVZ228En1",
+        "title": "Baguette confond les litres et une voiture !",
+        "view_count": 3
+      }
+    },
+    {
       "name": "aktinidia_k",
       "clips": 1,
       "total_views": 3,
@@ -551,12 +581,12 @@
       }
     },
     {
-      "name": "Ti_Ch0u",
+      "name": "naroutrou2petederoro",
       "clips": 1,
       "total_views": 1,
       "best_clip": {
-        "id": "SingleRoughDelicataOneHand-v6h5HQAbVZ228En1",
-        "title": "Baguette confond les litres et une voiture !",
+        "id": "JoyousKathishTitanLeeroyJenkins-bcRZp_m5HXHUNNl1",
+        "title": "😂",
         "view_count": 1
       }
     },
@@ -571,6 +601,6 @@
       }
     }
   ],
-  "total_clips": 274,
-  "updated_at": "2026-08-01T07:38:44Z"
+  "total_clips": 288,
+  "updated_at": "2026-08-03T08:43:36Z"
 }
