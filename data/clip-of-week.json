@@ -1,52 +1,52 @@
 {
-  "week": "2026-W32",
+  "week": "2026-W33",
   "finalists": [
     {
-      "id": "FreezingKnottySquirrelDBstyle-t7yT12a16FDIPXH6",
-      "title": "des miel quoi ???",
-      "creator_name": "sieeteee7",
+      "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
+      "title": "Baguette Grande ?",
+      "creator_name": "flofloria9",
+      "view_count": 135,
+      "created_at": "2026-08-02T20:40:40Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9adcaa28-74af-4a7c-9643-78720ccb4fdb/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "StrongAliveBillWutFace-NTBpEZyAzbVjysYR",
+      "title": "Un rire vraimeeeennntttt",
+      "creator_name": "flofloria9",
       "view_count": 16,
-      "created_at": "2026-07-29T20:02:07Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/d68828d1-5f82-4140-aca3-2e7d910a1308/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "created_at": "2026-08-02T20:23:37Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3dbc8a1c-0097-4507-90e6-39e5e00ab9fc/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
-      "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
-      "title": "Le cailloux dans mon ...",
-      "creator_name": "PtitMiki_",
-      "view_count": 15,
-      "created_at": "2026-07-31T20:01:20Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4c36dd28-5570-43d1-9f9b-89e9062de6ca/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "id": "PhilanthropicJazzyPuppyImGlitch-z3x7k4NNzpvQPKl9",
+      "title": "claquage de c*l",
+      "creator_name": "virginieopal",
+      "view_count": 14,
+      "created_at": "2026-08-03T21:04:16Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3ea511e1-b235-4478-87e6-f84634d01715/landscape/thumb/thumb-0000000000-480x272.jpg"
     },
     {
-      "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
-      "title": "Twerker sur la bouse",
-      "creator_name": "Mimie_chan",
+      "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+      "title": "ohhh les boules !!!!!!!",
+      "creator_name": "Teph_woot_woot",
       "view_count": 13,
-      "created_at": "2026-07-29T20:25:58Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/1583e028-a4df-4596-9969-d74a1270f6d2/landscape/thumb/thumb-0000000000-480x272.jpg"
-    },
-    {
-      "id": "FilthySincereWebHassanChop-XQ9WydMXDAo7bbOv",
-      "title": "\"Arrêtez, vous allez tous me péter ! \"",
-      "creator_name": "Mimie_chan",
-      "view_count": 12,
-      "created_at": "2026-07-29T19:06:36Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/8c26d89c-ef37-4ead-a46a-91aa43248b84/landscape/thumb/thumb-0000000000-480x272.jpg"
+      "created_at": "2026-08-07T23:07:24Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/3cb25760-40cf-43e1-a196-ce8030756439/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
   "winner": {
-    "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
-    "title": "je suis boucheuu bée",
+    "id": "FreezingKnottySquirrelDBstyle-t7yT12a16FDIPXH6",
+    "title": "des miel quoi ???",
     "creator_name": "sieeteee7",
-    "view_count": 20,
-    "created_at": "2026-07-22T20:39:43Z",
-    "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/b2e127cc-4861-49d4-9359-d0fe9658bc64/landscape/thumb/thumb-0000000000-480x272.jpg"
+    "view_count": 16,
+    "created_at": "2026-07-29T20:02:07Z",
+    "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/d68828d1-5f82-4140-aca3-2e7d910a1308/landscape/thumb/thumb-0000000000-480x272.jpg"
   },
   "votes": {
-    "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80": 8,
-    "ArbitraryDepressedStarlingNotATK-8BL0iKYgYEVXWzQN": 4,
-    "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD": 0,
-    "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE": 4
+    "FreezingKnottySquirrelDBstyle-t7yT12a16FDIPXH6": 13,
+    "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW": 4,
+    "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm": 6,
+    "FilthySincereWebHassanChop-XQ9WydMXDAo7bbOv": 1
   },
-  "updated_at": "2026-08-02T18:42:43Z"
+  "updated_at": "2026-08-09T18:14:18Z"
 }
