@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "Barbouy",
-      "clips": 24,
-      "total_views": 423,
+      "clips": 23,
+      "total_views": 418,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
@@ -12,8 +12,8 @@
     },
     {
       "name": "france_bb",
-      "clips": 19,
-      "total_views": 85,
+      "clips": 20,
+      "total_views": 90,
       "best_clip": {
         "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
         "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
@@ -42,8 +42,8 @@
     },
     {
       "name": "alizee_ngs",
-      "clips": 15,
-      "total_views": 115,
+      "clips": 16,
+      "total_views": 118,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -72,8 +72,8 @@
     },
     {
       "name": "poketicyt",
-      "clips": 11,
-      "total_views": 61,
+      "clips": 12,
+      "total_views": 66,
       "best_clip": {
         "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
         "title": "Ca restera dans quoi ?",
@@ -101,16 +101,6 @@
       }
     },
     {
-      "name": "sanaross",
-      "clips": 8,
-      "total_views": 38,
-      "best_clip": {
-        "id": "JazzyAssiduousWoodpeckerNerfBlueBlaster-hMNwqFuGsTVQo_hd",
-        "title": "WzBot CLIP | Cooking with Baguette (en duo) volume 3 - SPÉCIAL NOEL 🎄✨ (by sanaross)",
-        "view_count": 9
-      }
-    },
-    {
       "name": "oceane0510",
       "clips": 7,
       "total_views": 89,
@@ -131,6 +121,16 @@
       }
     },
     {
+      "name": "sanaross",
+      "clips": 7,
+      "total_views": 33,
+      "best_clip": {
+        "id": "JazzyAssiduousWoodpeckerNerfBlueBlaster-hMNwqFuGsTVQo_hd",
+        "title": "WzBot CLIP | Cooking with Baguette (en duo) volume 3 - SPÉCIAL NOEL 🎄✨ (by sanaross)",
+        "view_count": 9
+      }
+    },
+    {
       "name": "kyuwha",
       "clips": 7,
       "total_views": 24,
@@ -143,11 +143,11 @@
     {
       "name": "Mimie_chan",
       "clips": 6,
-      "total_views": 58,
+      "total_views": 62,
       "best_clip": {
         "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
         "title": "Twerker sur la bouse",
-        "view_count": 21
+        "view_count": 22
       }
     },
     {
@@ -173,11 +173,11 @@
     {
       "name": "flofloria9",
       "clips": 5,
-      "total_views": 153,
+      "total_views": 164,
       "best_clip": {
         "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
         "title": "Baguette Grande ?",
-        "view_count": 128
+        "view_count": 135
       }
     },
     {
@@ -211,6 +211,16 @@
       }
     },
     {
+      "name": "Antz_Virtual",
+      "clips": 5,
+      "total_views": 29,
+      "best_clip": {
+        "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
+        "title": "1 2 3.. QUOI ?",
+        "view_count": 15
+      }
+    },
+    {
       "name": "WizeBot",
       "clips": 4,
       "total_views": 76,
@@ -223,21 +233,11 @@
     {
       "name": "virginieopal",
       "clips": 4,
-      "total_views": 67,
+      "total_views": 68,
       "best_clip": {
         "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
         "title": "le rêve",
         "view_count": 28
-      }
-    },
-    {
-      "name": "Antz_Virtual",
-      "clips": 4,
-      "total_views": 27,
-      "best_clip": {
-        "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
-        "title": "1 2 3.. QUOI ?",
-        "view_count": 15
       }
     },
     {
@@ -273,11 +273,11 @@
     {
       "name": "PtitMiki_",
       "clips": 3,
-      "total_views": 50,
+      "total_views": 51,
       "best_clip": {
         "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
         "title": "Le cailloux dans mon ...",
-        "view_count": 23
+        "view_count": 24
       }
     },
     {
@@ -291,9 +291,19 @@
       }
     },
     {
+      "name": "eles_7",
+      "clips": 3,
+      "total_views": 16,
+      "best_clip": {
+        "id": "LightThankfulDolphinShadyLulu-aqS5vo7Ifm1iWah5",
+        "title": "WzBot CLIP | La chasse aux vieilles reprend de plus belle ✨ | !discord !insta (by eles_7)",
+        "view_count": 6
+      }
+    },
+    {
       "name": "kekew02",
       "clips": 3,
-      "total_views": 14,
+      "total_views": 15,
       "best_clip": {
         "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
         "title": "La queue robuste",
@@ -311,16 +321,6 @@
       }
     },
     {
-      "name": "Sanaross",
-      "clips": 3,
-      "total_views": 13,
-      "best_clip": {
-        "id": "ImpossibleCallousGullUnSane-eew34xeNAsiEFi-s",
-        "title": "Bim dans ma gueule...",
-        "view_count": 9
-      }
-    },
-    {
       "name": "Maxime_pr",
       "clips": 3,
       "total_views": 12,
@@ -328,6 +328,16 @@
         "id": "DullPolishedSkunkThisIsSparta-l64_npO7TGFCCyS9",
         "title": "POV : tu croises le fou du bus",
         "view_count": 8
+      }
+    },
+    {
+      "name": "nanacrossing_",
+      "clips": 3,
+      "total_views": 11,
+      "best_clip": {
+        "id": "ScrumptiousNimbleBulgogiDeIlluminati-AejIxZskKw_d3_Zc",
+        "title": "WzBot CLIP | Découverte du DLC POKEMON POKOPIA ce soir ✨ | !discord !insta (by nanacrossing_)",
+        "view_count": 5
       }
     },
     {
@@ -373,7 +383,7 @@
     {
       "name": "sieeteee7",
       "clips": 2,
-      "total_views": 58,
+      "total_views": 59,
       "best_clip": {
         "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
         "title": "je suis boucheuu bée",
@@ -411,33 +421,43 @@
       }
     },
     {
-      "name": "eles_7",
+      "name": "Teph_woot_woot",
+      "clips": 2,
+      "total_views": 18,
+      "best_clip": {
+        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+        "title": "ohhh les boules !!!!!!!",
+        "view_count": 12
+      }
+    },
+    {
+      "name": "legrandmicrobe",
+      "clips": 2,
+      "total_views": 14,
+      "best_clip": {
+        "id": "ThirstyDarkFlyDuDudu-R1qy22ilPi32POUP",
+        "title": "à tous mes collegues #love",
+        "view_count": 8
+      }
+    },
+    {
+      "name": "Sanaross",
       "clips": 2,
       "total_views": 11,
       "best_clip": {
-        "id": "LightThankfulDolphinShadyLulu-aqS5vo7Ifm1iWah5",
-        "title": "WzBot CLIP | La chasse aux vieilles reprend de plus belle ✨ | !discord !insta (by eles_7)",
-        "view_count": 6
+        "id": "ImpossibleCallousGullUnSane-eew34xeNAsiEFi-s",
+        "title": "Bim dans ma gueule...",
+        "view_count": 9
       }
     },
     {
       "name": "nao_playgaming",
       "clips": 2,
-      "total_views": 8,
+      "total_views": 9,
       "best_clip": {
         "id": "ProtectiveDepressedChipmunkTTours-iME-2yjBUwSnWs9M",
         "title": "WzBot CLIP | Clim installée dans la boulange, viens te rafraîchir ✨ | !Japhy !discor (by nao_playgaming)",
         "view_count": 5
-      }
-    },
-    {
-      "name": "nanacrossing_",
-      "clips": 2,
-      "total_views": 5,
-      "best_clip": {
-        "id": "RacyUninterestedDillOSfrog-0fYxVkksskBvaZfK",
-        "title": "WzBot CLIP | Découverte de Mazey Village en avant première ✨ | !discord !insta (by nanacrossing_)",
-        "view_count": 3
       }
     },
     {
@@ -488,16 +508,6 @@
         "id": "RudeLitigiousScorpionTBTacoLeft-RhvkGkKOKLsfJe0V",
         "title": "pop",
         "view_count": 10
-      }
-    },
-    {
-      "name": "legrandmicrobe",
-      "clips": 1,
-      "total_views": 8,
-      "best_clip": {
-        "id": "ThirstyDarkFlyDuDudu-R1qy22ilPi32POUP",
-        "title": "à tous mes collegues #love",
-        "view_count": 8
       }
     },
     {
@@ -611,6 +621,6 @@
       }
     }
   ],
-  "total_clips": 294,
-  "updated_at": "2026-08-07T06:35:23Z"
+  "total_clips": 300,
+  "updated_at": "2026-08-09T06:02:05Z"
 }
