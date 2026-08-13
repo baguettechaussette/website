@@ -185,19 +185,28 @@ function buildFinalistCard(clip, week, votedKey) {
     btn.className = 'cow-vote-btn';
     btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
     btn.textContent = 'Voter pour ce clip 🥖';
-    btn.addEventListener('click', () => {
-        if (lsGet(votedKey)) return;
-        // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine)
-        if (VOTE_API) {
-            fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' })
-                .catch(() => { /* silencieux */ });
-        }
-        // Umami en parallèle : pour tes stats
-        try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
-        lsSet(votedKey, clip.id);
-        refreshVoteButtons(card.parentElement, clip.id);
+    btn.addEventListener('click', async () => {
+        if (lsGet(votedKey) || btn.disabled) return;
         const status = document.getElementById('cowVoteStatus');
-        if (status) status.textContent = 'Vote enregistré, merci !';
+        // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine).
+        // On ATTEND sa réponse avant de confirmer : un vote perdu (réseau coupé,
+        // worker muet) doit laisser le bouton actif, jamais afficher un faux merci.
+        btn.disabled = true;
+        btn.textContent = 'Envoi…';
+        try {
+            const r = await fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' });
+            const d = await r.json().catch(() => null);
+            if (!r.ok || !d || d.ok !== true) throw new Error();
+            // Umami seulement sur les votes réellement enregistrés
+            try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
+            lsSet(votedKey, clip.id);
+            refreshVoteButtons(card.parentElement, clip.id);
+            if (status) status.textContent = 'Vote enregistré, merci !';
+        } catch {
+            btn.disabled = false;
+            btn.textContent = 'Oups, réessaie 🥖';
+            if (status) status.textContent = 'Le vote n\'a pas pu être enregistré, réessaie.';
+        }
     });
     card.appendChild(btn);
     return card;
