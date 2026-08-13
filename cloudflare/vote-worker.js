@@ -3,7 +3,8 @@
 //  Déploiement : voir cloudflare/README.md (5 minutes)
 //
 //  Endpoints publics :
-//    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
+//    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine,
+//                                    refusé si le clip n'est pas finaliste)
 //    GET  /turnout/<semaine>         -> {"count": N} (total seul)
 //  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
 //
@@ -102,6 +103,21 @@ async function fetchClipOfWeek() {
         if (!best || String(d.updated_at || "") > String(best.updated_at || "")) best = d;
     }
     return best;
+}
+
+// Cache mémoire (par isolate) de l'état du vote, pour valider les votes sans
+// re-fetcher GitHub à chaque requête. 5 min de TTL : la liste des finalistes
+// est figée toute la semaine, seule la rotation du dimanche la change. Un
+// échec de lecture est aussi mis en cache (data: null) : un flood de votes ne
+// doit pas se transformer en flood de fetchs vers GitHub.
+let cowCache = { data: null, at: 0 };
+
+async function cachedClipOfWeek() {
+    const now = Date.now();
+    if (now - cowCache.at < 5 * 60 * 1000) return cowCache.data;
+    const data = await fetchClipOfWeek();
+    cowCache = { data, at: now };
+    return data;
 }
 
 // Échappement HTML : les titres de clips sont écrits par les viewers.
@@ -234,6 +250,20 @@ export default {
             const clipId = decodeURIComponent(m[2]);
             if (!WEEK_RE.test(week)) return json({ ok: false, error: "bad week" }, cors, 400);
             if (!CLIP_RE.test(clipId)) return json({ ok: false, error: "bad clip" }, cors, 400);
+
+            // Anti-bourrage : seul un FINALISTE de la semaine affichée peut
+            // recevoir un vote (protège le quota d'écritures KV et la sincérité
+            // du compteur /turnout). Si l'état du site est illisible ou concerne
+            // une autre semaine (fenêtre de rotation, caches CDN en retard), on
+            // laisse passer : mieux vaut un vote superflu qu'un vote légitime
+            // refusé — le dépouillement ne compte de toute façon que les votes
+            // portant sur un finaliste réel.
+            const cow = await cachedClipOfWeek();
+            if (cow && cow.week === week) {
+                const isFinalist = (Array.isArray(cow.finalists) ? cow.finalists : [])
+                    .some(f => f && f.id === clipId);
+                if (!isFinalist) return json({ ok: false, error: "not a finalist" }, cors, 400);
+            }
 
             const ip = request.headers.get("CF-Connecting-IP") || "0.0.0.0";
             const hash = await ipHash(ip, week, env.SALT || "petit-pain");
