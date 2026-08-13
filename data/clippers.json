@@ -3,11 +3,11 @@
     {
       "name": "Barbouy",
       "clips": 23,
-      "total_views": 418,
+      "total_views": 419,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
-        "view_count": 107
+        "view_count": 108
       }
     },
     {
@@ -33,7 +33,7 @@
     {
       "name": "gwendo05062020",
       "clips": 17,
-      "total_views": 146,
+      "total_views": 149,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -63,11 +63,11 @@
     {
       "name": "legrandmicrobe",
       "clips": 13,
-      "total_views": 119,
+      "total_views": 147,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
-        "view_count": 24
+        "view_count": 33
       }
     },
     {
@@ -103,11 +103,11 @@
     {
       "name": "Hiimaxou",
       "clips": 9,
-      "total_views": 228,
+      "total_views": 229,
       "best_clip": {
         "id": "ImpossibleZealousPlumBrainSlug-6-iQJokipMsSWHjM",
         "title": "Mattage de baguette en cours",
-        "view_count": 52
+        "view_count": 53
       }
     },
     {
@@ -153,11 +153,11 @@
     {
       "name": "flofloria9",
       "clips": 6,
-      "total_views": 175,
+      "total_views": 176,
       "best_clip": {
         "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
         "title": "Baguette Grande ?",
-        "view_count": 139
+        "view_count": 140
       }
     },
     {
@@ -223,11 +223,11 @@
     {
       "name": "WizeBot",
       "clips": 4,
-      "total_views": 76,
+      "total_views": 77,
       "best_clip": {
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
-        "view_count": 55
+        "view_count": 56
       }
     },
     {
@@ -238,6 +238,16 @@
         "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
         "title": "le rêve",
         "view_count": 28
+      }
+    },
+    {
+      "name": "Teph_woot_woot",
+      "clips": 4,
+      "total_views": 42,
+      "best_clip": {
+        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+        "title": "ohhh les boules !!!!!!!",
+        "view_count": 19
       }
     },
     {
@@ -253,41 +263,31 @@
     {
       "name": "Ti_Ch0u",
       "clips": 4,
-      "total_views": 8,
+      "total_views": 9,
       "best_clip": {
-        "id": "SingleRoughDelicataOneHand-v6h5HQAbVZ228En1",
-        "title": "Baguette confond les litres et une voiture !",
+        "id": "WrongPeacefulRhinocerosSmoocherZ-EBTwrx39IE6Gxct0",
+        "title": "27 ans et... pas toutes ses dents !",
         "view_count": 3
-      }
-    },
-    {
-      "name": "TinyMariiie",
-      "clips": 4,
-      "total_views": 4,
-      "best_clip": {
-        "id": "GoldenAntsyHumanJebaited-CGR95mkW4znPbpwE",
-        "title": "On se peinturlure la goulasse",
-        "view_count": 1
       }
     },
     {
       "name": "sneakylachemou",
       "clips": 3,
-      "total_views": 80,
+      "total_views": 82,
       "best_clip": {
         "id": "HonorableLachrymoseMelonKAPOW-gDB2_SwUKX-R9WZC",
         "title": "Une rando difficile",
-        "view_count": 40
+        "view_count": 41
       }
     },
     {
       "name": "sunnyhaze69",
       "clips": 3,
-      "total_views": 66,
+      "total_views": 67,
       "best_clip": {
         "id": "TsundereCuriousMagpieBloodTrail-utJSl7nU17s_MFo6",
         "title": "LA SNCF",
-        "view_count": 43
+        "view_count": 44
       }
     },
     {
@@ -298,16 +298,6 @@
         "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
         "title": "Le cailloux dans mon ...",
         "view_count": 24
-      }
-    },
-    {
-      "name": "Teph_woot_woot",
-      "clips": 3,
-      "total_views": 30,
-      "best_clip": {
-        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
-        "title": "ohhh les boules !!!!!!!",
-        "view_count": 16
       }
     },
     {
@@ -381,29 +371,39 @@
       }
     },
     {
+      "name": "TinyMariiie",
+      "clips": 3,
+      "total_views": 3,
+      "best_clip": {
+        "id": "GoldenAntsyHumanJebaited-CGR95mkW4znPbpwE",
+        "title": "On se peinturlure la goulasse",
+        "view_count": 1
+      }
+    },
+    {
       "name": "DragonoZelos",
       "clips": 2,
-      "total_views": 116,
+      "total_views": 118,
       "best_clip": {
         "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
         "title": "Pardon ?",
-        "view_count": 80
+        "view_count": 81
       }
     },
     {
       "name": "Ryzser22",
       "clips": 2,
-      "total_views": 106,
+      "total_views": 108,
       "best_clip": {
         "id": "OriginalOilyOrcaDerp-M5oRiR5cvN49DGsk",
         "title": "Baguette le cowboy",
-        "view_count": 66
+        "view_count": 67
       }
     },
     {
       "name": "sieeteee7",
       "clips": 2,
-      "total_views": 61,
+      "total_views": 62,
       "best_clip": {
         "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
         "title": "je suis boucheuu bée",
@@ -413,21 +413,21 @@
     {
       "name": "Natsukyaa",
       "clips": 2,
-      "total_views": 60,
+      "total_views": 61,
       "best_clip": {
         "id": "DullEvilHamsterAllenHuhu-Elfpg4T72bWTa5Gp",
         "title": "Merci Océane !!!!",
-        "view_count": 51
+        "view_count": 52
       }
     },
     {
       "name": "kriiofeu",
       "clips": 2,
-      "total_views": 47,
+      "total_views": 48,
       "best_clip": {
         "id": "EncouragingBlatantWasabiOSfrog-mYpQLHrYzcA6FCGX",
         "title": "WzBot CLIP | BONSOIR RETAAARD ✨ | !discord !insta !inkonbini (by kriiofeu)",
-        "view_count": 46
+        "view_count": 47
       }
     },
     {
@@ -632,5 +632,5 @@
     }
   ],
   "total_clips": 321,
-  "updated_at": "2026-08-11T06:07:16Z"
+  "updated_at": "2026-08-13T06:50:19Z"
 }
