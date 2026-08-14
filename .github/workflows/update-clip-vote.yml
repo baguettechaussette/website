@@ -5,7 +5,10 @@ name: Update clip of the week (vote)
 # l'heure nominale du cron, finalistes figés pendant la semaine de vote,
 # gagnant archivé dans data/hall-of-fame.json. Lundi et mercredi : filets de
 # sécurité + purge des clips supprimés de Twitch. Run manuel : bootstrap ou
-# rattrapage ; override possible (input = ID d'un finaliste).
+# rattrapage ; override possible (input winner = ID d'un finaliste) ;
+# disqualification possible (input disqualify = ID d'un finaliste, remplacé
+# par le premier clip du banc — le top 8 de la fenêtre est gardé : 4
+# finalistes affichés + 4 remplaçants dans le champ bench, ignoré du site).
 on:
   schedule:
     # NB : l'heure du cron du dimanche est AUSSI la frontière de la fenêtre
@@ -17,6 +20,10 @@ on:
     inputs:
       winner:
         description: "Override : ID du clip gagnant (laisser vide = dépouillement auto par les votes)."
+        required: false
+        type: string
+      disqualify:
+        description: "Disqualifier : ID d'un finaliste en place (remplacé par le premier clip du banc)."
         required: false
         type: string
 
@@ -63,6 +70,7 @@ jobs:
       - name: Dépouille le vote et prépare la semaine suivante
         env:
           MANUAL_WINNER: ${{ github.event.inputs.winner }}
+          MANUAL_DISQ: ${{ github.event.inputs.disqualify }}
           # URL du Worker Cloudflare (variable de dépôt, ex. https://bc-vote.xxx.workers.dev)
           VOTE_API_URL: ${{ vars.VOTE_API_URL }}
           # /results exige la clé (le décompte en cours n'est pas public)
@@ -73,6 +81,27 @@ jobs:
           WEEK=$(echo "$PREV" | jq -r '.week // empty')
           FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
 
+          # ── Disqualification manuelle d'un finaliste ──
+          # (le dimanche après la révélation, quand un clip n'a rien à y faire).
+          # Le banc fournit le remplaçant : même fenêtre, mêmes règles de tri,
+          # zéro appel API. Run dédié : on ne touche à rien d'autre (exit direct).
+          if [ -n "$MANUAL_DISQ" ]; then
+            if [ "$(echo "$PREV" | jq --arg id "$MANUAL_DISQ" '[(.finalists // [])[] | select(.id == $id)] | length')" -eq 0 ]; then
+              echo "::error title=Disqualification invalide::$MANUAL_DISQ n'est pas un finaliste en place, rien n'est modifié."
+              exit 1
+            fi
+            echo "$PREV" | jq --arg id "$MANUAL_DISQ" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              '.finalists = ([(.finalists // [])[] | select(.id != $id)] + ((.bench // [])[0:1]))
+               | .bench = ((.bench // [])[1:])
+               | .updated_at = $now' > data/clip-of-week.json
+            N=$(jq '.finalists | length' data/clip-of-week.json)
+            echo "🚫 $MANUAL_DISQ disqualifié. Finalistes : $N, banc restant : $(jq '(.bench // []) | length' data/clip-of-week.json)."
+            if [ "$N" -lt 2 ]; then
+              echo "::warning title=Moins de 2 finalistes::Le site masque le vote sous 2 finalistes."
+            fi
+            exit 0
+          fi
+
           # ── 0. Purge : finaliste ou gagnant supprimé de Twitch ──
           # Un clip supprimé casse la vignette et l'embed : on le retire du vote
           # (et du palmarès), et ses votes sont ignorés au dépouillement puisque
@@ -80,17 +109,25 @@ jobs:
           # sautée si l'API ne répond pas (on ne vide jamais sur un doute).
           WINNER_ID=$(echo "$PREV" | jq -r '.winner.id // empty')
           if [ "$FCOUNT" -gt 0 ] || [ -n "$WINNER_ID" ]; then
-            QS=$(echo "$PREV" | jq -r '([(.finalists // [])[].id] + [.winner.id // empty]) | unique | map("id=" + .) | join("&")')
+            QS=$(echo "$PREV" | jq -r '([(.finalists // [])[].id] + [(.bench // [])[].id] + [.winner.id // empty]) | unique | map("id=" + .) | join("&")')
             PRESP=$(curl -sS \
               -H "Client-Id: $TWITCH_CLIENT_ID" \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
               "https://api.twitch.tv/helix/clips?$QS" || echo '')
             if echo "$PRESP" | jq -e '.data' >/dev/null 2>&1; then
               ALIVE=$(echo "$PRESP" | jq -c '[.data[].id]')
+              # Un finaliste purgé est remplacé par le premier clip vivant du
+              # banc : jamais de trou dans le vote tant que le banc en a.
               PRUNED=$(echo "$PREV" | jq -c --argjson alive "$ALIVE" \
                 '.finalists = [(.finalists // [])[] | select(.id as $i | $alive | index($i))]
+                 | .bench = [(.bench // [])[] | select(.id as $i | $alive | index($i))]
+                 | ([4 - (.finalists | length), 0] | max) as $need
+                 | .finalists = .finalists + .bench[0:$need]
+                 | .bench = .bench[$need:]
                  | .winner = (if (.winner | not) or ((.winner.id as $i | $alive | index($i))) then .winner else null end)')
-              if [ "$PRUNED" != "$(echo "$PREV" | jq -c .)" ]; then
+              # (.bench //= [] : un fichier d'avant le banc ne doit pas passer
+              # pour "purgé" juste parce que la purge ajoute le champ)
+              if [ "$PRUNED" != "$(echo "$PREV" | jq -c '.bench //= []')" ]; then
                 echo "::warning title=Clip supprimé de Twitch::Retiré du vote ou du palmarès (vignette et lecture cassées sinon)."
                 PREV="$PRUNED"
                 FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
@@ -223,6 +260,7 @@ jobs:
           if [ "$WEEK" = "$NEXT_WEEK" ] && [ "$FCOUNT" -ge 2 ]; then
             echo "ℹ️ Finalistes de $NEXT_WEEK déjà figés : conservés tels quels (protège les votes en cours)."
             FIN=$(echo "$PREV" | jq -c '.finalists')
+            BENCH=$(echo "$PREV" | jq -c '.bench // []')
           else
 
           ADOW=$(date -u -d "$ANCHOR" +%u)                              # 1=lun .. 7=dim
@@ -245,12 +283,14 @@ jobs:
 
           # On privilégie les clips des viewers ; les clips du streamer ne
           # complètent la liste que s'il n'y a pas assez de clips communautaires
-          # pour remplir les 4 places (Twitch renvoie déjà trié par vues desc).
+          # pour remplir les places (Twitch renvoie déjà trié par vues desc).
+          # Top 8 gardé : les 4 premiers votent, les 4 suivants forment le banc
+          # des remplaçants (disqualification ou clip supprimé de Twitch).
           FIN=$(echo "$RESP" | jq -c \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
              [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: ((clipper | ascii_downcase) == "baguettechaussette")}]
-             | (map(select(.own | not)) + map(select(.own)))[0:4]
+             | (map(select(.own | not)) + map(select(.own)))[0:8]
              | map(del(.own))')
 
           # Semaine creuse (moins de 2 clips) : on repart des clips du mois, avec
@@ -267,19 +307,23 @@ jobs:
                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                [(.clips // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: (((clipper // "") | ascii_downcase) == "baguettechaussette")}]
                | sort_by(-(.view_count // 0))
-               | (map(select(.own | not)) + map(select(.own)))[0:4]
+               | (map(select(.own | not)) + map(select(.own)))[0:8]
                | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
           fi
 
+          # Scission du top 8 : 4 finalistes affichés, le reste au banc
+          BENCH=$(echo "$FIN" | jq -c '.[4:8]')
+          FIN=$(echo "$FIN" | jq -c '.[0:4]')
+
           fi  # fin du bloc "finalistes à recalculer"
 
           jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            --argjson finalists "$FIN" --argjson winner "$WINNER" --argjson votes "$VOTES" \
-            '{week: $week, finalists: $finalists, winner: $winner, votes: $votes, updated_at: $now}' \
+            --argjson finalists "$FIN" --argjson bench "$BENCH" --argjson winner "$WINNER" --argjson votes "$VOTES" \
+            '{week: $week, finalists: $finalists, bench: $bench, winner: $winner, votes: $votes, updated_at: $now}' \
             > data/clip-of-week.json
 
-          echo "✅ Semaine $NEXT_WEEK : $(echo "$FIN" | jq 'length') finalistes"
+          echo "✅ Semaine $NEXT_WEEK : $(echo "$FIN" | jq 'length') finalistes, $(echo "$BENCH" | jq 'length') au banc"
 
       - name: Commit if changed
         run: |
