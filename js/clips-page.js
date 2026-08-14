@@ -166,7 +166,6 @@ async function loadClipOfWeek() {
                 if (data.winner.creator_name) {
                     info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
                 }
-                info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains au live du dimanche'));
                 card.appendChild(info);
                 winnerBox.appendChild(card);
             } else {

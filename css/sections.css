@@ -454,9 +454,13 @@
     margin-bottom: 6px;
 }
 
+/* Le clippeur est la star de la carte gagnant : plus gros et doré */
 .cow-winner-card .clip-clipper {
-    margin: 0 0 8px;
+    margin: 0;
     text-align: left;
+    font-size: 1em;
+    font-weight: 700;
+    color: #c9902e;
 }
 
 .cow-winner-sub {
