@@ -152,19 +152,28 @@ async function loadClipOfWeek() {
             showTurnout(week, voteHeading);
         }
 
-        // Puis le palmarès : le clip élu la semaine dernière
+        // Puis le palmarès : le clip élu la semaine dernière — mais seulement
+        // une fois la révélation faite (clic sur le board pendant le live du
+        // dimanche, ou filet du lundi). Avant : un teaser, pour que personne
+        // ne voie le gagnant sur le site avant la cérémonie de 21h.
         if (data.winner && data.winner.id) {
-            winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
-            const card = makeEl('div', 'cow-winner-card');
-            card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
-            const info = makeEl('div', 'cow-winner-info');
-            info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
-            if (data.winner.creator_name) {
-                info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
+            if (await isWinnerRevealed(week)) {
+                winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
+                const card = makeEl('div', 'cow-winner-card');
+                card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
+                const info = makeEl('div', 'cow-winner-info');
+                info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
+                if (data.winner.creator_name) {
+                    info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
+                }
+                info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains au live du dimanche'));
+                card.appendChild(info);
+                winnerBox.appendChild(card);
+            } else {
+                winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le gagnant est dans la boîte…'));
+                winnerBox.appendChild(makeEl('p', 'cow-winner-sub',
+                    'Les votes sont dépouillés ! Révélation en live dimanche à 21h, suspense 🥖'));
             }
-            info.appendChild(makeEl('p', 'cow-winner-sub', 'Élu par les p\'tits pains au live du dimanche'));
-            card.appendChild(info);
-            winnerBox.appendChild(card);
             winnerBox.hidden = false;
         }
 
@@ -210,6 +219,20 @@ function buildFinalistCard(clip, week, votedKey) {
     });
     card.appendChild(btn);
     return card;
+}
+
+// Le bloc gagnant n'apparaît qu'après la révélation en live (marqueur posé
+// par le worker au clic d'annonce du board). Fail-closed volontaire : si le
+// worker est muet, on ne révèle PAS (le teaser reste) — un spoiler raté est
+// pire qu'un affichage retardé.
+async function isWinnerRevealed(week) {
+    if (!VOTE_API || !week) return false;
+    try {
+        const r = await fetch(`${VOTE_API}/revealed/${encodeURIComponent(week)}`);
+        if (!r.ok) return false;
+        const d = await r.json();
+        return d && d.revealed === true;
+    } catch { return false; }
 }
 
 // Participation affichée sous le titre du vote : uniquement le TOTAL de

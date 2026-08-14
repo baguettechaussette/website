@@ -6,6 +6,8 @@
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine,
 //                                    refusé si le clip n'est pas finaliste)
 //    GET  /turnout/<semaine>         -> {"count": N} (total seul)
+//    GET  /revealed/<semaine>        -> {"revealed": bool} : le site n'affiche
+//                                    le gagnant qu'après la révélation en live
 //  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
@@ -161,10 +163,10 @@ function boardHtml(data, votes, announced) {
     if (data && data.winner && data.winner.id) {
         const btn = announced
             ? `<button class="announce" disabled>Annonce Discord déjà envoyée ✔</button>`
-            : `<button class="announce" id="announceBtn">📣 Envoyer l'annonce Discord</button>
+            : `<button class="announce" id="announceBtn">📣 Révéler sur le site + annoncer sur Discord</button>
                <script>
                  document.getElementById("announceBtn").addEventListener("click", async (e) => {
-                   if (!confirm("Envoyer l'annonce du gagnant sur Discord ?")) return;
+                   if (!confirm("Révéler le gagnant sur le site et l'annoncer sur Discord ?")) return;
                    const b = e.target;
                    b.disabled = true; b.textContent = "Envoi…";
                    try {
@@ -337,6 +339,14 @@ export default {
             if (!CLIP_RE.test(w.id)) {
                 return json({ ok: false, error: "id de clip invalide dans le fichier du site" }, cors, 500);
             }
+            // Révélation : le clic d'annonce est AUSSI le feu vert d'affichage
+            // du gagnant sur le site (voir GET /revealed). Posé AVANT l'envoi
+            // Discord et avant le garde anti-doublon : un re-clic après un
+            // échec Discord, ou un filet qui tombe sur le 409, doivent quand
+            // même révéler. 30 jours : couvre la semaine d'affichage.
+            try {
+                await env.VOTES.put(`revealed:${data.week}`, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+            } catch { /* KV muet : le prochain clic ou filet réessaiera */ }
             const marker = `announced:${data.week}:${w.id}`;
             if (url.searchParams.get("force") !== "1" && await env.VOTES.get(marker)) {
                 return json({ ok: false, error: "annonce déjà envoyée pour ce gagnant" }, cors, 409);
@@ -389,6 +399,29 @@ export default {
             const votes = await tallyWeek(env, week);
             const count = Object.values(votes).reduce((a, b) => a + b, 0);
             const payload = JSON.stringify({ count });
+            await cache.put(cacheKey, new Response(payload, { headers: baseHeaders }));
+            return new Response(payload, { headers: { ...baseHeaders, ...cors } });
+        }
+
+        // ── GET /revealed/<semaine> : le gagnant est-il révélé ? ──
+        // Public : le site cache le bloc gagnant tant que la révélation n'a
+        // pas eu lieu (clic du board pendant le live, ou filet lundi/mercredi).
+        // Ne renvoie qu'un booléen : jamais le gagnant lui-même.
+        m = url.pathname.match(/^\/revealed\/([^/]+)$/);
+        if (request.method === "GET" && m) {
+            const week = m[1];
+            if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
+            // Cache edge 60 s (même pattern que /turnout, CORS hors cache) :
+            // court, pour que la révélation en live apparaisse vite sur le site.
+            const cache = caches.default;
+            const cacheKey = new Request(url.origin + url.pathname);
+            const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" };
+            const hit = await cache.match(cacheKey);
+            if (hit) {
+                return new Response(hit.body, { headers: { ...baseHeaders, ...cors } });
+            }
+            const revealed = Boolean(await env.VOTES.get(`revealed:${week}`));
+            const payload = JSON.stringify({ revealed });
             await cache.put(cacheKey, new Response(payload, { headers: baseHeaders }));
             return new Response(payload, { headers: { ...baseHeaders, ...cors } });
         }
