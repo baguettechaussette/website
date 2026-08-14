@@ -464,6 +464,12 @@
     color: var(--text-secondary);
 }
 
+/* Teaser d'avant-révélation (enfant direct du bloc, sans carte) : centré,
+   contrairement au même texte dans la carte gagnant (aligné à gauche) */
+.cow-winner > .cow-winner-sub {
+    text-align: center;
+}
+
 .cow-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
