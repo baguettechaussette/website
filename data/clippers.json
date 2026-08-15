@@ -1,19 +1,9 @@
 {
   "clippers": [
     {
-      "name": "Barbouy",
-      "clips": 23,
-      "total_views": 419,
-      "best_clip": {
-        "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
-        "title": "Cochon va...",
-        "view_count": 108
-      }
-    },
-    {
       "name": "france_bb",
-      "clips": 22,
-      "total_views": 97,
+      "clips": 24,
+      "total_views": 121,
       "best_clip": {
         "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
         "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
@@ -21,9 +11,19 @@
       }
     },
     {
+      "name": "Barbouy",
+      "clips": 23,
+      "total_views": 421,
+      "best_clip": {
+        "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
+        "title": "Cochon va...",
+        "view_count": 110
+      }
+    },
+    {
       "name": "alizee_ngs",
-      "clips": 18,
-      "total_views": 123,
+      "clips": 20,
+      "total_views": 134,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -33,7 +33,7 @@
     {
       "name": "gwendo05062020",
       "clips": 17,
-      "total_views": 149,
+      "total_views": 150,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -63,11 +63,11 @@
     {
       "name": "legrandmicrobe",
       "clips": 13,
-      "total_views": 147,
+      "total_views": 177,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
-        "view_count": 33
+        "view_count": 41
       }
     },
     {
@@ -153,11 +153,11 @@
     {
       "name": "flofloria9",
       "clips": 6,
-      "total_views": 176,
+      "total_views": 178,
       "best_clip": {
         "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
         "title": "Baguette Grande ?",
-        "view_count": 140
+        "view_count": 141
       }
     },
     {
@@ -201,6 +201,16 @@
       }
     },
     {
+      "name": "Teph_woot_woot",
+      "clips": 5,
+      "total_views": 58,
+      "best_clip": {
+        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+        "title": "ohhh les boules !!!!!!!",
+        "view_count": 21
+      }
+    },
+    {
       "name": "TsukinoArisu",
       "clips": 5,
       "total_views": 36,
@@ -241,16 +251,6 @@
       }
     },
     {
-      "name": "Teph_woot_woot",
-      "clips": 4,
-      "total_views": 42,
-      "best_clip": {
-        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
-        "title": "ohhh les boules !!!!!!!",
-        "view_count": 19
-      }
-    },
-    {
       "name": "Antz_Virtual",
       "clips": 4,
       "total_views": 27,
@@ -261,13 +261,33 @@
       }
     },
     {
+      "name": "kekew02",
+      "clips": 4,
+      "total_views": 18,
+      "best_clip": {
+        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
+        "title": "La queue robuste",
+        "view_count": 10
+      }
+    },
+    {
       "name": "Ti_Ch0u",
       "clips": 4,
-      "total_views": 9,
+      "total_views": 12,
       "best_clip": {
         "id": "WrongPeacefulRhinocerosSmoocherZ-EBTwrx39IE6Gxct0",
         "title": "27 ans et... pas toutes ses dents !",
-        "view_count": 3
+        "view_count": 4
+      }
+    },
+    {
+      "name": "TinyMariiie",
+      "clips": 4,
+      "total_views": 4,
+      "best_clip": {
+        "id": "GoldenAntsyHumanJebaited-CGR95mkW4znPbpwE",
+        "title": "On se peinturlure la goulasse",
+        "view_count": 1
       }
     },
     {
@@ -311,16 +331,6 @@
       }
     },
     {
-      "name": "kekew02",
-      "clips": 3,
-      "total_views": 15,
-      "best_clip": {
-        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
-        "title": "La queue robuste",
-        "view_count": 10
-      }
-    },
-    {
       "name": "sassa53",
       "clips": 3,
       "total_views": 15,
@@ -353,11 +363,11 @@
     {
       "name": "nanacrossing_",
       "clips": 3,
-      "total_views": 11,
+      "total_views": 12,
       "best_clip": {
         "id": "ScrumptiousNimbleBulgogiDeIlluminati-AejIxZskKw_d3_Zc",
         "title": "WzBot CLIP | Découverte du DLC POKEMON POKOPIA ce soir ✨ | !discord !insta (by nanacrossing_)",
-        "view_count": 5
+        "view_count": 6
       }
     },
     {
@@ -368,16 +378,6 @@
         "id": "MistyAlluringDinosaurMcaT-g0ifYQLCZMFtAX94",
         "title": "WzBot CLIP | Nous l'attendions, il est enfin là ! ✨ | !discord !insta (by dylanos564)",
         "view_count": 6
-      }
-    },
-    {
-      "name": "TinyMariiie",
-      "clips": 3,
-      "total_views": 3,
-      "best_clip": {
-        "id": "GoldenAntsyHumanJebaited-CGR95mkW4znPbpwE",
-        "title": "On se peinturlure la goulasse",
-        "view_count": 1
       }
     },
     {
@@ -403,7 +403,7 @@
     {
       "name": "sieeteee7",
       "clips": 2,
-      "total_views": 62,
+      "total_views": 63,
       "best_clip": {
         "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
         "title": "je suis boucheuu bée",
@@ -511,22 +511,22 @@
       }
     },
     {
+      "name": "SajaHyra",
+      "clips": 1,
+      "total_views": 11,
+      "best_clip": {
+        "id": "CrowdedSleepyPineappleUnSane-WQja00dLZ52SERuo",
+        "title": "On a la sa .. cha. sagesse",
+        "view_count": 11
+      }
+    },
+    {
       "name": "CrystalCloud69",
       "clips": 1,
       "total_views": 10,
       "best_clip": {
         "id": "RudeLitigiousScorpionTBTacoLeft-RhvkGkKOKLsfJe0V",
         "title": "pop",
-        "view_count": 10
-      }
-    },
-    {
-      "name": "SajaHyra",
-      "clips": 1,
-      "total_views": 10,
-      "best_clip": {
-        "id": "CrowdedSleepyPineappleUnSane-WQja00dLZ52SERuo",
-        "title": "On a la sa .. cha. sagesse",
         "view_count": 10
       }
     },
@@ -631,6 +631,6 @@
       }
     }
   ],
-  "total_clips": 321,
-  "updated_at": "2026-08-13T06:50:19Z"
+  "total_clips": 328,
+  "updated_at": "2026-08-15T05:44:37Z"
 }
