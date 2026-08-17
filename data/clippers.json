@@ -2,12 +2,22 @@
   "clippers": [
     {
       "name": "france_bb",
-      "clips": 24,
-      "total_views": 121,
+      "clips": 25,
+      "total_views": 123,
       "best_clip": {
         "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
         "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
         "view_count": 15
+      }
+    },
+    {
+      "name": "alizee_ngs",
+      "clips": 24,
+      "total_views": 144,
+      "best_clip": {
+        "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
+        "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
+        "view_count": 31
       }
     },
     {
@@ -21,19 +31,9 @@
       }
     },
     {
-      "name": "alizee_ngs",
-      "clips": 20,
-      "total_views": 134,
-      "best_clip": {
-        "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
-        "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
-        "view_count": 31
-      }
-    },
-    {
       "name": "gwendo05062020",
-      "clips": 17,
-      "total_views": 150,
+      "clips": 18,
+      "total_views": 152,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -62,12 +62,12 @@
     },
     {
       "name": "legrandmicrobe",
-      "clips": 13,
-      "total_views": 177,
+      "clips": 12,
+      "total_views": 188,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
-        "view_count": 41
+        "view_count": 48
       }
     },
     {
@@ -153,11 +153,21 @@
     {
       "name": "flofloria9",
       "clips": 6,
-      "total_views": 178,
+      "total_views": 181,
       "best_clip": {
         "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
         "title": "Baguette Grande ?",
-        "view_count": 141
+        "view_count": 142
+      }
+    },
+    {
+      "name": "Teph_woot_woot",
+      "clips": 6,
+      "total_views": 71,
+      "best_clip": {
+        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+        "title": "ohhh les boules !!!!!!!",
+        "view_count": 26
       }
     },
     {
@@ -191,6 +201,26 @@
       }
     },
     {
+      "name": "morado290",
+      "clips": 6,
+      "total_views": 33,
+      "best_clip": {
+        "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
+        "title": "Gourmand",
+        "view_count": 10
+      }
+    },
+    {
+      "name": "kekew02",
+      "clips": 6,
+      "total_views": 22,
+      "best_clip": {
+        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
+        "title": "La queue robuste",
+        "view_count": 10
+      }
+    },
+    {
       "name": "Omiilia",
       "clips": 5,
       "total_views": 103,
@@ -201,13 +231,13 @@
       }
     },
     {
-      "name": "Teph_woot_woot",
+      "name": "virginieopal",
       "clips": 5,
-      "total_views": 58,
+      "total_views": 74,
       "best_clip": {
-        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
-        "title": "ohhh les boules !!!!!!!",
-        "view_count": 21
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 28
       }
     },
     {
@@ -221,13 +251,13 @@
       }
     },
     {
-      "name": "morado290",
+      "name": "sassa53",
       "clips": 5,
-      "total_views": 31,
+      "total_views": 19,
       "best_clip": {
-        "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
-        "title": "Gourmand",
-        "view_count": 10
+        "id": "LachrymoseHelplessMooseDeIlluminati-lBnfqHImf7-rA_Kt",
+        "title": "ils lui chient a la gueule 😂",
+        "view_count": 13
       }
     },
     {
@@ -241,16 +271,6 @@
       }
     },
     {
-      "name": "virginieopal",
-      "clips": 4,
-      "total_views": 71,
-      "best_clip": {
-        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
-        "title": "le rêve",
-        "view_count": 28
-      }
-    },
-    {
       "name": "Antz_Virtual",
       "clips": 4,
       "total_views": 27,
@@ -258,16 +278,6 @@
         "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
         "title": "1 2 3.. QUOI ?",
         "view_count": 15
-      }
-    },
-    {
-      "name": "kekew02",
-      "clips": 4,
-      "total_views": 18,
-      "best_clip": {
-        "id": "StupidStrongPoultryOhMyDog-V7qjPiJR9NkiHEaG",
-        "title": "La queue robuste",
-        "view_count": 10
       }
     },
     {
@@ -328,16 +338,6 @@
         "id": "AssiduousCourageousHumanVoteNay-e-hX6vv2BpDJnCFo",
         "title": "Toc toc toc",
         "view_count": 9
-      }
-    },
-    {
-      "name": "sassa53",
-      "clips": 3,
-      "total_views": 15,
-      "best_clip": {
-        "id": "LachrymoseHelplessMooseDeIlluminati-lBnfqHImf7-rA_Kt",
-        "title": "ils lui chient a la gueule 😂",
-        "view_count": 13
       }
     },
     {
@@ -571,6 +571,16 @@
       }
     },
     {
+      "name": "cosima1712",
+      "clips": 1,
+      "total_views": 3,
+      "best_clip": {
+        "id": "SmallPlayfulReindeerPeanutButterJellyTime-SKk0nYKqiPL6qUMB",
+        "title": "WzBot CLIP | Découverte Cozy Marbles [GIVEAWAY] + clip de la semaine et d'autres démos (by cosima1712)",
+        "view_count": 3
+      }
+    },
+    {
       "name": "gagi49",
       "clips": 1,
       "total_views": 3,
@@ -631,6 +641,6 @@
       }
     }
   ],
-  "total_clips": 328,
-  "updated_at": "2026-08-15T05:44:37Z"
+  "total_clips": 341,
+  "updated_at": "2026-08-17T05:53:05Z"
 }
