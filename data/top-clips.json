@@ -36,6 +36,83 @@
   ],
   "clips": [
     {
+      "id": "SmallPlayfulReindeerPeanutButterJellyTime-SKk0nYKqiPL6qUMB",
+      "title": "",
+      "creator_name": "cosima1712",
+      "game": "Cozy Marbles",
+      "view_count": 3,
+      "created_at": "2026-08-16T21:58:27Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/cef30717-7ad0-4ee7-93f8-5ac4c86575ac/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/SmallPlayfulReindeerPeanutButterJellyTime-SKk0nYKqiPL6qUMB"
+    },
+    {
+      "id": "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ",
+      "title": "ah non regardez les nuls là!",
+      "creator_name": "sassa53",
+      "game": "Cozy Marbles",
+      "view_count": 3,
+      "created_at": "2026-08-16T20:46:46Z",
+      "duration": 24.3,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/fe77112f-ad73-436d-ac90-6cf63a1217f7/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ"
+    },
+    {
+      "id": "CreativeDistinctWeaselTBTacoLeft-LZElALD5nLA-hnyy",
+      "title": "",
+      "creator_name": "alizee_ngs",
+      "game": "Cozy Marbles",
+      "view_count": 3,
+      "created_at": "2026-08-16T20:42:16Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/67fd5a1c-042f-47b0-abed-e49f238f975c/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/CreativeDistinctWeaselTBTacoLeft-LZElALD5nLA-hnyy"
+    },
+    {
+      "id": "BlightedTacitBulgogiSaltBae-_GjfFbH-psXn-9J5",
+      "title": "Le flop 2.0",
+      "creator_name": "kekew02",
+      "game": "Cozy Marbles",
+      "view_count": 2,
+      "created_at": "2026-08-16T20:39:21Z",
+      "duration": 28.4,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f9d24397-043e-40d3-bd68-39532ce32a12/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/BlightedTacitBulgogiSaltBae-_GjfFbH-psXn-9J5"
+    },
+    {
+      "id": "CuteTriumphantEchidnaHotPokket-Yrq8QCU9v5_tJBUv",
+      "title": "Le flop",
+      "creator_name": "kekew02",
+      "game": "Cozy Marbles",
+      "view_count": 2,
+      "created_at": "2026-08-16T20:32:23Z",
+      "duration": 26.7,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9f3dcf17-402e-4e6e-84f2-9d8dccea74d0/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/CuteTriumphantEchidnaHotPokket-Yrq8QCU9v5_tJBUv"
+    },
+    {
+      "id": "DoubtfulProtectiveKoalaNotLikeThis-wuYbmrawKVmsVFoD",
+      "title": "",
+      "creator_name": "morado290",
+      "game": "Cozy Marbles",
+      "view_count": 2,
+      "created_at": "2026-08-16T20:11:59Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/df15a0b9-b8af-4ca3-bc1c-7ba3db904f44/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/DoubtfulProtectiveKoalaNotLikeThis-wuYbmrawKVmsVFoD"
+    },
+    {
+      "id": "FastGlutenFreeWoodcockOhMyDog--E26yuU4ZU_Dn3zY",
+      "title": "je me suis trompé de bouton !",
+      "creator_name": "Teph_woot_woot",
+      "game": "Cozy Marbles",
+      "view_count": 3,
+      "created_at": "2026-08-16T20:06:12Z",
+      "duration": 29.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ba9d2c4c-7146-4e4e-ab04-dc2c3bc388e8/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/FastGlutenFreeWoodcockOhMyDog--E26yuU4ZU_Dn3zY"
+    },
+    {
       "id": "LightSmoothSpiderPicoMause-5kWmIPYroZ76FnkP",
       "title": "Little Sh*t ?",
       "creator_name": "france_bb",
@@ -51,7 +128,7 @@
       "title": "",
       "creator_name": "alizee_ngs",
       "game": "Disney Dreamlight Valley",
-      "view_count": 2,
+      "view_count": 3,
       "created_at": "2026-08-14T23:38:45Z",
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/8a755923-db14-453f-bbdd-7e5a7b327d01/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -62,7 +139,7 @@
       "title": "le fun des Dreamsnaps avec Alice",
       "creator_name": "Teph_woot_woot",
       "game": "Disney Dreamlight Valley",
-      "view_count": 3,
+      "view_count": 4,
       "created_at": "2026-08-14T21:56:00Z",
       "duration": 29.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/bdf0765e-d29d-434b-9b52-05823dc6778a/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -84,7 +161,7 @@
       "title": "Le pokemon beauf des fonds marins",
       "creator_name": "france_bb",
       "game": "Pokémon Pokopia",
-      "view_count": 9,
+      "view_count": 10,
       "created_at": "2026-08-13T22:18:57Z",
       "duration": 31.4,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6aea1f73-fa1d-452a-afd4-d6eb77d3bc10/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -102,22 +179,11 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/SuccessfulDignifiedCucumberAliens-jtV4aBIWUtUjTte8"
     },
     {
-      "id": "TangibleFurtiveOxPastaThat-Ky_pZ3uUtsDin-ub",
-      "title": "Gossi^p",
-      "creator_name": "BaguetteChaussette",
-      "game": "Mazey Village",
-      "view_count": 2,
-      "created_at": "2026-08-13T10:01:04Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/60b891ef-2875-457f-b08f-d1e6330b3c61/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/TangibleFurtiveOxPastaThat-Ky_pZ3uUtsDin-ub"
-    },
-    {
       "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
       "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
       "creator_name": "Teph_woot_woot",
       "game": "Just Chatting",
-      "view_count": 16,
+      "view_count": 20,
       "created_at": "2026-08-12T19:42:56Z",
       "duration": 29.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f7a5465d-d99e-4099-9151-3d151879c267/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -144,73 +210,7 @@
       "duration": 32.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/e322048f-e6da-4901-981f-794a72d01377/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/BlightedEsteemedOcelotAMPTropPunch-p8zA7X_Swubx6vGD"
-    },
-    {
-      "id": "SullenAuspiciousRavenCharlieBitMe-ubjqMn1AMbwchygf",
-      "title": "pardon ?",
-      "creator_name": "legrandmicrobe",
-      "game": "Pokémon Pokopia",
-      "view_count": 5,
-      "created_at": "2026-08-10T21:27:47Z",
-      "duration": 13.4,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/b825ac23-722e-4f35-b330-a3ccb9428e17/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/SullenAuspiciousRavenCharlieBitMe-ubjqMn1AMbwchygf"
-    },
-    {
-      "id": "EnthusiasticTallShrimpPrimeMe-MXznbCp27GbrZMqo",
-      "title": "Face reveal",
-      "creator_name": "legrandmicrobe",
-      "game": "Pokémon Pokopia",
-      "view_count": 9,
-      "created_at": "2026-08-10T21:10:26Z",
-      "duration": 18.2,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/6e24a797-1002-456e-a9d8-1cb8015cc936/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/EnthusiasticTallShrimpPrimeMe-MXznbCp27GbrZMqo"
-    },
-    {
-      "id": "WrongPeacefulRhinocerosSmoocherZ-EBTwrx39IE6Gxct0",
-      "title": "27 ans et... pas toutes ses dents !",
-      "creator_name": "Ti_Ch0u",
-      "game": "Pokémon Pokopia",
-      "view_count": 4,
-      "created_at": "2026-08-10T21:00:50Z",
-      "duration": 9.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/170a8fe4-700a-48cc-833c-5f03986977a9/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/WrongPeacefulRhinocerosSmoocherZ-EBTwrx39IE6Gxct0"
-    },
-    {
-      "id": "PopularDeliciousPicklesPastaThat-c1GFUNDJjGE7Ivvm",
-      "title": "Moi j'utilise mon gros cerveau !",
-      "creator_name": "Ti_Ch0u",
-      "game": "Pokémon Pokopia",
-      "view_count": 2,
-      "created_at": "2026-08-10T20:55:27Z",
-      "duration": 11.3,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/867621c6-0d79-4d8e-8600-bca7a54555ec/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/PopularDeliciousPicklesPastaThat-c1GFUNDJjGE7Ivvm"
-    },
-    {
-      "id": "BlushingProudHawkTheThing-hYZr7tXV8IafgqE4",
-      "title": "Baguette dans le déni des 30 ans...",
-      "creator_name": "Ti_Ch0u",
-      "game": "Pokémon Pokopia",
-      "view_count": 3,
-      "created_at": "2026-08-10T20:40:50Z",
-      "duration": 4.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/76684b82-3a0b-4d3f-bdfe-ad356600ad71/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/BlushingProudHawkTheThing-hYZr7tXV8IafgqE4"
-    },
-    {
-      "id": "SeductiveCarefulLadiesKappaPride-7KLnBTdm8YU7M_43",
-      "title": "sous l’eau c’est chiant",
-      "creator_name": "gwendo05062020",
-      "game": "Pokémon Pokopia",
-      "view_count": 3,
-      "created_at": "2026-08-10T20:36:34Z",
-      "duration": 9.6,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/7bb72ffc-b259-4520-88e7-38f04c0e2c50/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/SeductiveCarefulLadiesKappaPride-7KLnBTdm8YU7M_43"
     }
   ],
-  "updated_at": "2026-08-15T05:44:33Z"
+  "updated_at": "2026-08-17T05:53:03Z"
 }
