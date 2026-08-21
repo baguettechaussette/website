@@ -3,7 +3,7 @@
     {
       "name": "france_bb",
       "clips": 25,
-      "total_views": 125,
+      "total_views": 128,
       "best_clip": {
         "id": "CrazyDaintyCroissantDuDudu-cbMNfejvH1Hp8GgD",
         "title": "WzBot CLIP | Élection du clip de la semaine - Moonlight Peaks ensuite ! ✨ | !discord  (by france_bb)",
@@ -13,7 +13,7 @@
     {
       "name": "alizee_ngs",
       "clips": 24,
-      "total_views": 144,
+      "total_views": 145,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -33,7 +33,7 @@
     {
       "name": "gwendo05062020",
       "clips": 19,
-      "total_views": 157,
+      "total_views": 158,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -63,7 +63,7 @@
     {
       "name": "legrandmicrobe",
       "clips": 13,
-      "total_views": 195,
+      "total_views": 196,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
@@ -121,6 +121,16 @@
       }
     },
     {
+      "name": "Teph_woot_woot",
+      "clips": 7,
+      "total_views": 90,
+      "best_clip": {
+        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
+        "title": "ohhh les boules !!!!!!!",
+        "view_count": 29
+      }
+    },
+    {
       "name": "oceane0510",
       "clips": 7,
       "total_views": 89,
@@ -128,16 +138,6 @@
         "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
         "title": "et il tombe à l’infini 🤣",
         "view_count": 26
-      }
-    },
-    {
-      "name": "Teph_woot_woot",
-      "clips": 7,
-      "total_views": 86,
-      "best_clip": {
-        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
-        "title": "ohhh les boules !!!!!!!",
-        "view_count": 29
       }
     },
     {
@@ -453,11 +453,11 @@
     {
       "name": "gagi49",
       "clips": 2,
-      "total_views": 16,
+      "total_views": 20,
       "best_clip": {
         "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
         "title": "Horrible",
-        "view_count": 11
+        "view_count": 15
       }
     },
     {
@@ -652,5 +652,5 @@
     }
   ],
   "total_clips": 348,
-  "updated_at": "2026-08-19T05:49:54Z"
+  "updated_at": "2026-08-21T05:51:02Z"
 }
