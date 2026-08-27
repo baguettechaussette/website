@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "alizee_ngs",
-      "clips": 32,
-      "total_views": 182,
+      "clips": 33,
+      "total_views": 194,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -13,11 +13,11 @@
     {
       "name": "Barbouy",
       "clips": 23,
-      "total_views": 421,
+      "total_views": 422,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
-        "view_count": 110
+        "view_count": 111
       }
     },
     {
@@ -53,11 +53,11 @@
     {
       "name": "sassa_miemie",
       "clips": 17,
-      "total_views": 67,
+      "total_views": 74,
       "best_clip": {
-        "id": "LachrymoseHelplessMooseDeIlluminati-lBnfqHImf7-rA_Kt",
-        "title": "ils lui chient a la gueule 😂",
-        "view_count": 13
+        "id": "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ",
+        "title": "ah non regardez les nuls là!",
+        "view_count": 15
       }
     },
     {
@@ -73,11 +73,11 @@
     {
       "name": "Teph_woot_woot",
       "clips": 15,
-      "total_views": 131,
+      "total_views": 133,
       "best_clip": {
-        "id": "AmazingSpicyGalagoGivePLZ-CRgVIHEUfSyfq3Ku",
-        "title": "ohhh les boules !!!!!!!",
-        "view_count": 29
+        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
+        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
+        "view_count": 31
       }
     },
     {
@@ -273,11 +273,11 @@
     {
       "name": "WizeBot",
       "clips": 4,
-      "total_views": 80,
+      "total_views": 81,
       "best_clip": {
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
-        "view_count": 59
+        "view_count": 60
       }
     },
     {
@@ -303,11 +303,11 @@
     {
       "name": "mimie_chan",
       "clips": 4,
-      "total_views": 23,
+      "total_views": 27,
       "best_clip": {
         "id": "StormyKathishLorisEleGiggle-a9pG9_5JM7fDEUzQ",
         "title": "WzBot CLIP | LIVE 24H ✨ De midi à midi pour les 2K followers | Jeux commu & badges |  (by mimie_chan)",
-        "view_count": 14
+        "view_count": 18
       }
     },
     {
@@ -423,21 +423,21 @@
     {
       "name": "DragonoZelos",
       "clips": 2,
-      "total_views": 120,
+      "total_views": 121,
       "best_clip": {
         "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
         "title": "Pardon ?",
-        "view_count": 83
+        "view_count": 84
       }
     },
     {
       "name": "Ryzser22",
       "clips": 2,
-      "total_views": 110,
+      "total_views": 111,
       "best_clip": {
         "id": "OriginalOilyOrcaDerp-M5oRiR5cvN49DGsk",
         "title": "Baguette le cowboy",
-        "view_count": 69
+        "view_count": 70
       }
     },
     {
@@ -471,6 +471,16 @@
       }
     },
     {
+      "name": "gagi49",
+      "clips": 2,
+      "total_views": 35,
+      "best_clip": {
+        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
+        "title": "Horrible",
+        "view_count": 30
+      }
+    },
+    {
       "name": "OmbreFou1",
       "clips": 2,
       "total_views": 32,
@@ -478,16 +488,6 @@
         "id": "LachrymoseNimbleDaikonChocolateRain-prdVY2Po3aLIYrKl",
         "title": "oups",
         "view_count": 21
-      }
-    },
-    {
-      "name": "gagi49",
-      "clips": 2,
-      "total_views": 28,
-      "best_clip": {
-        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
-        "title": "Horrible",
-        "view_count": 23
       }
     },
     {
@@ -691,6 +691,6 @@
       }
     }
   ],
-  "total_clips": 391,
-  "updated_at": "2026-08-25T05:50:45Z"
+  "total_clips": 392,
+  "updated_at": "2026-08-27T16:33:54Z"
 }
