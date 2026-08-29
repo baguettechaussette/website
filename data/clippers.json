@@ -3,7 +3,7 @@
     {
       "name": "alizee_ngs",
       "clips": 33,
-      "total_views": 194,
+      "total_views": 195,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -23,11 +23,21 @@
     {
       "name": "gwendo05062020",
       "clips": 22,
-      "total_views": 167,
+      "total_views": 169,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
         "view_count": 21
+      }
+    },
+    {
+      "name": "Teph_woot_woot",
+      "clips": 18,
+      "total_views": 149,
+      "best_clip": {
+        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
+        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
+        "view_count": 31
       }
     },
     {
@@ -68,16 +78,6 @@
         "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
         "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
         "view_count": 20
-      }
-    },
-    {
-      "name": "Teph_woot_woot",
-      "clips": 15,
-      "total_views": 133,
-      "best_clip": {
-        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
-        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
-        "view_count": 31
       }
     },
     {
@@ -201,6 +201,16 @@
       }
     },
     {
+      "name": "virginieopal",
+      "clips": 6,
+      "total_views": 80,
+      "best_clip": {
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 28
+      }
+    },
+    {
       "name": "Mimie_chan",
       "clips": 6,
       "total_views": 67,
@@ -251,16 +261,6 @@
       }
     },
     {
-      "name": "virginieopal",
-      "clips": 5,
-      "total_views": 75,
-      "best_clip": {
-        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
-        "title": "le rêve",
-        "view_count": 28
-      }
-    },
-    {
       "name": "TsukinoArisu",
       "clips": 5,
       "total_views": 36,
@@ -291,6 +291,16 @@
       }
     },
     {
+      "name": "mimie_chan",
+      "clips": 4,
+      "total_views": 30,
+      "best_clip": {
+        "id": "StormyKathishLorisEleGiggle-a9pG9_5JM7fDEUzQ",
+        "title": "WzBot CLIP | LIVE 24H ✨ De midi à midi pour les 2K followers | Jeux commu & badges |  (by mimie_chan)",
+        "view_count": 20
+      }
+    },
+    {
       "name": "Antz_Virtual",
       "clips": 4,
       "total_views": 27,
@@ -298,16 +308,6 @@
         "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
         "title": "1 2 3.. QUOI ?",
         "view_count": 15
-      }
-    },
-    {
-      "name": "mimie_chan",
-      "clips": 4,
-      "total_views": 27,
-      "best_clip": {
-        "id": "StormyKathishLorisEleGiggle-a9pG9_5JM7fDEUzQ",
-        "title": "WzBot CLIP | LIVE 24H ✨ De midi à midi pour les 2K followers | Jeux commu & badges |  (by mimie_chan)",
-        "view_count": 18
       }
     },
     {
@@ -691,6 +691,6 @@
       }
     }
   ],
-  "total_clips": 392,
-  "updated_at": "2026-08-27T16:33:54Z"
+  "total_clips": 396,
+  "updated_at": "2026-08-29T11:41:15Z"
 }
