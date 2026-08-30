@@ -105,10 +105,22 @@ jobs:
           #   • cron → "demain" : le dimanche 18h, demain = lundi = la semaine de
           #     vote suivante (le dimanche appartient encore à la semaine qui se
           #     termine, comparer à "aujourd'hui" ne dépouillerait JAMAIS).
-          #   • lancement manuel → "aujourd'hui" : bootstrap immédiat, vote pour
-          #     la dernière semaine ISO déjà terminée (pas celle en cours).
+          #   • lancement manuel → "aujourd'hui" (bootstrap, vote pour la
+          #     dernière semaine révolue), sauf le dimanche soir : voir plus bas.
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            ANCHOR="today"
+            # Un run manuel vote pour la dernière semaine révolue : ancre
+            # "aujourd'hui". Exception, le dimanche passé l'heure nominale du
+            # dépouillement (17h45 UTC) : la semaine est finie, on s'ancre sur
+            # "demain" comme le ferait le cron. Sans ça, un rattrapage le
+            # dimanche soir (cron sauté par GitHub) ne dépouillerait rien.
+            DOW=$(date -u +%u)
+            MINS=$(( 10#$(date -u +%H) * 60 + 10#$(date -u +%M) ))
+            if [ "$DOW" = "7" ] && [ "$MINS" -ge 1065 ]; then
+              ANCHOR="tomorrow"
+              echo "ℹ️ Dimanche après 17h45 UTC : rattrapage du dépouillement."
+            else
+              ANCHOR="today"
+            fi
           else
             ANCHOR="tomorrow"
           fi
