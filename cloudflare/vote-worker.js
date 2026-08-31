@@ -13,7 +13,7 @@
 //
 //  Binding requis : un KV namespace attaché sous le nom VOTES.
 //  Secrets (wrangler secret put, jamais dans le repo) : SALT, BOARD_KEY,
-//  DISCORD_WEBHOOK, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, TWITCH_BROADCASTER_ID.
+//  DISCORD_WEBHOOK, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET.
 // ============================================================
 
 const ALLOWED_ORIGINS = [
@@ -21,6 +21,10 @@ const ALLOWED_ORIGINS = [
     "http://localhost:8123",  // tests locaux
     "http://127.0.0.1:8123",  // tests locaux (alias)
 ];
+
+// Pseudo Twitch de la chaîne : public (il est déjà partout sur le site), donc
+// pas besoin d'un secret pour l'ID numérique du diffuseur.
+const TWITCH_LOGIN = "baguettechaussette";
 
 const WEEK_RE = /^\d{4}-W\d{2}$/;
 const CLIP_RE = /^[A-Za-z0-9_-]{1,120}$/; // slug de clip Twitch
@@ -243,7 +247,7 @@ async function twitchToken(env, forceNew = false) {
 // Interroge Helix, avec une seule reprise si le jeton en cache a été révoqué.
 async function twitchStreams(env) {
     const call = async (token) => fetch(
-        `https://api.twitch.tv/helix/streams?user_id=${encodeURIComponent(env.TWITCH_BROADCASTER_ID)}`,
+        `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(TWITCH_LOGIN)}`,
         { headers: { "Client-Id": env.TWITCH_CLIENT_ID, Authorization: `Bearer ${token}` } },
     );
     let token = await twitchToken(env);
@@ -458,7 +462,7 @@ export default {
             const hit = await cache.match(cacheKey);
             if (hit) return new Response(hit.body, { headers: { ...baseHeaders, ...cors } });
 
-            if (!env.TWITCH_CLIENT_ID || !env.TWITCH_CLIENT_SECRET || !env.TWITCH_BROADCASTER_ID) {
+            if (!env.TWITCH_CLIENT_ID || !env.TWITCH_CLIENT_SECRET) {
                 return json({ error: "twitch non configuré" }, cors, 503);
             }
             const d = await twitchStreams(env);
