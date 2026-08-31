@@ -6,6 +6,7 @@
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
 //    GET  /turnout/<semaine>         -> {"count": N} (total seul)
 //    GET  /live                      -> {is_live, game, title, started_at}
+//    GET  /revealed/<semaine>        -> {"revealed": bool} (gagnant révélé ?)
 //  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
@@ -27,6 +28,25 @@ const ALLOWED_ORIGINS = [
 const TWITCH_LOGIN = "baguettechaussette";
 
 const WEEK_RE = /^\d{4}-W\d{2}$/;
+
+// Semaine ISO (UTC) d'une date, au format "YYYY-Www".
+function isoWeekStr(d) {
+    const dt = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    const day = dt.getUTCDay() || 7;
+    dt.setUTCDate(dt.getUTCDate() + 4 - day);
+    const jan1 = new Date(Date.UTC(dt.getUTCFullYear(), 0, 1));
+    const week = Math.ceil((((dt - jan1) / 86400000) + 1) / 7);
+    return `${dt.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+// Les routes publiques n'acceptent que la semaine courante et ses voisines :
+// des semaines arbitraires permettraient d'épuiser les quotas KV gratuits
+// (1000 écritures et 1000 lists par jour) avec un simple script.
+function weekAllowed(week) {
+    const now = Date.now();
+    return [now - 7 * 86400000, now, now + 7 * 86400000]
+        .some(t => isoWeekStr(new Date(t)) === week);
+}
 const CLIP_RE = /^[A-Za-z0-9_-]{1,120}$/; // slug de clip Twitch
 
 function corsHeaders(request) {
@@ -276,7 +296,7 @@ export default {
         if (request.method === "POST" && m) {
             const week = m[1];
             const clipId = decodeURIComponent(m[2]);
-            if (!WEEK_RE.test(week)) return json({ ok: false, error: "bad week" }, cors, 400);
+            if (!WEEK_RE.test(week) || !weekAllowed(week)) return json({ ok: false, error: "bad week" }, cors, 400);
             if (!CLIP_RE.test(clipId)) return json({ ok: false, error: "bad clip" }, cors, 400);
 
             const ip = request.headers.get("CF-Connecting-IP") || "0.0.0.0";
@@ -352,7 +372,14 @@ export default {
                 return json({ ok: false, error: "id de clip invalide dans le fichier du site" }, cors, 500);
             }
             const marker = `announced:${data.week}:${w.id}`;
+            const revealMarker = `revealed:${data.week}`;
             if (url.searchParams.get("force") !== "1" && await env.VOTES.get(marker)) {
+                // L'annonce est déjà partie mais le clic vaut révélation : le
+                // site peut afficher le gagnant (cas : filet du lundi passé
+                // avant le clic, ou re-clic après rechargement du board).
+                try {
+                    await env.VOTES.put(revealMarker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+                } catch { /* best-effort */ }
                 return json({ ok: false, error: "annonce déjà envoyée pour ce gagnant" }, cors, 409);
             }
 
@@ -378,8 +405,30 @@ export default {
             // laisser croire à un échec et provoquer un re-clic en double.
             try {
                 await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+                // Révélation : le site cesse d'afficher le teaser et montre le
+                // gagnant (clips-page.js interroge GET /revealed/<semaine>).
+                await env.VOTES.put(revealMarker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
             } catch { /* le marqueur manque : le prochain filet enverra un 2e message, rare et bénin */ }
             return json({ ok: true }, cors);
+        }
+
+        // ── GET /revealed/<semaine> : la révélation a-t-elle eu lieu ? ──
+        // Public : le site n'affiche la carte du gagnant qu'après le clic
+        // d'annonce (ou le filet du lundi). Avant : teaser, zéro spoiler.
+        // Cache edge 60 s, CORS appliqué par requête (jamais figé en cache).
+        m = url.pathname.match(/^\/revealed\/([^/]+)$/);
+        if (request.method === "GET" && m) {
+            const week = m[1];
+            if (!WEEK_RE.test(week) || !weekAllowed(week)) return json({ error: "bad week" }, cors, 400);
+            const cache = caches.default;
+            const cacheKey = new Request(url.origin + url.pathname);
+            const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" };
+            const hit = await cache.match(cacheKey);
+            if (hit) return new Response(hit.body, { headers: { ...baseHeaders, ...cors } });
+            const revealed = Boolean(await env.VOTES.get(`revealed:${week}`));
+            const payload = JSON.stringify({ revealed });
+            await cache.put(cacheKey, new Response(payload, { headers: baseHeaders }));
+            return new Response(payload, { headers: { ...baseHeaders, ...cors } });
         }
 
         // ── GET /turnout/<semaine> : participation SANS le détail ──
@@ -389,7 +438,7 @@ export default {
         m = url.pathname.match(/^\/turnout\/([^/]+)$/);
         if (request.method === "GET" && m) {
             const week = m[1];
-            if (!WEEK_RE.test(week)) return json({ error: "bad week" }, cors, 400);
+            if (!WEEK_RE.test(week) || !weekAllowed(week)) return json({ error: "bad week" }, cors, 400);
             // Le cache stocke la réponse SANS en-têtes CORS : ils dépendent de
             // l'Origin de chaque requête (sinon le premier appelant fige son
             // origine dans le cache et bloque les autres).
