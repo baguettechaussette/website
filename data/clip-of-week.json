@@ -32,9 +32,74 @@
       "view_count": 3,
       "created_at": "2026-08-27T21:44:22Z",
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ebec8f96-56a6-4f59-a802-2c16460e2086/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "DignifiedTrappedSalamanderBrainSlug-bGuOgu8SBYfyR92M",
+      "title": "il m’a fait tomber, il m’a fait tomber, il m’a fait tomber!!!",
+      "creator_name": "sassa_miemie",
+      "view_count": 10,
+      "created_at": "2026-08-22T16:00:44Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/7f5ae51c-2371-4256-b9d2-9ed49cb98d15/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "AntediluvianGiftedSandpiperArsonNoSexy-JjrzkXLwN15rsYeb",
+      "title": "",
+      "creator_name": "alizee_ngs",
+      "view_count": 9,
+      "created_at": "2026-08-23T09:50:51Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/19292522-edfb-48e6-a934-2ebaa831bf9a/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "ColdbloodedSpineyButterflyDuDudu-F8LW5v3Iwk2SaHIW",
+      "title": "Samba",
+      "creator_name": "sassa_miemie",
+      "view_count": 8,
+      "created_at": "2026-08-23T10:04:01Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/622020d4-dfc5-4ad2-9795-36a330ffbd49/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "SavageFrozenBeanPermaSmug-4BWmt7vy1FQnuPD1",
+      "title": "",
+      "creator_name": "sieeteee7",
+      "view_count": 7,
+      "created_at": "2026-08-23T02:30:56Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/47220e29-1744-4e43-9901-8f8b8e66f20f/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
-  "bench": [],
+  "bench": [
+    {
+      "id": "ZealousKnottyLadiesMrDestructoid-JECkwVTAD9MWDYjD",
+      "title": "merci maison perrier",
+      "creator_name": "gwendo05062020",
+      "view_count": 7,
+      "created_at": "2026-08-22T23:44:03Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/7b26159b-f098-4d7e-a89f-1552d9ce469b/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "HealthyVictoriousAardvarkKappaPride-23KmfKHLMeRHnP2e",
+      "title": "le grand gourmand",
+      "creator_name": "gwendo05062020",
+      "view_count": 6,
+      "created_at": "2026-08-22T20:59:36Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/281439ac-d546-432a-abab-38117b11d19c/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "PeacefulTiredOysterYee-ZfkacuQe2Pls50Lb",
+      "title": "ausecouuurrrrr",
+      "creator_name": "Teph_woot_woot",
+      "view_count": 6,
+      "created_at": "2026-08-22T15:35:12Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ff83b28a-951f-417e-8f82-e4c393c73b97/landscape/thumb/thumb-0000000000-480x272.jpg"
+    },
+    {
+      "id": "RamshackleCrackySquidLitty-C14MpDf6LshDfc_b",
+      "title": "voilà c’est fini🥺😅",
+      "creator_name": "sassa_miemie",
+      "view_count": 5,
+      "created_at": "2026-08-23T10:08:31Z",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/45ee961d-67bd-4a1b-b300-b893b871a51c/landscape/thumb/thumb-0000000000-480x272.jpg"
+    }
+  ],
   "winner": {
     "id": "BoredTentativeCrowResidentSleeper-MVo44jllMHkuh1eS",
     "title": "",
@@ -49,5 +114,5 @@
     "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ": 1,
     "BoredTentativeCrowResidentSleeper-MVo44jllMHkuh1eS": 5
   },
-  "updated_at": "2026-08-30T19:07:47Z"
+  "updated_at": "2026-08-31T01:36:08Z"
 }
