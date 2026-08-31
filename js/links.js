@@ -91,25 +91,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Live status check (poll toutes les 30s, comme sur l'accueil)
+// Live status check (poll toutes les 30s, comme sur l'accueil).
+// Source : le worker Cloudflare, qui interroge Twitch en direct.
+const LIVE_API = 'https://bc-vote.baguette-chaussette.workers.dev/live';
+let liveFails = 0; // 3 échecs d'affilée avant de masquer (tolère un blip réseau)
+
 async function checkLiveStatus() {
+    const badge = document.getElementById('liveBadge');
     try {
-        const response = await fetch('/data/live-status.json', {
+        const response = await fetch(LIVE_API, {
             cache: 'no-store',
             headers: {
                 'Accept': 'application/json'
             }
         });
 
-        if (!response.ok) return;
+        if (!response.ok) throw new Error(String(response.status));
 
         const data = await response.json();
+        liveFails = 0;
 
-        const badge = document.getElementById('liveBadge');
         if (badge) {
             badge.classList.toggle('visible', !!data.is_live);
         }
     } catch (error) {
+        // Statut inconnu : on masque plutôt que de laisser un badge périmé.
+        if (++liveFails >= 3 && badge) badge.classList.remove('visible');
         console.debug('Live status check failed:', error.message);
     }
 }
