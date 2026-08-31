@@ -157,7 +157,7 @@ jobs:
 
           # clean_title : les titres capturés par le bot (WzBot = titre du stream, pas du clip)
           # sont vidés — le site affiche alors "Clip du JJ mois" à la place.
-          # Tri par date décroissante puis 16 premiers : la section montre les
+          # Tri par date décroissante puis 30 premiers : la section montre les
           # derniers clips, pas les plus vus (un clip récent n'a pas encore eu le
           # temps d'accumuler des vues, il serait invisible sinon).
           echo "$RESP" | jq --argjson pinned "$PINNED" --argjson games "$GAMES" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
@@ -170,7 +170,7 @@ jobs:
                 creator_name: clipper,
                 game: ($games[.game_id // ""] // null),
                 view_count, created_at, duration, thumbnail_url, url}]
-                | sort_by(.created_at) | reverse | .[0:16],
+                | sort_by(.created_at) | reverse | .[0:30],
               updated_at: $now}' \
             > data/top-clips.json
 
