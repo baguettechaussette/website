@@ -98,6 +98,9 @@ let liveFails = 0; // 3 échecs d'affilée avant de masquer (tolère un blip ré
 
 async function checkLiveStatus() {
     const badge = document.getElementById('liveBadge');
+    // Pages sans badge (mentions légales, 404) : rien à afficher, on ne
+    // consulte pas le worker (évite aussi le bruit CSP sur ces pages).
+    if (!badge) return;
     try {
         const response = await fetch(LIVE_API, {
             cache: 'no-store',
