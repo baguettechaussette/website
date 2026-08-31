@@ -7,7 +7,7 @@ name: Update clip of the week (vote)
 # sécurité + purge des clips supprimés de Twitch. Run manuel : bootstrap ou
 # rattrapage ; override possible (input winner = ID d'un finaliste) ;
 # disqualification possible (input disqualify = ID d'un finaliste, remplacé
-# par le premier clip du banc — le top 8 de la fenêtre est gardé : 4
+# par le premier clip du banc — le top 12 de la fenêtre est gardé : 8
 # finalistes affichés + 4 remplaçants dans le champ bench, ignoré du site).
 on:
   schedule:
@@ -121,7 +121,7 @@ jobs:
               PRUNED=$(echo "$PREV" | jq -c --argjson alive "$ALIVE" \
                 '.finalists = [(.finalists // [])[] | select(.id as $i | $alive | index($i))]
                  | .bench = [(.bench // [])[] | select(.id as $i | $alive | index($i))]
-                 | ([4 - (.finalists | length), 0] | max) as $need
+                 | ([8 - (.finalists | length), 0] | max) as $need
                  | .finalists = .finalists + .bench[0:$need]
                  | .bench = .bench[$need:]
                  | .winner = (if (.winner | not) or ((.winner.id as $i | $alive | index($i))) then .winner else null end)')
@@ -302,7 +302,7 @@ jobs:
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
              [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: ((clipper | ascii_downcase) == "baguettechaussette")}]
-             | (map(select(.own | not)) + map(select(.own)))[0:8]
+             | (map(select(.own | not)) + map(select(.own)))[0:12]
              | map(del(.own))')
 
           # Semaine creuse (moins de 2 clips) : on repart des clips du mois, avec
@@ -319,14 +319,14 @@ jobs:
                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                [(.clips // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: (((clipper // "") | ascii_downcase) == "baguettechaussette")}]
                | sort_by(-(.view_count // 0))
-               | (map(select(.own | not)) + map(select(.own)))[0:8]
+               | (map(select(.own | not)) + map(select(.own)))[0:12]
                | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
           fi
 
-          # Scission du top 8 : 4 finalistes affichés, le reste au banc
-          BENCH=$(echo "$FIN" | jq -c '.[4:8]')
-          FIN=$(echo "$FIN" | jq -c '.[0:4]')
+          # Scission du top 12 : 8 finalistes affichés, le reste au banc
+          BENCH=$(echo "$FIN" | jq -c '.[8:12]')
+          FIN=$(echo "$FIN" | jq -c '.[0:8]')
 
           fi  # fin du bloc "finalistes à recalculer"
 

@@ -348,6 +348,22 @@
         text-align: center;
     }
 
+    /* Vote : 2 colonnes plutôt qu'une pile. Avec 8 finalistes, une seule
+       colonne ferait près de 4 écrans de haut avant le reste de la page. */
+    .cow-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .cow-card {
+        padding: 10px;
+    }
+
+    .cow-vote-btn {
+        padding: 8px 10px;
+        font-size: 0.82em;
+    }
+
     /* Hero - Tailles augmentées */
     .hero-title {
         font-size: 2.3em;  /* Augmenté de 2em */
