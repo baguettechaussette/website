@@ -387,7 +387,7 @@ async function loadTopClips() {
         const exclude = new Set();
         if (document.getElementById('cowGrid')) {
             try {
-                const rCow = await fetch('/data/clip-of-week.json');
+                const rCow = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
                 if (rCow.ok) {
                     const cow = await rCow.json();
                     (Array.isArray(cow.finalists) ? cow.finalists : []).forEach(f => f?.id && exclude.add(f.id));

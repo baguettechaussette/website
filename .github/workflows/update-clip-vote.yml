@@ -90,9 +90,18 @@ jobs:
               echo "::error title=Disqualification invalide::$MANUAL_DISQ n'est pas un finaliste en place, rien n'est modifié."
               exit 1
             fi
+            if [ -n "$MANUAL_WINNER" ]; then
+              echo "::warning title=Inputs combinés::disqualify prime, l'input winner est ignoré sur ce run."
+            fi
+            # L'id disqualifié rejoint la mémoire des déjà-vus : sans ça, la
+            # fenêtre de 14 jours le re-sélectionnerait dimanche et la
+            # disqualification serait annulée de fait.
             echo "$PREV" | jq --arg id "$MANUAL_DISQ" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               '.finalists = ([(.finalists // [])[] | select(.id != $id)] + ((.bench // [])[0:1]))
                | .bench = ((.bench // [])[1:])
+               | .seen = (([$id] + (.seen // []))
+                   | reduce .[] as $x ([]; if any(.[]; . == $x) then . else . + [$x] end)
+                   | .[0:40])
                | .updated_at = $now' > data/clip-of-week.json
             N=$(jq '.finalists | length' data/clip-of-week.json)
             echo "🚫 $MANUAL_DISQ disqualifié. Finalistes : $N, banc restant : $(jq '(.bench // []) | length' data/clip-of-week.json)."
@@ -127,7 +136,7 @@ jobs:
                  | .winner = (if (.winner | not) or ((.winner.id as $i | $alive | index($i))) then .winner else null end)')
               # (.bench //= [] : un fichier d'avant le banc ne doit pas passer
               # pour "purgé" juste parce que la purge ajoute le champ)
-              if [ "$PRUNED" != "$(echo "$PREV" | jq -c '.bench //= []')" ]; then
+              if [ "$PRUNED" != "$(echo "$PREV" | jq -c '.bench //= [] | .finalists //= [] | .winner //= null')" ]; then
                 echo "::warning title=Clip supprimé de Twitch::Retiré du vote ou du palmarès (vignette et lecture cassées sinon)."
                 PREV="$PRUNED"
                 FCOUNT=$(echo "$PREV" | jq '(.finalists // []) | length')
@@ -170,7 +179,7 @@ jobs:
             exit 0
           fi
 
-          # Cron avec la semaine déjà en place (régime normal lundi/mercredi/jeudi) :
+          # Cron avec la semaine déjà en place (régime normal lundi/mercredi) :
           # la purge de l'étape 0 a déjà fait son travail, rien d'autre ici
           # (la fenêtre dimanche→dimanche fait qu'aucun clip éligible ne peut
           # apparaître après le dépouillement : pas de refresh nécessaire).
@@ -204,11 +213,41 @@ jobs:
             # de frappe ne doit pas effacer le palmarès).
             WINNER=$(echo "$PREV" | jq -c --arg id "$MANUAL_WINNER" \
               '([ (.finalists // [])[], (.winner // empty) ] | map(select(.id == $id)) | .[0]) // null')
+            # Après la rotation du dimanche, les candidats de la semaine fermée
+            # n'existent plus que par leurs ids dans "seen" : si l'id y figure,
+            # on relit le clip depuis Twitch (corriger le couronnement vers un
+            # dauphin reste possible). Tout autre id est refusé.
+            if { [ "$WINNER" = "null" ] || [ -z "$WINNER" ]; }                && [ "$(echo "$PREV" | jq --arg id "$MANUAL_WINNER" '((.seen // []) | index($id)) != null')" = "true" ]; then
+              WRESP=$(curl -sS                 -H "Client-Id: $TWITCH_CLIENT_ID"                 -H "Authorization: Bearer $ACCESS_TOKEN"                 "https://api.twitch.tv/helix/clips?id=$MANUAL_WINNER" || echo '')
+              WINNER=$(echo "$WRESP" | jq -c '
+                def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
+                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
+                ((.data // [])[0] // null)
+                | if . == null then null else
+                    {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url}
+                  end' 2>/dev/null || echo 'null')
+            fi
             if [ "$WINNER" = "null" ] || [ -z "$WINNER" ]; then
-              echo "::error title=Override invalide::$MANUAL_WINNER n'est ni un finaliste ni le gagnant actuel, rien n'est modifié."
+              echo "::error title=Override invalide::$MANUAL_WINNER n'est ni un finaliste, ni le gagnant actuel, ni un ancien candidat retrouvable : rien n'est modifié."
               exit 1
             fi
-            echo "🏆 Gagnant de $WEEK : $MANUAL_WINNER (override manuel)"
+            echo "🏆 Gagnant : $MANUAL_WINNER (override manuel)"
+
+            # ── Palmarès : l'override corrige aussi hall-of-fame.json ──
+            # Semaine du sacre : celle qui se ferme (ROLLING) ou, après la
+            # rotation, la semaine précédant celle du fichier. La déduplication
+            # par semaine remplace un éventuel mauvais couronné. Les voix sont
+            # relues du compteur (best-effort, 0 si irrécupérables).
+            OADOW=$(date -u -d "$ANCHOR" +%u)
+            OVOTE_MON=$(date -u -d "$ANCHOR -$((OADOW-1)) days" +%Y-%m-%d)
+            if [ "$ROLLING" = "1" ]; then HOF_WEEK="$WEEK"; else HOF_WEEK=$(date -u -d "$OVOTE_MON -7 days" +%G-W%V); fi
+            WVOTES=$(curl -sS "$VOTE_API_URL/results/$HOF_WEEK?key=$BOARD_KEY" 2>/dev/null               | jq --arg id "$MANUAL_WINNER" '.[$id] // 0' 2>/dev/null || echo 0)
+            HOF=$(cat data/hall-of-fame.json 2>/dev/null || echo '{"winners":[]}')
+            echo "$HOF" | jq --argjson w "$WINNER" --arg week "$HOF_WEEK" --argjson v "${WVOTES:-0}"               --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)"               '.winners = ([(.winners // [])[] | select(.week != $week)]
+                 + [{week: $week, votes: $v, crowned_at: $now}
+                    + ($w | {id, title, creator_name, view_count, thumbnail_url})])
+               | .updated_at = $now' > data/hall-of-fame.json
+            echo "👑 Palmarès corrigé pour $HOF_WEEK ($WVOTES voix)"
           elif [ "$ROLLING" = "1" ] && [ "$FCOUNT" -gt 0 ]; then
             if [ -n "$VOTE_API_URL" ]; then
               # Compteur injoignable = on ARRÊTE (job en échec, le cron suivant
@@ -258,7 +297,7 @@ jobs:
             echo "ℹ️ Semaine $WEEK inchangée : palmarès conservé, pas de dépouillement."
           fi
 
-          # ── 3. Finalistes : top 4 de la fenêtre DIMANCHE → DIMANCHE, calée
+          # ── 3. Finalistes : top 12 de la fenêtre (8 affichés + 4 au banc), calée
           #    sur l'heure nominale du dépouillement (17h45 UTC, comme le cron).
           #    Tout clip créé après un dépouillement concourt pour le vote
           #    suivant, avec une semaine pleine de vote : rien ne rejoint ni ne
@@ -287,7 +326,7 @@ jobs:
           ENDED_AT=$(date -u -d "$VOTE_MON -1 day" +%Y-%m-%dT17:45:00Z)
 
           # Mémoire des clips déjà proposés : les finalistes sortants la rejoignent,
-          # les plus anciens en sortent (40 couvre deux semaines à 8 par semaine).
+          # les plus anciens en sortent (40 = ~5 semaines de finalistes : large).
           # Le banc n'y entre pas, il n'a jamais été soumis au vote.
           SEEN=$(echo "$PREV" | jq -c '([(.finalists // [])[].id] + (.seen // []))
              | reduce .[] as $x ([]; if any(.[]; . == $x) then . else . + [$x] end)
@@ -317,7 +356,8 @@ jobs:
              | map(select(.own | not))[0:12]
              | map(del(.own))')
 
-          # Semaine creuse (moins de 2 clips) : on repart des clips du mois, avec
+          # Semaine creuse (moins de 2 clips) : on repart des 30 derniers clips
+          # (data/top-clips.json, le fichier de la section du site), avec
           # les mêmes règles (nettoyage des titres bot, extraction du vrai
           # clippeur, priorité viewers) : le fichier peut être à l'ancien format
           # (creator_name absent), le titre reste la source de vérité.
@@ -325,7 +365,7 @@ jobs:
           # (section "Les derniers clips"), mais un vote se dispute entre les
           # clips les plus vus.
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
-            echo "ℹ️ Semaine creuse, finalistes pris dans les clips du mois (les plus vus)"
+            echo "ℹ️ Semaine creuse, finalistes pris dans les 30 derniers clips (les plus vus)"
             FIN=$(jq -c --argjson seen "$SEEN" \
               'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;

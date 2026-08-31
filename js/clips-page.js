@@ -106,12 +106,13 @@ function isoWeekMonday(week) {
     return monday;
 }
 
-// Les finalistes viennent de la fenêtre dimanche → dimanche qui précède la
-// semaine de vote (calée sur le dépouillement, voir update-clip-vote.yml)
+// Les finalistes viennent de la fenêtre de 14 jours (deux dimanches avant la
+// semaine de vote → le dimanche qui la précède), calée sur le dépouillement :
+// voir update-clip-vote.yml. Le -15 reflète STARTED_AT côté workflow.
 function finalistWeekRange(week) {
     const voteMonday = isoWeekMonday(week);
     if (!voteMonday) return null;
-    const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 8);
+    const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 15);
     const end = new Date(voteMonday); end.setUTCDate(end.getUTCDate() - 1);
     const fmt = d => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
     return `${fmt(start)} au ${fmt(end)}`;

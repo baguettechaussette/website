@@ -68,28 +68,38 @@ jobs:
           STARTED_AT=$(date -u -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
           ENDED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-          # first=100 (le maximum) : l'API trie par vues décroissantes, donc pour
-          # obtenir les plus RÉCENTS il faut ratisser large puis retrier par date
-          # (avec first=16 on aurait "les 16 plus vus, rangés par date").
-          RESP=$(curl -sS --fail-with-body -G \
-            -H "Client-Id: $TWITCH_CLIENT_ID" \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            --data-urlencode "broadcaster_id=$TWITCH_BROADCASTER_ID" \
-            --data-urlencode "first=100" \
-            --data-urlencode "started_at=$STARTED_AT" \
-            --data-urlencode "ended_at=$ENDED_AT" \
-            "https://api.twitch.tv/helix/clips") || {
-              echo "::error title=Twitch API request failed::Unable to fetch clips"
+          # L'API trie par vues décroissantes sur la période : pour obtenir les
+          # plus RÉCENTS il faut ratisser TOUT (pagination, plafond 3 pages =
+          # 300 clips) puis retrier par date. Avec une seule page de 100, un
+          # clip récent peu vu disparaîtrait dès que le mois dépasse 100 clips
+          # (le canal en est déjà à ~90).
+          ALL='[]'
+          CURSOR=""
+          for i in 1 2 3; do
+            URL="https://api.twitch.tv/helix/clips?broadcaster_id=$TWITCH_BROADCASTER_ID&first=100&started_at=$(date -u -d "$STARTED_AT" +%Y-%m-%dT%H:%M:%SZ)&ended_at=$(date -u -d "$ENDED_AT" +%Y-%m-%dT%H:%M:%SZ)"
+            if [ -n "$CURSOR" ]; then URL="$URL&after=$CURSOR"; fi
+            PAGE=$(curl -sS --fail-with-body \
+              -H "Client-Id: $TWITCH_CLIENT_ID" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              "$URL") || {
+                echo "::error title=Twitch API request failed::Unable to fetch clips (page $i)"
+                exit 1
+              }
+            if ! echo "$PAGE" | jq -e '.data' >/dev/null; then
+              echo "::group::Full response payload"
+              echo "$PAGE"
+              echo "::endgroup::"
+              echo "::error title=Invalid response::Missing data field (page $i)"
               exit 1
-            }
-
-          if ! echo "$RESP" | jq -e '.data' >/dev/null; then
-            echo "::group::Full response payload"
-            echo "$RESP"
-            echo "::endgroup::"
-            echo "::error title=Invalid response::Missing data field"
-            exit 1
+            fi
+            ALL=$(jq -c --argjson a "$ALL" '.data as $d | $a + $d' <<< "$PAGE")
+            CURSOR=$(echo "$PAGE" | jq -r '.pagination.cursor // empty')
+            if [ -z "$CURSOR" ]; then break; fi
+          done
+          if [ -n "$CURSOR" ]; then
+            echo "::warning title=Fenêtre très chargée::Plus de 300 clips en 30 jours, les plus anciens de la fenêtre sont ignorés."
           fi
+          RESP=$(jq -nc --argjson d "$ALL" '{data: $d}')
 
           COUNT=$(echo "$RESP" | jq '.data | length')
 
@@ -204,6 +214,9 @@ jobs:
 
           TOTAL=$(wc -l < /tmp/all-clips.jsonl)
           echo "Clips historiques récupérés : $TOTAL"
+          if [ -n "$CURSOR" ] && [ -z "$PARTIAL" ]; then
+            echo "::warning title=Panthéon tronqué::Plus de 1000 clips all-time : les plus anciens ne sont plus comptés (augmenter le plafond de pages)."
+          fi
 
           # En cas d'échec (total ou partiel) on ne touche pas au fichier existant
           if [ "$TOTAL" -gt 0 ] && [ -z "$PARTIAL" ]; then
