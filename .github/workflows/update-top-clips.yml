@@ -210,9 +210,15 @@ jobs:
             jq -s --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               'def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                # Le Panthéon valorise les clippeurs de la communauté : on retire le streamer lui-même.
+               # Regroupement insensible à la casse : un même clippeur apparaît
+               # tantôt via creator_name (casse Twitch, "Teph_woot_woot"), tantôt
+               # via le "(by ...)" des titres du bot (login en minuscules). Sans
+               # ça, la même personne est comptée deux fois. Le nom affiché est
+               # la graphie la plus fréquente parmi ses clips.
+               # (aucune apostrophe ici : le programme jq est entre quotes simples)
                [.[] | select((clipper | ascii_downcase) != "baguettechaussette")] as $c
-               | {clippers: ($c | group_by(clipper) | map({
-                  name: (.[0] | clipper),
+               | {clippers: ($c | group_by(clipper | ascii_downcase) | map({
+                  name: ([.[] | clipper] | group_by(.) | max_by(length) | .[0]),
                   clips: length,
                   total_views: ([.[].view_count] | add),
                   best_clip: (max_by(.view_count) | {id, title, view_count})

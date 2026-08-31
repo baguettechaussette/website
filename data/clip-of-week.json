@@ -34,32 +34,7 @@
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/ebec8f96-56a6-4f59-a802-2c16460e2086/landscape/thumb/thumb-0000000000-480x272.jpg"
     }
   ],
-  "bench": [
-    {
-      "id": "BraveFrozenAsparagusAMPEnergyCherry-v-gVTomhP_nUax8h",
-      "title": "livre",
-      "creator_name": "BaguetteChaussette",
-      "view_count": 3,
-      "created_at": "2026-08-24T12:30:52Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/58fdf6c0-75f5-4394-8ca8-eba04143043e/landscape/thumb/thumb-0000000000-480x272.jpg"
-    },
-    {
-      "id": "ShinyTardyBatTwitchRaid-uojoZZkEFDT3fpzB",
-      "title": "livre",
-      "creator_name": "BaguetteChaussette",
-      "view_count": 2,
-      "created_at": "2026-08-24T12:27:01Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/b8d852af-f3a9-4505-bdfb-f746d43c1d27/landscape/thumb/thumb-0000000000-480x272.jpg"
-    },
-    {
-      "id": "GoodExuberantLeopardCoolStoryBob-M8Fg9qhaOGpVTAFH",
-      "title": "livre",
-      "creator_name": "BaguetteChaussette",
-      "view_count": 2,
-      "created_at": "2026-08-24T12:25:33Z",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/496d29c2-d2a0-4bf3-aa3e-3787771eecd4/landscape/thumb/thumb-0000000000-480x272.jpg"
-    }
-  ],
+  "bench": [],
   "winner": {
     "id": "BoredTentativeCrowResidentSleeper-MVo44jllMHkuh1eS",
     "title": "",
