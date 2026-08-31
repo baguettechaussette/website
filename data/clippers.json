@@ -3,7 +3,7 @@
     {
       "name": "alizee_ngs",
       "clips": 36,
-      "total_views": 204,
+      "total_views": 209,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -13,7 +13,7 @@
     {
       "name": "Teph_woot_woot",
       "clips": 30,
-      "total_views": 244,
+      "total_views": 245,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -43,7 +43,7 @@
     {
       "name": "miche__france",
       "clips": 18,
-      "total_views": 85,
+      "total_views": 89,
       "best_clip": {
         "id": "BumblingFreezingMangoRuleFive-bLBDyxD9LOl3M_jn",
         "title": "Le pokemon beauf des fonds marins",
@@ -51,9 +51,19 @@
       }
     },
     {
-      "name": "emelinevdb",
+      "name": "sassa_miemie",
       "clips": 17,
-      "total_views": 160,
+      "total_views": 77,
+      "best_clip": {
+        "id": "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ",
+        "title": "ah non regardez les nuls là!",
+        "view_count": 15
+      }
+    },
+    {
+      "name": "emelinevdb",
+      "clips": 16,
+      "total_views": 159,
       "best_clip": {
         "id": "SpotlessTameLegPupper-inUjNcjLUh49LF_K",
         "title": "Fais pas tomber hein Bibou ? Oh !",
@@ -62,22 +72,12 @@
     },
     {
       "name": "gloubiboulgars",
-      "clips": 17,
-      "total_views": 111,
+      "clips": 16,
+      "total_views": 109,
       "best_clip": {
         "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
         "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
         "view_count": 20
-      }
-    },
-    {
-      "name": "sassa_miemie",
-      "clips": 17,
-      "total_views": 75,
-      "best_clip": {
-        "id": "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ",
-        "title": "ah non regardez les nuls là!",
-        "view_count": 15
       }
     },
     {
@@ -631,16 +631,6 @@
       }
     },
     {
-      "name": "Mimypingouine",
-      "clips": 1,
-      "total_views": 1,
-      "best_clip": {
-        "id": "TriumphantCogentHamsterNotATK-wl022_9RlzJX-b58",
-        "title": "tombé mdr",
-        "view_count": 1
-      }
-    },
-    {
       "name": "punishr_fr",
       "clips": 1,
       "total_views": 1,
@@ -651,6 +641,6 @@
       }
     }
   ],
-  "total_clips": 400,
-  "updated_at": "2026-08-31T01:02:54Z"
+  "total_clips": 397,
+  "updated_at": "2026-08-31T11:39:12Z"
 }
