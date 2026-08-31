@@ -277,10 +277,21 @@ jobs:
 
           ADOW=$(date -u -d "$ANCHOR" +%u)                              # 1=lun .. 7=dim
           VOTE_MON=$(date -u -d "$ANCHOR -$((ADOW-1)) days" +%Y-%m-%d)  # lundi de la semaine de vote
-          # Fenêtre = du dimanche 17h45 UTC (8 jours avant ce lundi) au
-          # dimanche 17h45 UTC suivant (veille de ce lundi) : dimanche→dimanche.
-          STARTED_AT=$(date -u -d "$VOTE_MON -8 days" +%Y-%m-%dT17:45:00Z)
+          # Fenêtre = 14 jours, bornée aux dimanches 17h45 UTC (la coupure tombe
+          # juste avant le live du soir : aucune session n'est jamais scindée).
+          # Deux semaines plutôt qu'une parce que l'activité est irrégulière : un
+          # week-end chargé produit 20 clips, la semaine suivante 4. Les clips déjà
+          # passés au vote sont exclus (SEEN) : un clip reste candidat deux semaines
+          # mais n'est jamais proposé deux fois.
+          STARTED_AT=$(date -u -d "$VOTE_MON -15 days" +%Y-%m-%dT17:45:00Z)
           ENDED_AT=$(date -u -d "$VOTE_MON -1 day" +%Y-%m-%dT17:45:00Z)
+
+          # Mémoire des clips déjà proposés : les finalistes sortants la rejoignent,
+          # les plus anciens en sortent (40 couvre deux semaines à 8 par semaine).
+          # Le banc n'y entre pas, il n'a jamais été soumis au vote.
+          SEEN=$(echo "$PREV" | jq -c '([(.finalists // [])[].id] + (.seen // []))
+             | reduce .[] as $x ([]; if any(.[]; . == $x) then . else . + [$x] end)
+             | .[0:40]')
           RESP=$(curl -sS --fail -G \
             -H "Client-Id: $TWITCH_CLIENT_ID" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
@@ -298,10 +309,11 @@ jobs:
           # vues décroissantes). Top 12 gardé : les 8 premiers votent, les 4
           # suivants forment le banc des remplaçants (disqualification ou clip
           # supprimé de Twitch).
-          FIN=$(echo "$RESP" | jq -c \
+          FIN=$(echo "$RESP" | jq -c --argjson seen "$SEEN" \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
              [(.data // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: ((clipper | ascii_downcase) == "baguettechaussette")}]
+             | map(select(.id as $i | ($seen | index($i)) | not))
              | map(select(.own | not))[0:12]
              | map(del(.own))')
 
@@ -314,11 +326,12 @@ jobs:
           # clips les plus vus.
           if [ "$(echo "$FIN" | jq 'length')" -lt 2 ]; then
             echo "ℹ️ Semaine creuse, finalistes pris dans les clips du mois (les plus vus)"
-            FIN=$(jq -c \
+            FIN=$(jq -c --argjson seen "$SEEN" \
               'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
                def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
                [(.clips // [])[] | {id, title: (.title | clean_title), creator_name: clipper, view_count, created_at, thumbnail_url, own: (((clipper // "") | ascii_downcase) == "baguettechaussette")}]
                | sort_by(-(.view_count // 0))
+               | map(select(.id as $i | ($seen | index($i)) | not))
                | map(select(.own | not))[0:12]
                | map(del(.own))' \
               data/top-clips.json 2>/dev/null || echo '[]')
@@ -332,7 +345,8 @@ jobs:
 
           jq -n --arg week "$NEXT_WEEK" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --argjson finalists "$FIN" --argjson bench "$BENCH" --argjson winner "$WINNER" --argjson votes "$VOTES" \
-            '{week: $week, finalists: $finalists, bench: $bench, winner: $winner, votes: $votes, updated_at: $now}' \
+            --argjson seen "$SEEN" \
+            '{week: $week, finalists: $finalists, bench: $bench, winner: $winner, votes: $votes, seen: $seen, updated_at: $now}' \
             > data/clip-of-week.json
 
           echo "✅ Semaine $NEXT_WEEK : $(echo "$FIN" | jq 'length') finalistes, $(echo "$BENCH" | jq 'length') au banc"
