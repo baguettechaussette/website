@@ -413,21 +413,12 @@ async function loadTopClips() {
             });
         };
 
-        // Page clips : les épinglés ont leur propre bloc "Mes petits préférés"
-        // (les mélanger aux derniers clips était incohérent : ils n'en font pas partie).
-        // La sélection perso s'affiche TOUJOURS en entier, même si un épinglé est
-        // aussi finaliste ou couronné de la semaine. Ailleurs (vitrine home) :
-        // liste fusionnée, épinglés d'abord.
-        const pinnedSection = document.getElementById('clips-pinned');
-        const pinnedGrid = document.getElementById('pinnedGrid');
-        if (pinnedGrid) {
-            keep(pinned, false).forEach(clip => pinnedGrid.appendChild(buildClipCard(clip)));
-            if (pinnedSection && pinnedGrid.children.length) pinnedSection.hidden = false;
-        }
-
-        const clips = keep(pinnedGrid ? autos : [...pinned, ...autos]).slice(0, limit);
+        // La section "Mes petits préférés" a été retirée : on n'affiche que les
+        // derniers clips (les épinglés restent maintenus dans top-clips.json,
+        // ce qui permet de rétablir la section sans rien reconstruire).
+        const clips = keep(autos).slice(0, limit);
         clips.forEach(clip => grid.appendChild(buildClipCard(clip)));
-        if (grid.children.length || pinnedGrid?.children.length) section.hidden = false;
+        if (grid.children.length) section.hidden = false;
     } catch (err) {
         console.debug('Top clips indisponibles:', err.message);
     } finally {
