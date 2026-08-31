@@ -5,6 +5,7 @@
 //  Endpoints publics :
 //    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
 //    GET  /turnout/<semaine>         -> {"count": N} (total seul)
+//    GET  /live                      -> {is_live, game, title, started_at}
 //  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
 //
 //  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
@@ -12,7 +13,7 @@
 //
 //  Binding requis : un KV namespace attaché sous le nom VOTES.
 //  Secrets (wrangler secret put, jamais dans le repo) : SALT, BOARD_KEY,
-//  DISCORD_WEBHOOK.
+//  DISCORD_WEBHOOK, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, TWITCH_BROADCASTER_ID.
 // ============================================================
 
 const ALLOWED_ORIGINS = [
@@ -217,6 +218,45 @@ function boardHtml(data, votes, announced) {
 </main></body></html>`;
 }
 
+// Jeton d'application Twitch, mis en cache dans le KV : il vaut plusieurs
+// semaines, inutile d'en redemander un à chaque visite du site.
+async function twitchToken(env, forceNew = false) {
+    if (!forceNew) {
+        const cached = await env.VOTES.get("twitch:token");
+        if (cached) return cached;
+    }
+    const body = new URLSearchParams({
+        client_id: env.TWITCH_CLIENT_ID,
+        client_secret: env.TWITCH_CLIENT_SECRET,
+        grant_type: "client_credentials",
+    });
+    const r = await fetch("https://id.twitch.tv/oauth2/token", { method: "POST", body });
+    if (!r.ok) return null;
+    const d = await r.json();
+    if (!d.access_token) return null;
+    // On l'oublie une heure avant son expiration réelle (marge de sécurité).
+    const ttl = Math.max(600, (Number(d.expires_in) || 3600) - 3600);
+    try { await env.VOTES.put("twitch:token", d.access_token, { expirationTtl: ttl }); } catch { /* cache best-effort */ }
+    return d.access_token;
+}
+
+// Interroge Helix, avec une seule reprise si le jeton en cache a été révoqué.
+async function twitchStreams(env) {
+    const call = async (token) => fetch(
+        `https://api.twitch.tv/helix/streams?user_id=${encodeURIComponent(env.TWITCH_BROADCASTER_ID)}`,
+        { headers: { "Client-Id": env.TWITCH_CLIENT_ID, Authorization: `Bearer ${token}` } },
+    );
+    let token = await twitchToken(env);
+    if (!token) return null;
+    let r = await call(token);
+    if (r.status === 401) {
+        token = await twitchToken(env, true);
+        if (!token) return null;
+        r = await call(token);
+    }
+    return r.ok ? await r.json() : null;
+}
+
 export default {
     async fetch(request, env) {
         const cors = corsHeaders(request);
@@ -403,6 +443,36 @@ export default {
                 await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 10 });
             } catch { /* re-run possible : rare et bénin */ }
             return json({ ok: true }, cors);
+        }
+
+        // ── GET /live : statut du live, demandé à Twitch en direct ──
+        // L'ordonnanceur de GitHub bride fortement les crons fréquents (plusieurs
+        // heures de retard constatées) : le site interroge donc Twitch par ici.
+        // Cache 60 s au edge = au plus un appel Twitch par minute, quel que soit
+        // le trafic. Une panne renvoie une erreur : le site masque le badge
+        // plutôt que d'afficher un état périmé.
+        if (request.method === "GET" && url.pathname === "/live") {
+            const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" };
+            const cache = caches.default;
+            const cacheKey = new Request(url.origin + url.pathname);
+            const hit = await cache.match(cacheKey);
+            if (hit) return new Response(hit.body, { headers: { ...baseHeaders, ...cors } });
+
+            if (!env.TWITCH_CLIENT_ID || !env.TWITCH_CLIENT_SECRET || !env.TWITCH_BROADCASTER_ID) {
+                return json({ error: "twitch non configuré" }, cors, 503);
+            }
+            const d = await twitchStreams(env);
+            if (!d) return json({ error: "twitch injoignable" }, cors, 502);
+
+            const live = (d.data || [])[0] || null;
+            const payload = JSON.stringify({
+                is_live: Boolean(live),
+                game: live ? (live.game_name || null) : null,
+                title: live ? (live.title || null) : null,
+                started_at: live ? (live.started_at || null) : null,
+            });
+            await cache.put(cacheKey, new Response(payload, { headers: baseHeaders }));
+            return new Response(payload, { headers: { ...baseHeaders, ...cors } });
         }
 
         return json({ error: "not found" }, cors, 404);

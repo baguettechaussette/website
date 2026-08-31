@@ -6,7 +6,9 @@
 (function initStreamCountdown() {
     const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
     const TWITCH_URL         = "https://www.twitch.tv/baguettechaussette";
-    const LIVE_STATUS_URL    = "/data/live-status.json";
+    // Statut demandé au worker Cloudflare (Twitch en direct) : le cron GitHub
+    // est bridé et peut avoir plusieurs heures de retard.
+    const LIVE_STATUS_URL    = "https://bc-vote.baguette-chaussette.workers.dev/live";
 
     // ─── Cache d'état : on compare avant de toucher au DOM ───────────────────
     let cachedIsLive  = null; // null = jamais initialisé
@@ -131,11 +133,14 @@
 
     let liveMeta = null; // {game, title, started_at} si le workflow enrichi a tourné
 
+    let liveFails = 0; // 3 échecs d'affilée avant de considérer le live terminé
+
     async function pollLive() {
         try {
             const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
-            if (!r.ok) return;
+            if (!r.ok) throw new Error(String(r.status));
             const json    = await r.json();
+            liveFails     = 0;
             const newLive = !!(json && json.is_live);
             liveMeta      = newLive ? json : null;
             if (newLive !== liveOverride) {
@@ -144,7 +149,15 @@
             } else if (newLive) {
                 renderLiveMeta(); // le jeu peut changer en cours de stream
             }
-        } catch { /* silencieux */ }
+        } catch {
+            // Statut inconnu : on retombe sur "hors live" plutôt que de figer un
+            // état périmé (l'horaire prévu prend alors le relais).
+            if (++liveFails >= 3 && liveOverride) {
+                liveOverride = false;
+                liveMeta     = null;
+                cachedIsLive = null;
+            }
+        }
     }
 
     // Ligne "🎮 jeu en cours" ajoutée à la carte live (textContent : pas d'injection HTML)

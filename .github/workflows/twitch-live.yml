@@ -1,7 +1,12 @@
 name: Update Twitch Live Status
 on:
   schedule:
-    - cron: "*/5 * * * *" # Toutes les 5 minutes
+    # Le site ne dépend plus de ce fichier : il interroge Twitch via le worker
+    # Cloudflare (route /live), car GitHub bride fortement les crons fréquents
+    # (3h30 d'écart médian constaté sur un cron déclaré à 5 min). On garde ce
+    # workflow en filet : data/live-status.json reste à jour à la demi-heure et
+    # permet de rebasculer le site dessus en une ligne si le worker tombe.
+    - cron: "*/30 * * * *" # Toutes les 30 minutes (filet, pas temps réel)
   workflow_dispatch:      # Permet de tester manuellement
 
 permissions:
