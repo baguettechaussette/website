@@ -61,6 +61,16 @@
       }
     },
     {
+      "name": "gloubiboulgars",
+      "clips": 17,
+      "total_views": 111,
+      "best_clip": {
+        "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
+        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
+        "view_count": 20
+      }
+    },
+    {
       "name": "sassa_miemie",
       "clips": 17,
       "total_views": 75,
@@ -68,16 +78,6 @@
         "id": "NastyRudeBeeWOOP-BuXCZhXKJHADQOwJ",
         "title": "ah non regardez les nuls là!",
         "view_count": 15
-      }
-    },
-    {
-      "name": "gloubiboulgars",
-      "clips": 16,
-      "total_views": 109,
-      "best_clip": {
-        "id": "ExuberantBlueManateeSoBayed-d1MeM4FgIymSzdVP",
-        "title": "WzBot CLIP | De retour sur Tomodachi !✨ | !Japhy !discord !insta (by gloubiboulgars)",
-        "view_count": 20
       }
     },
     {
@@ -651,6 +651,6 @@
       }
     }
   ],
-  "total_clips": 399,
-  "updated_at": "2026-08-31T00:52:00Z"
+  "total_clips": 400,
+  "updated_at": "2026-08-31T01:02:54Z"
 }
