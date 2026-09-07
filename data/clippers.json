@@ -3,7 +3,7 @@
     {
       "name": "alizee_ngs",
       "clips": 36,
-      "total_views": 214,
+      "total_views": 221,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -12,8 +12,8 @@
     },
     {
       "name": "Teph_woot_woot",
-      "clips": 30,
-      "total_views": 249,
+      "clips": 31,
+      "total_views": 256,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -42,12 +42,12 @@
     },
     {
       "name": "miche__france",
-      "clips": 18,
-      "total_views": 92,
+      "clips": 20,
+      "total_views": 107,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
-        "view_count": 13
+        "view_count": 22
       }
     },
     {
@@ -82,8 +82,8 @@
     },
     {
       "name": "legrandmicrobe",
-      "clips": 13,
-      "total_views": 202,
+      "clips": 14,
+      "total_views": 203,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
@@ -251,6 +251,16 @@
       }
     },
     {
+      "name": "PtitMiki_",
+      "clips": 5,
+      "total_views": 61,
+      "best_clip": {
+        "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
+        "title": "Le cailloux dans mon ...",
+        "view_count": 24
+      }
+    },
+    {
       "name": "TsukinoArisu",
       "clips": 5,
       "total_views": 36,
@@ -268,16 +278,6 @@
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
         "view_count": 62
-      }
-    },
-    {
-      "name": "PtitMiki_",
-      "clips": 4,
-      "total_views": 54,
-      "best_clip": {
-        "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
-        "title": "Le cailloux dans mon ...",
-        "view_count": 24
       }
     },
     {
@@ -521,6 +521,16 @@
       }
     },
     {
+      "name": "Dj0h",
+      "clips": 1,
+      "total_views": 8,
+      "best_clip": {
+        "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
+        "title": "Il va faire quoi ? x)",
+        "view_count": 8
+      }
+    },
+    {
       "name": "Ayriiiia",
       "clips": 1,
       "total_views": 7,
@@ -641,6 +651,6 @@
       }
     }
   ],
-  "total_clips": 397,
-  "updated_at": "2026-09-05T09:08:38Z"
+  "total_clips": 403,
+  "updated_at": "2026-09-07T10:27:26Z"
 }
