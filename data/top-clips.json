@@ -36,11 +36,66 @@
   ],
   "clips": [
     {
+      "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
+      "title": "Il va faire quoi ? x)",
+      "creator_name": "Dj0h",
+      "game": "Just Chatting",
+      "view_count": 8,
+      "created_at": "2026-09-07T00:59:29Z",
+      "duration": 11.3,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/598cbbeb-325c-4115-9190-cba3ad48645a/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP"
+    },
+    {
+      "id": "BreakableArbitraryButterNononoCat-PtEhkAMVKnwedcOP",
+      "title": "il y a des moucherons chez Baguette",
+      "creator_name": "Teph_woot_woot",
+      "game": "Disney Dreamlight Valley",
+      "view_count": 5,
+      "created_at": "2026-09-06T22:57:48Z",
+      "duration": 13.7,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/104ee1b1-7159-4c53-a8fe-1bf5411d0fb6/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/BreakableArbitraryButterNononoCat-PtEhkAMVKnwedcOP"
+    },
+    {
+      "id": "GentleFineMageSoonerLater-Kxajmtr3FbLF-rnw",
+      "title": "le prix d’un gros BBL",
+      "creator_name": "miche__france",
+      "game": "Just Chatting",
+      "view_count": 1,
+      "created_at": "2026-09-06T21:10:00Z",
+      "duration": 14.8,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/5a4c8fa8-38b8-4be2-9ce2-3b322f8fc03f/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/GentleFineMageSoonerLater-Kxajmtr3FbLF-rnw"
+    },
+    {
+      "id": "ThoughtfulBlatantPastaHumbleLife-l8GTyuiZpP5m53lO",
+      "title": "QUATRE BAGUETTE",
+      "creator_name": "PtitMiki_",
+      "game": "Just Chatting",
+      "view_count": 7,
+      "created_at": "2026-09-06T20:43:18Z",
+      "duration": 17,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/17d25ad0-8618-48a5-864c-060184f85a69/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/ThoughtfulBlatantPastaHumbleLife-l8GTyuiZpP5m53lO"
+    },
+    {
+      "id": "SparklyFilthyShieldRickroll-JsTMra6h_b37sZcE",
+      "title": "ON ENTEND TRIPLE !!",
+      "creator_name": "miche__france",
+      "game": "Just Chatting",
+      "view_count": 5,
+      "created_at": "2026-09-06T20:41:53Z",
+      "duration": 14.5,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4691e274-3463-4878-8710-35ad748934a1/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/SparklyFilthyShieldRickroll-JsTMra6h_b37sZcE"
+    },
+    {
       "id": "ExcitedObservantAntelopeAliens-w-drjS-N6MDaRHvJ",
       "title": "",
       "creator_name": "alizee_ngs",
       "game": "Disney Dreamlight Valley",
-      "view_count": 3,
+      "view_count": 5,
       "created_at": "2026-08-30T23:10:38Z",
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/00317de0-5d2a-4ee3-89d5-1bd4b16230db/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -51,7 +106,7 @@
       "title": "",
       "creator_name": "alizee_ngs",
       "game": "Disney Dreamlight Valley",
-      "view_count": 4,
+      "view_count": 6,
       "created_at": "2026-08-30T22:23:16Z",
       "duration": 60,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/c37dd2b6-5b5d-4d71-a441-4f5532011c31/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -62,7 +117,7 @@
       "title": "",
       "creator_name": "alizee_ngs",
       "game": "Just Chatting",
-      "view_count": 3,
+      "view_count": 6,
       "created_at": "2026-08-30T20:11:33Z",
       "duration": 59.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/be63ef32-98e9-4418-a5e7-cc659f08e017/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -73,7 +128,7 @@
       "title": "ON ENTEND DOUBLE!!",
       "creator_name": "miche__france",
       "game": "Just Chatting",
-      "view_count": 13,
+      "view_count": 22,
       "created_at": "2026-08-30T20:01:52Z",
       "duration": 8.1,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f1a9e1ce-d036-44e9-8440-2d95cf8264d2/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -95,7 +150,7 @@
       "title": "les dépenses de Baguettes",
       "creator_name": "Teph_woot_woot",
       "game": "Lou's Lagoon",
-      "view_count": 23,
+      "view_count": 25,
       "created_at": "2026-08-27T23:21:00Z",
       "duration": 26.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/1674b244-9d4d-41ab-98a2-7d42c10d8d36/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -309,62 +364,7 @@
       "duration": 52.6,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4f6abdd2-8836-42bd-9c11-c9145f88cc68/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/ElegantPlainHummingbirdMoreCowbell-MXF7s0_13wgKAm7-"
-    },
-    {
-      "id": "PolishedAthleticStarPupper-hmiK_tu-wxco4be5",
-      "title": "oh le génie oh shit!",
-      "creator_name": "sassa_miemie",
-      "game": "Special Events",
-      "view_count": 1,
-      "created_at": "2026-08-22T20:12:45Z",
-      "duration": 30,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/fc959083-7af8-47b8-942d-aa8f67125de9/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/PolishedAthleticStarPupper-hmiK_tu-wxco4be5"
-    },
-    {
-      "id": "RelievedSmallAnacondaKappaClaus-U27F6EuqvWRqhcos",
-      "title": "Le génie du camouflage 😂",
-      "creator_name": "alizee_ngs",
-      "game": "Special Events",
-      "view_count": 4,
-      "created_at": "2026-08-22T20:12:22Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/247e1fe0-d8b3-40b8-a0f7-843a191ed8c4/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/RelievedSmallAnacondaKappaClaus-U27F6EuqvWRqhcos"
-    },
-    {
-      "id": "ArtisticTrappedPlumberJKanStyle-R6aVc3fY8f0L8BFc",
-      "title": "j’arrive!",
-      "creator_name": "sassa_miemie",
-      "game": "Special Events",
-      "view_count": 1,
-      "created_at": "2026-08-22T19:09:12Z",
-      "duration": 29.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9c932255-3be2-471c-b8c4-1511c3ba46ed/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/ArtisticTrappedPlumberJKanStyle-R6aVc3fY8f0L8BFc"
-    },
-    {
-      "id": "OutstandingScrumptiousPresidentRiPepperonis-z_AesPN9Iqlcdq7j",
-      "title": "",
-      "creator_name": "mimie_chan",
-      "game": "Special Events",
-      "view_count": 1,
-      "created_at": "2026-08-22T19:05:14Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/2dd067e7-67f3-44a3-a017-ea3a95d4049c/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/OutstandingScrumptiousPresidentRiPepperonis-z_AesPN9Iqlcdq7j"
-    },
-    {
-      "id": "PoisedSpunkyDuckWTRuck-hXDA-A7FeWxuApDG",
-      "title": "Appel d'un bureau",
-      "creator_name": "kekew02",
-      "game": "PEAK",
-      "view_count": 2,
-      "created_at": "2026-08-22T18:36:46Z",
-      "duration": 43.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/aeeca6c9-66af-452c-acd0-1913008d05f8/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/PoisedSpunkyDuckWTRuck-hXDA-A7FeWxuApDG"
     }
   ],
-  "updated_at": "2026-09-05T09:08:35Z"
+  "updated_at": "2026-09-07T10:27:24Z"
 }
