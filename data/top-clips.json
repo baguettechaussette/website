@@ -40,7 +40,7 @@
       "title": "Il va faire quoi ? x)",
       "creator_name": "Dj0h",
       "game": "Just Chatting",
-      "view_count": 8,
+      "view_count": 12,
       "created_at": "2026-09-07T00:59:29Z",
       "duration": 11.3,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/598cbbeb-325c-4115-9190-cba3ad48645a/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -51,7 +51,7 @@
       "title": "il y a des moucherons chez Baguette",
       "creator_name": "Teph_woot_woot",
       "game": "Disney Dreamlight Valley",
-      "view_count": 5,
+      "view_count": 13,
       "created_at": "2026-09-06T22:57:48Z",
       "duration": 13.7,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/104ee1b1-7159-4c53-a8fe-1bf5411d0fb6/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -73,7 +73,7 @@
       "title": "QUATRE BAGUETTE",
       "creator_name": "PtitMiki_",
       "game": "Just Chatting",
-      "view_count": 7,
+      "view_count": 8,
       "created_at": "2026-09-06T20:43:18Z",
       "duration": 17,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/17d25ad0-8618-48a5-864c-060184f85a69/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -139,7 +139,7 @@
       "title": "l'aspirateur",
       "creator_name": "virginieopal",
       "game": "Lou's Lagoon",
-      "view_count": 7,
+      "view_count": 8,
       "created_at": "2026-08-27T23:32:00Z",
       "duration": 29.1,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/e1f877b3-b387-45ba-b062-b355322b4d90/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -245,17 +245,6 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/AntediluvianGiftedSandpiperArsonNoSexy-JjrzkXLwN15rsYeb"
     },
     {
-      "id": "PiliableVenomousMageFreakinStinkin-kZE-lti4H6-Spzyj",
-      "title": "",
-      "creator_name": "alizee_ngs",
-      "game": "Pokémon Pokopia",
-      "view_count": 1,
-      "created_at": "2026-08-23T09:47:22Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/937410b5-74d8-4fd5-a155-6b216620e585/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/PiliableVenomousMageFreakinStinkin-kZE-lti4H6-Spzyj"
-    },
-    {
       "id": "FamousEncouragingPizzaPeanutButterJellyTime-dzEIVDfIj2VU86xF",
       "title": "",
       "creator_name": "mimie_chan",
@@ -322,17 +311,6 @@
       "url": "https://www.twitch.tv/baguettechaussette/clip/ZealousKnottyLadiesMrDestructoid-JECkwVTAD9MWDYjD"
     },
     {
-      "id": "TawdryCogentGrouseUWot-NRIB1sfyzAOBsdyd",
-      "title": "",
-      "creator_name": "alizee_ngs",
-      "game": "Mario Kart World",
-      "view_count": 1,
-      "created_at": "2026-08-22T23:28:46Z",
-      "duration": 59.9,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/0233218e-f03a-4b8f-befc-edc222ec385a/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/TawdryCogentGrouseUWot-NRIB1sfyzAOBsdyd"
-    },
-    {
       "id": "StormyKathishLorisEleGiggle-a9pG9_5JM7fDEUzQ",
       "title": "",
       "creator_name": "mimie_chan",
@@ -364,7 +342,29 @@
       "duration": 52.6,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4f6abdd2-8836-42bd-9c11-c9145f88cc68/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/ElegantPlainHummingbirdMoreCowbell-MXF7s0_13wgKAm7-"
+    },
+    {
+      "id": "PolishedAthleticStarPupper-hmiK_tu-wxco4be5",
+      "title": "oh le génie oh shit!",
+      "creator_name": "sassa_miemie",
+      "game": "Special Events",
+      "view_count": 1,
+      "created_at": "2026-08-22T20:12:45Z",
+      "duration": 30,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/fc959083-7af8-47b8-942d-aa8f67125de9/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/PolishedAthleticStarPupper-hmiK_tu-wxco4be5"
+    },
+    {
+      "id": "RelievedSmallAnacondaKappaClaus-U27F6EuqvWRqhcos",
+      "title": "Le génie du camouflage 😂",
+      "creator_name": "alizee_ngs",
+      "game": "Special Events",
+      "view_count": 4,
+      "created_at": "2026-08-22T20:12:22Z",
+      "duration": 59.9,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/247e1fe0-d8b3-40b8-a0f7-843a191ed8c4/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/RelievedSmallAnacondaKappaClaus-U27F6EuqvWRqhcos"
     }
   ],
-  "updated_at": "2026-09-07T10:27:24Z"
+  "updated_at": "2026-09-09T09:51:35Z"
 }

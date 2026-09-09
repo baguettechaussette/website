@@ -3,17 +3,17 @@
     {
       "name": "alizee_ngs",
       "clips": 36,
-      "total_views": 221,
+      "total_views": 222,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
-        "view_count": 32
+        "view_count": 33
       }
     },
     {
       "name": "Teph_woot_woot",
       "clips": 31,
-      "total_views": 256,
+      "total_views": 264,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -42,8 +42,8 @@
     },
     {
       "name": "miche__france",
-      "clips": 20,
-      "total_views": 107,
+      "clips": 21,
+      "total_views": 111,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -113,11 +113,11 @@
     {
       "name": "Mimie_chan",
       "clips": 10,
-      "total_views": 98,
+      "total_views": 105,
       "best_clip": {
         "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
         "title": "Twerker sur la bouse",
-        "view_count": 24
+        "view_count": 26
       }
     },
     {
@@ -203,7 +203,7 @@
     {
       "name": "virginieopal",
       "clips": 6,
-      "total_views": 82,
+      "total_views": 83,
       "best_clip": {
         "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
         "title": "le rêve",
@@ -253,7 +253,7 @@
     {
       "name": "PtitMiki_",
       "clips": 5,
-      "total_views": 61,
+      "total_views": 62,
       "best_clip": {
         "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
         "title": "Le cailloux dans mon ...",
@@ -511,6 +511,16 @@
       }
     },
     {
+      "name": "Dj0h",
+      "clips": 1,
+      "total_views": 12,
+      "best_clip": {
+        "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
+        "title": "Il va faire quoi ? x)",
+        "view_count": 12
+      }
+    },
+    {
       "name": "CrystalCloud69",
       "clips": 1,
       "total_views": 10,
@@ -518,16 +528,6 @@
         "id": "RudeLitigiousScorpionTBTacoLeft-RhvkGkKOKLsfJe0V",
         "title": "pop",
         "view_count": 10
-      }
-    },
-    {
-      "name": "Dj0h",
-      "clips": 1,
-      "total_views": 8,
-      "best_clip": {
-        "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
-        "title": "Il va faire quoi ? x)",
-        "view_count": 8
       }
     },
     {
@@ -651,6 +651,6 @@
       }
     }
   ],
-  "total_clips": 403,
-  "updated_at": "2026-09-07T10:27:26Z"
+  "total_clips": 404,
+  "updated_at": "2026-09-09T09:51:37Z"
 }
