@@ -2,12 +2,22 @@
   "clippers": [
     {
       "name": "alizee_ngs",
-      "clips": 37,
-      "total_views": 227,
+      "clips": 38,
+      "total_views": 233,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
         "view_count": 33
+      }
+    },
+    {
+      "name": "teph_woot_la_miche",
+      "clips": 29,
+      "total_views": 239,
+      "best_clip": {
+        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
+        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
+        "view_count": 32
       }
     },
     {
@@ -23,7 +33,7 @@
     {
       "name": "miche__france",
       "clips": 23,
-      "total_views": 126,
+      "total_views": 130,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -32,22 +42,12 @@
     },
     {
       "name": "gwendo05062020",
-      "clips": 21,
-      "total_views": 173,
+      "clips": 22,
+      "total_views": 175,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
         "view_count": 22
-      }
-    },
-    {
-      "name": "teph_woot_la_miche",
-      "clips": 19,
-      "total_views": 184,
-      "best_clip": {
-        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
-        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
-        "view_count": 32
       }
     },
     {
@@ -81,9 +81,19 @@
       }
     },
     {
-      "name": "legrandmicrobe",
+      "name": "poketicyt",
       "clips": 14,
-      "total_views": 203,
+      "total_views": 76,
+      "best_clip": {
+        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
+        "title": "Ca restera dans quoi ?",
+        "view_count": 17
+      }
+    },
+    {
+      "name": "legrandmicrobe",
+      "clips": 13,
+      "total_views": 202,
       "best_clip": {
         "id": "BrightDirtyKoupreyDendiFace-IPawSpaQ1urGEyd6",
         "title": "CASCADE PONT Gl...",
@@ -98,16 +108,6 @@
         "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
         "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
         "view_count": 23
-      }
-    },
-    {
-      "name": "poketicyt",
-      "clips": 12,
-      "total_views": 66,
-      "best_clip": {
-        "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
-        "title": "Ca restera dans quoi ?",
-        "view_count": 17
       }
     },
     {
@@ -143,11 +143,11 @@
     {
       "name": "Hiimaxou",
       "clips": 9,
-      "total_views": 234,
+      "total_views": 235,
       "best_clip": {
         "id": "ImpossibleZealousPlumBrainSlug-6-iQJokipMsSWHjM",
         "title": "Mattage de baguette en cours",
-        "view_count": 58
+        "view_count": 59
       }
     },
     {
@@ -158,6 +158,16 @@
         "id": "TalentedPunchyAlligatorDoubleRainbow-agBjD-itapCgjTSR",
         "title": "et il tombe à l’infini 🤣",
         "view_count": 26
+      }
+    },
+    {
+      "name": "gagi49",
+      "clips": 8,
+      "total_views": 62,
+      "best_clip": {
+        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
+        "title": "Horrible",
+        "view_count": 30
       }
     },
     {
@@ -223,7 +233,7 @@
     {
       "name": "PtitMiki_",
       "clips": 6,
-      "total_views": 75,
+      "total_views": 76,
       "best_clip": {
         "id": "ThoughtfulHeadstrongWombatSSSsss-zoW7nyAr_B1YCclW",
         "title": "Le cailloux dans mon ...",
@@ -298,16 +308,6 @@
         "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
         "title": "Le tchouch dans la bruschetta",
         "view_count": 62
-      }
-    },
-    {
-      "name": "gagi49",
-      "clips": 4,
-      "total_views": 41,
-      "best_clip": {
-        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
-        "title": "Horrible",
-        "view_count": 30
       }
     },
     {
@@ -473,11 +473,21 @@
     {
       "name": "cosimiche",
       "clips": 2,
-      "total_views": 15,
+      "total_views": 17,
       "best_clip": {
         "id": "BoxyEncouragingSoybeanBabyRage-NyXy0eNvUOaX0aGN",
         "title": "WzBot CLIP | BONSOIR POKO LOKO WEEKEND✨ | !discord !insta (by cosimiche)",
-        "view_count": 12
+        "view_count": 14
+      }
+    },
+    {
+      "name": "moradoree290",
+      "clips": 2,
+      "total_views": 14,
+      "best_clip": {
+        "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
+        "title": "Gourmand",
+        "view_count": 10
       }
     },
     {
@@ -547,16 +557,6 @@
       "best_clip": {
         "id": "RudeLitigiousScorpionTBTacoLeft-RhvkGkKOKLsfJe0V",
         "title": "pop",
-        "view_count": 10
-      }
-    },
-    {
-      "name": "moradoree290",
-      "clips": 1,
-      "total_views": 10,
-      "best_clip": {
-        "id": "AntediluvianTriumphantGarlicKappa-r6Miz8FaRu6q7NFU",
-        "title": "Gourmand",
         "view_count": 10
       }
     },
@@ -721,6 +721,6 @@
       }
     }
   ],
-  "total_clips": 417,
-  "updated_at": "2026-09-15T10:09:35Z"
+  "total_clips": 435,
+  "updated_at": "2026-09-17T10:04:17Z"
 }
