@@ -296,6 +296,24 @@
         <div class="divider"></div>
         <h2 class="section-label">Mes liens de parrainage</h2>
 
+        <!-- Amazon -->
+        <button class="link-card affiliate" data-modal-open="amazon"
+                data-umami-event="Links - Amazon Modal">
+            <div class="link-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/>
+                </svg>
+            </div>
+            <div class="link-text">
+                <div class="link-name">Ma vitrine Amazon</div>
+                <div class="link-desc">Mon setup, mes objets du quotidien & les reco' de Bibou 🐈‍⬛</div>
+            </div>
+            <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </button>
+
         <!-- Instant Gaming -->
         <button class="link-card affiliate" data-modal-open="instantGaming"
                 data-umami-event="Links - Instant Gaming Modal">
@@ -373,15 +391,48 @@
 
     </nav>
 
-    <footer class="page-footer">
-        <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
-        <p><a href="https://baguettechaussette.fr" data-umami-event="Links - Footer - Site">baguettechaussette.fr</a> | <a href="https://baguettechaussette.fr/mentions-legales" data-umami-event="Links - Footer - Mentions">mentions légales</a>
-        </p>
-    </footer>
+<footer class="page-footer">
+    <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
+    <p><a href="https://baguettechaussette.fr" data-umami-event="Links - Footer - Site">baguettechaussette.fr</a> | <a href="https://baguettechaussette.fr/mentions-legales" data-umami-event="Links - Footer - Mentions">mentions légales</a>
+    </p>
+</footer>
 
 </main>
 
 <!-- Modals -->
+
+<div class="modal-overlay" id="modalAmazon">
+    <div class="modal-content">
+        <button class="modal-close" data-modal-close="amazon" aria-label="Fermer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="modal-header">
+            <h2 class="modal-title">Amazon : soutenir la chaîne</h2>
+            <p class="modal-subtitle">Sans rien payer de plus 🥖</p>
+        </div>
+        <div class="modal-body">
+            <p>Tu fais tes achats sur Amazon ? Passe par <strong>mon lien</strong> avant, ça soutient la chaîne
+                <strong>sans que ça te coûte plus cher</strong>, peu importe ce que tu achètes.</p>
+            <p>Et si tu veux voir mon matériel de stream, mes objets du quotidien ou les reco' de Bibou, tout est rangé dans
+                <a href="https://www.amazon.fr/shop/baguettechau7" target="_blank" rel="noopener sponsored"
+                   data-umami-event="Links - Amazon Vitrine Click">ma vitrine Amazon</a>.</p>
+            <p><em>En tant que Partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions
+                requises.</em></p>
+            <p>Merci à toi ! 💚</p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-secondary" data-modal-close="amazon">Fermer</button>
+            <a href="https://www.amazon.fr?&linkCode=ll2&tag=baguettecha03-21&linkId=298e799f083c7017c9509a727a5129aa&ref_=as_li_ss_tl"
+               target="_blank" rel="noopener sponsored" class="modal-btn modal-btn-primary"
+               data-modal-close="amazon"
+               data-umami-event="Links - Amazon Click">Je soutiens !</a>
+        </div>
+    </div>
+</div>
+    
 <div class="modal-overlay" id="modalInstantGaming">
     <div class="modal-content">
         <button class="modal-close" data-modal-close="instantGaming" aria-label="Fermer">
@@ -406,7 +457,7 @@
         </div>
         <div class="modal-actions">
             <button class="modal-btn modal-btn-secondary" data-modal-close="instantGaming">Fermer</button>
-            <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener"
+            <a href="https://www.instant-gaming.com/?igr=baguettechaussette" target="_blank" rel="noopener sponsored"
                class="modal-btn modal-btn-primary"
                data-modal-close="instantGaming"
                data-umami-event="Links - Instant Gaming Click">Je soutiens !</a>
@@ -469,7 +520,7 @@
         <div class="modal-actions">
             <button class="modal-btn modal-btn-secondary" data-modal-close="theFinals">Fermer</button>
             <a href="https://id.embark.games/fr/id/the-finals/refer-a-friend/claim?code=JZZX46DYZ-4MXELCUPP-LBMIOOD4"
-               target="_blank" rel="noopener" class="modal-btn modal-btn-primary"
+               target="_blank" rel="noopener sponsored" class="modal-btn modal-btn-primary"
                data-modal-close="theFinals"
                data-umami-event="Links - The Finals Click">À moi les Multibucks !</a>
         </div>
