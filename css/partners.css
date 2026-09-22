@@ -347,10 +347,11 @@
 
     .partner-card {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        /* Le logo prend la place restante et se resserre si besoin : le badge
+           (« PARTENAIRE OFFICIEL ») ne doit jamais passer sur deux lignes */
+        grid-template-columns: minmax(0, 1fr) auto auto;
         grid-template-areas:
-            "logo logo logo"
-            "name badge toggle"
+            "logo badge toggle"
             "desc desc desc"
             "tags tags tags"
             "actions actions actions";
@@ -367,35 +368,40 @@
     .partner-card:hover { transform: none; box-shadow: none; }
     .partner-card:hover .partner-logo img { transform: none; }
 
+    /* Le logo tient lieu de nom : petite pastille blanche en tête de ligne */
     .partner-logo {
         grid-area: logo;
         margin: 0;
-        padding: 12px 16px;
+        padding: 6px 10px;
         background: #fff;
-        border-radius: 18px;
+        border-radius: 10px;
+        width: fit-content;
+        max-width: 100%;
     }
 
-    /* Les logos sont horizontaux (440 px de large) : largeur contrainte, hauteur libre */
     .partner-logo img {
-        height: auto;
-        width: 100%;
-        max-width: 150px;
+        height: 28px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
         filter: none;
     }
+
+    .partner-name { display: none; } /* porté par le logo (alt de l'image) */
 
     .partner-badge {
         grid-area: badge;
         justify-self: start;
         margin: 0;
         padding: 3px 10px;
-        font-size: 0.82rem;
-        letter-spacing: 0.05em;
+        font-size: 0.72rem; /* 11,5 px comme la maquette : le libellé doit tenir sur une ligne */
+        letter-spacing: 0.04em;
+        white-space: nowrap;
     }
 
     /* Ses enfants deviennent les cellules de la grille de la carte */
     .partner-content { display: contents; }
 
-    .partner-name { grid-area: name; font-size: 1.125rem; line-height: 1.2; margin: 0; }
     .partner-description { grid-area: desc; font-size: 0.875rem; line-height: 1.5; margin: 0; }
     .partner-tags { grid-area: tags; gap: 6px; margin: 0; }
     .partner-actions { grid-area: actions; }
@@ -433,9 +439,7 @@
     /* Repliée : plus que deux rangées, sinon les rangées vides gardaient leurs
        gouttières (36 px de vide sous le nom) */
     .partner-card.is-collapsed {
-        grid-template-areas:
-            "logo logo logo"
-            "name badge toggle";
+        grid-template-areas: "logo badge toggle";
     }
 
     .partner-tag {
