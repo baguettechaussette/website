@@ -3,9 +3,15 @@
 //  Stratégie :
 //    • HTML  → Network First (toujours frais, cache en secours)
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
+//
+//  VERSION est le seul numéro à faire bouger : il nomme le cache ET suffixe
+//  les URLs CSS/JS (?v=N) dans les pages, pour qu'un nouveau HTML ne soit
+//  jamais servi avec une ancienne feuille en cache.
+//  → `node tools/bump-assets.mjs` avant tout commit qui touche css/ ou js/.
 // ============================================================
 
-const CACHE_NAME = 'bc-v15';
+const VERSION = 16;
+const CACHE_NAME = `bc-v${VERSION}`;
 
 const PRECACHE_ASSETS = [
     // Une seule forme d'URL par page : celle utilisée par les liens internes
@@ -50,10 +56,13 @@ const PRECACHE_ASSETS = [
 // ── Install : précache des assets principaux ──────────────
 // allSettled : un fichier renommé/supprimé ne bloque pas toute l'installation
 // (cache.addAll échouerait en tout-ou-rien et figerait le SW sur l'ancienne version)
+// Les CSS/JS sont précachés sous leur URL versionnée, celle que les pages demandent
+const versioned = a => /\.(css|js)$/.test(a) ? `${a}?v=${VERSION}` : a;
+
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => Promise.allSettled(PRECACHE_ASSETS.map(a => cache.add(a))))
+            .then(cache => Promise.allSettled(PRECACHE_ASSETS.map(a => cache.add(versioned(a)))))
             .then(() => self.skipWaiting())
     );
 });
