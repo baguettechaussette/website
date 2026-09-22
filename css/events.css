@@ -191,6 +191,25 @@
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.07);
 }
 
+/* L'action est portée par un vrai bouton transparent qui couvre la carte :
+   l'<article> garde son titre et sa description lisibles (un role="button"
+   sur l'article les masquait aux lecteurs d'écran et aux agents). */
+.gallery-trigger {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: inherit;
+}
+
+.gallery-trigger:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: -3px; /* vers l'intérieur : la carte est en overflow:hidden */
+}
+
 .gallery-item::before {
     content: '';
     position: absolute;
@@ -395,10 +414,10 @@
 }
 
 .has-gallery:hover .gallery-mosaic::after,
-.has-gallery:focus-visible .gallery-mosaic::after { opacity: 1; }
+.has-gallery:has(.gallery-trigger:focus-visible) .gallery-mosaic::after { opacity: 1; }
 
 .has-gallery:hover .gallery-mosaic-inner,
-.has-gallery:focus-visible .gallery-mosaic-inner {
+.has-gallery:has(.gallery-trigger:focus-visible) .gallery-mosaic-inner {
     filter: blur(5px) brightness(1);
     transform: scale(1.05);
 }

@@ -114,6 +114,10 @@
                 if (code) {
                     const img = document.createElement('img');
                     img.className = 'fluent-emoji';
+                    // Différé : sur l'accueil mobile, 12 Ko d'emojis sont visibles au premier
+                    // écran sur 266 Ko au total. loading doit être posé avant src pour compter.
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
                     img.src = `${CDN_BASE}/${code}.svg`;
                     img.alt = part;
                     span.appendChild(img);

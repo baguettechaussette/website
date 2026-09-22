@@ -37,7 +37,6 @@
     <!-- Les miniatures des clips viennent du CDN Twitch -->
     <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -107,12 +106,28 @@
 </header>
 
 <!-- Le Clip de la Semaine (alimenté par data/clip-of-week.json, vote dépouillé le dimanche) -->
-<section id="clip-semaine" hidden>
+<section id="clip-semaine">
     <div class="clips-container">
         <div class="cow-container">
             <div class="section-header">
                 <h2 class="section-title">Le Clip de la Semaine</h2>
                 <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
+            </div>
+            <!-- Squelette affiché dès le premier rendu : la section n'est plus cachée en attendant
+                 le JSON, sinon tout ce qui suit saute vers le bas au chargement (CLS 0,7 mesuré).
+                 js/clips-page.js le retire quand les vraies cartes arrivent. -->
+            <div class="cow-skeleton" id="cowSkeleton" aria-hidden="true">
+                <div class="cow-skel-line cow-skel-heading"></div>
+                <div class="cow-grid">
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                    <div class="cow-card"><div class="clip-skeleton"></div><div class="cow-skel-line"></div><div class="cow-skel-line short"></div><div class="cow-skel-btn"></div></div>
+                </div>
             </div>
             <div class="cow-vote-block" id="cowVoteBlock" hidden>
                 <h3 class="cow-block-heading" id="cowVoteHeading">🗳️ Les finalistes de la semaine</h3>

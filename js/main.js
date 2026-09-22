@@ -358,7 +358,8 @@ async function loadTopClips() {
 
     // Skeletons le temps du chargement (le fichier change tous les 2 jours,
     // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
-    const skeletons = Array.from({ length: Math.min(limit, source === 'week' ? 4 : 8) }, () => {
+    // Autant de squelettes que de cartes attendues : la grille a sa taille finale dès le départ
+    const skeletons = Array.from({ length: source === 'week' ? Math.min(limit, 4) : limit }, () => {
         const s = document.createElement('div');
         s.className = 'clip-skeleton';
         s.setAttribute('aria-hidden', 'true');
@@ -426,6 +427,21 @@ async function loadTopClips() {
     }
 }
 
+// Vignette Twitch : la même image existe en 260x147 et 480x272 (vérifié sur
+// static-cdn.jtvnw.net : 14 Ko contre 37 Ko). On propose les deux et le navigateur
+// choisit selon la largeur affichée et la densité d'écran. sizes décrit la largeur
+// CSS de la vignette dans son contexte. Ordre important : srcset/sizes avant src,
+// sinon certains navigateurs déclenchent deux requêtes.
+function setClipThumbSources(img, url, sizes) {
+    if (/-480x272\.jpg$/.test(url)) {
+        img.sizes = sizes;
+        img.srcset = `${url.replace('-480x272.jpg', '-260x147.jpg')} 260w, ${url} 480w`;
+    }
+    img.width = 480;
+    img.height = 272;
+    img.src = url;
+}
+
 // Carte de clip (miniature cliquable + titre + clippeur), commune à toutes les grilles
 function buildClipCard(clip) {
     const card = document.createElement('div');
@@ -442,9 +458,10 @@ function buildClipCard(clip) {
 
     if (clip.thumbnail_url) {
         const img = document.createElement('img');
-        img.src = clip.thumbnail_url;
         img.alt = '';
         img.loading = 'lazy';
+        // Grilles (accueil et /clips) : une carte fait 300 à 600 px de large
+        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 700px) 92vw, 400px');
         thumb.appendChild(img);
     }
 
