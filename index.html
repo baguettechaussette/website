@@ -10,6 +10,10 @@
          Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
+    <!-- preconnect : le worker est appelé en fetch() CORS (crossorigin requis), les vignettes
+         Twitch sont des <img> sans CORS (une connexion crossorigin ne leur servirait pas) -->
+    <link rel="preconnect" href="https://bc-vote.baguette-chaussette.workers.dev" crossorigin>
+    <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
     <meta name="description" content="Baguette Chaussette, streamer Twitch français : gaming cosy et humour douteux. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
     <!-- Open Graph / Social Media -->
@@ -46,14 +50,14 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=16">
+    <link rel="stylesheet" href="./css/fonts.css?v=17">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=16">
-    <link rel="stylesheet" href="./css/layout.css?v=16">
-    <link rel="stylesheet" href="./css/components.css?v=16">
-    <link rel="stylesheet" href="./css/sections.css?v=16">
-    <link rel="stylesheet" href="./css/responsive.css?v=16">
-    <link rel="stylesheet" href="./css/partners.css?v=16">
+    <link rel="stylesheet" href="./css/base.css?v=17">
+    <link rel="stylesheet" href="./css/layout.css?v=17">
+    <link rel="stylesheet" href="./css/components.css?v=17">
+    <link rel="stylesheet" href="./css/sections.css?v=17">
+    <link rel="stylesheet" href="./css/responsive.css?v=17">
+    <link rel="stylesheet" href="./css/partners.css?v=17">
 
     <script type="application/ld+json">
         {
@@ -736,9 +740,9 @@
 </footer>
 
 <!-- Scripts -->
-<script src="./js/main.js?v=16"></script>
-<script src="./js/stream-countdown.js?v=16"></script>
-<script src="./js/live-float.js?v=16"></script>
-<script src="./js/fluent-emoji.js?v=16"></script>
+<script defer src="./js/main.js?v=17"></script>
+<script defer src="./js/stream-countdown.js?v=17"></script>
+<script defer src="./js/live-float.js?v=17"></script>
+<script defer src="./js/fluent-emoji.js?v=17"></script>
 </body>
 </html>

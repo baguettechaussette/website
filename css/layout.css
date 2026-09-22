@@ -260,7 +260,7 @@
 
 @keyframes slideInLeft {
     from {
-        opacity: 0;
+        opacity: 0.5; /* pas 0 : un élément invisible n'est pas candidat LCP tant que le thread principal est occupé */
         transform: translateX(-100px);
     }
     to {
@@ -308,7 +308,7 @@
 
 @keyframes slideInRight {
     from {
-        opacity: 0;
+        opacity: 0.5; /* pas 0 : un élément invisible n'est pas candidat LCP tant que le thread principal est occupé */
         transform: translateX(100px);
     }
     to {
