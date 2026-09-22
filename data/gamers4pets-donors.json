@@ -1,0 +1,6 @@
+{
+  "_readme": "Mur des donateurs Gamers4Pets 2026. Ajoute les pseudos dans \"donors\" : le site les trie de A à Z et les affiche tout seul. Tant que la liste est vide, la page montre le message d'attente. Pense à mettre \"updated\" à jour (AAAA-MM-JJ).",
+  "event": "gamers4pets-2026",
+  "updated": null,
+  "donors": []
+}

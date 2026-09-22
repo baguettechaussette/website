@@ -17,15 +17,26 @@
     box-shadow: 0 4px 24px rgba(63, 47, 37, 0.07);
 }
 
+/* Emoji de fond : une image SVG plutôt que du texte, pour que le rendu soit
+   identique sur tous les appareils (chaque thème a le sien, voir plus bas). */
 .event-container::before {
-    content: attr(data-emoji);
+    content: "";
     position: absolute;
-    font-size: 15em;
+    width: 240px;
+    height: 240px;
     opacity: 0.10;
     top: -50px;
     right: -50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     animation: rotate 20s linear infinite;
 }
+
+.event-container.theme-charity::before { background-image: url("../img/emoji/1f43e.svg"); }
+.event-container.theme-summer::before  { background-image: url("../img/emoji/1f457.svg"); }
+.event-container.theme-game::before    { background-image: url("../img/emoji/1f4f8.svg"); }
+.event-container.theme-autumn::before  { background-image: url("../img/emoji/1f383.svg"); }
 
 @keyframes rotate {
     from { transform: rotate(0deg); }
@@ -48,6 +59,12 @@
 .event-container.theme-summer {
     background: linear-gradient(135deg, rgba(63, 184, 175, 0.10), rgba(242, 193, 107, 0.08));
     border-color: rgba(63, 184, 175, 0.22);
+}
+
+/* Thème caritatif (Gamers4Pets) */
+.event-container.theme-charity {
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.13), rgba(242, 201, 107, 0.08));
+    border-color: rgba(92, 147, 111, 0.26);
 }
 
 /* ============================================
@@ -92,6 +109,11 @@
 .theme-summer .event-badge {
     background: linear-gradient(135deg, #2aa79b, #f2b95a);
     box-shadow: 0 8px 24px rgba(42, 167, 155, 0.30);
+}
+
+.theme-charity .event-badge {
+    background: linear-gradient(135deg, #4f8462, #7fb893);
+    box-shadow: 0 8px 24px rgba(92, 147, 111, 0.30);
 }
 
 .event-description {
@@ -470,7 +492,10 @@
     z-index: 1;
 }
 
-.dti-gallery-block {
+/* Les blocs ci-dessous existent en deux noms : le préfixe .dti-* est historique,
+   les alias .event-block* sont les noms génériques à utiliser pour tout nouvel event. */
+.dti-gallery-block,
+.event-block {
     position: relative;
     z-index: 1;
     margin-top: 48px;
@@ -481,7 +506,8 @@
 
 .dti-gallery-block:first-of-type { margin-top: 0; }
 
-.dti-gallery-block-highlight {
+.dti-gallery-block-highlight,
+.event-block-highlight {
     padding: 28px;
     border-radius: var(--radius-xl);
     background: rgba(255, 255, 255, 0.18);
@@ -489,7 +515,8 @@
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
 }
 
-.dti-section-title {
+.dti-section-title,
+.event-block-title {
     font-size: 1.45em;
     font-weight: 800;
     color: var(--text-primary);
@@ -497,7 +524,8 @@
     text-align: center;
 }
 
-.dti-section-text {
+.dti-section-text,
+.event-block-text {
     font-size: 1.05em;
     line-height: 1.7;
     color: var(--text-secondary);
@@ -590,6 +618,224 @@
 }
 
 /* ============================================
+   GAMERS4PETS — Compte à rebours & mur des donateurs
+   ============================================ */
+
+/* Le compte à rebours est une carte de la bande de stats (.event-stat-chip) :
+   il reprend donc sa boîte, et n'ajoute que la mise en forme du « 10j 9h 20min ». */
+.g4p-countdown[hidden] { display: none; }
+
+.g4p-countdown-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.g4p-countdown-sep {
+    font-size: 0.5em;
+    font-weight: 700;
+    margin: 0 10px 0 1px;
+}
+
+.g4p-countdown-sep:last-child { margin-right: 0; }
+
+/* Pendant l'event, la carte passe au vert et affiche « En live » */
+.g4p-countdown.is-live {
+    background: rgba(127, 184, 147, 0.30);
+    border-color: rgba(92, 147, 111, 0.45);
+}
+
+.g4p-countdown.is-live .g4p-countdown-value,
+.g4p-countdown.is-live .g4p-countdown-label {
+    color: var(--green);
+}
+
+/* Lien inline dans un bloc de texte (ex. la Confédération Défense de l'Animal) */
+.event-block-text a {
+    color: var(--green);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: rgba(92, 147, 111, 0.45);
+    transition: text-decoration-color var(--transition-fast), color var(--transition-fast);
+}
+
+.event-block-text a:hover {
+    color: var(--text-primary);
+    text-decoration-color: currentColor;
+}
+
+/* Mur des donateurs */
+/* Appel à la modale : la liste peut être longue, elle ne vit pas dans la page */
+.g4p-donor-cta {
+    text-align: center;
+}
+
+.g4p-donor-btn {
+    font-size: 1.05em;
+    padding: 14px 32px;
+}
+
+/* Avant l'event : le bouton est là mais inerte, avec sa note en dessous */
+.g4p-donor-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.g4p-donor-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.g4p-donor-btn:disabled::before { content: none; }
+
+.g4p-donor-note {
+    font-size: 0.92em;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 14px 0 0;
+}
+
+.g4p-donor-note[hidden] { display: none; }
+
+/* ── Modale du mur des donateurs ─────────────────────────── */
+/* Voile opaque plutôt qu'un backdrop-filter : le fond du site est animé en
+   permanence, donc un flou plein écran serait recalculé à chaque frame
+   (mesuré : 60 fps avec le flou, 75 sans, pour un rendu quasi identique). */
+.g4p-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(30, 25, 20, 0.86);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+/* Modale ouverte : les décors animés du fond sont cachés derrière le voile,
+   autant les mettre en pause le temps de l'affichage. */
+body.g4p-modal-open .bg-container,
+body.g4p-modal-open .particle {
+    animation-play-state: paused;
+}
+
+.g4p-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.g4p-modal__content {
+    position: relative;
+    z-index: 1;
+    width: min(680px, 100%);
+    max-height: min(80vh, 720px);
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.g4p-modal__title {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 36px 6px 0;
+    line-height: 1.2;
+}
+
+.g4p-modal__subtitle {
+    font-size: 0.95em;
+    color: var(--text-tertiary);
+    margin: 0 0 20px;
+}
+
+/* Seule la liste défile : le titre et la croix restent en place */
+.g4p-modal__list {
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.g4p-donor {
+    max-width: 100%;
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    background: rgba(127, 184, 147, 0.14);
+    border: 1px solid rgba(92, 147, 111, 0.24);
+    font-size: 0.95em;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    /* Un pseudo à rallonge doit se replier dans sa pastille, pas la faire déborder */
+    overflow-wrap: anywhere;
+}
+
+/* ── Pluie de cœurs à l'ouverture ────────────────────────── */
+.g4p-hearts {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.g4p-heart {
+    position: absolute;
+    top: 0;
+    display: block;
+    opacity: 0.9;
+    animation-name: g4pHeartFall;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    will-change: transform;
+}
+
+@keyframes g4pHeartFall {
+    from { transform: translate3d(0, -25vh, 0) rotate(0deg); }
+    to   { transform: translate3d(var(--drift, 0px), 115vh, 0) rotate(var(--spin, 180deg)); }
+}
+
+/* Confort : pas d'animation pour qui n'en veut pas (le JS ne crée alors rien,
+   cette règle couvre le cas où le réglage change pendant que la modale est ouverte) */
+@media (prefers-reduced-motion: reduce) {
+    .g4p-hearts { display: none; }
+}
+
+.g4p-modal__close {
+    position: absolute;
+    z-index: 2;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(63, 47, 37, 0.10);
+    color: var(--text-primary);
+    font-size: 1em;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.g4p-modal__close:hover {
+    background: rgba(63, 47, 37, 0.20);
+}
+
+/* ============================================
    RESPONSIVE — Events
    ============================================ */
 
@@ -601,7 +847,7 @@
         border-radius: 25px;
     }
 
-    .event-container::before { font-size: 8em; }
+    .event-container::before { width: 140px; height: 140px; }
     .event-container.theme-winter::after { font-size: 5em; }
 
     /* Galerie 2 colonnes */
@@ -632,9 +878,12 @@
     .gallery-placeholder { aspect-ratio: 4 / 3; }
 
     /* DTI */
-    .dti-gallery-block-highlight { padding: 20px; }
-    .dti-section-title { font-size: 1.25em; }
-    .dti-section-text  { font-size: 1em; }
+    .dti-gallery-block-highlight,
+    .event-block-highlight { padding: 20px; }
+    .dti-section-title,
+    .event-block-title { font-size: 1.25em; }
+    .dti-section-text,
+    .event-block-text  { font-size: 1em; }
 }
 
 @media (max-width: 640px) {
@@ -666,6 +915,17 @@
 
     .dti-photo-grid-backstage { grid-template-columns: 1fr; }
     .dti-photo-caption { font-size: 0.85em; }
+}
+
+@media (max-width: 640px) {
+    .g4p-countdown-value { font-size: 1.7em; }
+    .g4p-countdown-sep { margin: 0 7px 0 1px; }
+
+    .g4p-donor-btn { font-size: 0.95em; padding: 13px 24px; }
+
+    .g4p-modal { padding: 12px; }
+    .g4p-modal__content { padding: 24px 18px; max-height: 88vh; }
+    .g4p-modal__title { font-size: 1.25em; }
 }
 
 @media (max-width: 480px) {
