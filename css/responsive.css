@@ -1031,32 +1031,21 @@
         gap: 8px;
     }
 
-    .hero-live-cta,
-    .hero-live-secondary {
+    .hero-live-cta {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex: 1;
         min-height: 46px;
-        padding: 12px 14px;
+        padding: 12px 16px;
         border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.75);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        color: var(--text-primary);
         font-size: 0.9em;
         font-weight: 700;
         line-height: 1.2;
         text-decoration: none;
-    }
-
-    .hero-live-cta {
-        flex: 1;
-        background: var(--green);
-        color: #fff;
-        box-shadow: 0 6px 20px rgba(92, 147, 111, 0.25);
-    }
-
-    .hero-live-secondary {
-        padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.75);
-        border: 2px solid rgba(255, 255, 255, 0.9);
-        color: var(--text-primary);
     }
 
     /* État en live : la carte rougit, le décompte disparaît, le jeu en cours apparaît */
@@ -1075,8 +1064,8 @@
     .hero-live-card.is-live .hero-live-countdown { display: none; }
 
     .hero-live-card.is-live .hero-live-cta {
-        background: var(--live-red-deep);
-        box-shadow: 0 6px 20px rgba(214, 78, 78, 0.3);
+        border-color: rgba(214, 78, 78, 0.6);
+        color: var(--live-red-deep);
     }
 
     /* Trois stats sur une ligne, libellés courts */
@@ -1180,6 +1169,13 @@
         padding: 0;
         font-size: 0.82em;
         font-weight: 600;
+        background: none;
+        border: 0;
+        backdrop-filter: none; /* du texte, pas une carte : le flou dessinait une pastille claire */
+        color: var(--text-tertiary);
+    }
+
+    .schedule-item:hover .schedule-countdown {
         background: none;
         border: 0;
         color: var(--text-tertiary);
