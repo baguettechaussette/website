@@ -16,7 +16,7 @@
     let liveOverride  = false;
 
     // Sous 768 px les décomptes passent en forme courte (« dans 1 j 3 h ») : les lignes
-    // du planning et la carte du hero n'ont pas la place de la forme longue.
+    // du planning n'ont pas la place de la forme longue.
     const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
 
     // Carte du prochain live dans le hero (mobile uniquement, voir index.html).
@@ -24,7 +24,6 @@
     const hero = {
         card:  document.getElementById("heroLive"),
         label: document.getElementById("heroLiveLabel"),
-        cd:    document.getElementById("heroLiveCountdown"),
         value: document.getElementById("heroLiveValue"),
         game:  document.getElementById("heroLiveGame"),
         cta:   document.getElementById("heroLiveCta"),
@@ -203,7 +202,7 @@
         }
     }
 
-    // Carte du hero : libellé, valeur et CTA suivent l'état (le décompte est écrit par tick)
+    // Carte du hero : libellé, valeur et CTA suivent l'état
     function renderHero(isLive, info) {
         if (!hero.card) return;
         hero.card.classList.toggle("is-live", isLive);
@@ -213,7 +212,6 @@
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
         hero.cta.textContent = isLive ? "Viens te poser 🧦" : "Suivre la chaîne ♥"; // mêmes textes que le CTA du planning desktop
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
-        if (isLive) hero.cd.textContent = "";
     }
 
     // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
@@ -314,12 +312,6 @@
                 if (cdEl.textContent !== newText) cdEl.textContent = newText;
             }
         });
-
-        // Décompte de la carte du hero (masqué en live par le CSS, vidé par renderHero)
-        if (hero.cd && !isLive && info.date) {
-            const t = `dans ${formatCountdownShort(info.date - now)}`;
-            if (hero.cd.textContent !== t) hero.cd.textContent = t;
-        }
     }
 
     // ─── Grille du planning depuis data/schedule.json ────────────────────────
