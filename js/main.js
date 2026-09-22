@@ -321,6 +321,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // Cartes partenaires repliables (mobile : le bouton est masqué au-dessus de 768 px)
+    document.querySelectorAll('.partner-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.partner-card');
+            if (!card) return;
+            const collapsed = card.classList.toggle('is-collapsed');
+            btn.setAttribute('aria-expanded', String(!collapsed));
+        });
+    });
+
     // Emails assemblés côté client (anti-bots spam)
     document.querySelectorAll('.js-email').forEach(el => {
         const addr = `${el.dataset.user}@${el.dataset.domain}`;
