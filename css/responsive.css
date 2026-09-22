@@ -67,6 +67,9 @@
 
     .bg-container {
         animation: none;
+        /* Fond plus clair en mobile (décision du 23/09/2026) : le dégradé passe de 15 à 8 %,
+           proche du beige plat des maquettes. Opacité seule, jamais de filter (FCP). */
+        opacity: 0.08;
     }
 
     /* Navigation mobile */
