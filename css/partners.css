@@ -405,8 +405,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         padding: 0;
         border: 0;
         border-radius: 50%;
@@ -429,6 +429,14 @@
     .partner-card.is-collapsed .partner-description,
     .partner-card.is-collapsed .partner-tags,
     .partner-card.is-collapsed .partner-actions { display: none; }
+
+    /* Repliée : plus que deux rangées, sinon les rangées vides gardaient leurs
+       gouttières (36 px de vide sous le nom) */
+    .partner-card.is-collapsed {
+        grid-template-areas:
+            "logo logo logo"
+            "name badge toggle";
+    }
 
     .partner-tag {
         padding: 6px 12px;
