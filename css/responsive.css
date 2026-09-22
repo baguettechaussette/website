@@ -848,7 +848,6 @@
    media query, plus bas dans la cascade). Une passe de nettoyage reste à faire.
    ============================================ */
 
-.hero-tagline,
 .hero-live-card,
 .stat-label-short,
 .social-cta,
@@ -884,7 +883,6 @@
         grid-template-columns: 92px minmax(0, 1fr);
         grid-template-areas:
             "avatar title"
-            "avatar tagline"
             "sub sub"
             "live live"
             "stats stats"
@@ -918,21 +916,11 @@
 
     .hero-title {
         grid-area: title;
-        align-self: end;
+        align-self: center;
         margin: 0;
         font-size: 1.7em; /* 27 px : le nom reste le sommet visuel grâce au dégradé et à la graisse */
         line-height: 1.08;
         text-shadow: none;
-    }
-
-    .hero-tagline {
-        display: block;
-        grid-area: tagline;
-        align-self: start;
-        margin: 4px 0 0;
-        font-size: 0.82em;
-        font-weight: 600;
-        color: var(--text-tertiary);
     }
 
     .hero-subtitle {
@@ -1304,10 +1292,9 @@
     #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
 
     /* ---- 6. Marques & studios : Contact et Partenariats fusionnent ----
-       Une seule section teintée, l'email d'abord (la porte), les cartes partenaires
-       ensuite (la preuve). Les trois cartes de contact deviennent des pastilles. */
-    #contact,
-    #partenaires { background: rgba(242, 227, 216, 0.5); }
+       Même fond que le reste de la page (pas de teinte), l'email d'abord (la porte),
+       les cartes partenaires ensuite (la preuve). Les trois cartes de contact
+       deviennent des pastilles. */
     #contact { padding-bottom: 8px; }
     #partenaires { padding-top: 8px; }
     #partenaires .section-header { display: none; }
@@ -1337,15 +1324,22 @@
         padding: 18px 16px;
         border-radius: 26px;
         text-align: left;
-        background: rgba(255, 255, 255, 0.55);
-        border-color: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.55); /* même blanc que les lignes du planning */
+        border-color: rgba(255, 255, 255, 0.4);
         backdrop-filter: none;
+    }
+
+    /* Toujours affichée : elle dépend d'une animation d'apparition qui ne se déclenchait
+       pas sur certains mobiles (carte absente), on ne prend pas le risque. */
+    .contact-info-box.scroll-reveal {
+        opacity: 1;
+        transform: none;
     }
 
     .contact-info-box:hover {
         transform: none;
         box-shadow: none;
-        border-color: rgba(255, 255, 255, 0.7);
+        border-color: rgba(255, 255, 255, 0.4);
     }
 
     .contact-icon { grid-area: icon; font-size: 1.375em; line-height: 1; margin: 0; }
@@ -1515,4 +1509,20 @@
     }
 
     main > section:last-of-type { padding-bottom: 64px; }
+
+    /* ---- Pied de page : deux lignes courtes, garde basse pour le bouton de remontée ---- */
+    footer {
+        padding: 22px 18px 72px;
+        border-top: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    footer p {
+        margin: 0 0 6px;
+        font-size: 0.85em;
+        line-height: 1.5;
+        color: var(--text-tertiary);
+    }
+
+    footer p:last-child { margin-bottom: 0; }
+    footer a { font-weight: 600; }
 }
