@@ -7,6 +7,20 @@ function syncMenuIcon(isOpen) {
     icon.alt = isOpen ? 'Fermer' : 'Menu hamburger';
 }
 
+// Ferme le panneau et remet la barre dans son état fermé (icône, aria, scroll du body)
+function closeMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (!navLinks) return;
+    navLinks.classList.remove('active');
+    syncMenuIcon(false);
+    document.body.style.overflow = '';
+    if (menuToggle) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    }
+}
+
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     const menuToggle = document.querySelector('.menu-toggle');
@@ -83,11 +97,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) {
             e.preventDefault();
 
-            // Ferme le menu mobile si ouvert
+            // Ferme le menu mobile si ouvert (icône et aria compris) et marque la section
+            // visée comme page courante dans le menu (pilule verte)
             const navLinks = document.getElementById('navLinks');
             if (navLinks) {
-                navLinks.classList.remove('active');
-                document.body.style.overflow = '';
+                closeMenu();
+                if (navLinks.contains(anchor)) {
+                    navLinks.querySelectorAll('a[aria-current]').forEach(a => a.removeAttribute('aria-current'));
+                    anchor.setAttribute('aria-current', 'page');
+                }
             }
 
             // Scroll avec offset pour la navbar fixe
