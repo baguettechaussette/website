@@ -1202,6 +1202,13 @@
         font-size: 0.82em;
     }
 
+    /* Légendes alignées à gauche sous les vignettes (maquette) ; le bloc de vote
+       de /clips garde son centrage, ses cartes portent un bouton. */
+    .clips-grid .clip-meta,
+    .clips-grid .clip-clipper {
+        text-align: left;
+    }
+
     .clips-more { margin-top: 14px; }
 
     /* ---- 4. Événements : icône et titre sur une ligne, puis badges, texte, lien ---- */
@@ -1222,6 +1229,15 @@
         border-radius: 26px;
     }
 
+    /* Cartes blanches quel que soit le thème (les dégradés thématiques restent au desktop) */
+    .events-archive-grid .event-archive-card,
+    .events-archive-grid .event-archive-card:hover {
+        background: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: none;
+        box-shadow: none;
+    }
+
     .event-archive-icon { grid-area: icon; font-size: 1.5em; }
     .event-archive-title { grid-area: title; font-size: 1.2em; line-height: 1.2; }
     .event-archive-meta { grid-area: meta; gap: 6px; }
@@ -1238,6 +1254,19 @@
         background: rgba(127, 184, 147, 0.18);
         border-color: transparent;
         color: var(--green-deep);
+    }
+
+    /* Concours (thème été) en terracotta, comme la maquette */
+    .theme-summer .event-type-badge {
+        background: rgba(197, 106, 82, 0.16);
+        color: var(--pink-deep);
+    }
+
+    /* La date en jaune de la charte, passé ou à venir */
+    .event-archive-card .event-status-badge {
+        background: rgba(242, 201, 107, 0.3);
+        border-color: transparent;
+        color: var(--text-secondary);
     }
 
     #evenements .clips-more { margin-top: 16px; }
@@ -1304,10 +1333,16 @@
 
     .contact-container { padding: 0; }
 
+    /* La carte, c'est .contact-content : la boîte email s'y fond et les pastilles
+       (cartes + media kit) la rejoignent, comme sur la maquette. */
     .contact-content {
         display: flex;
         flex-wrap: wrap;
         gap: 7px;
+        padding: 18px 16px;
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 2px solid rgba(255, 255, 255, 0.4);
     }
 
     .contact-info-box {
@@ -1321,11 +1356,11 @@
         column-gap: 10px;
         row-gap: 10px;
         align-items: center;
-        padding: 18px 16px;
-        border-radius: 26px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
         text-align: left;
-        background: rgba(255, 255, 255, 0.55); /* même blanc que les lignes du planning */
-        border-color: rgba(255, 255, 255, 0.4);
+        background: none;
         backdrop-filter: none;
     }
 
@@ -1339,7 +1374,6 @@
     .contact-info-box:hover {
         transform: none;
         box-shadow: none;
-        border-color: rgba(255, 255, 255, 0.4);
     }
 
     .contact-icon { grid-area: icon; font-size: 1.375em; line-height: 1; margin: 0; }
