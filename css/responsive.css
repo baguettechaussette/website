@@ -1463,7 +1463,9 @@
     }
 
     /* Teintes très basses sur le beige, noms dans les variantes accessibles de la charte.
-       Discord garde son bleu de marque (#5865f2), déjà utilisé sur desktop. */
+       Discord adouci comme la maquette (bleu lavande à 10 %, nom ardoise). */
+    #reseaux .social-card.discord { background: rgba(114, 137, 218, 0.1); border-color: rgba(114, 137, 218, 0.25); }
+    #reseaux .social-card.discord .social-name { color: #4a5a94; }
     #reseaux .social-card.twitch { background: rgba(145, 70, 255, 0.08); border-color: rgba(145, 70, 255, 0.22); }
     #reseaux .social-card.twitch .social-name { color: var(--twitch-dark); }
     #reseaux .social-card.youtube { background: rgba(230, 103, 103, 0.08); border-color: rgba(230, 103, 103, 0.22); }
