@@ -10,27 +10,27 @@
          Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
-    <title>Événements communautaires | Baguette Chaussette</title>
-    <meta name="description" content="Les événements communautaires de Baguette Chaussette : concours DTI Heartopia, challenge dessin Baguettectober, et autres aventures avec les p'tits pains.">
+    <title>Événements | Baguette Chaussette</title>
+    <meta name="description" content="Les événements de Baguette Chaussette : Gamers4Pets 2026 (event caritatif à Lyon au profit des refuges), concours DTI Heartopia, challenge dessin Baguettectober, et autres aventures avec les p'tits pains.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:url" content="https://baguettechaussette.fr/events">
     <meta property="og:site_name" content="Baguette Chaussette">
-    <meta property="og:title" content="Événements communautaires | Baguette Chaussette">
-    <meta property="og:description" content="L'archive des événements communautaires — concours, challenges dessin, et aventures avec les petits pains.">
+    <meta property="og:title" content="Événements | Baguette Chaussette">
+    <meta property="og:description" content="Toutes les aventures des p'tits pains : event caritatif Gamers4Pets, concours, challenges dessin, en ligne comme en présentiel.">
     <meta property="og:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Événements communautaires Baguette Chaussette — concours et challenges créatifs.">
+    <meta property="og:image:alt" content="Les événements de Baguette Chaussette : caritatif, concours et challenges créatifs.">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Événements communautaires | Baguette Chaussette">
-    <meta name="twitter:description" content="L'archive des événements communautaires — concours, challenges dessin, et aventures avec les petits pains.">
+    <meta name="twitter:title" content="Événements | Baguette Chaussette">
+    <meta name="twitter:description" content="Toutes les aventures des p'tits pains : event caritatif Gamers4Pets, concours, challenges dessin, en ligne comme en présentiel.">
     <meta name="twitter:image" content="https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp">
-    <meta name="twitter:image:alt" content="Événements communautaires Baguette Chaussette — concours et challenges créatifs.">
+    <meta name="twitter:image:alt" content="Les événements de Baguette Chaussette : caritatif, concours et challenges créatifs.">
     <meta name="twitter:site" content="@BaguetteCho7">
     <meta name="twitter:creator" content="@BaguetteCho7">
 
@@ -56,11 +56,44 @@
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
-    <!-- Schema.org — Événements communautaires -->
+    <!-- Schema.org — Événements -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@graph": [
+            {
+                "@type": "Event",
+                "@id": "https://baguettechaussette.fr/events#gamers4pets-2026",
+                "name": "Gamers4Pets 2026, event gaming caritatif",
+                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. Les dons sont reversés à la Confédération Nationale Défense de l'Animal.",
+                "startDate": "2026-10-02T20:00:00+02:00",
+                "endDate": "2026-10-04T23:59:00+02:00",
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+                "location": [
+                    {
+                        "@type": "Place",
+                        "name": "Lyon",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Lyon",
+                            "addressCountry": "FR"
+                        }
+                    },
+                    {
+                        "@type": "VirtualLocation",
+                        "url": "https://www.twitch.tv/baguettechaussette"
+                    }
+                ],
+                "performer": {
+                    "@type": "Person",
+                    "name": "Baguette Chaussette",
+                    "url": "https://baguettechaussette.fr",
+                    "sameAs": "https://www.twitch.tv/baguettechaussette"
+                },
+                "url": "https://baguettechaussette.fr/events#gamers4pets-2026",
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+            },
             {
                 "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#dti-heartopia-juin-2026",
@@ -171,11 +204,12 @@
 <header class="page-hero" id="accueil">
     <div class="container">
         <div class="page-hero-content">
-            <h1 class="page-hero-title">Concours &amp; défis des p'tits pains</h1>
-            <p class="page-hero-subtitle">Les aventures créatives et concours organisés avec les p'tits pains !</p>
+            <h1 class="page-hero-title">Les aventures des p'tits pains</h1>
+            <p class="page-hero-subtitle">Concours, challenges créatifs et events caritatifs : tout ce qu'on vit ensemble, en ligne comme en vrai !</p>
 
             <!-- Accès rapide aux événements (ajouter une puce par nouvel event) -->
             <nav class="event-anchors" aria-label="Aller à un événement">
+                <a href="#gamers4pets-2026" class="event-anchor" data-umami-event="Events - Ancre Gamers4Pets">🐾 Gamers4Pets · oct. 2026</a>
                 <a href="#dti-heartopia-juin-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Juin">📸 DTI · juin 2026</a>
                 <a href="#dti-heartopia-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Mars">🧦 DTI · mars 2026</a>
                 <a href="#baguettectober-2025" class="event-anchor" data-umami-event="Events - Ancre Baguettectober">🥖 Baguettectober 2025</a>
@@ -195,6 +229,13 @@
 ║  2. Adapte l'id  → pattern : [slug-event]-[année]                    ║
 ║     ex: id="dti-heartopia-2027"  ou  id="baguettectober-2026"        ║
 ║                                                                      ║
+║  2 bis. Nouveau thème ? Ajoute dans css/events.css :                 ║
+║     • .event-container.theme-[nom]           (fond + bordure)        ║
+║     • .theme-[nom] .event-badge              (couleur du badge)      ║
+║     • .event-container.theme-[nom]::before   (emoji de fond, en SVG  ║
+║       depuis img/emoji/ : pas de texte, sinon le rendu change        ║
+║       d'un appareil à l'autre)                                       ║
+║                                                                      ║
 ║  3. Colle le bloc AVANT les anciens (ordre : plus récent en haut)    ║
 ║                                                                      ║
 ║  4. Ajoute la carte dans index.html                                  ║
@@ -206,11 +247,89 @@
 -->
 
 <!-- =============================================
+     GAMERS4PETS 2026 — Octobre 2026
+     ID pattern : gamers4pets-[année]
+
+     • Compte à rebours + mur des donateurs : js/gamers4pets.js
+     • Les pseudos des donateurs se mettent à jour dans
+       data/gamers4pets-donors.json — rien à toucher ici.
+     • Le compte à rebours se masque tout seul après le 4 octobre au soir.
+     ============================================= -->
+<section id="gamers4pets-2026">
+    <div class="event-container theme-charity">
+        <div class="event-intro">
+            <div class="event-badge">Caritatif • Octobre 2026 🧡</div>
+            <h2 class="event-title">Gamers4Pets 2026</h2>
+            <p class="event-description">
+                Un event gaming caritatif, et pour moi une double première : c'est le premier auquel je
+                participe et que je vis en présentiel !
+                Je serai à Lyon avec d'autres streamers pour le vivre avec vous. <br>
+                Je suis en live du vendredi 2 octobre à 20h jusqu'au dimanche 4 octobre au soir, avec des jeux
+                cozy et coop, des défis et des actions débloqués par les dons.
+            </p>
+        </div>
+
+        <div class="event-stats-strip">
+            <!-- Masqué au chargement : js/gamers4pets.js l'affiche une fois les valeurs calculées,
+                 puis le retire définitivement une fois l'event passé. -->
+            <div class="event-stat-chip g4p-countdown" id="g4pCountdown" hidden>
+                <span class="event-stat-number g4p-countdown-value">
+                    <span data-unit="days">0</span><span class="g4p-countdown-sep">j</span><span data-unit="hours">0</span><span class="g4p-countdown-sep">h</span><span data-unit="mins">0</span><span class="g4p-countdown-sep">min</span>
+                </span>
+                <span class="event-stat-label g4p-countdown-label">avant le coup d'envoi</span>
+            </div>
+            <div class="event-stat-chip">
+                <span class="event-stat-number">3</span>
+                <span class="event-stat-label">jours de live</span>
+            </div>
+            <div class="event-stat-chip">
+                <span class="event-stat-number">270+</span>
+                <span class="event-stat-label">refuges soutenus</span>
+            </div>
+        </div>
+
+        <div class="event-block event-block-highlight">
+            <h3 class="event-block-title">La cause</h3>
+            <p class="event-block-text">
+                Tout ce qui est récolté va directement à la
+                <a href="https://www.defensedelanimal.fr/" target="_blank" rel="nofollow noopener noreferrer"
+                   data-umami-event="Events - Gamers4Pets - Confederation"><strong>Confédération Nationale Défense de l'Animal</strong></a>,
+                qui regroupe plus de 270 refuges indépendants partout en France. Ça alimente un fonds d'urgence
+                en cas de catastrophe ou de vandalisme, et le reste du temps ça paie la nourriture et les soins
+                vétos des animaux.
+            </p>
+            <p class="event-block-text">
+                La France est le pays d'Europe où l'on abandonne le plus, et les refuges manquent cruellement de moyens.
+                C'est pour eux qu'on se donne à fond ce week-end !
+            </p>
+        </div>
+
+        <div class="event-block">
+            <h3 class="event-block-title">Le mur des donateurs</h3>
+            <p class="event-block-text">
+                Les pseudos de celles et ceux qui ont donné pendant l'event.
+            </p>
+            <!-- Le bouton reste désactivé tant que data/gamers4pets-donors.json est vide :
+                 js/gamers4pets.js l'active et masque la note dès qu'il y a un pseudo.
+                 La liste vit dans une modale construite en JS, elle peut être longue. -->
+            <div class="g4p-donor-cta">
+                <button type="button" class="btn btn-primary g4p-donor-btn" id="g4pDonorBtn" disabled
+                        data-umami-event="Events - Gamers4Pets - Mur des donateurs">
+                    Voir les p'tits pains au grand cœur 🧡
+                </button>
+                <p class="g4p-donor-note" id="g4pDonorNote">Le mur s'ouvrira après l'event.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- =============================================
      DTI HEARTOPIA #2 — Juin 2026
      ID pattern : dti-heartopia-[mois]-[année]
      ============================================= -->
 <section id="dti-heartopia-juin-2026">
-    <div class="event-container theme-summer" data-emoji="👗">
+    <div class="event-container theme-summer">
         <div class="event-intro">
             <div class="event-badge">Concours DTI • Juin 2026 👗</div>
             <h2 class="event-title">DTI Heartopia #2</h2>
@@ -334,7 +453,7 @@
      ID pattern : dti-heartopia-[année]
      ============================================= -->
 <section id="dti-heartopia-2026">
-    <div class="event-container theme-game" data-emoji="📸">
+    <div class="event-container theme-game">
         <div class="event-intro">
             <div class="event-badge">Concours DTI • Mars 2026 🧦</div>
             <h2 class="event-title">DTI Heartopia #1</h2>
@@ -460,7 +579,7 @@
      ID pattern : baguettectober-[année]
      ============================================= -->
 <section id="baguettectober-2025">
-    <div class="event-container theme-autumn" data-emoji="🎃">
+    <div class="event-container theme-autumn">
         <div class="event-intro">
             <div class="event-badge">🥖 Challenge dessin • Octobre 2025</div>
             <h2 class="event-title">Baguettectober 2025</h2>
@@ -556,6 +675,7 @@
 <script src="./js/main.js"></script>
 <script src="./js/live-float.js"></script>
 <script src="./js/gallery.js"></script>
+<script src="./js/gamers4pets.js"></script>
 <script src="./js/fluent-emoji.js"></script>
 
 </body>
