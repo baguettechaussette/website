@@ -14,7 +14,6 @@
         '⏰': '23f0',
         '🌙': '1f319',
         '🔴': '1f534',
-        // '🎮': '1f3ae',
         '📧': '1f4e7',
         '🤝': '1f91d',
         '✨': '2728',
@@ -35,7 +34,29 @@
         '🌍': '1f30d',
         '🌿': '1f33f',
         '🧡': '1f9e1',
-        '🏡': '1f3e1'
+        '🏡': '1f3e1',
+        '🐾': '1f43e',
+        '👗': '1f457',
+        '🥇': '1f947',
+        '🥈': '1f948',
+        '🥉': '1f949',
+        '💜': '1f49c',
+        '💚': '1f49a',
+        '☕': '2615',
+        '🎁': '1f381',
+        '💼': '1f4bc',
+        '🗳️': '1f5f3-fe0f',
+        '👋': '1f44b',
+        '👀': '1f440',
+        '👑': '1f451',
+        '👨‍🍳': '1f468-200d-1f373',
+        '🍞': '1f35e',
+        '🥐': '1f950',
+        '🥨': '1f968',
+        '🌾': '1f33e',
+        '📌': '1f4cc'
+        // 🎮 (1f3ae) : absent du paquet @lobehub/fluent-emoji-modern
+        // (la liste saute de 1f3ad a 1f3af), il reste donc en emoji systeme.
     };
 
     // https://registry.npmmirror.com/@lobehub/fluent-emoji-modern/latest/files/assets
