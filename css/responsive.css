@@ -865,6 +865,16 @@
     .section-title { font-size: 1.875em; line-height: 1.15; margin-bottom: 6px; }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
+    /* Une section sur deux sur un fond pêche pâle uni (Planning, Événements,
+       Marques & studios, FAQ) : la page se lit par blocs, sans panneaux. */
+    #planning,
+    #evenements,
+    #contact,
+    #partenaires,
+    #faq {
+        background: rgba(242, 227, 216, 0.5);
+    }
+
     /* ---- 1. Hero : avatar 92 px à gauche du nom, carte du prochain live ----
        .hero-left / .hero-right passent en display: contents : leurs enfants deviennent
        les cellules d'une seule grille (et les glissements d'entrée disparaissent avec
