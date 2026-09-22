@@ -1488,7 +1488,12 @@
     /* ---- 8. FAQ : items resserrés ---- */
     .faq-container { gap: 10px; }
 
-    .faq-item { border-radius: 18px; }
+    /* Cartes blanches sans bordure visible, comme la maquette (demande explicite) */
+    .faq-item {
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
 
     .faq-item summary {
         font-size: 0.94em;
