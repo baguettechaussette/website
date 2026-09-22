@@ -49,18 +49,18 @@
     <!-- Même choix de variante que le <img> (imagesrcset/imagesizes), sinon le preload télécharge une image pour rien -->
     <link rel="preload" as="image" fetchpriority="high"
           imagesrcset="/img/baguette-chaussette-logo-480.webp 480w, /img/baguette-chaussette-logo-800.webp 800w, /img/baguette-chaussette-logo.webp 1078w"
-          imagesizes="(max-width: 480px) 170px, (max-width: 768px) 240px, (max-width: 1200px) 300px, 400px">
+          imagesizes="(max-width: 768px) 92px, (max-width: 1200px) 300px, 400px">
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=19">
+    <link rel="stylesheet" href="./css/fonts.css?v=20">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=19">
-    <link rel="stylesheet" href="./css/layout.css?v=19">
-    <link rel="stylesheet" href="./css/components.css?v=19">
-    <link rel="stylesheet" href="./css/sections.css?v=19">
-    <link rel="stylesheet" href="./css/responsive.css?v=19">
-    <link rel="stylesheet" href="./css/partners.css?v=19">
+    <link rel="stylesheet" href="./css/base.css?v=20">
+    <link rel="stylesheet" href="./css/layout.css?v=20">
+    <link rel="stylesheet" href="./css/components.css?v=20">
+    <link rel="stylesheet" href="./css/sections.css?v=20">
+    <link rel="stylesheet" href="./css/responsive.css?v=20">
+    <link rel="stylesheet" href="./css/partners.css?v=20">
 
     <script type="application/ld+json">
         {
@@ -270,23 +270,42 @@
     <div class="hero-content">
         <div class="hero-left">
             <h1 class="hero-title">Baguette Chaussette</h1>
+            <!-- Mobile uniquement (voir .hero-tagline dans responsive.css) -->
+            <p class="hero-tagline">Streamer cosy · les p'tits pains</p>
             <p class="hero-subtitle">
                 Du gaming cosy, un humour douteux et une communauté fidèle au poste 🥖
             </p>
 
+            <!-- Carte du prochain live : mobile uniquement, alimentée par js/stream-countdown.js
+                 (même source que le planning : créneaux + statut live du worker). -->
+            <div class="hero-live-card" id="heroLive">
+                <div class="hero-live-head">
+                    <span class="hero-live-dot" aria-hidden="true"></span>
+                    <span class="hero-live-label" id="heroLiveLabel">Prochain live</span>
+                    <span class="hero-live-countdown" id="heroLiveCountdown"></span>
+                </div>
+                <p class="hero-live-value" id="heroLiveValue">Mercredi, vendredi et dimanche à 21h</p>
+                <p class="hero-live-game" id="heroLiveGame" hidden></p>
+                <div class="hero-live-actions">
+                    <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener"
+                       class="hero-live-cta" id="heroLiveCta" data-umami-event="Hero - Suivre la chaine">Suivre sur Twitch ♥</a>
+                    <a href="#planning" class="hero-live-secondary" data-umami-event="Hero - Planning">Planning</a>
+                </div>
+            </div>
+
             <div class="hero-stats" role="region" aria-label="Statistiques">
                 <div class="stat-box">
                     <div id="followersCount" class="stat-number">-</div>
-                    <div class="stat-label">followers Twitch</div>
+                    <div class="stat-label"><span class="stat-label-long">followers Twitch</span><span class="stat-label-short">followers</span></div>
                     <span id="followersAnnounce" class="visually-hidden" aria-live="polite"></span>
                 </div>
                 <div class="stat-box">
                     <div class="stat-number">3750+</div>
-                    <div class="stat-label">abonnés TikTok</div>
+                    <div class="stat-label"><span class="stat-label-long">abonnés TikTok</span><span class="stat-label-short">TikTok</span></div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-number">1100+</div>
-                    <div class="stat-label">heures de stream</div>
+                    <div class="stat-label"><span class="stat-label-long">heures de stream</span><span class="stat-label-short">h de stream</span></div>
                 </div>
             </div>
 
@@ -312,7 +331,7 @@
                     <div class="avatar-glow" aria-hidden="true"></div>
                     <img src="img/baguette-chaussette-logo-800.webp"
                          srcset="img/baguette-chaussette-logo-480.webp 480w, img/baguette-chaussette-logo-800.webp 800w, img/baguette-chaussette-logo.webp 1078w"
-                         sizes="(max-width: 480px) 170px, (max-width: 768px) 240px, (max-width: 1200px) 300px, 400px"
+                         sizes="(max-width: 768px) 92px, (max-width: 1200px) 300px, 400px"
                          alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400" fetchpriority="high" decoding="async">
                 </div>
             </div>
@@ -437,6 +456,7 @@
                 <div class="social-desc">Émotes exclusives, badge de sub et <strong>zéro pub</strong> sur
                     les lives. Et si tu as Amazon Prime, ton sub est <strong>gratuit</strong> chaque
                     mois !</div>
+                <span class="social-cta" aria-hidden="true">S'abonner</span>
             </a>
 
             <a href="https://ko-fi.com/baguettechaussette" target="_blank" rel="noopener noreferrer"
@@ -445,6 +465,7 @@
                 <div class="social-name">Ko-fi</div>
                 <div class="social-desc">Pour m'offrir un p'tit café si le cœur t'en dit, avec ou sans
                     message. Et ça déclenche une alerte en live !</div>
+                <span class="social-cta" aria-hidden="true">Offrir un café</span>
             </a>
         </div>
     </div>
@@ -453,7 +474,7 @@
 <!-- Contact Section -->
 <section id="contact">
     <div class="section-header">
-        <h2 class="section-title">Me contacter</h2>
+        <h2 class="section-title"><span class="title-desktop">Me contacter</span><span class="title-mobile">Marques &amp; studios</span></h2>
         <p class="section-subtitle">Marques, studios, agences : une collab, un partenariat ou une campagne ? Écrivez-moi !</p>
     </div>
 
@@ -489,9 +510,7 @@
                 </article>
             </div>
 
-            <p class="contact-mediakit">
-                Media kit disponible sur demande
-            </p>
+            <p class="contact-mediakit"><span class="mediakit-icon" aria-hidden="true">📋</span> Media kit disponible sur demande</p>
         </div>
     </div>
 </section>
@@ -640,6 +659,7 @@
                 </div>
             </aside>
         </div>
+        <a href="/links" class="socials-all-link" data-umami-event="Home - Tous mes liens">Tous mes liens sur /links →</a>
     </div>
 </section>
 
@@ -746,9 +766,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=19"></script>
-<script defer src="./js/stream-countdown.js?v=19"></script>
-<script defer src="./js/live-float.js?v=19"></script>
-<script defer src="./js/fluent-emoji.js?v=19"></script>
+<script defer src="./js/main.js?v=20"></script>
+<script defer src="./js/stream-countdown.js?v=20"></script>
+<script defer src="./js/live-float.js?v=20"></script>
+<script defer src="./js/fluent-emoji.js?v=20"></script>
 </body>
 </html>
