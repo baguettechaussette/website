@@ -1166,7 +1166,36 @@
         color: var(--text-tertiary);
     }
 
-    .schedule-item.is-next .schedule-countdown { color: var(--green-deep); font-weight: 700; }
+    /* Le prochain live n'est pas mis en avant ici : la carte du hero le fait déjà.
+       La ligne redevient une ligne comme les autres. */
+    .schedule-item.is-next {
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: none;
+    }
+
+    .schedule-item.is-next .schedule-day {
+        background: linear-gradient(135deg, var(--blue), var(--green));
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    .schedule-item.is-next .schedule-countdown { color: var(--text-tertiary); font-weight: 600; }
+
+    /* En live en revanche, la ligne rougit : jour en terracotta, pastille + « En direct » */
+    .schedule-item.is-live {
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(230, 103, 103, 0.8);
+        box-shadow: none;
+        animation: none;
+    }
+
+    .schedule-item.is-live .schedule-day {
+        background: none;
+        -webkit-text-fill-color: var(--pink-deep);
+        color: var(--pink-deep);
+    }
+
     .schedule-item.is-live .schedule-countdown { color: var(--live-red-deep); font-weight: 700; }
 
     .schedule-cta,
