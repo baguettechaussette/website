@@ -208,6 +208,16 @@
     background: linear-gradient(135deg, rgba(63, 184, 175, 0.16), rgba(242, 193, 107, 0.11));
 }
 
+/* Thème caritatif (Gamers4Pets) */
+.event-archive-card.theme-charity {
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(242, 201, 107, 0.07));
+    border-color: rgba(92, 147, 111, 0.24);
+}
+.event-archive-card.theme-charity:hover {
+    border-color: rgba(92, 147, 111, 0.48);
+    background: linear-gradient(135deg, rgba(127, 184, 147, 0.18), rgba(242, 201, 107, 0.11));
+}
+
 /* Thème jeu (DTI Heartopia) */
 .event-archive-card.theme-game {
     background: linear-gradient(135deg, rgba(162, 89, 255, 0.10), rgba(218, 100, 220, 0.07));
