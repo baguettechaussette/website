@@ -1083,6 +1083,8 @@
         padding: 10px 4px;
         border-radius: 16px;
         text-align: center;
+        background: rgba(255, 255, 255, 0.5); /* blanches comme la maquette, plus de teinte verte */
+        border-color: rgba(255, 255, 255, 0.6);
     }
 
     .stat-number {
