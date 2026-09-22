@@ -1057,8 +1057,8 @@
         line-height: 1.08;
         text-shadow: none;
         background: none;
-        -webkit-text-fill-color: var(--blue);
-        color: var(--blue);
+        -webkit-text-fill-color: var(--green-deep); /* maquette 14C : 5,15:1 sur le beige */
+        color: var(--green-deep);
     }
 
     .hero-subtitle {
