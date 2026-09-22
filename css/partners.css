@@ -347,14 +347,14 @@
 
     .partner-card {
         display: grid;
-        /* Logo puis badge collés à gauche, bouton poussé à droite. Le logo se
-           resserre si la place manque : le badge ne passe jamais sur deux lignes */
-        grid-template-columns: minmax(0, max-content) auto 1fr;
+        /* Logo centré sur sa ligne, puis badge pleine largeur + bouton à droite */
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
-            "logo badge toggle"
-            "desc desc desc"
-            "tags tags tags"
-            "actions actions actions";
+            "logo logo"
+            "badge toggle"
+            "desc desc"
+            "tags tags"
+            "actions actions";
         column-gap: 10px;
         row-gap: 12px;
         align-items: center;
@@ -368,9 +368,10 @@
     .partner-card:hover { transform: none; box-shadow: none; }
     .partner-card:hover .partner-logo img { transform: none; }
 
-    /* Le logo tient lieu de nom, posé directement sur la carte */
+    /* Le logo tient lieu de nom, centré, posé directement sur la carte */
     .partner-logo {
         grid-area: logo;
+        justify-self: center;
         margin: 0;
         padding: 0;
         background: none;
@@ -380,9 +381,9 @@
     }
 
     .partner-logo img {
-        height: 28px;
+        height: 44px;
         width: auto;
-        max-width: 100%;
+        max-width: 170px;
         object-fit: contain;
         filter: none;
     }
@@ -391,12 +392,21 @@
 
     .partner-badge {
         grid-area: badge;
-        justify-self: start;
-        margin: 0 0 0 8px; /* 18 px entre le logo et le badge (10 de gouttière + 8) */
-        padding: 3px 10px;
-        font-size: 0.72rem; /* 11,5 px comme la maquette : le libellé doit tenir sur une ligne */
-        letter-spacing: 0.04em;
+        justify-self: stretch;
+        justify-content: center;
+        margin: 0;
+        padding: 7px 14px;
+        font-size: 0.72rem; /* 11,5 px comme la maquette */
+        letter-spacing: 0.06em;
         white-space: nowrap;
+        border-color: transparent;
+    }
+
+    /* Ambassadeur en jaune de la charte, comme la maquette */
+    .partner-badge.ambassador {
+        background: rgba(242, 201, 107, 0.3);
+        color: var(--text-secondary);
+        border-color: transparent;
     }
 
     /* Ses enfants deviennent les cellules de la grille de la carte */
@@ -440,7 +450,9 @@
     /* Repliée : plus que deux rangées, sinon les rangées vides gardaient leurs
        gouttières (36 px de vide sous le nom) */
     .partner-card.is-collapsed {
-        grid-template-areas: "logo badge toggle";
+        grid-template-areas:
+            "logo logo"
+            "badge toggle";
     }
 
     .partner-tag {
