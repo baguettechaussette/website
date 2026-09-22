@@ -53,6 +53,11 @@
 
 /* === Tablet (768px+) === */
 @media (max-width: 768px) {
+    /* Menu mobile : 25 px de padding venaient du desktop, la barre faisait 103 px (11 % de l'écran) */
+    #navbar { padding: 14px 0; }
+    #navbar.scrolled { padding: 10px 0; }
+    .hero { padding-top: 90px; }
+
     /* Décor allégé sur mobile : les particules et le gradient animé du fond
        coûtent cher en compositing GPU (scroll saccadé, batterie) pour un effet
        à peine perceptible sur petit écran. On coupe l'animation, pas le décor. */
@@ -67,11 +72,16 @@
     /* Navigation mobile */
     .nav-links {
         display: none;
-        position: fixed;
-        top: 80px;
+        /* Accroché au bas de la barre (#navbar est fixed) : suit sa hauteur, 66 px en haut
+           de page, 58 px une fois scrollé. L'ancien top: 80px fixe laissait un trou. */
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
-        background: var(--bg-blur);
+        background: var(--bg-overlay); /* même fond que #navbar (90 %) : le panneau prolonge la barre */
+        /* Même verre que la barre : sans flou, le contenu se lisait à travers les liens */
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
         flex-direction: column;
         padding: 30px;
         gap: 20px;
@@ -83,7 +93,9 @@
     }
 
     .menu-toggle {
-        display: block;
+        display: flex; /* flex + line-height 1 : sans ça le bouton (font-size 2em) fait 51 px pour une icône de 32 */
+        align-items: center;
+        line-height: 1;
     }
 
     /* Hero */
@@ -722,4 +734,105 @@
         border: 1px solid #ccc;
         page-break-inside: avoid;
     }
+}
+
+/* ============================================
+   REFONTE MOBILE (22/09/2026, brief Claude Design)
+   Ces règles remplacent les valeurs mobiles plus haut dans le fichier
+   (même sélecteur, plus bas dans la cascade). Échelle typographique h1 > h2 > h3, rythme vertical resserré, grilles 2 colonnes.
+   ============================================ */
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.4em; line-height: 1.12; }
+    .page-hero-title { font-size: 2.1em; line-height: 1.15; }
+    .section-title { font-size: 1.85em; line-height: 1.2; margin-bottom: 14px; }
+    .hero-subtitle { font-size: 1.15em; line-height: 1.5; }
+    .section-subtitle, .page-hero-subtitle { font-size: 1.1em; line-height: 1.55; margin-bottom: 0; } /* l'espace est porté par .section-header */
+    .contact-title, .social-name, .cow-vote-title { font-size: 1.3em; line-height: 1.25; }
+    /* rem et non em : ces libellés héritent d'un parent < 16 px, en em ils retombaient à 12,5 px */
+    .clipper-suffix, .event-type-badge, .event-status-badge { font-size: 0.82rem; }
+    .clip-clipper, .clipper-stats, .clipper-grade { font-size: 0.85em; }
+    section { padding: 36px var(--spacing-sm); }
+    .page-hero { padding: 96px var(--spacing-sm) 28px; }
+    .schedule-container, .contact-container, .socials-container { padding: 26px 18px; border-radius: var(--radius-lg); }
+    .social-card { padding: 26px 22px; }
+    .social-icon { font-size: 3em; }
+    .social-grid, .schedule-grid, .contact-cards, .events-archive-grid { gap: 16px; }
+    .schedule-item { padding: 24px 20px; }
+    .contact-info-box { padding: 26px 18px; }
+    .contact-card { padding: 20px 18px; }
+    .contact-icon { font-size: 2.8em; margin-bottom: 10px; }
+    .next-stream-banner { padding: 22px 18px; margin-bottom: 18px; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .stat-box { padding: 14px 6px; text-align: center; min-width: 0; }
+    .stat-number { font-size: 1.45em; line-height: 1.1; overflow-wrap: anywhere; }
+    .stat-label { font-size: 0.85em; line-height: 1.3; }
+    .hero-buttons { gap: 12px; }
+    .btn { padding: 13px 28px; font-size: 1.05em; min-height: 48px; }
+    .countdown-cta { padding: 13px 28px; font-size: 1.05em; min-height: 48px; }
+    .clippers-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .clipper-card { padding: 16px 10px 14px; }
+    .clipper-badge { font-size: 2em; margin-bottom: 6px; }
+    .clipper-rank { top: 8px; left: 9px; font-size: 0.95em; }
+}
+
+@media (max-width: 480px) {
+    .hero-title { font-size: 2.05em; }
+    .hero-subtitle { font-size: 1.1em; }
+    .page-hero-title { font-size: 1.85em; }
+    .section-title { font-size: 1.6em; }
+    .section-subtitle, .page-hero-subtitle { font-size: 1.05em; }
+    section { padding: 32px 15px; }
+    .section-panel { padding: 24px 16px; }
+    .schedule-container, .contact-container, .socials-container { padding: 24px 15px; border-radius: var(--radius-md); }
+    .social-card { padding: 22px 18px; }
+    .social-icon { font-size: 2.8em; }
+    .social-name { font-size: 1.2em; }
+    .schedule-item { padding: 22px 18px; }
+    .contact-info-box { padding: 22px 16px; }
+    .contact-card { padding: 18px 16px; }
+    .next-stream-banner { padding: 20px 16px; }
+    .contact-icon { font-size: 2.6em; }
+    .contact-card-icon { font-size: 2em; }
+    .btn { padding: 12px 24px; font-size: 1em; min-height: 46px; }
+    .hero-stats { gap: 8px; }
+    .stat-box { padding: 12px 4px; }
+    .stat-number { font-size: 1.3em; }
+    .stat-label { font-size: 0.82em; }
+    .avatar-container { width: 185px; height: 185px; }
+    .avatar-main { width: 158px; height: 158px; }
+    .clippers-grid { gap: 8px; }
+    .clipper-card { padding: 14px 8px 12px; }
+    .cow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+
+@media (max-width: 360px) {
+    .hero-title { font-size: 1.8em; }
+    .section-title { font-size: 1.45em; }
+    .page-hero-title { font-size: 1.65em; }
+    .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stat-box:nth-child(3) { grid-column: 1 / -1; }
+}
+
+/* --- Refonte mobile, passe 2 (brief Claude Design) --- */
+@media (max-width: 768px) {
+    /* layout.css:412 met 80 px sous chaque en-tête de section, jamais surchargé en mobile :
+       ~430 px de vide sur l'accueil à lui seul */
+    .section-header { margin-bottom: 26px; }
+    .event-archive-title { font-size: 1.3em; line-height: 1.25; }
+    /* 18 cartes en une colonne (~5 000 px) : deux colonnes, légende réduite */
+    .clips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .clips-grid .clip-meta { font-size: 0.85em; margin-top: 8px; line-height: 1.35; }
+    .cow-block-heading { font-size: 1.05em; margin-bottom: 14px; }
+    .cow-winner { margin-top: 22px; padding-top: 18px; }
+    /* FAQ : 8 items fermés, ~190 px récupérés */
+    .faq-container { gap: 12px; }
+    .faq-item summary { font-size: 1.05em; padding: 15px 54px 15px 16px; }
+    .faq-item summary::after { right: 14px; width: 28px; height: 28px; margin-top: -14px; }
+}
+
+@media (max-width: 480px) {
+    .section-header { margin-bottom: 20px; }
+    .clips-grid { gap: 8px; }
+    footer { padding: 28px 15px; }
 }
