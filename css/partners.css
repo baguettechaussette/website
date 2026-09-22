@@ -402,11 +402,16 @@
         border-color: transparent;
     }
 
-    /* Ambassadeur en jaune de la charte, comme la maquette */
+    /* Ambassadeur en jaune de la charte, comme la maquette ; le bouton + suit la couleur du badge */
     .partner-badge.ambassador {
         background: rgba(242, 201, 107, 0.3);
         color: var(--text-secondary);
         border-color: transparent;
+    }
+
+    .partner-badge.ambassador ~ .partner-toggle {
+        background: rgba(242, 201, 107, 0.3);
+        color: var(--text-secondary);
     }
 
     /* Ses enfants deviennent les cellules de la grille de la carte */

@@ -965,8 +965,9 @@
         gap: 12px;
         margin-top: 14px;
         padding: 16px;
-        background: rgba(127, 184, 147, 0.16);
-        border: 2px solid rgba(92, 147, 111, 0.5);
+        /* Jaune de la charte (--purple #f2c96b) : la carte se détache du vert des stats et du planning */
+        background: rgba(242, 201, 107, 0.3);
+        border: 2px solid rgba(242, 201, 107, 0.35);
         border-radius: 24px;
     }
 
@@ -981,7 +982,7 @@
         height: 10px;
         flex: none;
         border-radius: 50%;
-        background: var(--green);
+        background: #8a6a1f; /* ocre de la maquette, seule couleur hors palette (pastille + libellé) */
     }
 
     .hero-live-label {
@@ -989,7 +990,7 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--green-deep);
+        color: #8a6a1f;
     }
 
     .hero-live-countdown {
@@ -1039,8 +1040,8 @@
         min-height: 46px;
         padding: 12px 16px;
         border-radius: var(--radius-full);
-        background: rgba(255, 255, 255, 0.75);
-        border: 2px solid rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.85);
+        border: 2px solid rgba(255, 255, 255, 0.95);
         color: var(--text-primary);
         font-size: 0.9em;
         font-weight: 700;
