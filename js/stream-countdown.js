@@ -211,7 +211,7 @@
         hero.value.textContent = isLive
             ? "Ça se passe maintenant !"
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
-        hero.cta.textContent = isLive ? "Rejoindre le live" : "Suivre sur Twitch ♥";
+        hero.cta.textContent = isLive ? "Viens te poser 🧦" : "Suivre la chaîne ♥"; // mêmes textes que le CTA du planning desktop
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
         if (isLive) hero.cd.textContent = "";
     }
