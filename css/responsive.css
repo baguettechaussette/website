@@ -865,7 +865,15 @@
     /* ---- Rythme commun : 32 px entre sections, 16 px sous un en-tête ---- */
     section { padding: 32px 18px; }
     .section-header { margin-bottom: 16px; }
-    .section-title { font-size: 1.875em; line-height: 1.15; margin-bottom: 6px; }
+    /* Titres en couleur unie comme la maquette (les dégradés de texte restent au desktop) */
+    .section-title {
+        font-size: 1.875em;
+        line-height: 1.15;
+        margin-bottom: 6px;
+        background: none;
+        -webkit-text-fill-color: var(--green);
+        color: var(--green);
+    }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
     /* Les sections restent transparentes sur le dégradé animé. Une seule
@@ -929,9 +937,12 @@
         grid-area: title;
         align-self: center;
         margin: 0;
-        font-size: 1.7em; /* 27 px : le nom reste le sommet visuel grâce au dégradé et à la graisse */
+        font-size: 1.7em; /* 27 px */
         line-height: 1.08;
         text-shadow: none;
+        background: none;
+        -webkit-text-fill-color: var(--blue);
+        color: var(--blue);
     }
 
     .hero-subtitle {
@@ -1144,9 +1155,13 @@
     .schedule-item::before { display: none; }
     .schedule-item:hover { transform: none; box-shadow: none; }
 
-    .schedule-day {
+    .schedule-day,
+    .schedule-item.is-next .schedule-day {
         font-size: 1.0625em;
         margin: 0;
+        background: none;
+        -webkit-text-fill-color: var(--green);
+        color: var(--green);
     }
 
     .schedule-time {
@@ -1176,12 +1191,6 @@
         background: rgba(255, 255, 255, 0.55);
         border-color: rgba(255, 255, 255, 0.4);
         box-shadow: none;
-    }
-
-    .schedule-item.is-next .schedule-day {
-        background: linear-gradient(135deg, var(--blue), var(--green));
-        -webkit-background-clip: text;
-        background-clip: text;
     }
 
     .schedule-item.is-next .schedule-countdown { color: var(--text-tertiary); font-weight: 600; }
@@ -1423,6 +1432,9 @@
         margin: 0;
         font-size: 1.0625em;
         line-height: 1.2;
+        background: none;
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
     }
 
     .contact-email {
