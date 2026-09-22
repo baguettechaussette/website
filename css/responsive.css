@@ -865,13 +865,11 @@
     .section-title { font-size: 1.875em; line-height: 1.15; margin-bottom: 6px; }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
-    /* Une section sur deux sur un fond pêche pâle uni (Planning, Événements,
-       Marques & studios, FAQ) : la page se lit par blocs, sans panneaux. */
-    #planning,
-    #evenements,
+    /* Les sections restent transparentes sur le dégradé animé. Une seule
+       exception, Marques & studios (contact + partenaires) : --peach à 50 %,
+       qui isole le bloc professionnel du reste de la page. */
     #contact,
-    #partenaires,
-    #faq {
+    #partenaires {
         background: rgba(242, 227, 216, 0.5);
     }
 
@@ -1081,10 +1079,7 @@
         min-width: 0;
         padding: 10px 4px;
         border-radius: 16px;
-        background: rgba(255, 255, 255, 0.5);
-        border-color: rgba(255, 255, 255, 0.6);
         text-align: center;
-        backdrop-filter: none;
     }
 
     .stat-number {
@@ -1138,7 +1133,6 @@
         padding: 13px 18px;
         border-radius: 20px;
         text-align: left;
-        backdrop-filter: none;
         box-shadow: none;
         animation: none;
     }
@@ -1166,7 +1160,6 @@
         font-weight: 600;
         background: none;
         border: 0;
-        backdrop-filter: none;
         color: var(--text-tertiary);
     }
 
@@ -1241,15 +1234,6 @@
         border-radius: 26px;
     }
 
-    /* Cartes blanches quel que soit le thème (les dégradés thématiques restent au desktop) */
-    .events-archive-grid .event-archive-card,
-    .events-archive-grid .event-archive-card:hover {
-        background: rgba(255, 255, 255, 0.4);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: none;
-        box-shadow: none;
-    }
-
     .event-archive-icon { grid-area: icon; font-size: 1.5em; }
     .event-archive-title { grid-area: title; font-size: 1.2em; line-height: 1.2; }
     .event-archive-meta { grid-area: meta; gap: 6px; }
@@ -1268,15 +1252,9 @@
         color: var(--green-deep);
     }
 
-    /* Concours (thème été) en terracotta, comme la maquette */
-    .theme-summer .event-type-badge {
-        background: rgba(197, 106, 82, 0.16);
-        color: var(--pink-deep);
-    }
-
     /* La date en jaune de la charte, passé ou à venir */
     .event-archive-card .event-status-badge {
-        background: rgba(242, 201, 107, 0.3);
+        background: rgba(242, 201, 107, 0.25);
         border-color: transparent;
         color: var(--text-secondary);
     }
@@ -1303,7 +1281,6 @@
         padding: 18px;
         border-radius: 24px;
         text-align: left;
-        backdrop-filter: none;
     }
 
     #soutenir .social-card:hover { transform: none; }
@@ -1373,7 +1350,6 @@
         border-radius: 0;
         text-align: left;
         background: none;
-        backdrop-filter: none;
     }
 
     /* Toujours affichée : elle dépend d'une animation d'apparition qui ne se déclenchait
@@ -1395,9 +1371,6 @@
         margin: 0;
         font-size: 1.0625em;
         line-height: 1.2;
-        background: none;
-        -webkit-text-fill-color: var(--green-deep);
-        color: var(--green-deep);
     }
 
     .contact-email {
@@ -1431,7 +1404,6 @@
         background: rgba(255, 255, 255, 0.8);
         border: 0;
         box-shadow: none;
-        backdrop-filter: none;
         font-size: 0.82em;
         font-weight: 600;
         color: var(--text-primary);
@@ -1463,7 +1435,6 @@
         padding: 12px 14px;
         border-radius: 18px;
         text-align: left;
-        backdrop-filter: none;
         box-shadow: none;
     }
 
@@ -1517,12 +1488,7 @@
     /* ---- 8. FAQ : items resserrés ---- */
     .faq-container { gap: 10px; }
 
-    .faq-item {
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.5);
-        border-color: rgba(255, 255, 255, 0.5);
-        backdrop-filter: none;
-    }
+    .faq-item { border-radius: 18px; }
 
     .faq-item summary {
         font-size: 0.94em;
@@ -1557,10 +1523,7 @@
     main > section:last-of-type { padding-bottom: 64px; }
 
     /* ---- Pied de page : deux lignes courtes, garde basse pour le bouton de remontée ---- */
-    footer {
-        padding: 22px 18px 72px;
-        border-top: 2px solid rgba(255, 255, 255, 0.5);
-    }
+    footer { padding: 22px 18px 72px; }
 
     footer p {
         margin: 0 0 6px;
