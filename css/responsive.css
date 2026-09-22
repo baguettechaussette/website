@@ -1126,12 +1126,13 @@
         gap: 10px;
     }
 
+    /* Trois colonnes : jour | heure | décompte. Les colonnes extérieures sont égales,
+       l'heure tombe donc au même endroit sur chaque ligne quel que soit le jour. */
     .schedule-item {
-        flex-direction: row;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
         align-items: baseline;
-        justify-content: space-between;
-        gap: 4px 10px;
+        gap: 10px;
         height: auto;
         padding: 13px 18px;
         border-radius: 20px;
@@ -1152,11 +1153,14 @@
         font-size: 1em;
         font-weight: 600;
         margin: 0;
+        text-align: center;
     }
 
     .schedule-countdown,
     .schedule-item.is-next .schedule-countdown,
     .schedule-item.is-live .schedule-countdown {
+        justify-self: end;
+        text-align: right;
         margin: 0;
         padding: 0;
         font-size: 0.82em;
