@@ -53,14 +53,14 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=57">
+    <link rel="stylesheet" href="./css/fonts.css?v=60">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=57">
-    <link rel="stylesheet" href="./css/layout.css?v=57">
-    <link rel="stylesheet" href="./css/components.css?v=57">
-    <link rel="stylesheet" href="./css/sections.css?v=57">
-    <link rel="stylesheet" href="./css/responsive.css?v=57">
-    <link rel="stylesheet" href="./css/partners.css?v=57">
+    <link rel="stylesheet" href="./css/base.css?v=60">
+    <link rel="stylesheet" href="./css/layout.css?v=60">
+    <link rel="stylesheet" href="./css/components.css?v=60">
+    <link rel="stylesheet" href="./css/sections.css?v=60">
+    <link rel="stylesheet" href="./css/responsive.css?v=60">
+    <link rel="stylesheet" href="./css/partners.css?v=60">
 
     <script type="application/ld+json">
         {
@@ -250,14 +250,16 @@
 <!-- Navigation -->
 <nav id="navbar">
     <div class="container">
-        <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a></div>
+        <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette"><img class="logo-avatar" src="/img/baguette-chaussette-logo-480.webp" alt="" width="36" height="36" decoding="async">Baguette Chaussette</a></div>
         <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#accueil" data-umami-event="Nav - Accueil">Accueil</a></li>
+            <li><a href="#accueil" aria-current="page" data-umami-event="Nav - Accueil">Accueil</a></li>
             <li><a href="/clips" data-umami-event="Nav - Clips">Clips</a></li>
             <li><a href="/events" data-umami-event="Nav - Evenements">Événements</a></li>
             <li><a href="#contact" data-umami-event="Nav - Contact">Contact</a></li>
             <li><a href="#reseaux" data-umami-event="Nav - Reseaux">Réseaux</a></li>
+            <!-- Mobile uniquement : pied du panneau (masqué au-dessus de 768 px) -->
+            <li class="nav-links-footer"><a href="/links" data-umami-event="Nav - Tous mes liens">Tous mes liens <span aria-hidden="true">↗</span></a></li>
         </ul>
     </div>
 </nav>
@@ -752,9 +754,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=57"></script>
-<script defer src="./js/stream-countdown.js?v=57"></script>
-<script defer src="./js/live-float.js?v=57"></script>
-<script defer src="./js/fluent-emoji.js?v=57"></script>
+<script defer src="./js/main.js?v=60"></script>
+<script defer src="./js/stream-countdown.js?v=60"></script>
+<script defer src="./js/live-float.js?v=60"></script>
+<script defer src="./js/fluent-emoji.js?v=60"></script>
 </body>
 </html>

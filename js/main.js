@@ -1,10 +1,19 @@
 // Toggle mobile menu avec gestion améliorée
+// Le burger devient une croix quand le panneau est ouvert
+function syncMenuIcon(isOpen) {
+    const icon = document.querySelector('.menu-toggle img');
+    if (!icon) return;
+    icon.src = isOpen ? 'img/symbols/close.svg' : 'img/symbols/menu.svg';
+    icon.alt = isOpen ? 'Fermer' : 'Menu hamburger';
+}
+
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     const menuToggle = document.querySelector('.menu-toggle');
 
     if (navLinks) {
         const isOpen = navLinks.classList.toggle('active');
+        syncMenuIcon(isOpen);
 
         // Amélioration a11y
         if (menuToggle) {
@@ -25,9 +34,11 @@ document.addEventListener('click', (e) => {
     const menuToggle = document.querySelector('.menu-toggle');
     const navbar = document.getElementById('navbar');
 
+    // En dehors de la barre, ou sur le voile du panneau (le <ul> lui-même, pas un lien)
     if (navLinks && navLinks.classList.contains('active') &&
-        !navbar.contains(e.target)) {
+        (!navbar.contains(e.target) || e.target === navLinks)) {
         navLinks.classList.remove('active');
+        syncMenuIcon(false);
         document.body.style.overflow = '';
         if (menuToggle) {
             menuToggle.setAttribute('aria-expanded', 'false');
@@ -41,6 +52,7 @@ document.addEventListener('keydown', (e) => {
     const navLinks = document.getElementById('navLinks');
     if (!navLinks || !navLinks.classList.contains('active')) return;
     navLinks.classList.remove('active');
+    syncMenuIcon(false);
     document.body.style.overflow = '';
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
