@@ -1354,10 +1354,10 @@
     }
 
     /* Le violet reste ici : c'est Twitch qui parle de Twitch, sur un fond déjà teinté */
-    #soutenir .social-card.twitch { background: rgba(145, 70, 255, 0.07); border-color: rgba(145, 70, 255, 0.22); }
+    #soutenir .social-card.twitch { background: rgba(145, 70, 255, 0.13); border-color: rgba(145, 70, 255, 0.4); }
     #soutenir .social-card.twitch .social-name { color: var(--twitch-dark); }
     #soutenir .social-card.twitch .social-cta { background: var(--twitch-dark); }
-    #soutenir .social-card.kofi { background: rgba(197, 106, 82, 0.07); border-color: rgba(197, 106, 82, 0.22); }
+    #soutenir .social-card.kofi { background: rgba(197, 106, 82, 0.13); border-color: rgba(197, 106, 82, 0.4); }
     #soutenir .social-card.kofi .social-name { color: var(--pink-deep); }
     #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
 
@@ -1519,17 +1519,18 @@
 
     /* Teintes très basses sur le beige, noms dans les variantes accessibles de la charte.
        Discord adouci comme la maquette (bleu lavande à 10 %, nom ardoise). */
-    #reseaux .social-card.discord { background: rgba(114, 137, 218, 0.1); border-color: rgba(114, 137, 218, 0.25); }
+    #reseaux .social-card.discord { background: rgba(114, 137, 218, 0.18); border-color: rgba(114, 137, 218, 0.45); }
     #reseaux .social-card.discord .social-name { color: #4a5a94; }
-    #reseaux .social-card.twitch { background: rgba(145, 70, 255, 0.08); border-color: rgba(145, 70, 255, 0.22); }
+    /* Teintes remontées (23/09) : à 8 % les lignes paraissaient fades sur le fond éclairci. */
+    #reseaux .social-card.twitch { background: rgba(145, 70, 255, 0.14); border-color: rgba(145, 70, 255, 0.4); }
     #reseaux .social-card.twitch .social-name { color: var(--twitch-dark); }
-    #reseaux .social-card.youtube { background: rgba(230, 103, 103, 0.08); border-color: rgba(230, 103, 103, 0.22); }
+    #reseaux .social-card.youtube { background: rgba(230, 103, 103, 0.14); border-color: rgba(230, 103, 103, 0.4); }
     #reseaux .social-card.youtube .social-name { color: var(--live-red-deep); }
-    #reseaux .social-card.tiktok { background: rgba(127, 184, 147, 0.1); border-color: rgba(127, 184, 147, 0.28); }
+    #reseaux .social-card.tiktok { background: rgba(127, 184, 147, 0.18); border-color: rgba(127, 184, 147, 0.5); }
     #reseaux .social-card.tiktok .social-name { color: var(--green-deep); }
-    #reseaux .social-card.instagram { background: rgba(197, 106, 82, 0.08); border-color: rgba(197, 106, 82, 0.22); }
+    #reseaux .social-card.instagram { background: rgba(197, 106, 82, 0.14); border-color: rgba(197, 106, 82, 0.4); }
     #reseaux .social-card.instagram .social-name { color: var(--pink-deep); }
-    #reseaux .social-card.twitter { background: rgba(63, 47, 37, 0.06); border-color: rgba(63, 47, 37, 0.15); }
+    #reseaux .social-card.twitter { background: rgba(63, 47, 37, 0.1); border-color: rgba(63, 47, 37, 0.28); }
     #reseaux .social-card.twitter .social-name { color: var(--text-primary); }
 
     .socials-all-link {
