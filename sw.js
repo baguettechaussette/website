@@ -10,7 +10,7 @@
 //  → `node tools/bump-assets.mjs` avant tout commit qui touche css/ ou js/.
 // ============================================================
 
-const VERSION = 23;
+const VERSION = 24;
 const CACHE_NAME = `bc-v${VERSION}`;
 
 const PRECACHE_ASSETS = [
