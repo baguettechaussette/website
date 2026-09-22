@@ -1217,14 +1217,7 @@
     .schedule-cta,
     .schedule-live-game { display: none; }
 
-    /* ---- 3. Vote : grille 2 colonnes, légendes à hauteur stable ---- */
-    #clips .section-panel {
-        padding: 16px 14px;
-        border-radius: 26px;
-        background: rgba(255, 255, 255, 0.3); /* blanc comme les autres cartes, plus de teinte verte */
-        border-color: rgba(255, 255, 255, 0.45);
-    }
-
+    /* ---- 3. Grilles de clips (/clips) : 2 colonnes, légendes à hauteur stable ---- */
     .clips-grid { gap: 10px; }
     .clip-thumb { border-radius: 14px; }
 
