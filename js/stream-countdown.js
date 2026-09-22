@@ -15,6 +15,21 @@
     let cachedNextKey = null; // "day-hour-minute" du prochain créneau
     let liveOverride  = false;
 
+    // Sous 768 px les décomptes passent en forme courte (« dans 1 j 3 h ») : les lignes
+    // du planning et la carte du hero n'ont pas la place de la forme longue.
+    const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
+
+    // Carte du prochain live dans le hero (mobile uniquement, voir index.html).
+    // Même source que le planning : créneaux + statut live du worker.
+    const hero = {
+        card:  document.getElementById("heroLive"),
+        label: document.getElementById("heroLiveLabel"),
+        cd:    document.getElementById("heroLiveCountdown"),
+        value: document.getElementById("heroLiveValue"),
+        game:  document.getElementById("heroLiveGame"),
+        cta:   document.getElementById("heroLiveCta"),
+    };
+
     // ─── Helpers (identiques à ta version originale) ─────────────────────────
 
     function getScheduleFromDOM() {
@@ -123,6 +138,19 @@
         return `${seconds}s`;
     }
 
+    // Forme courte, deux unités au plus : « 1 j 3 h », « 3 h 12 min », « 12 min »
+    function formatCountdownShort(ms) {
+        const total   = Math.max(0, Math.floor(ms / 1000));
+        const days    = Math.floor(total / 86400);
+        const hours   = Math.floor((total % 86400) / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+
+        if (days > 0)    return hours > 0 ? `${days} j ${hours} h` : `${days} j`;
+        if (hours > 0)   return minutes > 0 ? `${hours} h ${minutes} min` : `${hours} h`;
+        if (minutes > 0) return `${minutes} min`;
+        return "moins d'une minute";
+    }
+
     const formatTime = (h, m) =>
         `${String(h).padStart(2, "0")}h${String(m).padStart(2, "0")}`;
 
@@ -160,13 +188,32 @@
         }
     }
 
-    // Ligne "🎮 jeu en cours" ajoutée à la carte live (textContent : pas d'injection HTML)
+    // Ligne "🎮 jeu en cours" ajoutée à la carte live du planning et à la carte du hero
+    // (textContent : pas d'injection HTML)
     function renderLiveMeta() {
-        const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
-        if (!el) return;
         const text = liveMeta && liveMeta.game ? `🎮 ${liveMeta.game}` : "";
-        el.textContent = text;
-        el.hidden = !text;
+        const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
+        if (el) {
+            el.textContent = text;
+            el.hidden = !text;
+        }
+        if (hero.game) {
+            hero.game.textContent = text;
+            hero.game.hidden = !text;
+        }
+    }
+
+    // Carte du hero : libellé, valeur et CTA suivent l'état (le décompte est écrit par tick)
+    function renderHero(isLive, info) {
+        if (!hero.card) return;
+        hero.card.classList.toggle("is-live", isLive);
+        hero.label.textContent = isLive ? "En direct maintenant" : "Prochain live";
+        hero.value.textContent = isLive
+            ? "Ça se passe maintenant !"
+            : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
+        hero.cta.textContent = isLive ? "Rejoindre le live" : "Suivre sur Twitch ♥";
+        hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
+        if (isLive) hero.cd.textContent = "";
     }
 
     // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
@@ -224,6 +271,7 @@
                 setCardCta(el, null);
             }
         });
+        renderHero(isLive, info);
         renderLiveMeta();
     }
 
@@ -239,16 +287,16 @@
         const isLive = liveOverride || info.isLive;
         const key    = `${info.day}-${info.hour}-${info.minute}`;
 
-        // Changement d'état → re-render complet (rare)
+        // Changement d'état → re-render complet (rare), puis les textes ci-dessous
         if (cachedIsLive !== isLive || cachedNextKey !== key) {
             cachedIsLive  = isLive;
             cachedNextKey = key;
             updateUI(isLive, info);
-            return; // updateUI a déjà écrit les textes initiaux
         }
 
-        // Même état → on met à jour uniquement les textes countdown (1s)
-        const now = new Date();
+        // Textes countdown (1s), forme courte sous 768 px
+        const now     = new Date();
+        const compact = MOBILE_MQ.matches;
 
         schedule.forEach(({ day, hour, minute, el }) => {
             const cdEl = el.querySelector(".schedule-countdown");
@@ -260,10 +308,18 @@
                 if (cdEl.textContent !== "En direct") cdEl.textContent = "En direct";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
-                const newText = `Dans ${formatCountdown(next - now)}`;
+                const newText = compact
+                    ? `dans ${formatCountdownShort(next - now)}`
+                    : `Dans ${formatCountdown(next - now)}`;
                 if (cdEl.textContent !== newText) cdEl.textContent = newText;
             }
         });
+
+        // Décompte de la carte du hero (masqué en live par le CSS, vidé par renderHero)
+        if (hero.cd && !isLive && info.date) {
+            const t = `dans ${formatCountdownShort(info.date - now)}`;
+            if (hero.cd.textContent !== t) hero.cd.textContent = t;
+        }
     }
 
     // ─── Grille du planning depuis data/schedule.json ────────────────────────

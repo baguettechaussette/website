@@ -258,7 +258,8 @@
         font-size: 1em;
         padding: 12px 20px;
         margin: 15px 0;
-        word-break: break-all;
+        word-break: normal;      /* break-all coupait l'adresse en « gmail.c / om » */
+        overflow-wrap: anywhere; /* ne coupe qu'en dernier recours */
         line-height: 1.4;
     }
 
@@ -835,4 +836,683 @@
     .section-header { margin-bottom: 20px; }
     .clips-grid { gap: 8px; }
     footer { padding: 28px 15px; }
+}
+
+/* ============================================
+   ACCUEIL MOBILE (maquette Claude Design du 22/09/2026, handoff « Accueil mobile »)
+   Desktop intouché : tout vit sous 768 px. Les éléments neufs du HTML (tagline,
+   carte du prochain live, libellés courts des stats, boutons des cartes soutien,
+   titre « Marques & studios », pictogramme media kit, lien /links) sont masqués
+   au-dessus par la règle de base ci-dessous. Ces règles sont les dernières du
+   fichier : elles priment sur les blocs mobiles plus haut (même sélecteur, même
+   media query, plus bas dans la cascade). Une passe de nettoyage reste à faire.
+   ============================================ */
+
+.hero-tagline,
+.hero-live-card,
+.stat-label-short,
+.social-cta,
+.title-mobile,
+.mediakit-icon,
+.socials-all-link {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* ---- Rythme commun : 32 px entre sections, 16 px sous un en-tête ---- */
+    section { padding: 32px 18px; }
+    .section-header { margin-bottom: 16px; }
+    .section-title { font-size: 1.875em; line-height: 1.15; margin-bottom: 6px; }
+    .section-subtitle { font-size: 0.94em; line-height: 1.5; }
+
+    /* ---- 1. Hero : avatar 92 px à gauche du nom, carte du prochain live ----
+       .hero-left / .hero-right passent en display: contents : leurs enfants deviennent
+       les cellules d'une seule grille (et les glissements d'entrée disparaissent avec
+       leur boîte). Aucun changement de structure HTML pour le desktop. */
+    .hero {
+        min-height: 0;
+        display: block;
+        padding: 88px 18px 26px; /* barre de 66 px + 22 px */
+    }
+
+    .hero-left,
+    .hero-right { display: contents; }
+
+    .hero-content {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        grid-template-areas:
+            "avatar title"
+            "avatar tagline"
+            "sub sub"
+            "live live"
+            "stats stats"
+            "goal goal";
+        column-gap: 15px;
+        row-gap: 0;
+        align-items: center;
+        max-width: none;
+        width: 100%;
+    }
+
+    .avatar-container {
+        grid-area: avatar;
+        width: 92px;
+        height: 92px;
+        margin: 0;
+        align-self: center;
+    }
+
+    .avatar-main {
+        width: 92px;
+        height: 92px;
+        margin: 0;
+        animation: none;
+        border: 3px solid rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .avatar-glow { display: none; }
+
+    .hero-title {
+        grid-area: title;
+        align-self: end;
+        margin: 0;
+        font-size: 1.7em; /* 27 px : le nom reste le sommet visuel grâce au dégradé et à la graisse */
+        line-height: 1.08;
+        text-shadow: none;
+    }
+
+    .hero-tagline {
+        display: block;
+        grid-area: tagline;
+        align-self: start;
+        margin: 4px 0 0;
+        font-size: 0.82em;
+        font-weight: 600;
+        color: var(--text-tertiary);
+    }
+
+    .hero-subtitle {
+        grid-area: sub;
+        margin: 14px 0 0;
+        font-size: 1em;
+        font-weight: 600;
+        line-height: 1.45;
+    }
+
+    /* Les deux boutons du hero (Me contacter / Me suivre) sont remplacés par la carte du live :
+       Contact reste dans le menu et en section dédiée, Suivre est le CTA de la carte. */
+    .hero-buttons { display: none; }
+
+    /* Carte du prochain live (alimentée par js/stream-countdown.js) */
+    .hero-live-card {
+        grid-area: live;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 14px;
+        padding: 16px;
+        background: rgba(127, 184, 147, 0.16);
+        border: 2px solid rgba(92, 147, 111, 0.5);
+        border-radius: 24px;
+    }
+
+    .hero-live-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .hero-live-dot {
+        width: 10px;
+        height: 10px;
+        flex: none;
+        border-radius: 50%;
+        background: var(--green);
+    }
+
+    .hero-live-label {
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+    }
+
+    .hero-live-countdown {
+        margin-left: auto;
+        font-size: 0.82em;
+        font-weight: 700;
+        color: var(--text-tertiary);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .hero-live-value {
+        margin: 0;
+        font-size: 1.3em;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--text-primary);
+    }
+
+    .hero-live-game {
+        margin: 0;
+        align-self: flex-start;
+        max-width: 100%;
+        padding: 6px 13px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.75);
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--text-primary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .hero-live-game[hidden] { display: none; }
+
+    .hero-live-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .hero-live-cta,
+    .hero-live-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 12px 14px;
+        border-radius: var(--radius-full);
+        font-size: 0.9em;
+        font-weight: 700;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .hero-live-cta {
+        flex: 1;
+        background: var(--green);
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(92, 147, 111, 0.25);
+    }
+
+    .hero-live-secondary {
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.75);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        color: var(--text-primary);
+    }
+
+    /* État en live : la carte rougit, le décompte disparaît, le jeu en cours apparaît */
+    .hero-live-card.is-live {
+        background: rgba(230, 103, 103, 0.14);
+        border-color: rgba(214, 78, 78, 0.6);
+    }
+
+    .hero-live-card.is-live .hero-live-dot {
+        background: var(--live-red-deep);
+        box-shadow: 0 0 0 4px rgba(214, 78, 78, 0.22);
+        animation: liveDotPulse 2s ease-in-out infinite;
+    }
+
+    .hero-live-card.is-live .hero-live-label { color: var(--pink-deep); }
+    .hero-live-card.is-live .hero-live-countdown { display: none; }
+
+    .hero-live-card.is-live .hero-live-cta {
+        background: var(--live-red-deep);
+        box-shadow: 0 6px 20px rgba(214, 78, 78, 0.3);
+    }
+
+    /* Trois stats sur une ligne, libellés courts */
+    .hero-stats {
+        grid-area: stats;
+        display: flex;
+        flex-direction: row; /* le bloc 768 plus haut les empilait en colonne */
+        gap: 7px;
+        margin: 14px 0 0;
+    }
+
+    .stat-box {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 4px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.6);
+        text-align: center;
+        backdrop-filter: none;
+    }
+
+    .stat-number {
+        font-size: 1.125em;
+        line-height: 1.15;
+        background: none;
+        -webkit-text-fill-color: var(--green-deep); /* dégradé illisible à 18 px : couleur unie accessible */
+        color: var(--green-deep);
+    }
+
+    .stat-label {
+        font-size: 0.82em;
+        line-height: 1.3;
+        margin-top: 2px;
+    }
+
+    .stat-label-long { display: none; }
+    .stat-label-short { display: inline; }
+
+    .follower-goal {
+        grid-area: goal;
+        margin: 14px 0 0;
+        max-width: none;
+    }
+
+    .follower-goal-label { font-size: 0.85em; }
+
+    /* ---- 2. Planning : trois lignes égales dans un panneau ----
+       Le prochain live est annoncé dans le hero : la carte du jour ne le redit pas en gros,
+       et son CTA / sa ligne jeu (posés par le JS) sont masqués ici. */
+    .schedule-container {
+        padding: 18px 14px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 26px;
+    }
+
+    .schedule-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .schedule-item {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 4px 10px;
+        height: auto;
+        padding: 13px 18px;
+        border-radius: 20px;
+        text-align: left;
+        backdrop-filter: none;
+        box-shadow: none;
+        animation: none;
+    }
+
+    .schedule-item::before { display: none; }
+    .schedule-item:hover { transform: none; box-shadow: none; }
+
+    .schedule-day {
+        font-size: 1.0625em;
+        margin: 0;
+    }
+
+    .schedule-time {
+        font-size: 1em;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .schedule-countdown,
+    .schedule-item.is-next .schedule-countdown,
+    .schedule-item.is-live .schedule-countdown {
+        margin: 0;
+        padding: 0;
+        font-size: 0.82em;
+        font-weight: 600;
+        background: none;
+        border: 0;
+        backdrop-filter: none;
+        color: var(--text-tertiary);
+    }
+
+    .schedule-item.is-next .schedule-countdown { color: var(--green-deep); font-weight: 700; }
+    .schedule-item.is-live .schedule-countdown { color: var(--live-red-deep); font-weight: 700; }
+
+    .schedule-cta,
+    .schedule-live-game { display: none; }
+
+    /* ---- 3. Vote : grille 2 colonnes, légendes à hauteur stable ---- */
+    #clips .section-panel {
+        padding: 16px 14px;
+        border-radius: 26px;
+    }
+
+    .clips-grid { gap: 10px; }
+    .clip-thumb { border-radius: 14px; }
+
+    .clip-play {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85em;
+        padding-left: 3px;
+    }
+
+    /* Sans ces limites, un titre de 3 lignes à côté d'un titre d'une ligne décale la rangée */
+    .clips-grid .clip-meta,
+    .cow-grid .clip-meta {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 0.82em;
+        line-height: 1.3;
+        margin-top: 6px;
+    }
+
+    .clips-grid .clip-clipper,
+    .cow-grid .clip-clipper {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.82em;
+    }
+
+    .clips-more { margin-top: 14px; }
+
+    /* ---- 4. Événements : icône et titre sur une ligne, puis badges, texte, lien ---- */
+    .events-archive-grid { gap: 10px; }
+
+    .event-archive-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "icon title"
+            "meta meta"
+            "desc desc"
+            "cta cta";
+        column-gap: 10px;
+        row-gap: 10px;
+        align-items: center;
+        padding: 18px;
+        border-radius: 26px;
+    }
+
+    .event-archive-icon { grid-area: icon; font-size: 1.5em; }
+    .event-archive-title { grid-area: title; font-size: 1.2em; line-height: 1.2; }
+    .event-archive-meta { grid-area: meta; gap: 6px; }
+    .event-archive-desc { grid-area: desc; margin: 0; font-size: 0.875em; line-height: 1.5; }
+    .event-archive-cta { grid-area: cta; margin: 0; font-size: 0.875em; }
+
+    .event-type-badge,
+    .event-status-badge {
+        padding: 4px 11px;
+        letter-spacing: 0.06em;
+    }
+
+    .event-type-badge {
+        background: rgba(127, 184, 147, 0.18);
+        border-color: transparent;
+        color: var(--green-deep);
+    }
+
+    #evenements .clips-more { margin-top: 16px; }
+
+    /* ---- 5. Me soutenir : icône et titre sur une ligne, bouton visible ---- */
+    #soutenir .social-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #soutenir .social-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "icon name"
+            "desc desc"
+            "cta cta";
+        column-gap: 11px;
+        row-gap: 10px;
+        align-items: center;
+        padding: 18px;
+        border-radius: 24px;
+        text-align: left;
+        backdrop-filter: none;
+    }
+
+    #soutenir .social-card:hover { transform: none; }
+    #soutenir .social-icon { grid-area: icon; font-size: 1.625em; line-height: 1; margin: 0; }
+    #soutenir .social-name { grid-area: name; font-size: 1.125em; line-height: 1.2; margin: 0; }
+    #soutenir .social-desc { grid-area: desc; font-size: 0.875em; line-height: 1.5; }
+    #soutenir .social-desc strong { color: var(--text-primary); }
+
+    #soutenir .social-cta {
+        grid-area: cta;
+        display: inline-block;
+        justify-self: start;
+        padding: 10px 20px;
+        border-radius: var(--radius-full);
+        color: #fff;
+        font-size: 0.85em;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    /* Le violet reste ici : c'est Twitch qui parle de Twitch, sur un fond déjà teinté */
+    #soutenir .social-card.twitch { background: rgba(145, 70, 255, 0.07); border-color: rgba(145, 70, 255, 0.22); }
+    #soutenir .social-card.twitch .social-name { color: var(--twitch-dark); }
+    #soutenir .social-card.twitch .social-cta { background: var(--twitch-dark); }
+    #soutenir .social-card.kofi { background: rgba(197, 106, 82, 0.07); border-color: rgba(197, 106, 82, 0.22); }
+    #soutenir .social-card.kofi .social-name { color: var(--pink-deep); }
+    #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
+
+    /* ---- 6. Marques & studios : Contact et Partenariats fusionnent ----
+       Une seule section teintée, l'email d'abord (la porte), les cartes partenaires
+       ensuite (la preuve). Les trois cartes de contact deviennent des pastilles. */
+    #contact,
+    #partenaires { background: rgba(242, 227, 216, 0.5); }
+    #contact { padding-bottom: 8px; }
+    #partenaires { padding-top: 8px; }
+    #partenaires .section-header { display: none; }
+
+    .title-desktop { display: none; }
+    .title-mobile { display: inline; }
+
+    .contact-container { padding: 0; }
+
+    .contact-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+    }
+
+    .contact-info-box {
+        flex: 0 0 100%;
+        margin-bottom: 3px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "icon title"
+            "email email";
+        column-gap: 10px;
+        row-gap: 10px;
+        align-items: center;
+        padding: 18px 16px;
+        border-radius: 26px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: none;
+    }
+
+    .contact-info-box:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-icon { grid-area: icon; font-size: 1.375em; line-height: 1; margin: 0; }
+
+    .contact-title {
+        grid-area: title;
+        margin: 0;
+        font-size: 1.0625em;
+        line-height: 1.2;
+        background: none;
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
+    }
+
+    .contact-email {
+        grid-area: email;
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 12px 16px;
+        font-size: 0.82em;
+        font-weight: 600;
+        line-height: 1.35;
+        text-align: center;
+        background: var(--green);
+        box-shadow: none;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* Les pastilles : les 3 cartes rejoignent la ligne du media kit */
+    .contact-cards { display: contents; }
+
+    .contact-card,
+    .contact-mediakit {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: auto;
+        margin: 0;
+        padding: 8px 13px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.8);
+        border: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+        font-size: 0.82em;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    .contact-card:hover { transform: none; background: rgba(255, 255, 255, 0.9); }
+    .contact-card-icon { font-size: 1.1em; line-height: 1; margin: 0; }
+    .contact-card-title { font-size: 1em; font-weight: 600; margin: 0; }
+    .contact-card-text { display: none; } /* les phrases disparaissent : validé dans le brief */
+    .mediakit-icon { display: inline; }
+
+    /* ---- 7. Réseaux : six lignes compactes, même motif que les .link-card de /links ---- */
+    #reseaux .socials-container { padding: 0; }
+
+    #reseaux .social-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #reseaux .social-card,
+    #reseaux .social-card.discord {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        column-gap: 12px;
+        row-gap: 1px;
+        align-items: center;
+        padding: 12px 14px;
+        border-radius: 18px;
+        text-align: left;
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    #reseaux .social-card:hover { transform: none; box-shadow: none; }
+    #reseaux .social-card::before { display: none; }
+
+    #reseaux .social-icon {
+        grid-row: 1 / span 2;
+        grid-column: 1;
+        font-size: 1.5em;
+        line-height: 1;
+        margin: 0;
+        text-align: center;
+    }
+
+    #reseaux .social-name { grid-column: 2; font-size: 1em; line-height: 1.25; margin: 0; }
+    #reseaux .social-desc { grid-column: 2; font-size: 0.82em; line-height: 1.3; }
+
+    #reseaux .social-card::after {
+        content: '›';
+        grid-row: 1 / span 2;
+        grid-column: 3;
+        font-size: 1.0625em;
+        line-height: 1;
+        color: rgba(63, 47, 37, 0.45);
+    }
+
+    /* Teintes très basses sur le beige, noms dans les variantes accessibles de la charte.
+       Discord garde son bleu de marque (#5865f2), déjà utilisé sur desktop. */
+    #reseaux .social-card.twitch { background: rgba(145, 70, 255, 0.08); border-color: rgba(145, 70, 255, 0.22); }
+    #reseaux .social-card.twitch .social-name { color: var(--twitch-dark); }
+    #reseaux .social-card.youtube { background: rgba(230, 103, 103, 0.08); border-color: rgba(230, 103, 103, 0.22); }
+    #reseaux .social-card.youtube .social-name { color: var(--live-red-deep); }
+    #reseaux .social-card.tiktok { background: rgba(127, 184, 147, 0.1); border-color: rgba(127, 184, 147, 0.28); }
+    #reseaux .social-card.tiktok .social-name { color: var(--green-deep); }
+    #reseaux .social-card.instagram { background: rgba(197, 106, 82, 0.08); border-color: rgba(197, 106, 82, 0.22); }
+    #reseaux .social-card.instagram .social-name { color: var(--pink-deep); }
+    #reseaux .social-card.twitter { background: rgba(63, 47, 37, 0.06); border-color: rgba(63, 47, 37, 0.15); }
+    #reseaux .social-card.twitter .social-name { color: var(--text-primary); }
+
+    .socials-all-link {
+        display: block;
+        margin-top: 14px;
+        text-align: center;
+        font-size: 0.85em;
+        font-weight: 700;
+        color: var(--pink-deep);
+        text-decoration: none;
+    }
+
+    /* ---- 8. FAQ : items resserrés ---- */
+    .faq-container { gap: 10px; }
+
+    .faq-item {
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: none;
+    }
+
+    .faq-item summary {
+        font-size: 0.94em;
+        line-height: 1.3;
+        padding: 14px 52px 14px 16px;
+    }
+
+    .faq-item summary::after {
+        right: 14px;
+        width: 26px;
+        height: 26px;
+        margin-top: -13px;
+        font-size: 1em;
+        background: rgba(127, 184, 147, 0.2);
+        color: var(--green-deep);
+    }
+
+    .faq-answer {
+        padding: 0 16px 16px;
+        font-size: 0.95em;
+        line-height: 1.6;
+    }
+
+    /* ---- Bouton de remontée : il recouvrait le dernier élément cliquable de chaque page ---- */
+    .back-to-top {
+        bottom: 16px;
+        right: 14px;
+        width: 44px;
+        height: 44px;
+    }
+
+    main > section:last-of-type { padding-bottom: 64px; }
 }

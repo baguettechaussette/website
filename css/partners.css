@@ -330,3 +330,85 @@
     .partner-card { padding: 26px 22px; }
     .partner-logo { margin-bottom: 18px; } /* réservait 34 px sous un logo de 64 */
 }
+
+/* --- Accueil mobile (maquette Claude Design du 22/09/2026) : carte partenaire compacte ---
+   Bandeau logo blanc, badge puis nom, description, tags, bouton pleine largeur. */
+@media (max-width: 768px) {
+    .partners-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 0;
+    }
+
+    .partner-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 18px;
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    .partner-card:hover { transform: none; box-shadow: none; }
+    .partner-card:hover .partner-logo img { transform: none; }
+
+    .partner-logo {
+        order: 1;
+        margin: 0;
+        padding: 14px 18px;
+        background: #fff;
+        border-radius: 18px;
+    }
+
+    /* Les logos sont horizontaux (440 px de large) : largeur contrainte, hauteur libre */
+    .partner-logo img {
+        height: auto;
+        width: 100%;
+        max-width: 240px;
+        filter: none;
+    }
+
+    .partner-badge {
+        order: 2;
+        align-self: flex-start;
+        margin: 0;
+        padding: 3px 10px;
+        font-size: 0.82rem;
+        letter-spacing: 0.05em;
+    }
+
+    .partner-content {
+        order: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .partner-name { font-size: 1.125rem; line-height: 1.2; margin: 0; }
+    .partner-description { font-size: 0.875rem; line-height: 1.5; margin: 0; }
+    .partner-tags { gap: 6px; margin: 0; }
+
+    .partner-tag {
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.8);
+        border-color: transparent;
+        font-size: 0.82rem;
+    }
+
+    .partner-actions { gap: 8px; }
+
+    .partner-link {
+        min-height: 46px;
+        padding: 12px 22px;
+        font-size: 0.875rem;
+    }
+
+    .partner-link-primary {
+        background: var(--green);
+        box-shadow: none;
+    }
+}
