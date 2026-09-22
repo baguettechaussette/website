@@ -5,7 +5,7 @@
 //    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
 // ============================================================
 
-const CACHE_NAME = 'bc-v13';
+const CACHE_NAME = 'bc-v14';
 
 const PRECACHE_ASSETS = [
     // Une seule forme d'URL par page : celle utilisée par les liens internes
@@ -34,6 +34,7 @@ const PRECACHE_ASSETS = [
     '/js/stream-countdown.js',
     '/js/live-float.js',
     '/js/clips-page.js',
+    '/js/gamers4pets.js',
     '/js/fluent-emoji.js',
     '/img/baguette-chaussette-logo.webp',
     '/img/baguette-chaussette-streamer-twitch-fr-v2.webp',
