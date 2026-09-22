@@ -53,14 +53,14 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=42">
+    <link rel="stylesheet" href="./css/fonts.css?v=43">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=42">
-    <link rel="stylesheet" href="./css/layout.css?v=42">
-    <link rel="stylesheet" href="./css/components.css?v=42">
-    <link rel="stylesheet" href="./css/sections.css?v=42">
-    <link rel="stylesheet" href="./css/responsive.css?v=42">
-    <link rel="stylesheet" href="./css/partners.css?v=42">
+    <link rel="stylesheet" href="./css/base.css?v=43">
+    <link rel="stylesheet" href="./css/layout.css?v=43">
+    <link rel="stylesheet" href="./css/components.css?v=43">
+    <link rel="stylesheet" href="./css/sections.css?v=43">
+    <link rel="stylesheet" href="./css/responsive.css?v=43">
+    <link rel="stylesheet" href="./css/partners.css?v=43">
 
     <script type="application/ld+json">
         {
@@ -524,6 +524,8 @@
         <!-- Loftia - Partenaire Officiel -->
         <article class="partner-card partner-featured" data-umami-event="Partner - Loftia Card Click">
             <div class="partner-badge partner">Partenaire Officiel</div>
+            <!-- Mobile uniquement : replie / déplie la carte (masqué au-dessus de 768 px) -->
+            <button type="button" class="partner-toggle" aria-expanded="true" aria-label="Replier ou déplier la carte Loftia"></button>
             <div class="partner-logo">
                 <img src="img/partners/loftia-badge-partner.webp" alt="Logo de Loftia, MMO cosy solarpunk" width="440" height="175" loading="lazy" />
             </div>
@@ -552,8 +554,9 @@
             </div>
         </article>
         <!-- Inkonbini - Ambassadeur -->
-        <article class="partner-card partner-featured" data-umami-event="Partner - inKONBINI Card Click">
+        <article class="partner-card partner-featured is-collapsed" data-umami-event="Partner - inKONBINI Card Click">
             <div class="partner-badge ambassador">Ambassadeur</div>
+            <button type="button" class="partner-toggle" aria-expanded="false" aria-label="Replier ou déplier la carte Inkonbini"></button>
             <div class="partner-logo">
                 <img src="img/partners/inkonbini-logo.webp" alt="Logo de inKONBINI, jeu narratif cosy" width="440" height="118" loading="lazy" />
             </div>
@@ -762,9 +765,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=42"></script>
-<script defer src="./js/stream-countdown.js?v=42"></script>
-<script defer src="./js/live-float.js?v=42"></script>
-<script defer src="./js/fluent-emoji.js?v=42"></script>
+<script defer src="./js/main.js?v=43"></script>
+<script defer src="./js/stream-countdown.js?v=43"></script>
+<script defer src="./js/live-float.js?v=43"></script>
+<script defer src="./js/fluent-emoji.js?v=43"></script>
 </body>
 </html>
