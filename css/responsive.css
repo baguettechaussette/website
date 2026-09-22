@@ -851,6 +851,8 @@
    media query, plus bas dans la cascade). Une passe de nettoyage reste à faire.
    ============================================ */
 
+.logo .logo-avatar, /* .logo img (base.css) le forçait en inline-block sur desktop */
+.nav-links-footer,
 .hero-live-card,
 .stat-label-short,
 .social-cta,
@@ -861,6 +863,120 @@
 }
 
 @media (max-width: 768px) {
+
+    /* ---- 0. Barre de navigation en pilule flottante (maquette 13E) ----
+       Avatar + nom en encre, burger fin. Le panneau (12B) est opaque, posé sous la
+       barre, avec un voile sombre sur la page ; la page courante est en pilule verte. */
+    #navbar,
+    #navbar.scrolled {
+        padding: 8px 12px;
+        background: transparent;
+        border-bottom: 0;
+        backdrop-filter: none;
+    }
+
+    #navbar .container {
+        padding: 8px 10px 8px 8px;
+        border-radius: 20px;
+        background: rgba(240, 235, 224, 0.97);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 6px 18px rgba(63, 47, 37, 0.12);
+    }
+
+    .logo,
+    .logo:hover {
+        font-size: 1.1em;
+        transform: none;
+        background: none;
+        -webkit-text-fill-color: var(--text-primary);
+        color: var(--text-primary);
+    }
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo .logo-avatar { /* base.css cale les img de la barre à 1em : on passe au-dessus */
+        display: block;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        background: #fff;
+        object-fit: cover;
+    }
+
+    .menu-toggle img {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Panneau : fixé sous la barre (la pilule reste au-dessus grâce au z-index négatif
+       dans le contexte d'empilement de #navbar), fond opaque, lignes de 53 px */
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 8px;
+        left: 12px;
+        right: 12px;
+        z-index: -1;
+        padding: 72px 12px 12px;
+        gap: 4px;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background: var(--bg-primary);
+        backdrop-filter: none;
+        /* Le second calque est le voile sombre sur toute la page (un tap dessus ferme le menu) */
+        box-shadow: 0 24px 60px rgba(63, 47, 37, 0.28), 0 0 0 100vmax rgba(63, 47, 37, 0.35);
+    }
+
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav-links li { width: 100%; }
+
+    .nav-links a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 53px;
+        padding: 0 16px;
+        border-radius: 16px;
+        font-size: 1.0625em;
+        font-weight: 700;
+    }
+
+    .nav-links a::after { display: none; }
+
+    .nav-links a[aria-current="page"] {
+        background: rgba(127, 184, 147, 0.18);
+        color: var(--green-deep);
+    }
+
+    .nav-links a[aria-current="page"]::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        flex: none;
+    }
+
+    .nav-links-footer {
+        display: block;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(63, 47, 37, 0.1);
+    }
+
+    .nav-links-footer a {
+        justify-content: space-between;
+        color: var(--pink-deep);
+    }
 
     /* ---- Rythme commun : 32 px entre sections, 16 px sous un en-tête ---- */
     section { padding: 32px 18px; }
@@ -965,9 +1081,7 @@
         gap: 12px;
         margin-top: 14px;
         padding: 16px;
-        /* Jaune de la charte (--purple #f2c96b) posé sur le beige de la page, opaque : le dégradé
-           animé derrière ne ternit pas la teinte, on obtient le même ton que la maquette */
-        background: linear-gradient(rgba(242, 201, 107, 0.35), rgba(242, 201, 107, 0.35)), var(--bg-primary);
+        background: #e8dbbc; /* ton miel opaque choisi par Cyril (23/09/2026) */
         border: 2px solid rgba(255, 255, 255, 0.7); /* liseré blanc de la maquette */
         border-radius: 24px;
     }
