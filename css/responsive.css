@@ -992,15 +992,6 @@
         color: var(--green-deep);
     }
 
-    .hero-live-countdown {
-        margin-left: auto;
-        font-size: 0.82em;
-        font-weight: 700;
-        color: var(--text-tertiary);
-        font-variant-numeric: tabular-nums;
-        white-space: nowrap;
-    }
-
     .hero-live-value {
         margin: 0;
         font-size: 1.3em;
@@ -1035,9 +1026,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        flex: 1;
-        min-height: 46px;
-        padding: 12px 16px;
+        align-self: flex-start;
+        min-height: 44px;
+        padding: 10px 20px;
         border-radius: var(--radius-full);
         background: rgba(255, 255, 255, 0.75);
         border: 2px solid rgba(255, 255, 255, 0.9);
@@ -1061,7 +1052,6 @@
     }
 
     .hero-live-card.is-live .hero-live-label { color: var(--pink-deep); }
-    .hero-live-card.is-live .hero-live-countdown { display: none; }
 
     .hero-live-card.is-live .hero-live-cta {
         border-color: rgba(214, 78, 78, 0.6);
@@ -1187,6 +1177,11 @@
         background: rgba(255, 255, 255, 0.55);
         border-color: rgba(255, 255, 255, 0.4);
         box-shadow: none;
+    }
+
+    .schedule-item.is-next:hover {
+        background: rgba(255, 255, 255, 0.88);
+        border-color: rgba(127, 184, 147, 0.38);
     }
 
     .schedule-item.is-next .schedule-countdown { color: var(--text-tertiary); font-weight: 600; }
