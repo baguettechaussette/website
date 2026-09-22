@@ -392,7 +392,7 @@
     .partner-badge {
         grid-area: badge;
         justify-self: start;
-        margin: 0;
+        margin: 0 0 0 8px; /* 18 px entre le logo et le badge (10 de gouttière + 8) */
         padding: 3px 10px;
         font-size: 0.72rem; /* 11,5 px comme la maquette : le libellé doit tenir sur une ligne */
         letter-spacing: 0.04em;
