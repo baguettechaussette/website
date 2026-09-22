@@ -220,13 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const week = card.getAttribute('data-week');
             const list = GALLERIES.baguettectober2025?.[week] || [];
             if (!list.length) return;
+            // Le clic vient du <button class="gallery-trigger"> et remonte jusqu'ici ;
+            // Entrée/Espace déclenchent un clic natif, pas besoin de keydown maison.
             card.addEventListener('click', () => open(list, 0));
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    open(list, 0);
-                }
-            });
         });
 
     })();

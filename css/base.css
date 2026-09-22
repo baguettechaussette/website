@@ -19,6 +19,8 @@
     --live-red-pastel: #ff9b9b;
     --live-red-dark: #e66767;
     --live-red-deep: #d64e4e; /* variante accessible : blanc >=4:1 dessus */
+    --green-deep: #3f6b4f;    /* variante accessible : petits textes verts sur fond clair */
+    --pink-deep: #9a4a36;     /* variante accessible : petits textes terracotta sur fond clair (>=5:1) */
 
     /* Background */
     --bg-primary: #f0ebe0;
@@ -29,7 +31,7 @@
     --text-primary: #3f2f25;
     --text-secondary: rgba(63, 47, 37, 0.88);
     --text-tertiary: rgba(63, 47, 37, 0.72);
-    --text-muted: rgba(63, 47, 37, 0.55);
+    --text-muted: rgba(63, 47, 37, 0.72); /* 0.55 donnait ~3:1 sur le beige, trop faible sous 18 px */
 
     /* Spacing */
     --spacing-xs: 10px;

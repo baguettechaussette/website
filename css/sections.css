@@ -270,7 +270,7 @@
 .event-status-badge.a-venir {
     background: rgba(127, 184, 147, 0.18);
     border: 1px solid rgba(127, 184, 147, 0.35);
-    color: var(--green);
+    color: var(--green-deep);
 }
 
 /* Icône centrale */
@@ -308,7 +308,7 @@
     font-size: 0.95em;
     font-weight: 700;
     margin-top: 8px;
-    color: var(--pink);
+    color: var(--pink-deep);
     transition: letter-spacing var(--transition-fast);
 }
 
@@ -627,6 +627,30 @@
     animation: clipShimmer 1.2s linear infinite;
 }
 
+/* Squelette du Clip de la Semaine : même structure qu'une .cow-card (vignette,
+   titre, clippeur, bouton) pour réserver la hauteur réelle du bloc de vote. */
+.cow-skeleton .cow-card { pointer-events: none; }
+
+.cow-skel-line {
+    height: 1.1em;
+    border-radius: 6px;
+    background: rgba(140, 191, 159, 0.18);
+}
+
+.cow-skel-line.short { width: 60%; }
+
+.cow-skel-heading {
+    width: 40%;
+    height: 21px;
+    margin: 0 auto 26px;
+}
+
+.cow-skel-btn {
+    height: 41px;
+    border-radius: var(--radius-full);
+    background: rgba(140, 191, 159, 0.22);
+}
+
 @keyframes clipShimmer {
     to { background-position: -200% 0; }
 }
@@ -636,7 +660,7 @@
     margin-top: 2px;
     text-align: center;
     font-size: 0.82em;
-    color: var(--text-muted);
+    color: rgba(63, 47, 37, 0.55); /* ancien --text-muted, garde volontairement plus discret */
 }
 
 /* CTA "Voir tous les clips" de la vitrine home */

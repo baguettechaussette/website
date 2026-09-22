@@ -69,7 +69,8 @@ function lsSet(key, value) {
 }
 
 // Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
-function makeClipThumb(clip, umamiEvent) {
+// sizes : largeur CSS de la vignette (finalistes : 2 colonnes en mobile, ~175 px en desktop)
+function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 640px) 45vw, 240px') {
     const thumb = document.createElement('button');
     thumb.type = 'button';
     thumb.className = 'clip-thumb';
@@ -77,9 +78,9 @@ function makeClipThumb(clip, umamiEvent) {
     thumb.setAttribute('aria-label', `Regarder le clip : ${clipDisplayTitle(clip)}`);
     if (clip.thumbnail_url) {
         const img = document.createElement('img');
-        img.src = clip.thumbnail_url;
         img.alt = '';
         img.loading = 'lazy';
+        setClipThumbSources(img, clip.thumbnail_url, sizes);
         // Vignette morte = clip supprimé de Twitch entre deux purges du
         // workflow : on masque la carte (ses votes sont ignorés au dépouillement).
         img.addEventListener('error', () => {
@@ -126,14 +127,20 @@ async function loadClipOfWeek() {
     const grid = document.getElementById('cowGrid');
     if (!section || !voteBlock || !winnerBox || !grid) return;
 
+    // La section est visible dès le premier rendu (titre + squelette) pour ne pas
+    // faire sauter la page : ici on remplace le squelette, on ne révèle plus.
+    const skeleton = document.getElementById('cowSkeleton');
+    const collapse = () => { skeleton?.remove(); section.hidden = true; };
+
     try {
         // no-store : après la rotation du dimanche, pas de finalistes périmés
         // servis par le cache HTTP (même politique que followers.json)
         const r = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
-        if (!r.ok) return;
+        if (!r.ok) { collapse(); return; }
         const data = await r.json();
         const finalists = (Array.isArray(data.finalists) ? data.finalists : []).filter(c => c && c.id);
         const week = data.week;
+        skeleton?.remove();
 
         // Le vote d'abord : c'est l'action principale de la section
         if (week && finalists.length >= 2) {
@@ -161,7 +168,7 @@ async function loadClipOfWeek() {
             if (await isWinnerRevealed(week)) {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
                 const card = makeEl('div', 'cow-winner-card');
-                card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner'));
+                card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner', '240px'));
                 const info = makeEl('div', 'cow-winner-info');
                 info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
                 if (data.winner.creator_name) {
@@ -177,8 +184,9 @@ async function loadClipOfWeek() {
             winnerBox.hidden = false;
         }
 
-        if (!winnerBox.hidden || !voteBlock.hidden) section.hidden = false;
-    } catch { /* silencieux : la section reste cachée */ }
+        // Ni vote ni gagnant (ne devrait pas arriver) : on replie la section
+        if (winnerBox.hidden && voteBlock.hidden) section.hidden = true;
+    } catch { collapse(); /* silencieux : sans données, pas de section */ }
 }
 
 function buildFinalistCard(clip, week, votedKey) {
