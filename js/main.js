@@ -460,8 +460,8 @@ function buildClipCard(clip) {
         const img = document.createElement('img');
         img.alt = '';
         img.loading = 'lazy';
-        // Grilles (accueil et /clips) : une carte fait 300 à 600 px de large
-        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 700px) 92vw, 400px');
+        // Grilles : 2 colonnes sous 768 px (~46 vw par vignette), 300 à 600 px au-dessus
+        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 768px) 46vw, 400px');
         thumb.appendChild(img);
     }
 

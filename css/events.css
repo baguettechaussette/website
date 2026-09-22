@@ -973,3 +973,38 @@ body.g4p-modal-open .particle {
 @media (max-width: 380px) {
     .dti-photo-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================
+   REFONTE MOBILE (22/09/2026, brief Claude Design)
+   Ces règles remplacent les valeurs mobiles plus haut dans le fichier
+   (même sélecteur, plus bas dans la cascade). Placé ici et non dans responsive.css : events.css est chargée après et gagnerait sinon.
+   ============================================ */
+
+@media (max-width: 768px) {
+    .event-title, .dti-section-title, .event-block-title { font-size: 1.3em; line-height: 1.25; }
+    .event-stat-label { font-size: 0.82rem; } /* rem : le parent fait < 16 px */
+    .event-container { padding: 26px 18px; border-radius: var(--radius-lg); }
+    .event-anchors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .event-anchor { justify-content: center; text-align: center; padding: 11px 10px; font-size: 0.85em; line-height: 1.3; min-width: 0; }
+    .event-stats-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 28px; }
+    .event-stats-strip .g4p-countdown { grid-column: 1 / -1; }
+    .event-stat-chip { padding: 14px 12px; min-width: 0; }
+    .event-stat-number { font-size: 1.7em; }
+}
+
+@media (max-width: 480px) {
+    .event-container { padding: 24px 15px; border-radius: var(--radius-md); }
+    .event-anchors, .event-stats-strip { gap: 8px; }
+}
+
+@media (max-width: 360px) {
+    .event-anchor { font-size: 0.82em; padding: 11px 8px; }
+}
+
+/* --- Refonte mobile, passe 2 --- */
+@media (max-width: 768px) {
+    .event-podium-title { font-size: 1.3em; line-height: 1.25; }
+    /* le texte courant des events était plus gros que le corps du reste du site */
+    .event-description, .baguettectober-desc { font-size: 1.05em; line-height: 1.6; }
+    .event-badge, .baguettectober-badge { font-size: 1em; padding: 9px 20px; }
+}
