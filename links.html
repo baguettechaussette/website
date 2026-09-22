@@ -43,12 +43,14 @@
     <link rel="manifest" href="/site.webmanifest"/>
 
     <!-- Preload : avatar (élément LCP de cette page très partagée) + police -->
-    <link rel="preload" href="/img/baguette-chaussette-logo.webp" as="image" fetchpriority="high">
+    <link rel="preload" as="image" fetchpriority="high"
+          imagesrcset="/img/baguette-chaussette-logo-480.webp 480w, /img/baguette-chaussette-logo-800.webp 800w"
+          imagesizes="(max-width: 480px) 120px, 120px">
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=17">
+    <link rel="stylesheet" href="./css/fonts.css?v=18">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="./css/links.css?v=17">
+    <link rel="stylesheet" href="./css/links.css?v=18">
 
     <!-- schema.org -->
     <script type="application/ld+json">
@@ -103,7 +105,9 @@
     <!-- Profile Section -->
     <div class="profile">
         <div class="avatar-wrap">
-            <img class="avatar-img" src="img/baguette-chaussette-logo.webp"
+            <img class="avatar-img" src="img/baguette-chaussette-logo-480.webp"
+                 srcset="img/baguette-chaussette-logo-480.webp 480w, img/baguette-chaussette-logo-800.webp 800w"
+                 sizes="(max-width: 480px) 120px, 120px" decoding="async"
                  alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400" fetchpriority="high">
         </div>
 
@@ -501,8 +505,8 @@
 </div>
 
 <!-- Scripts -->
-<script defer src="./js/links.js?v=17"></script>
-<script defer src="./js/fluent-emoji.js?v=17"></script>
+<script defer src="./js/links.js?v=18"></script>
+<script defer src="./js/fluent-emoji.js?v=18"></script>
 
 </body>
 </html>

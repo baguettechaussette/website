@@ -18,7 +18,10 @@
     background-size: 300% 300%;
     animation: gradientWave 15s ease infinite;
     opacity: 0.15;
-    filter: saturate(0.9) contrast(0.95);
+    /* Pas de filter ici : sur un dégradé plein écran animé, saturate()/contrast()
+       obligeait à re-rasteriser tout l'écran et doublait le temps du premier rendu
+       (mesuré 22/09/2026 : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
+       manque, l'ajuster directement dans les couleurs du dégradé. */
 }
 
 @keyframes gradientWave {
