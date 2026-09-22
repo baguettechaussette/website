@@ -1237,6 +1237,16 @@
         border-radius: 26px;
     }
 
+    /* Cartes blanches quel que soit le thème, comme la maquette (les dégradés
+       thématiques restent au desktop) */
+    .events-archive-grid .event-archive-card,
+    .events-archive-grid .event-archive-card:hover {
+        background: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: none;
+        box-shadow: none;
+    }
+
     .event-archive-icon { grid-area: icon; font-size: 1.5em; }
     .event-archive-title { grid-area: title; font-size: 1.2em; line-height: 1.2; }
     .event-archive-meta { grid-area: meta; gap: 6px; }
@@ -1253,6 +1263,12 @@
         background: rgba(127, 184, 147, 0.18);
         border-color: transparent;
         color: var(--green-deep);
+    }
+
+    /* Concours (thème été) en terracotta, comme la maquette */
+    .theme-summer .event-type-badge {
+        background: rgba(197, 106, 82, 0.16);
+        color: var(--pink-deep);
     }
 
     /* La date en jaune de la charte, passé ou à venir */
