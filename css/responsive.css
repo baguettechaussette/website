@@ -2113,6 +2113,9 @@
     }
 
     /* ---- Le Panthéon : la section devient une carte blanche ---- */
+    /* main:has(#clip-semaine) > * (bord à bord) bat #clippeurs par sa spécificité :
+       on l'écrit au même niveau pour rendre au Panthéon ses 18 px de marge */
+    main:has(#clip-semaine) > #clippeurs,
     #clippeurs {
         margin: 30px 18px 0;
         padding: 20px 16px;
