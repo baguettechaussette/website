@@ -535,6 +535,7 @@
        Il faut viser aussi les états is-next et is-live, qui lui posent
        un fond vert dans components.css. */
     .schedule-countdown,
+    .schedule-item:hover .schedule-countdown,
     .schedule-item.is-next .schedule-countdown,
     .schedule-item.is-live .schedule-countdown {
         margin: 0;

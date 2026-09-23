@@ -131,9 +131,11 @@
         const minutes = Math.floor((total % 3600) / 60);
         const seconds = total % 60;
 
-        if (days > 1)    return `${days} jours ${hours}h ${minutes}min`;
-        if (days === 1)  return `1 jour ${hours}h ${minutes}min`;
-        if (hours > 0)   return `${hours}h ${minutes}min ${seconds}s`;
+        // Deux unités au plus, on laisse tomber la plus petite : des jours
+        // n'affichent pas les minutes, des heures n'affichent pas les secondes.
+        if (days > 1)    return hours > 0 ? `${days} jours ${hours}h` : `${days} jours`;
+        if (days === 1)  return hours > 0 ? `1 jour ${hours}h` : `1 jour`;
+        if (hours > 0)   return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`;
         if (minutes > 0) return `${minutes}min ${seconds}s`;
         return `${seconds}s`;
     }
@@ -330,7 +332,7 @@
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
                 const newText = compact
                     ? `dans ${formatCountdownShort(next - now)}`
-                    : `Dans ${formatCountdown(next - now)}`;
+                    : `dans ${formatCountdown(next - now)}`;
                 if (cdEl.textContent !== newText) cdEl.textContent = newText;
             }
         });
