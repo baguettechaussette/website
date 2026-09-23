@@ -442,7 +442,17 @@ function renderTurnout(n, after) {
         makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
     // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
     const hero = document.getElementById('cowHeroTurnout');
-    if (hero) { hero.textContent = `Déjà ${n} vote${n > 1 ? 's' : ''} 🗳️`; hero.hidden = false; }
+    // Deux libelles : la pastille du desktop est plus bavarde que la mention
+    // en fin de ligne du mobile, qui suit deja un point separateur.
+    if (hero) {
+        const s = n > 1 ? 's' : '';
+        hero.textContent = '';
+        hero.append(
+            makeEl('span', 'meta-mobile', `${n} vote${s}`),
+            makeEl('span', 'meta-desktop', `Déjà ${n} vote${s} 🗳️`)
+        );
+        hero.hidden = false;
+    }
 }
 
 function refreshVoteButtons(grid, votedClip) {
