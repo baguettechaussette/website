@@ -1171,10 +1171,11 @@ body.g4p-modal-open .particle {
             "emoji badge toggle"
             "desc desc desc";
         column-gap: 12px;
-        row-gap: 2px;
+        row-gap: 4px;
         align-items: center;
         text-align: left;
         margin-bottom: 0;
+        padding: 2px 0;
     }
 
     .event-emoji {
@@ -1240,9 +1241,11 @@ body.g4p-modal-open .particle {
 
     .is-collapsible .event-intro:has(+ *) { margin-bottom: 14px; }
 
-    .is-collapsed .event-description,
-    .is-collapsed > :not(.event-intro) { display: none; }
-    .is-collapsed .event-intro { margin-bottom: 0; }
+    /* Repliée : seule la ligne d'en-tête reste (spécificité au-dessus des règles
+       d'affichage des pastilles et blocs, sinon les chiffres restaient visibles) */
+    .event-container.is-collapsed .event-description,
+    .event-container.is-collapsed > :not(.event-intro) { display: none; }
+    .event-container.is-collapsed .event-intro { margin-bottom: 0; }
 
     /* Chiffres clés en pastilles : « 10 participants », « 5 manches »… */
     .is-collapsible .event-stats-strip {
