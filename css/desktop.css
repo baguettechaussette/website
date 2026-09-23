@@ -575,7 +575,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(63, 47, 37, 0.62);
+        background: rgba(63, 47, 37, 0.42);
         pointer-events: none;
     }
 
