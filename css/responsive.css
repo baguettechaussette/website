@@ -2125,147 +2125,119 @@
     #clippeurs .section-title { font-size: 1.5em; margin-bottom: 3px; }
     #clippeurs .section-subtitle { font-size: 0.9em; line-height: 1.45; }
 
+    /* Maquette Claude Design : une liste, une ligne par clippeur.
+       rang dans une pastille ronde | emoji | pseudo / grade · suffixe / stats.
+       Les trois premiers sont des cartes teintées (or, argent, bronze), les
+       suivants une liste blanche continue. */
     .clippers-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 8px;
         max-width: none;
         counter-reset: rang;
     }
 
-    .clipper-card {
+    /* .clippers-grid .clipper-card : même spécificité que la règle desktop (flex: 0 1 180px),
+       sinon elle gagnait et imposait 180 px de HAUTEUR à chaque ligne */
+    .clippers-grid .clipper-card {
         counter-increment: rang;
-        display: flex;
-        flex-direction: column;
-        gap: 1px;
-        padding: 12px;
-        border: 0;
+        display: grid;
+        grid-template-columns: 30px 30px auto minmax(0, 1fr);
+        grid-template-areas:
+            "rank badge name   name"
+            "rank badge grade  suffix"
+            "rank badge stats  stats";
+        column-gap: 12px;
+        row-gap: 1px;
+        align-items: center;
+        padding: 12px 14px;
+        min-height: 0;
+        /* sections.css donne flex: 0 1 180px : dans une colonne flex, ce 180px devient la HAUTEUR */
+        flex: 0 0 auto;
+        border: 1.5px solid transparent;
         border-radius: 18px;
         box-shadow: none;
         text-align: left;
-    }
-
-    /* Le rang s'écrit « #n » quel que soit le contenu (médaille sur desktop) */
-    .clipper-rank {
-        position: static;
-        font-size: 0;
-        color: var(--text-tertiary);
-    }
-
-    .clipper-rank::before {
-        content: '#' counter(rang);
-        font-size: 13px;
-        font-weight: 700;
-    }
-
-    .clipper-badge { font-size: 1.375em; margin: 0; }
-    .clipper-name { font-size: 0.94em; line-height: 1.25; }
-    .clipper-grade { font-size: 0.82em; line-height: 1.25; color: var(--green-deep); }
-    .clipper-suffix { margin: 0; font-size: 0.82em; color: #8a6a1f; }
-    .clipper-stats { margin-top: 3px; font-size: 0.82em; line-height: 1.25; }
-
-    /* #1 : pleine largeur, badge dans un rond, colonne de textes */
-    .clipper-card:first-child {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: 56px minmax(0, 1fr);
-        grid-template-areas:
-            "badge rank"
-            "badge name"
-            "badge grade"
-            "badge suffix"
-            "badge stats";
-        column-gap: 14px;
-        row-gap: 1px;
-        align-items: center;
-        padding: 14px 16px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
-    }
-
-    .clipper-card:first-child .clipper-badge {
-        grid-area: badge;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.7);
-        font-size: 1.875em;
-    }
-
-    .clipper-card:first-child .clipper-rank { grid-area: rank; }
-    .clipper-card:first-child .clipper-name { grid-area: name; font-size: 1.0625em; }
-    .clipper-card:first-child .clipper-grade { grid-area: grade; font-size: 0.85em; }
-    .clipper-card:first-child .clipper-suffix { grid-area: suffix; }
-    .clipper-card:first-child .clipper-stats { grid-area: stats; margin: 0; }
-
-    /* #2 et #3 côte à côte : emoji à gauche, rang à droite sur la première ligne */
-    .clipper-card:nth-child(2),
-    .clipper-card:nth-child(3) {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        grid-template-areas:
-            "badge rank"
-            "name name"
-            "grade grade"
-            "suffix suffix"
-            "stats stats";
-        align-items: center;
-    }
-
-    .clipper-card:nth-child(2) { background: linear-gradient(135deg, rgba(192, 192, 192, 0.18), rgba(150, 150, 150, 0.08)); }
-    .clipper-card:nth-child(3) { background: linear-gradient(135deg, rgba(205, 127, 50, 0.18), rgba(180, 100, 30, 0.08)); }
-
-    /* Pseudos longs (« teph_woot_la_miche ») : un cran plus petit et coupés par une ellipse
-       plutôt qu'une lettre orpheline sur la ligne suivante */
-    .clipper-card:nth-child(2) .clipper-name,
-    .clipper-card:nth-child(3) .clipper-name {
-        font-size: 0.875em;
-        overflow-wrap: normal;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 0;
-    }
-
-    .clipper-card:nth-child(2) .clipper-badge, .clipper-card:nth-child(3) .clipper-badge { grid-area: badge; }
-    .clipper-card:nth-child(2) .clipper-rank,  .clipper-card:nth-child(3) .clipper-rank  { grid-area: rank; }
-    .clipper-card:nth-child(2) .clipper-name,  .clipper-card:nth-child(3) .clipper-name  { grid-area: name; }
-    .clipper-card:nth-child(2) .clipper-grade, .clipper-card:nth-child(3) .clipper-grade { grid-area: grade; }
-    .clipper-card:nth-child(2) .clipper-suffix, .clipper-card:nth-child(3) .clipper-suffix { grid-area: suffix; }
-    .clipper-card:nth-child(2) .clipper-stats, .clipper-card:nth-child(3) .clipper-stats { grid-area: stats; }
-
-    /* #4 et suivants : une liste blanche, une ligne par clippeur */
-    .clipper-card:nth-child(n + 4) {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: 24px 24px minmax(0, 1fr);
-        grid-template-areas:
-            "rank badge name"
-            "rank badge grade"
-            "rank badge suffix"
-            "rank badge stats";
-        column-gap: 12px;
-        row-gap: 0;
-        align-items: center;
-        padding: 10px 14px;
-        border-radius: 0;
         background: rgba(255, 255, 255, 0.6);
     }
 
+    /* Le rang : une pastille ronde numérotée, quel que soit le contenu du DOM
+       (médaille emoji sur desktop) */
+    .clipper-rank {
+        grid-area: rank;
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(63, 47, 37, 0.07);
+        color: var(--text-tertiary);
+        font-size: 0;
+    }
+
+    .clipper-rank::before {
+        content: counter(rang);
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    /* Les <p> gardaient leurs marges desktop et étiraient chaque ligne à 180 px */
+    .clipper-card > * { margin: 0; min-height: 0; }
+
+    .clipper-badge { grid-area: badge; font-size: 1.375em; line-height: 1; text-align: center; }
+
+    .clipper-name {
+        grid-area: name;
+        font-size: 0.95em;
+        line-height: 1.25;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Grade et suffixe sur la même ligne : « Maître boulanger · légende du fournil » */
+    .clipper-grade {
+        grid-area: grade;
+        font-size: 0.82em;
+        line-height: 1.3;
+        color: var(--green-deep);
+        white-space: nowrap;
+    }
+
+    .clipper-suffix {
+        grid-area: suffix;
+        margin: 0;
+        min-width: 0;
+        font-size: 0.82em;
+        line-height: 1.3;
+        font-style: italic;
+        color: var(--green-deep);
+    }
+
+    .clipper-suffix::before { content: '· '; font-style: normal; }
+
+    .clipper-stats { grid-area: stats; margin: 0; font-size: 0.82em; line-height: 1.3; color: var(--text-tertiary); }
+
+    /* Podium : cartes teintées, pastille pleine */
+    .clipper-card:nth-child(1) { background: rgba(242, 201, 107, 0.26); border-color: rgba(242, 201, 107, 0.75); }
+    .clipper-card:nth-child(2) { background: rgba(63, 47, 37, 0.06);   border-color: rgba(63, 47, 37, 0.16); }
+    .clipper-card:nth-child(3) { background: rgba(197, 106, 82, 0.15);  border-color: rgba(197, 106, 82, 0.45); }
+
+    .clipper-card:nth-child(1) .clipper-rank { background: #f2c96b; color: #5a4210; }
+    .clipper-card:nth-child(2) .clipper-rank { background: #d6d3cf; color: #3f3f3f; }
+    .clipper-card:nth-child(3) .clipper-rank { background: #d9a074; color: #4e2a10; }
+
+    .clipper-card:nth-child(1) .clipper-name { font-size: 1em; }
+
+    /* #4 et suivants : liste blanche continue, coins arrondis aux deux bouts */
+    .clipper-card:nth-child(n + 4) { border-radius: 0; padding: 10px 14px; }
     .clipper-card:nth-child(4) { border-radius: 18px 18px 0 0; }
     .clipper-card:last-child:nth-child(n + 4) { border-radius: 0 0 18px 18px; }
     .clipper-card:nth-child(4):last-child { border-radius: 18px; }
     .clipper-card:nth-child(n + 5) { margin-top: -8px; border-top: 1px solid rgba(63, 47, 37, 0.08); }
-
-    .clipper-card:nth-child(n + 4) .clipper-rank  { grid-area: rank; }
-    .clipper-card:nth-child(n + 4) .clipper-badge { grid-area: badge; font-size: 1.25em; text-align: center; }
-    .clipper-card:nth-child(n + 4) .clipper-name  { grid-area: name; font-size: 0.9em; }
-    .clipper-card:nth-child(n + 4) .clipper-grade  { grid-area: grade; }
-    .clipper-card:nth-child(n + 4) .clipper-suffix { grid-area: suffix; }
-    .clipper-card:nth-child(n + 4) .clipper-stats  { grid-area: stats; margin: 0; }
 
     /* Comment clipper */
     .clip-howto {
