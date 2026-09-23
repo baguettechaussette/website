@@ -20,14 +20,14 @@
        Fond de page
        ============================================ */
 
-    /* La maquette pose un dégradé vertical calme, sans les taches
-       colorées du mobile : elles brouillaient la lecture en 2 colonnes. */
-    body {
-        background: linear-gradient(180deg, #f0ebe0 0%, #e9eee2 40%, #f0ebe0 100%);
-        background-attachment: fixed;
+    /* Même fond qu'en mobile : le dégradé de .bg-container à 8 %, sans
+       animation, et pas de particules. Le dégradé maison que j'avais posé
+       ici sortait de la charte. */
+    .bg-container {
+        animation: none;
+        opacity: 0.08;
     }
 
-    .bg-container,
     .particles { display: none; }
 
     /* ============================================
@@ -94,7 +94,12 @@
         backdrop-filter: none;
     }
 
+    /* layout.css repose « padding: 15px 0 » sur la barre scrollée, plus
+       spécifique que mon « #navbar { padding: 0 } » : la barre gagnait 30 px
+       et son contenu débordait. */
     #navbar.scrolled {
+        height: 72px;
+        padding: 0;
         background: #f3eee4;
         box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
     }
@@ -121,7 +126,9 @@
         gap: 12px;
         font-size: 1.125rem; /* 18 px */
         font-weight: 800;
+        background: none;
         color: var(--text-secondary);
+        -webkit-text-fill-color: var(--text-secondary); /* pas le dégradé du mobile */
         text-decoration: none;
     }
 
@@ -263,6 +270,10 @@
         text-align: left;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
+        /* Les trois rangées sont déclarées pour que « grid-row: 1 / -1 » du
+           bouton ait une vraie dernière ligne : sans elles, -1 retombait sur
+           la ligne 1 et le bouton se calait en haut au lieu du milieu. */
+        grid-template-rows: auto auto auto;
         align-items: center;
         column-gap: 16px;
     }
@@ -399,7 +410,17 @@
        Titres de section
        ============================================ */
 
-    .section-header {
+    /* sections.css pose « margin-bottom: 34px » sur #clips .section-header
+       et consorts : il faut un sélecteur à identifiant pour le reprendre,
+       sinon 48 px séparaient le titre de son texte. */
+    .section-header,
+    #planning .section-header,
+    #clips .section-header,
+    #evenements .section-header,
+    #soutenir .section-header,
+    #contact .section-header,
+    #reseaux .section-header,
+    #faq .section-header {
         margin: 0;
         text-align: left;
     }
@@ -457,19 +478,25 @@
         margin: 0;
     }
 
+    /* Trois colonnes comme en mobile : jour | heure | décompte, les deux
+       colonnes extérieures égales. L'heure tombe ainsi au même endroit sur
+       les trois lignes, ce que « space-between » ne donnait pas. */
     .schedule-item {
         padding: 12px 18px;
         background: rgba(255, 255, 255, 0.55);
         border: 0;
         border-radius: 18px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: grid;
+        /* Colonne des jours figée à la largeur du plus large (« Dimanche »,
+           76 px) : en « auto » elle variait de 8 px d'une ligne à l'autre et
+           l'heure dansait. Les colonnes égales du mobile, elles, ne tiennent
+           pas dans 360 px : le décompte passait par-dessus l'heure. */
+        grid-template-columns: 4.75rem auto minmax(0, 1fr);
         align-items: baseline;
-        justify-content: space-between;
         gap: 10px;
         height: auto;
         min-height: 0;
+        text-align: left;
         box-shadow: none;
     }
 
@@ -477,21 +504,28 @@
 
     .schedule-item:hover { transform: none; box-shadow: none; }
 
-    /* Les trois valeurs tiennent sur une seule ligne : dans 360 px le
-       décompte passait sinon à la ligne et doublait la hauteur des rangées */
+    /* Jour et heure ne coupent jamais. Le décompte, lui, garde le droit de
+       passer à la ligne : c'est la seule valeur dont la longueur varie, et
+       mieux vaut deux lignes qu'un texte qui déborde sur l'heure. */
     .schedule-day,
-    .schedule-time,
-    .schedule-countdown { white-space: nowrap; }
+    .schedule-time { white-space: nowrap; }
 
-    .schedule-day {
+    /* Le jour est rempli par un dégradé dans components.css, donc
+       -webkit-text-fill-color transparent. Comme en mobile, on repasse à la
+       couleur pleine de la charte. */
+    .schedule-day,
+    .schedule-item.is-next .schedule-day {
         margin: 0;
+        background: none;
         font-size: 1.0625rem; /* 17 px */
         font-weight: 700;
-        color: var(--green-deep);
+        color: var(--green);
+        -webkit-text-fill-color: var(--green);
     }
 
     .schedule-time {
         margin: 0;
+        justify-self: start;
         font-size: 1rem;
         font-weight: 600;
         color: rgba(63, 47, 37, 0.88);
@@ -505,12 +539,15 @@
     .schedule-item.is-live .schedule-countdown {
         margin: 0;
         padding: 0;
+        justify-self: end;
+        text-align: right;
         background: none;
         border: 0;
         border-radius: 0;
-        font-size: 0.84375rem; /* 13,5 px */
-        font-weight: 400;
-        color: var(--text-muted);
+        backdrop-filter: none;
+        font-size: 0.8125rem; /* 13 px : la valeur la plus longue tient */
+        font-weight: 600;
+        color: var(--text-tertiary);
     }
 
     /* Les trois rangées sont identiques dans la maquette : la colonne
@@ -846,15 +883,18 @@
     /* La bande n'existe que lorsque les deux blocs sont côte à côte.
        Empilés, chacun garde son propre titre et le fond de page. */
     @media (min-width: 1024px) {
-        /* Le fond déborde du conteneur de 1 100 px jusqu'aux bords */
+        /* Le fond déborde du conteneur de 1 100 px jusqu'aux bords.
+           « left: 50%; margin-left: -50vw » ne marche que sur un élément
+           centré dans la page : #contact est la colonne de gauche, la bande
+           partait donc 285 px trop à gauche et s'arrêtait avant le bord
+           droit. On recule plutôt de la marge exacte du conteneur. */
         #contact::before {
             content: '';
             position: absolute;
             top: 0;
             bottom: 0;
-            left: 50%;
+            left: calc((min(1100px, 100vw - 80px) - 100vw) / 2);
             width: 100vw;
-            margin-left: -50vw;
             background: rgba(242, 227, 216, 0.5);
             z-index: -1;
         }
@@ -932,7 +972,9 @@
         font-size: 1.125rem;
         font-weight: 700;
         line-height: 1.2;
+        background: none;
         color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep); /* sinon le dégradé de sections.css */
         text-align: left;
     }
 
