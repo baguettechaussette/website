@@ -48,6 +48,19 @@ body.modal-open {
 }
 
 /* Background */
+
+/* Emojis Fluent (js/fluent-emoji.js) : les pages du hub, la 404 et les mentions
+   légales ne chargent pas base.css, où vit la règle de dimensionnement.
+   Sans elle, les SVG s'affichent à leur taille native (énormes). */
+.fluent-emoji,
+img.emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 0.05em 0 0.1em;
+    vertical-align: -0.15em;
+    display: inline-block;
+}
+
 .bg-layer {
     position: fixed;
     inset: 0;
