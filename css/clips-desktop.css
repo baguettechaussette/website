@@ -265,8 +265,10 @@
         z-index: 2;
         padding: 3px 10px;
         border-radius: 50px;
-        background: var(--text-primary);
-        color: #f0ebe0;
+        /* Pastille claire sur texte foncé : elle ressort mieux sur une
+           vignette voilée que l'inverse. */
+        background: #f0ebe0;
+        color: var(--text-primary);
         font-size: 0.8125rem; /* 13 px */
         font-weight: 800;
     }
