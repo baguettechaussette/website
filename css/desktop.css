@@ -618,20 +618,24 @@
         z-index: 1;
     }
 
-    /* Dernière vignette : le reste des finalistes, en « +N » sur un voile
-       sombre. Le vote complet se fait sur /clips. */
-    #clips .clip-card-more .clip-thumb::after {
+    /* Même voile sur les quatre vignettes : la vitrine se lit comme un
+       ensemble, et le bouton violet ressort sur toutes. */
+    #clips .clip-thumb::after {
         content: '';
         position: absolute;
         inset: 0;
         background: rgba(63, 47, 37, 0.62);
+        pointer-events: none;
     }
 
+    /* La dernière annonce le reste des finalistes : même pastille violette,
+       juste plus grande pour porter « +N ». Le vote se fait sur /clips. */
     #clips .clip-card-more .clip-play {
-        width: 40px;
-        height: 40px;
-        font-size: 0.875rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.125rem; /* 18 px, comme la maquette */
         font-weight: 800;
+        letter-spacing: -0.02em;
     }
 
     /* Vitrine : la miniature suffit, les titres sont sur /clips */
@@ -980,34 +984,38 @@
         border: 0;
         border-radius: 0;
         box-shadow: none;
+        /* Même entête qu'en mobile : l'emoji et le titre sur une ligne,
+           l'adresse en dessous. Pas de carré teinté ni de ligne de délai. */
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "icon  title"
+            "email email";
         align-items: center;
-        gap: 0 12px;
+        column-gap: 10px;
+        row-gap: 10px;
         text-align: left; /* la carte est centrée en mobile */
     }
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
 
     .contact-icon {
-        grid-column: 1;
-        grid-row: 1;
-        width: 44px;
-        height: 44px;
+        grid-area: icon;
+        width: auto;
+        height: auto;
         margin: 0;
-        border-radius: 14px;
-        background: rgba(127, 184, 147, 0.22);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
         font-size: 1.375rem;
+        line-height: 1;
     }
 
     .contact-title {
-        grid-column: 2;
-        grid-row: 1;
+        grid-area: title;
         margin: 0;
-        font-size: 1.125rem;
+        font-size: 1.0625rem; /* 17 px, comme en mobile */
         font-weight: 700;
         line-height: 1.2;
         background: none;
@@ -1016,19 +1024,9 @@
         text-align: left;
     }
 
-    /* Ligne d'assurance sous le titre, comme la maquette */
-    .contact-title::after {
-        content: 'Réponse sous quelques jours';
-        display: block;
-        font-size: 0.84375rem;
-        font-weight: 400;
-        color: var(--text-muted);
-    }
-
     .contact-email {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        margin: 14px 0 0;
+        grid-area: email;
+        margin: 0;
         padding: 13px 18px;
         border-radius: 50px;
         background: #5c936f;
@@ -1144,6 +1142,13 @@
         object-fit: contain;
         filter: none;
         transform: none;
+    }
+
+    /* Le logo inKONBINI est bien plus large que haut : à 44 px il écrasait
+       celui de Loftia. Le badge le précède dans le HTML, d'où le sélecteur. */
+    .partner-badge.ambassador ~ .partner-logo img {
+        height: 34px;
+        max-width: 160px;
     }
 
     .partner-name { display: none; } /* porté par le logo, via son alt */
