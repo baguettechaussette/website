@@ -1,142 +1,193 @@
 /* ============================================================
-   DESKTOP.CSS — Accueil desktop, maquette Claude Design 19b
-   « 2 colonnes, 1 100 px max »
+   ACCUEIL DESKTOP — maquette Claude Design 19b
+   « 2 colonnes, 1 100 px max. »
 
-   Chargée après responsive.css sur index.html uniquement, et tout
-   son contenu vit dans @media (min-width: 769px) : le mobile v2 des
-   maquettes 12B/13E/14C n'est jamais touché par ce fichier.
+   Chargée par index.html seulement, et après partners.css : à
+   spécificité égale c'est donc cette feuille qui gagne.
+   Tout est enfermé dans min-width: 769px, le mobile n'est jamais
+   touché.
 
-   Principe de 19b : mêmes blocs que le mobile, regroupés par paires
-   quand ils se complètent. La page passe de 3 606 px (une colonne) à
-   2 835 px, et chaque écran porte deux sujets.
+   Repères repris tels quels de la maquette :
+     conteneur   min(1100px, 100% - 80px)
+     titres h2   28 px / 800 / #3f6b4f
+     panneaux    rgba(255,255,255,0.4) + bord 2px rgba(255,255,255,0.6)
+     boutons     border-radius 50px
    ============================================================ */
 
 @media (min-width: 769px) {
 
-    /* ---- Colonne de contenu ----------------------------------
-       main devient la grille : deux colonnes égales de la bande de
-       1 100 px, centrée. Les sections sont ses enfants directs, on les
-       place une par une plus bas. */
+    /* ============================================
+       Fond de page
+       ============================================ */
+
+    /* La maquette pose un dégradé vertical calme, sans les taches
+       colorées du mobile : elles brouillaient la lecture en 2 colonnes. */
+    body {
+        background: linear-gradient(180deg, #f0ebe0 0%, #e9eee2 40%, #f0ebe0 100%);
+        background-attachment: fixed;
+    }
+
+    .bg-container,
+    .particles { display: none; }
+
+    /* ============================================
+       Gabarit : une colonne de 1 100 px, découpée en
+       5 pistes pour porter les deux découpes de la
+       maquette (360 | 716 puis 538 | 538)
+       ============================================ */
+
     main {
+        width: min(1100px, 100% - 80px);
+        margin-inline: auto;
+        padding: 0 0 20px;
         display: grid;
-        grid-template-columns:
-            [bord-gauche] minmax(20px, 1fr)
-            [col1] minmax(0, 538px)
-            [gouttiere] 24px
-            [col2] minmax(0, 538px)
-            [bord-droit] minmax(20px, 1fr);
+        grid-template-columns: minmax(0, 1fr);
         row-gap: 28px;
         align-items: start;
     }
 
-    /* Par défaut une section occupe toute la bande de contenu */
-    main > section,
-    main > header {
-        grid-column: col1 / bord-droit;
-        width: auto;
+    main > * { grid-column: 1 / -1; }
+
+    /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
+       padding: 120px … ». Dans une grille, ces marges auto recentrent la
+       section sur sa largeur de contenu au lieu de remplir la piste. On
+       remet tout à plat, chaque section repose ensuite ses propres valeurs. */
+    main > section {
         max-width: none;
         margin: 0;
-        padding: 36px 0;
+        padding: 0;
     }
 
-    /* ---- 0. Barre de navigation ------------------------------
-       72 px, avatar + nom à gauche, liens en pilules à droite. */
+    /* Les paires ne s'installent qu'à partir de 1 024 px : en dessous, deux
+       colonnes de 235 px auraient écrasé le planning et les cartes de
+       soutien, alors on empile comme en mobile mais avec les styles desktop. */
+    @media (min-width: 1024px) {
+        main {
+            /* 360 + 24 + 154 + 24 + 538 = 1100. minmax(0, …) pour que les
+               pistes restent proportionnelles quand la fenêtre rétrécit,
+               au lieu de buter sur la largeur minimale de leur contenu. */
+            grid-template-columns:
+                minmax(0, 360fr) minmax(0, 24fr) minmax(0, 154fr)
+                minmax(0, 24fr) minmax(0, 538fr);
+        }
+
+        /* 5 pistes = 6 lignes. planning tient la 1re, le vote les 3e à 5e ;
+           les paires suivantes se coupent entre la 3e et la 4e ligne. */
+        #planning     { grid-column: 1 / 2; }
+        #clips        { grid-column: 3 / 6; }
+        #evenements   { grid-column: 1 / 4; }
+        #soutenir     { grid-column: 5 / 6; }
+        #contact      { grid-column: 1 / 4; }
+        #partenaires  { grid-column: 5 / 6; }
+
+        /* 62 px de plus que la colonne de gauche : les cartes se posent au
+           niveau de la carte e-mail, pas du titre */
+        #partenaires { padding-top: 102px; }
+    }
+
+    /* ============================================
+       Barre de navigation — 72 px, liens en pastilles
+       ============================================ */
+
     #navbar {
+        height: 72px;
         padding: 0;
         background: #f3eee4;
-        backdrop-filter: none;
         border-bottom: 1px solid rgba(63, 47, 37, 0.08);
+        box-shadow: none;
+        backdrop-filter: none;
     }
 
     #navbar.scrolled {
-        padding: 0;
         background: #f3eee4;
+        box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
     }
 
     #navbar .container {
+        max-width: none;
         height: 72px;
-        max-width: 1440px;
         padding: 0 40px;
+        display: flex;
+        align-items: center;
         gap: 12px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
     }
 
     .logo a {
         display: flex;
         align-items: center;
         gap: 12px;
+        font-size: 1.125rem; /* 18 px */
+        font-weight: 800;
+        color: var(--text-secondary);
+        text-decoration: none;
     }
 
-    /* L'avatar de la barre existe déjà pour le mobile (13E) : on le
-       remet en jeu ici, la règle de base le masquait au-dessus de 768 px. */
     .logo .logo-avatar {
-        display: block;
         width: 36px;
         height: 36px;
         flex: none;
         border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.9);
         background: #f6efe4;
+        border: 2px solid rgba(255, 255, 255, 0.9);
         object-fit: cover;
     }
 
-    .logo {
-        font-size: 1.125em;
-        background: none;
-        -webkit-text-fill-color: currentColor;
-        color: var(--text-primary);
-    }
-
     .nav-links {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
         gap: 4px;
     }
 
     .nav-links a {
+        display: block;
         padding: 8px 16px;
-        border-radius: var(--radius-full);
-        font-size: 0.97em;
+        border-radius: 50px;
+        font-size: 0.97rem; /* 15,5 px */
         font-weight: 700;
-        color: var(--text-primary);
-        transition: background var(--transition-fast), color var(--transition-fast);
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: background var(--transition-base), color var(--transition-base);
     }
 
-    .nav-links a:hover {
-        background: rgba(127, 184, 147, 0.12);
-    }
+    .nav-links a::after { display: none; } /* le soulignement laisse place à la pastille */
+
+    .nav-links a:hover { background: rgba(127, 184, 147, 0.12); }
 
     .nav-links a[aria-current="page"] {
         background: rgba(127, 184, 147, 0.18);
         color: var(--green-deep);
     }
 
-    /* 19b remplace « Réseaux » par « Tous mes liens ↗ » (en terracotta) :
-       l'entrée existe déjà, elle servait de pied au panneau mobile. */
+    /* Le 5e lien devient « Tous mes liens ↗ », en terracotta */
     .nav-links > li:nth-child(5) { display: none; }
 
-    .nav-links-footer {
-        display: list-item;
-    }
+    .nav-links-footer { display: list-item; }
 
-    .nav-links-footer a {
-        color: var(--pink-deep);
-    }
+    .nav-links-footer a { color: var(--pink-deep); }
 
-    .nav-links-footer a:hover {
-        background: rgba(197, 106, 82, 0.1);
-    }
+    .nav-links-footer a:hover { background: rgba(154, 74, 54, 0.1); }
 
-    /* ---- 1. Hero centré --------------------------------------
-       Choix n° 1 de la maquette : même composition que le mobile,
-       avatar au-dessus du nom, carte du prochain live, pastilles. */
+    /* ============================================
+       Hero — colonne centrée, avatar 120 px
+       ============================================ */
+
     main > .hero {
-        grid-column: col1 / bord-droit;
-        /* layout.css impose min-height: 100vh au hero « plein écran » d'origine :
-           19b le veut à sa hauteur de contenu */
         min-height: 0;
-        display: block;
         padding: 52px 0 12px;
+        display: block;
     }
 
     .hero-content {
+        max-width: none;
+        padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -144,6 +195,7 @@
         text-align: center;
     }
 
+    /* L'avatar passe au-dessus du titre : c'est l'ordre de la maquette */
     .hero-right { order: -1; }
 
     .hero-left {
@@ -152,68 +204,100 @@
         align-items: center;
         gap: 14px;
         width: 100%;
+        max-width: none;
+        text-align: center;
     }
 
-    .avatar-container,
-    .avatar-main {
+    /* Le conteneur faisait 500 px de côté autour d'un avatar de 120 */
+    .avatar-container {
         width: 120px;
         height: 120px;
         margin: 0;
     }
 
+    .avatar-main {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #f6efe4;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: none;
+        animation: none;
+        overflow: hidden;
+    }
+
+    .avatar-main img { width: 100%; height: 100%; object-fit: cover; }
+
     .avatar-glow { display: none; }
 
     .hero-title {
-        font-size: 3.25em;
-        line-height: 1.05;
         margin: 0;
+        font-size: 3.25rem; /* 52 px */
+        font-weight: 800;
+        line-height: 1.05;
         color: var(--green-deep);
+        -webkit-text-fill-color: currentColor; /* coupe le dégradé du mobile */
         background: none;
-        -webkit-text-fill-color: currentColor;
-        text-shadow: none;
+        opacity: 1;
+        animation: none;
     }
 
     .hero-subtitle {
         margin: 0;
-        font-size: 1.125em;
+        max-width: none;
+        font-size: 1.125rem; /* 18 px */
         font-weight: 600;
-        color: var(--text-secondary);
+        line-height: 1.4;
+        color: rgba(63, 47, 37, 0.88);
+        opacity: 1;
+        animation: none;
     }
 
-    /* La carte du prochain live vient du mobile (14C) : la règle de base
-       la masquait au-dessus de 768 px, 19b la garde au centre. */
-    /* Grille et non flex : le mobile empile en colonne, ici le texte occupe
-       la première colonne et le bouton la seconde, sans repli hasardeux. */
+    /* ── Carte du prochain live : texte à gauche, bouton à droite ── */
+
     .hero-live-card {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        grid-template-areas:
-            "entete bouton"
-            "valeur bouton"
-            "jeu    bouton";
-        align-items: center;
-        column-gap: 16px;
-        row-gap: 0;
         width: 100%;
         max-width: 520px;
-        margin-top: 8px;
+        margin: 8px 0 0;
         padding: 18px 20px;
         background: rgba(127, 184, 147, 0.18);
         border: 2px solid rgba(255, 255, 255, 0.6);
-        border-radius: var(--radius-lg);
+        border-radius: 24px;
+        box-shadow: none;
         text-align: left;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 16px;
     }
 
-    .hero-live-card.is-live {
-        background: rgba(230, 103, 103, 0.14);
-        border-color: rgba(230, 103, 103, 0.4);
-    }
+    .hero-live-card.is-live { background: rgba(154, 74, 54, 0.14); }
 
     .hero-live-head {
+        grid-column: 1;
+        grid-row: 1;
         display: flex;
         align-items: center;
         gap: 9px;
         margin: 0;
+    }
+
+    .hero-live-value {
+        grid-column: 1;
+        grid-row: 2;
+        margin: 2px 0 0;
+        font-size: 1.5rem; /* 24 px */
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--text-secondary);
+    }
+
+    .hero-live-game {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 2px 0 0;
+        font-size: 0.875rem;
+        color: var(--text-muted);
     }
 
     .hero-live-dot {
@@ -221,74 +305,54 @@
         height: 10px;
         flex: none;
         border-radius: 50%;
-        background: var(--green);
+        background: #5c936f;
     }
 
-    .hero-live-card.is-live .hero-live-dot { background: var(--live-red-deep); }
+    .hero-live-card.is-live .hero-live-dot { background: var(--pink-deep); }
 
-    .hero-live-label {
-        font-size: 0.82rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--green-deep);
-    }
-
-    .hero-live-card.is-live .hero-live-label { color: var(--live-red-deep); }
-
+    .hero-live-label,
     .hero-live-countdown {
-        font-size: 0.82rem;
+        font-size: 0.8125rem; /* 13 px */
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--green-deep);
     }
+
+    .hero-live-card.is-live .hero-live-label,
+    .hero-live-card.is-live .hero-live-countdown { color: var(--pink-deep); }
 
     .hero-live-countdown::before { content: '· '; }
 
-    .hero-live-value {
-        margin: 2px 0 0;
-        font-size: 1.5em;
-        font-weight: 800;
-        color: var(--text-primary);
-    }
-
-    .hero-live-game {
-        margin: 2px 0 0;
-        font-size: 0.9em;
-        color: var(--text-tertiary);
-    }
-
-    .hero-live-head  { grid-area: entete; }
-    .hero-live-value { grid-area: valeur; }
-    .hero-live-game  { grid-area: jeu; }
-
     .hero-live-actions {
-        grid-area: bouton;
+        grid-column: 2;
+        grid-row: 1 / -1;
+        margin: 0;
         display: flex;
         align-items: center;
     }
 
-    .hero-live-actions .btn,
-    .hero-live-actions a {
+    .hero-live-actions .hero-live-cta {
         padding: 13px 22px;
+        border-radius: 50px;
         background: #fff;
-        color: var(--text-primary);
         border: 0;
-        box-shadow: none;
-        font-size: 0.94em;
+        color: var(--text-secondary);
+        font-size: 0.9375rem; /* 15 px */
+        font-weight: 700;
         white-space: nowrap;
+        text-decoration: none;
+        box-shadow: none;
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
     }
 
-    .hero-live-actions .btn:hover {
-        transform: none;
-        background: rgba(255, 255, 255, 0.85);
+    .hero-live-actions .hero-live-cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(63, 47, 37, 0.12);
     }
 
-    /* Les boutons d'origine du hero font doublon avec la carte du live */
-    .hero-buttons { display: none; }
+    /* ── Chiffres, en pastilles ── */
 
-    /* Statistiques : trois pastilles sur une ligne */
     .hero-stats {
         display: flex;
         justify-content: center;
@@ -297,415 +361,624 @@
     }
 
     .stat-box {
-        display: flex;
+        display: inline-flex;
         align-items: baseline;
-        gap: 6px;
+        gap: 5px;
         padding: 8px 16px;
-        border-radius: var(--radius-full);
+        border-radius: 50px;
         background: rgba(255, 255, 255, 0.55);
         border: 0;
         box-shadow: none;
-        backdrop-filter: none;
+        font-size: 0.875rem; /* 14 px */
+        color: var(--text-muted);
     }
+
+    .stat-box:hover { transform: none; box-shadow: none; }
 
     .stat-number {
         font-size: 0.875rem;
         font-weight: 700;
         color: var(--green-deep);
+        -webkit-text-fill-color: currentColor;
+        background: none;
     }
 
     .stat-label {
         font-size: 0.875rem;
-        font-weight: 500;
-        text-transform: none;
+        font-weight: 400;
         letter-spacing: 0;
-        color: var(--text-tertiary);
+        text-transform: none;
+        color: inherit;
     }
 
-    /* ---- 2. Planning | Vote ----------------------------------
-       Deux panneaux côte à côte, de même hauteur. */
-    #planning,
-    #clips {
-        align-self: stretch;
-        padding: 0;
-    }
+    .stat-label-short { display: none; }
+    .stat-label-long { display: inline; }
 
-    #planning { grid-column: col1; }
-    #clips    { grid-column: col2; }
+    /* Absents de la maquette : la barre d'objectif et les deux boutons
+       du hero, que la carte live et la nav couvrent déjà */
+    .hero-buttons,
+    .follower-goal { display: none; }
 
-    #planning .section-header,
-    #clips .section-header {
-        margin: 0 0 14px;
+    /* ============================================
+       Titres de section
+       ============================================ */
+
+    .section-header {
+        margin: 0;
         text-align: left;
     }
 
-    #planning .section-title,
-    #clips .section-title {
-        font-size: 1.75em;
-        line-height: 1.15;
+    .section-title {
         margin: 0;
+        font-size: 1.75rem; /* 28 px */
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--green-deep);
+        -webkit-text-fill-color: currentColor;
+        background: none;
     }
 
-    #planning .section-subtitle,
-    #clips .section-subtitle {
+    .section-title::after { display: none; } /* le trait décoratif du mobile */
+
+    .section-subtitle {
         margin: 4px 0 0;
-        font-size: 0.94em;
+        max-width: none;
+        font-size: 0.9375rem; /* 15 px */
+        line-height: 1.5;
+        color: var(--text-muted);
+        text-align: left;
     }
 
-    .schedule-container,
-    #clips .section-panel {
-        height: 100%;
+    /* ============================================
+       Planning — panneau étroit de 360 px
+       ============================================ */
+
+    #planning,
+    #clips {
         padding: 24px;
         background: rgba(255, 255, 255, 0.4);
         border: 2px solid rgba(255, 255, 255, 0.6);
         border-radius: 28px;
-        backdrop-filter: none;
         display: flex;
         flex-direction: column;
         gap: 14px;
+        height: 100%;
     }
 
-    /* Planning : une ligne par jour, jour / heure / délai alignés */
+    #clips { padding: 28px; }
+
+    /* La maquette ne garde que le titre : le sous-titre prenait trois
+       lignes dans la colonne de 360 px */
+    #planning .section-subtitle,
+    #clips .section-subtitle { display: none; }
+
+    .schedule-container { margin: 0; }
+
     .schedule-grid {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        margin: 0;
     }
 
     .schedule-item {
+        padding: 12px 18px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 0;
+        border-radius: 18px;
         display: flex;
-        /* components.css empile le créneau en colonne (carte du planning
-           d'origine) et lui donne height: 100% : ici c'est une ligne */
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: baseline;
         justify-content: space-between;
-        gap: 12px;
+        gap: 10px;
         height: auto;
-        padding: 12px 18px;
-        background: rgba(255, 255, 255, 0.55);
-        border: 0;
-        border-radius: var(--radius-md);
+        min-height: 0;
         box-shadow: none;
     }
 
-    .schedule-item:hover { transform: none; }
+    .schedule-item::before { display: none; }
 
-    /* Le bouton « Suivre la chaîne » posé par stream-countdown.js sur le prochain
-       créneau vient du mobile : en desktop la carte du hero le porte déjà, et sur
-       une ligne de 538 px il faisait passer le créneau sur quatre lignes. */
-    .schedule-cta { display: none; }
+    .schedule-item:hover { transform: none; box-shadow: none; }
 
-    .schedule-live-game {
-        width: 100%;
-        margin: 2px 0 0;
-        font-size: 0.85em;
-        color: var(--text-tertiary);
-    }
+    /* Les trois valeurs tiennent sur une seule ligne : dans 360 px le
+       décompte passait sinon à la ligne et doublait la hauteur des rangées */
+    .schedule-day,
+    .schedule-time,
+    .schedule-countdown { white-space: nowrap; }
 
     .schedule-day {
-        font-size: 1.06em;
+        margin: 0;
+        font-size: 1.0625rem; /* 17 px */
         font-weight: 700;
         color: var(--green-deep);
     }
 
     .schedule-time {
-        font-size: 1em;
+        margin: 0;
+        font-size: 1rem;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: rgba(63, 47, 37, 0.88);
     }
 
+    /* Le décompte est du texte nu dans la maquette, pas une pastille */
     .schedule-countdown {
+        margin: 0;
         padding: 0;
         background: none;
         border: 0;
-        font-size: 0.85em;
-        color: var(--text-tertiary);
-        white-space: nowrap;
+        border-radius: 0;
+        font-size: 0.84375rem; /* 13,5 px */
+        font-weight: 400;
+        color: var(--text-muted);
     }
 
-    /* Vote : vitrine seulement, quatre vignettes et un lien vers /clips */
-    .clips-teaser-intro {
+    /* Le bouton ajouté sur la prochaine ligne cassait l'alignement :
+       la carte du hero porte déjà le même appel */
+    .schedule-cta,
+    .schedule-live-game { display: none; }
+
+    /* ============================================
+       Vote du clip de la semaine — vitrine
+       ============================================ */
+
+    #clips .section-panel {
+        flex: 1;
         margin: 0;
-        font-size: 0.94em;
-        line-height: 1.5;
-        color: var(--text-secondary);
-    }
-
-    #clips .clips-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px;
-        margin-top: auto;
-    }
-
-    /* Vignettes nues : ni titre ni clippeur, c'est un teaser */
-    #clips .clip-meta,
-    #clips .clip-clipper { display: none; }
-
-    #clips .clip-thumb { border-radius: 12px; }
-
-    .clips-more {
-        margin: 0;
-        text-align: left;
-    }
-
-    /* ---- 3. Événements | Me soutenir -------------------------- */
-    #evenements { grid-column: col1; }
-    #soutenir   { grid-column: col2; }
-
-    #evenements,
-    #soutenir {
-        align-self: stretch;
         padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
         display: flex;
         flex-direction: column;
         gap: 14px;
     }
 
-    #evenements .section-header,
-    #soutenir .section-header {
+    .clips-teaser-intro {
         margin: 0;
-        text-align: left;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
     }
 
-    #evenements .section-title,
-    #soutenir .section-title {
-        font-size: 1.75em;
-        line-height: 1.15;
-        margin: 0;
+    /* Vignettes et bouton collés en bas, pour que les deux panneaux de
+       la rangée se terminent à la même hauteur */
+    #clips .clips-grid {
+        margin-top: auto;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        overflow: visible;
     }
 
+    #clips .clip-card { width: auto; margin: 0; }
+
+    #clips .clip-thumb {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    #clips .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Vitrine : la miniature suffit, les titres sont sur /clips */
+    #clips .clip-meta,
+    #clips .clip-clipper { display: none; }
+
+    #clips .clips-more {
+        margin: 0;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    #clips .clips-more .btn {
+        padding: 13px 28px;
+        border-radius: 50px;
+        background: #5c936f;
+        border: 0;
+        color: #fff;
+        font-size: 0.97rem; /* 15,5 px */
+        font-weight: 700;
+        box-shadow: none;
+    }
+
+    #clips .clips-more .btn:hover {
+        background: #4f815f;
+        transform: translateY(-1px);
+    }
+
+    /* ============================================
+       Événements et Me soutenir — sans panneau
+       ============================================ */
+
+    #evenements,
+    #soutenir {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Ces deux titres n'ont pas de sous-titre dans la maquette : à
+       538 px ils prenaient trois lignes et décalaient les deux colonnes */
     #evenements .section-subtitle,
     #soutenir .section-subtitle { display: none; }
 
+    /* ── Cartes d'événement ── */
+
     .events-archive-grid {
-        grid-template-columns: minmax(0, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 14px;
+        margin: 0;
     }
 
     .event-archive-card {
         padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.45);
+        border: 2px solid rgba(255, 255, 255, 0.6);
         border-radius: 22px;
+        box-shadow: none;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "icone titre badge"
+            "desc  desc  desc"
+            "cta   cta   cta";
+        align-items: center;
+        gap: 8px 10px;
+        text-decoration: none;
+    }
+
+    .event-archive-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(63, 47, 37, 0.08);
+    }
+
+    .event-archive-meta {
+        grid-area: badge;
+        margin: 0;
+        display: flex;
+        align-items: center;
         gap: 8px;
     }
 
-    .event-archive-card:hover { transform: translateY(-3px); }
+    /* La maquette ne garde que la date : le type est déjà porté par
+       l'icône et par la description */
+    .event-type-badge { display: none; }
 
-    .event-archive-icon { font-size: 1.375em; }
-
-    .event-archive-title { font-size: 1.125em; }
-
-    .event-archive-desc {
-        font-size: 0.9em;
-        line-height: 1.5;
+    .event-status-badge {
+        padding: 4px 11px;
+        border-radius: 50px;
+        background: rgba(242, 201, 107, 0.28);
+        border: 0;
+        color: #8a6a1f;
+        font-size: 0.75rem; /* 12 px */
+        font-weight: 700;
+        letter-spacing: 0.06em;
     }
 
-    .clips-more { margin-top: 0; }
+    .event-archive-icon {
+        grid-area: icone;
+        margin: 0;
+        font-size: 1.375rem; /* 22 px */
+        line-height: 1;
+    }
 
-    /* Soutien : deux cartes empilées, bouton sur la ligne du titre */
+    .event-archive-title {
+        grid-area: titre;
+        margin: 0;
+        font-size: 1.125rem; /* 18 px */
+        font-weight: 700;
+        color: var(--text-secondary);
+    }
+
+    .event-archive-desc {
+        grid-area: desc;
+        margin: 0;
+        font-size: 0.90625rem; /* 14,5 px */
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
+    }
+
+    .event-archive-cta {
+        grid-area: cta;
+        margin: 0;
+        justify-self: start;
+        font-size: 0.90625rem;
+        font-weight: 700;
+        color: var(--pink-deep);
+    }
+
+    /* ── Bouton « Voir tous les événements » ── */
+
+    #evenements .clips-more {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    #evenements .clips-more .btn {
+        padding: 11px 24px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #fff;
+        color: var(--text-secondary);
+        font-size: 0.90625rem;
+        font-weight: 700;
+        box-shadow: none;
+    }
+
+    #evenements .clips-more .btn:hover {
+        background: #fff;
+        transform: translateY(-1px);
+    }
+
+    /* ── Cartes de soutien ── */
+
+    .support-container { margin: 0; }
+
     .support-container .social-grid {
-        grid-template-columns: minmax(0, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 14px;
+        margin: 0;
     }
 
     #soutenir .social-card {
         padding: 18px 20px;
         border-radius: 22px;
+        box-shadow: none;
         display: grid;
         grid-template-columns: auto minmax(0, 1fr) auto;
         grid-template-areas:
-            "icone nom    action"
-            "desc  desc   desc";
+            "icone nom  cta"
+            "desc  desc desc";
         align-items: center;
         gap: 8px 11px;
+        text-align: left;
+        text-decoration: none;
     }
 
-    #soutenir .social-card:hover { transform: translateY(-3px); }
+    #soutenir .social-card:hover { transform: translateY(-2px); }
+
+    #soutenir .social-card::before { display: none; }
 
     #soutenir .social-icon {
         grid-area: icone;
-        font-size: 1.5em;
         margin: 0;
+        font-size: 1.5rem; /* 24 px */
+        line-height: 1;
     }
 
     #soutenir .social-name {
         grid-area: nom;
-        font-size: 1.125em;
         margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
     }
 
     #soutenir .social-desc {
         grid-area: desc;
-        font-size: 0.9em;
-        line-height: 1.5;
         margin: 0;
+        font-size: 0.90625rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
     }
 
+    #soutenir .social-desc strong { color: var(--text-secondary); }
+
+    /* Le bouton des cartes de soutien est masqué au-dessus de 768 px par
+       sections.css : la maquette 19b le remet, à droite du nom */
     #soutenir .social-cta {
+        grid-area: cta;
         display: inline-flex;
-        grid-area: action;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
         padding: 9px 20px;
-        border-radius: var(--radius-full);
-        font-size: 0.875em;
+        border-radius: 50px;
+        border: 0;
+        color: #fff;
+        font-size: 0.875rem;
         font-weight: 700;
         white-space: nowrap;
     }
 
-    /* ---- 4. Bande « Marques & studios » -----------------------
-       Contact à gauche, partenaires à droite, sur un fond pleine largeur. */
+    #soutenir .social-card.twitch {
+        background: rgba(145, 70, 255, 0.07);
+        border: 2px solid rgba(145, 70, 255, 0.22);
+    }
+
+    #soutenir .social-card.twitch .social-name { color: #772ce8; }
+    #soutenir .social-card.twitch .social-cta { background: #772ce8; }
+
+    #soutenir .social-card.kofi {
+        background: rgba(197, 106, 82, 0.07);
+        border: 2px solid rgba(197, 106, 82, 0.22);
+    }
+
+    #soutenir .social-card.kofi .social-name { color: var(--pink-deep); }
+    #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
+
+    /* ============================================
+       Bande « Marques & studios » : contact à gauche,
+       partenaires à droite, fond pleine largeur
+       ============================================ */
+
     #contact {
-        grid-column: col1;
+        position: relative;
         isolation: isolate;
-        position: relative;
-        padding: 40px 0;
-        /* les deux colonnes de la bande font la même hauteur, sinon le fond
-           s'arrête au plus court des deux */
-        align-self: stretch;
-    }
-
-    #partenaires {
-        grid-column: col2;
-        position: relative;
-        align-self: stretch;
-        padding: 40px 0;
-    }
-
-    /* Le fond de la bande déborde jusqu'aux bords de la fenêtre. Porté par
-       #contact, il passe aussi derrière #partenaires (sans fond propre). */
-    #contact::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        width: 100vw;
-        margin-left: -50vw;
-        background: rgba(242, 227, 216, 0.5);
-        z-index: -1;
-    }
-
-    /* Le titre est le même qu'en mobile depuis 19b : « Marques & studios » */
-    .title-desktop { display: none; }
-    .title-mobile { display: inline; }
-
-    #contact .section-header,
-    #partenaires .section-header {
-        margin: 0 0 14px;
-        text-align: left;
-    }
-
-    #contact .section-title,
-    #partenaires .section-title {
-        font-size: 1.75em;
-        line-height: 1.15;
         margin: 0;
-    }
-
-    #contact .section-subtitle {
-        margin: 4px 0 0;
-        font-size: 0.94em;
-    }
-
-    /* Les partenaires n'ont pas de titre propre dans 19b : ils prolongent
-       la colonne de droite, alignés sur la carte e-mail. */
-    #partenaires .section-header { display: none; }
-    #partenaires { padding-top: 102px; }
-
-    .contact-container {
-        padding: 0;
-        background: none;
-        border: 0;
-        box-shadow: none;
-        backdrop-filter: none;
-    }
-
-    .contact-content {
+        padding: 40px 0;
+        align-self: stretch;
         display: flex;
         flex-direction: column;
         gap: 14px;
     }
 
-    .contact-info-box {
+    #partenaires {
+        margin: 0;
+        padding: 0 0 40px;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* La bande n'existe que lorsque les deux blocs sont côte à côte.
+       Empilés, chacun garde son propre titre et le fond de page. */
+    @media (min-width: 1024px) {
+        /* Le fond déborde du conteneur de 1 100 px jusqu'aux bords */
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 100vw;
+            margin-left: -50vw;
+            background: rgba(242, 227, 216, 0.5);
+            z-index: -1;
+        }
+
+        /* Le titre de la bande est « Marques & studios », porté par #contact ;
+           #partenaires n'a plus d'entête */
+        .title-desktop { display: none; }
+        .title-mobile { display: inline; }
+
+        #partenaires .section-header { display: none; }
+    }
+
+    /* ── Carte e-mail ── */
+
+    .contact-container { margin: 0; padding: 0; }
+
+    .contact-content {
         padding: 22px;
         background: rgba(255, 255, 255, 0.6);
         border: 2px solid rgba(255, 255, 255, 0.8);
         border-radius: 26px;
         box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        text-align: left;
-    }
-
-    .contact-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        flex: none;
-        margin: 0;
-        border-radius: 14px;
-        background: rgba(127, 184, 147, 0.22);
-        font-size: 1.375em;
-    }
-
-    .contact-title {
-        margin: 0;
-        font-size: 1.125em;
-        font-weight: 700;
-        color: var(--green-deep);
-    }
-
-    .contact-email {
-        display: block;
-        margin: 0;
-        padding: 13px 18px;
-        border-radius: var(--radius-full);
-        background: var(--green);
-        color: #fff;
-        font-size: 0.94em;
-        font-weight: 600;
-        text-align: center;
-        overflow-wrap: anywhere;
-    }
-
-    .contact-email:hover { background: var(--green-deep); }
-
-    .contact-cards {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
+        max-width: none;
     }
 
-    .contact-card {
-        flex-direction: row;
+    .contact-info-box {
+        grid-column: 1 / -1;
+        margin: 0 0 6px; /* 8 + 6 = les 14 px de la maquette */
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
-        gap: 8px;
+        gap: 0 12px;
+    }
+
+    .contact-info-box:hover { transform: none; box-shadow: none; }
+
+    .contact-icon {
+        grid-column: 1;
+        grid-row: 1;
+        width: 44px;
+        height: 44px;
+        margin: 0;
+        border-radius: 14px;
+        background: rgba(127, 184, 147, 0.22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.375rem;
+    }
+
+    .contact-title {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--green-deep);
+    }
+
+    /* Ligne d'assurance sous le titre, comme la maquette */
+    .contact-title::after {
+        content: 'Réponse sous quelques jours';
+        display: block;
+        font-size: 0.84375rem;
+        font-weight: 400;
+        color: var(--text-muted);
+    }
+
+    .contact-email {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        margin: 14px 0 0;
+        padding: 13px 18px;
+        border-radius: 50px;
+        background: #5c936f;
+        border: 0;
+        color: #fff;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        word-break: break-word;
+    }
+
+    .contact-email:hover { background: #4f815f; color: #fff; }
+
+    /* Les trois cartes et la ligne media kit deviennent quatre
+       étiquettes dans une grille 2 × 2 */
+    .contact-cards { display: contents; }
+
+    .contact-card,
+    .contact-mediakit {
+        margin: 0;
+        width: auto;
+        max-width: none;
+        justify-self: stretch;
         padding: 10px 14px;
         border-radius: 16px;
         background: rgba(255, 255, 255, 0.8);
         border: 0;
         box-shadow: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-secondary);
         text-align: left;
     }
 
-    .contact-card:hover { transform: none; }
+    .contact-card:hover { transform: none; box-shadow: none; }
 
-    .contact-card-icon { font-size: 1em; margin: 0; }
+    .contact-card-icon,
+    .mediakit-icon {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1;
+    }
 
     .contact-card-title {
         margin: 0;
-        font-size: 0.875em;
+        font-size: 0.875rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: inherit;
     }
 
+    /* Le détail de chaque carte n'a plus sa place dans une étiquette */
     .contact-card-text { display: none; }
 
-    .contact-mediakit { margin: 0; font-size: 0.85em; }
+    /* ── Cartes partenaires, repliables comme en mobile ── */
 
-    /* Partenaires : Loftia dépliée, inKONBINI repliée (comme le mobile) */
     .partners-container {
         display: flex;
         flex-direction: column;
@@ -719,168 +992,398 @@
         border: 2px solid rgba(255, 255, 255, 0.8);
         border-radius: 24px;
         box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "logo    badge   toggle"
+            "desc    desc    desc"
+            "tags    tags    tags"
+            "actions actions actions";
+        align-items: center;
         gap: 12px;
     }
 
-    .partner-card:hover { transform: none; }
-
-    .partner-toggle {
-        display: inline-flex;
-        margin-left: auto;
+    .partner-card:hover {
+        transform: none;
+        box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
     }
 
-    .partner-logo { margin: 0; }
+    .partner-content { display: contents; }
+
+    .partner-logo {
+        grid-area: logo;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border-radius: 0;
+        width: auto;
+    }
+
+    .partner-logo img {
+        height: 40px;
+        width: auto;
+        max-width: 150px;
+        object-fit: contain;
+        filter: none;
+        transform: none;
+    }
+
+    .partner-name { display: none; } /* porté par le logo, via son alt */
+
+    .partner-badge {
+        grid-area: badge;
+        justify-self: start;
+        margin: 0;
+        padding: 4px 12px;
+        border-radius: 50px;
+        border: 0;
+        background: rgba(127, 184, 147, 0.2);
+        color: var(--green-deep);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    .partner-badge.ambassador {
+        background: rgba(242, 201, 107, 0.3);
+        color: #8a6a1f;
+    }
 
     .partner-description {
-        font-size: 0.9em;
-        line-height: 1.5;
-    }
-
-    /* ---- 5. Réseaux : trois colonnes -------------------------- */
-    #reseaux {
-        grid-column: col1 / bord-droit;
-        padding: 44px 0 0;
-    }
-
-    #reseaux .section-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        margin: 0 0 14px;
-        text-align: left;
-    }
-
-    #reseaux .section-title {
-        font-size: 1.75em;
-        line-height: 1.15;
+        grid-area: desc;
         margin: 0;
+        font-size: 0.90625rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
     }
+
+    .partner-tags {
+        grid-area: tags;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .partner-tag {
+        padding: 6px 12px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 0;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .partner-actions { grid-area: actions; margin: 0; }
+
+    .partner-link-primary {
+        display: block;
+        padding: 12px 20px;
+        border-radius: 50px;
+        background: #5c936f;
+        border: 0;
+        color: #fff;
+        font-size: 0.90625rem;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        box-shadow: none;
+    }
+
+    .partner-link-primary:hover { background: #4f815f; }
+
+    /* Le bouton replier / déplier, masqué par défaut au-dessus de
+       768 px, revient : la maquette 19b le montre sur les deux cartes */
+    .partner-toggle {
+        grid-area: toggle;
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(127, 184, 147, 0.28);
+        color: var(--green-deep);
+        cursor: pointer;
+    }
+
+    .partner-badge.ambassador ~ .partner-toggle {
+        background: rgba(242, 201, 107, 0.35);
+        color: #8a6a1f;
+    }
+
+    .partner-toggle::before {
+        content: '+';
+        font-size: 0.9375rem;
+        font-weight: 700;
+        line-height: 1;
+        transition: transform var(--transition-base);
+    }
+
+    .partner-card:not(.is-collapsed) .partner-toggle::before { transform: rotate(45deg); }
+
+    .partner-card.is-collapsed .partner-description,
+    .partner-card.is-collapsed .partner-tags,
+    .partner-card.is-collapsed .partner-actions { display: none; }
+
+    /* Repliée : une seule ligne, plus resserrée */
+    .partner-card.is-collapsed {
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.7);
+        border-radius: 22px;
+        box-shadow: none;
+        grid-template-areas: "logo badge toggle";
+    }
+
+    .partner-card.is-collapsed .partner-logo img { height: 28px; max-width: 104px; }
+
+    .partner-card.is-collapsed .partner-badge {
+        justify-self: stretch;
+        text-align: center;
+        padding: 3px 10px;
+    }
+
+    /* ============================================
+       Réseaux — 3 colonnes pleine largeur
+       ============================================ */
+
+    #reseaux {
+        margin-top: 16px; /* 28 + 16 = les 44 px de la maquette */
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: baseline;
+        column-gap: 12px;
+        row-gap: 14px;
+    }
+
+    #reseaux .section-header { grid-column: 1; grid-row: 1; }
 
     #reseaux .section-subtitle { display: none; }
 
-    /* Lien « Tous mes liens ↗ » à droite du titre (masqué par la règle de base) */
-    .socials-all-link {
-        display: inline;
-        font-size: 0.9em;
-        font-weight: 700;
-        color: var(--pink-deep);
-    }
+    .socials-container { display: contents; }
 
-    /* sections.css coupe la section en deux colonnes (cartes 550 px | Discord
-       500 px) : 19b veut les six réseaux sur toute la largeur, le widget dessous. */
-    #reseaux .socials-container {
-        max-width: none;
+    /* Le lien remonte sur la ligne du titre */
+    .socials-all-link {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        margin: 0;
         padding: 0;
         background: none;
         border: 0;
-        box-shadow: none;
-        backdrop-filter: none;
+        font-size: 0.90625rem;
+        font-weight: 700;
+        color: var(--pink-deep);
+        text-decoration: none;
     }
 
-    #reseaux .socials-content {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
+    .socials-all-link:hover { text-decoration: underline; }
+
+    .socials-content {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: block;
+        gap: 0;
+        max-width: none;
     }
 
-    #reseaux .socials-left { width: 100%; }
+    /* Le widget Discord n'est pas dans la maquette 19b : la carte
+       Discord de la grille joue ce rôle */
+    .socials-right { display: none; }
+
+    .socials-left { width: auto; max-width: none; }
 
     #reseaux .social-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
+        margin: 0;
     }
 
     #reseaux .social-card {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
         padding: 13px 16px;
         background: rgba(255, 255, 255, 0.5);
         border: 2px solid rgba(255, 255, 255, 0.65);
         border-radius: 18px;
+        box-shadow: none;
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0 12px;
         text-align: left;
+        text-decoration: none;
     }
 
-    #reseaux .social-card:hover { transform: translateY(-3px); }
+    #reseaux .social-card::before { display: none; }
+
+    #reseaux .social-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(63, 47, 37, 0.08);
+    }
 
     #reseaux .social-icon {
-        width: 32px;
-        flex: none;
+        grid-column: 1;
+        grid-row: 1 / 3;
         margin: 0;
-        font-size: 1.5em;
+        width: 32px;
+        font-size: 1.5rem;
+        line-height: 1;
         text-align: center;
     }
 
     #reseaux .social-name {
+        grid-column: 2;
+        grid-row: 1;
         margin: 0;
-        font-size: 1em;
+        font-size: 1rem;
         font-weight: 700;
-        color: var(--text-primary);
+        color: var(--text-secondary);
     }
 
     #reseaux .social-desc {
+        grid-column: 2;
+        grid-row: 2;
         margin: 0;
-        font-size: 0.85em;
-        color: var(--text-tertiary);
+        font-size: 0.84375rem;
+        line-height: 1.3;
+        color: var(--text-muted);
     }
 
-    /* Le widget Discord alourdissait la grille : il reste sous les cartes */
-    .discord-widget-wrap { margin-top: 18px; }
+    /* Le chevron de fin de ligne */
+    #reseaux .social-card::after {
+        content: '›';
+        grid-column: 3;
+        grid-row: 1 / 3;
+        align-self: center;
+        font-size: 1.125rem;
+        line-height: 1;
+        color: rgba(63, 47, 37, 0.45);
+    }
 
-    /* ---- 6. FAQ : titre à gauche, questions à droite ---------- */
+    /* ============================================
+       FAQ — intitulé à gauche, questions à droite
+       ============================================ */
+
     #faq {
-        grid-column: col1 / bord-droit;
+        margin-top: 12px; /* 28 + 12 = les 40 px de la maquette */
+        margin-bottom: 32px;
         display: grid;
+        /* pistes figées : déplier une question ne peut plus changer la
+           largeur des colonnes */
         grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-        gap: 24px;
+        column-gap: 24px;
         align-items: start;
-        padding: 44px 0 52px;
     }
 
     #faq .section-header {
-        margin: 0;
-        text-align: left;
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
     }
 
-    #faq .section-title {
-        font-size: 1.75em;
-        line-height: 1.15;
-        margin: 0;
-    }
-
-    #faq .section-subtitle {
-        margin: 6px 0 0;
-        font-size: 0.94em;
-    }
+    #faq .section-subtitle { margin: 0; }
 
     .faq-container {
+        grid-column: 2;
+        margin: 0;
+        max-width: none;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        max-width: none;
     }
 
     .faq-item {
-        border-radius: 18px;
+        margin: 0;
+        padding: 14px 20px;
         background: rgba(255, 255, 255, 0.5);
+        border: 2px solid transparent;
+        border-radius: 18px;
+        box-shadow: none;
     }
 
     .faq-item[open] {
+        padding: 16px 20px 18px;
         background: rgba(255, 255, 255, 0.6);
-        border: 2px solid rgba(255, 255, 255, 0.75);
+        border-color: rgba(255, 255, 255, 0.75);
     }
 
     .faq-item summary {
-        padding: 14px 20px;
-        font-size: 1em;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        list-style: none;
     }
 
-    /* ---- Pied de page (hors de <main>, donc pas un élément de la grille) ---- */
+    .faq-item[open] summary { color: var(--green-deep); }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+        content: '+';
+        flex: none;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(127, 184, 147, 0.2);
+        color: var(--green-deep);
+        font-size: 0.9375rem;
+        font-weight: 700;
+        transition: transform var(--transition-base);
+    }
+
+    .faq-item[open] summary::after {
+        background: rgba(127, 184, 147, 0.28);
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        padding: 0;
+        margin: 10px 0 0;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: rgba(63, 47, 37, 0.88);
+    }
+
+    .faq-answer p { margin: 0; }
+
+    .faq-answer p + p { margin-top: 8px; }
+
+    /* ============================================
+       Pied de page
+       ============================================ */
+
     footer {
         padding: 24px;
         background: rgba(242, 227, 216, 0.6);
+        border: 0;
+    }
+
+    .footer-content {
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+    }
+
+    .footer-content p {
+        margin: 0;
+        font-size: 0.84375rem;
+        color: var(--text-muted);
     }
 }

@@ -421,6 +421,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Maquette 19b : en desktop la première carte partenaire s'ouvre d'emblée,
+    // sinon la colonne de droite de la bande « Marques & studios » se résume à
+    // deux lignes repliées face à la grande carte e-mail. Les deux restent
+    // repliées en mobile, comme avant.
+    if (window.matchMedia('(min-width: 769px)').matches) {
+        const first = document.querySelector('.partners-container .partner-card.is-collapsed');
+        if (first) {
+            first.classList.remove('is-collapsed');
+            first.querySelector('.partner-toggle')?.setAttribute('aria-expanded', 'true');
+        }
+    }
+
     // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)
     // déplie la carte visée, sinon on arrive sur une ligne fermée.
     function expandHashTarget() {
