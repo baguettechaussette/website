@@ -598,26 +598,25 @@
 
     .schedule-item.is-next .schedule-day { color: var(--green-deep); }
 
-    /* En direct : même traitement qu'en mobile. La ligne s'éclaircit et prend
-       un liséré rouge, le jour passe en terracotta et « En direct » en rouge
-       vif, avec sa pastille mais sans fond plein. */
+    /* Un live en cours ne change plus la ligne du planning : la carte du hero
+       l'annonce déjà, et deux signaux rouges faisaient trop. La ligne reste
+       identique aux autres, seul son texte dit « En direct ». */
     .schedule-item.is-live {
-        background: rgba(255, 255, 255, 0.82);
-        border-color: rgba(230, 103, 103, 0.8);
+        background: rgba(255, 255, 255, 0.55);
+        border-color: transparent;
         box-shadow: none;
         animation: none;
     }
 
+    .schedule-item.is-live::before { display: none; } /* le bandeau rouge de 5 px */
+
     .schedule-item.is-live .schedule-day {
         background: none;
-        color: var(--pink-deep);
-        -webkit-text-fill-color: var(--pink-deep);
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
     }
 
-    .schedule-item.is-live .schedule-countdown {
-        color: var(--live-red-deep);
-        font-weight: 700;
-    }
+    .schedule-item.is-live .schedule-countdown::before { display: none; } /* la pastille rouge */
 
     /* Le bouton ajouté sur la prochaine ligne cassait l'alignement :
        la carte du hero porte déjà le même appel */
