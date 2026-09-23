@@ -1,10 +1,30 @@
 // Page /clips : Le Clip de la Semaine (vote) + Le Panthéon des clippeurs.
 // Chargé après main.js (réutilise openClipModal et clipDisplayTitle).
 document.addEventListener('DOMContentLoaded', () => {
+    placerCommentClipper();
     loadClipOfWeek();
     loadClippers();
     injectVideoSchema();
 });
+
+// « Et si le prochain finaliste, c'était ton clip ? » n'existe qu'une fois
+// dans le HTML mais ne se range pas au même endroit : à côté du clip gagnant
+// en desktop (maquette 21a), à la fin du Panthéon en mobile. On le déplace
+// plutôt que de le dupliquer, et on suit les changements de largeur.
+function placerCommentClipper() {
+    const bloc = document.querySelector('.clip-howto');
+    const pantheon = document.getElementById('clippeurs');
+    const semaine = document.querySelector('.cow-container');
+    if (!bloc || !pantheon || !semaine) return;
+
+    const desktop = window.matchMedia('(min-width: 769px)');
+    const placer = () => {
+        const cible = desktop.matches ? semaine : pantheon;
+        if (bloc.parentElement !== cible) cible.appendChild(bloc);
+    };
+    placer();
+    desktop.addEventListener('change', placer);
+}
 
 // Données structurées VideoObject pour les clips (onglet Vidéos de Google).
 // Injecté côté client depuis data/top-clips.json : Google rend le JS pour le
