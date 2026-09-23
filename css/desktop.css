@@ -515,7 +515,9 @@
     .schedule-item {
         padding: 12px 18px;
         background: rgba(255, 255, 255, 0.55);
-        border: 0;
+        /* Bord transparent plutôt qu'absent : la ligne en direct s'en sert
+           pour rougir sans devenir plus haute que les deux autres. */
+        border: 2px solid transparent;
         border-radius: 18px;
         display: grid;
         /* Colonne des jours figée à la largeur du plus large (« Dimanche »,
@@ -547,8 +549,7 @@
        et base.css la décrit comme la variante des petits textes verts sur
        fond clair. --green, plus clair, ne tenait pas à 17 px. */
     .schedule-day,
-    .schedule-item.is-next .schedule-day,
-    .schedule-item.is-live .schedule-day {
+    .schedule-item.is-next .schedule-day {
         margin: 0;
         background: none;
         font-size: 1.0625rem; /* 17 px */
@@ -590,10 +591,33 @@
        sa couleur, pour qu'un live en cours reste repérable. */
     .schedule-item.is-next {
         background: rgba(255, 255, 255, 0.55);
-        border: 0;
+        /* border-color et non border : le bord transparent doit rester, sinon
+           cette ligne perd 4 px de haut face aux deux autres */
+        border-color: transparent;
     }
 
     .schedule-item.is-next .schedule-day { color: var(--green-deep); }
+
+    /* En direct : même traitement qu'en mobile. La ligne s'éclaircit et prend
+       un liséré rouge, le jour passe en terracotta et « En direct » en rouge
+       vif, avec sa pastille mais sans fond plein. */
+    .schedule-item.is-live {
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(230, 103, 103, 0.8);
+        box-shadow: none;
+        animation: none;
+    }
+
+    .schedule-item.is-live .schedule-day {
+        background: none;
+        color: var(--pink-deep);
+        -webkit-text-fill-color: var(--pink-deep);
+    }
+
+    .schedule-item.is-live .schedule-countdown {
+        color: var(--live-red-deep);
+        font-weight: 700;
+    }
 
     /* Le bouton ajouté sur la prochaine ligne cassait l'alignement :
        la carte du hero porte déjà le même appel */
