@@ -711,7 +711,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(145, 70, 255, 0.92);
+    /* Violet assourdi : le #9146ff de Twitch claquait trop sur les vignettes */
+    background: #6d4aa7;
     color: #fff;
     display: flex;
     align-items: center;

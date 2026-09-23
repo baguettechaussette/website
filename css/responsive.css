@@ -913,16 +913,17 @@
         color: var(--text-primary);
     }
 
+    /* Ligne « sur Twitch, depuis 1 h 12 » : du texte sous le titre, plus une
+       pastille. Le jeu en cours est devenu le titre de la carte. */
     .hero-live-game {
-        margin: 0;
+        margin: -6px 0 0;
         align-self: flex-start;
         max-width: 100%;
-        padding: 6px 13px;
-        border-radius: var(--radius-full);
-        background: rgba(255, 255, 255, 0.75);
+        padding: 0;
+        background: none;
         font-size: 0.85em;
-        font-weight: 600;
-        color: var(--text-primary);
+        font-weight: 500;
+        color: var(--text-tertiary);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
