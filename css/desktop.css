@@ -610,6 +610,30 @@
 
     #clips .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+    /* Petit bouton de lecture, à l'échelle de vignettes de 157 px */
+    #clips .clip-play {
+        width: 30px;
+        height: 30px;
+        font-size: 0.6875rem; /* 11 px */
+        z-index: 1;
+    }
+
+    /* Dernière vignette : le reste des finalistes, en « +N » sur un voile
+       sombre. Le vote complet se fait sur /clips. */
+    #clips .clip-card-more .clip-thumb::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(63, 47, 37, 0.62);
+    }
+
+    #clips .clip-card-more .clip-play {
+        width: 40px;
+        height: 40px;
+        font-size: 0.875rem;
+        font-weight: 800;
+    }
+
     /* Vitrine : la miniature suffit, les titres sont sur /clips */
     #clips .clip-meta,
     #clips .clip-clipper { display: none; }
@@ -697,19 +721,33 @@
         gap: 8px;
     }
 
-    /* La maquette ne garde que la date : le type est déjà porté par
-       l'icône et par la description */
-    .event-type-badge { display: none; }
-
-    .event-status-badge {
+    /* Les deux pastilles du mobile : le type en vert (terracotta pour les
+       concours), la date en jaune de la charte */
+    #evenements .event-type-badge,
+    #evenements .event-status-badge {
         padding: 4px 11px;
         border-radius: 50px;
-        background: rgba(242, 201, 107, 0.28);
-        border: 0;
-        color: #8a6a1f;
+        border: 1px solid transparent;
         font-size: 0.75rem; /* 12 px */
         font-weight: 700;
         letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    #evenements .event-type-badge {
+        background: rgba(127, 184, 147, 0.18);
+        color: var(--green-deep);
+    }
+
+    #evenements .theme-summer .event-type-badge {
+        background: rgba(197, 106, 82, 0.16);
+        color: var(--pink-deep);
+    }
+
+    #evenements .event-status-badge {
+        background: rgba(242, 201, 107, 0.25);
+        color: var(--text-secondary);
     }
 
     .event-archive-icon {
@@ -907,11 +945,11 @@
         #partenaires .section-header { display: none; }
 
         /* Les cartes partenaires se posent au niveau de la carte e-mail,
-           pas du haut de la bande : 40 de fond de bande, le titre et son
-           sous-titre d'une ligne, puis la gouttière de 14. Cette règle doit
-           rester après le padding raccourci de #partenaires, sinon le
-           raccourci la remettrait à zéro. */
-        #partenaires { padding-top: 91px; }
+           pas du haut de la bande : 40 de fond de bande, 32 de titre, 4 de
+           marge, 23 de sous-titre sur une ligne, puis la gouttière de 13.
+           Cette règle doit rester après le padding raccourci de #partenaires,
+           sinon le raccourci la remettrait à zéro. */
+        #partenaires { padding-top: 112px; }
 
         /* Sous-titre court de la maquette, à la place de celui du mobile */
         .subtitle-mobile { display: none; }
@@ -1066,15 +1104,19 @@
         border: 2px solid rgba(255, 255, 255, 0.8);
         border-radius: 24px;
         box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
+        /* Même découpe qu'en mobile : le logo seul sur sa ligne, puis le badge
+           pleine largeur avec le bouton replier à sa droite. */
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
-            "logo    badge   toggle"
-            "desc    desc    desc"
-            "tags    tags    tags"
-            "actions actions actions";
+            "logo    logo"
+            "badge   toggle"
+            "desc    desc"
+            "tags    tags"
+            "actions actions";
         align-items: center;
-        gap: 12px;
+        column-gap: 10px;
+        row-gap: 12px;
     }
 
     .partner-card:hover {
@@ -1086,17 +1128,19 @@
 
     .partner-logo {
         grid-area: logo;
+        justify-self: center;
         margin: 0;
         padding: 0;
         background: none;
         border-radius: 0;
-        width: auto;
+        width: fit-content;
+        max-width: 100%;
     }
 
     .partner-logo img {
-        height: 40px;
+        height: 44px;
         width: auto;
-        max-width: 150px;
+        max-width: 200px;
         object-fit: contain;
         filter: none;
         transform: none;
@@ -1106,9 +1150,11 @@
 
     .partner-badge {
         grid-area: badge;
-        justify-self: start;
+        justify-self: stretch;
+        justify-content: center;
+        text-align: center;
         margin: 0;
-        padding: 4px 12px;
+        padding: 7px 14px;
         border-radius: 50px;
         border: 0;
         background: rgba(127, 184, 147, 0.2);
@@ -1205,22 +1251,12 @@
     .partner-card.is-collapsed .partner-tags,
     .partner-card.is-collapsed .partner-actions { display: none; }
 
-    /* Repliée : une seule ligne, plus resserrée */
+    /* Repliée : plus que les deux premières rangées. Sans cette reprise, les
+       rangées vides gardaient leurs gouttières sous le badge. */
     .partner-card.is-collapsed {
-        padding: 14px 16px;
-        background: rgba(255, 255, 255, 0.55);
-        border-color: rgba(255, 255, 255, 0.7);
-        border-radius: 22px;
-        box-shadow: none;
-        grid-template-areas: "logo badge toggle";
-    }
-
-    .partner-card.is-collapsed .partner-logo img { height: 28px; max-width: 104px; }
-
-    .partner-card.is-collapsed .partner-badge {
-        justify-self: stretch;
-        text-align: center;
-        padding: 3px 10px;
+        grid-template-areas:
+            "logo  logo"
+            "badge toggle";
     }
 
     /* ============================================
