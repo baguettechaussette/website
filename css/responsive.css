@@ -1962,11 +1962,14 @@
     .clippers-grid .clipper-card {
         counter-increment: rang;
         display: grid;
-        grid-template-columns: 30px 30px auto minmax(0, 1fr);
+        /* L'emoji passe au-dessus du pseudo : en colonne il rognait la place
+           du texte sur des cartes deja etroites. */
+        grid-template-columns: 30px auto minmax(0, 1fr);
         grid-template-areas:
-            "rank badge name   name"
-            "rank badge grade  suffix"
-            "rank badge stats  stats";
+            "rank badge badge"
+            "rank name  name"
+            "rank grade suffix"
+            "rank stats stats";
         /* Gouttiere portee par le rang et l'emoji : sinon elle s'ajoute a
            gauche du point entre le grade et sa mention, jamais a droite. */
         column-gap: 0;
@@ -2009,7 +2012,7 @@
     /* Les <p> gardaient leurs marges desktop et étiraient chaque ligne à 180 px */
     .clipper-card > * { margin: 0; min-height: 0; }
 
-    .clipper-badge { grid-area: badge; margin-right: 12px; font-size: 1.375em; line-height: 1; text-align: center; }
+    .clipper-badge { grid-area: badge; justify-self: start; margin: 0 0 2px; font-size: 1.375em; line-height: 1; text-align: left; }
 
     .clipper-name {
         grid-area: name;
