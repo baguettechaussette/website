@@ -262,7 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             mosaic.appendChild(mosaicInner);
-            placeholder.replaceWith(mosaic);
+            // Le placeholder (emoji + « Semaine N ») reste dans le DOM : masqué sur desktop
+            // par .is-replaced, il redevient l'en-tête de la carte en mobile.
+            placeholder.classList.add('is-replaced');
+            placeholder.insertAdjacentElement('afterend', mosaic);
             card.classList.add('has-gallery');
         } else {
             card.classList.add('no-gallery');

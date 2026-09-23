@@ -351,16 +351,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Cartes partenaires repliables (mobile : le bouton est masqué au-dessus de 768 px)
-    document.querySelectorAll('.partner-toggle').forEach(btn => {
+    // Cartes repliables (mobile : les boutons sont masqués au-dessus de 768 px) :
+    // partenaires sur l'accueil, éditions passées sur /events
+    document.querySelectorAll('.partner-toggle, .event-toggle').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const card = btn.closest('.partner-card');
+            const card = btn.closest('.partner-card, .event-container');
             if (!card) return;
             const collapsed = card.classList.toggle('is-collapsed');
             btn.setAttribute('aria-expanded', String(!collapsed));
         });
     });
+
+    // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)
+    // déplie la carte visée, sinon on arrive sur une ligne fermée.
+    function expandHashTarget() {
+        if (!location.hash) return;
+        let target;
+        try { target = document.querySelector(location.hash); } catch { return; }
+        const card = target && target.querySelector('.event-container.is-collapsed');
+        if (!card) return;
+        card.classList.remove('is-collapsed');
+        card.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
+    }
+    expandHashTarget();
+    window.addEventListener('hashchange', expandHashTarget);
 
     // Emails assemblés côté client (anti-bots spam)
     document.querySelectorAll('.js-email').forEach(el => {
