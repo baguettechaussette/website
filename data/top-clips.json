@@ -5,7 +5,7 @@
       "title": "Le bit de trop",
       "creator_name": "Natsukyaa",
       "game": "Just Chatting",
-      "view_count": 57,
+      "view_count": 58,
       "created_at": "2026-03-11T20:25:11Z",
       "duration": 25.1,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/cd6edaf5-45b1-46c7-82ae-400c537b52d6/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -16,7 +16,7 @@
       "title": "Le tchouch dans la bruschetta",
       "creator_name": "WizeBot",
       "game": null,
-      "view_count": 62,
+      "view_count": 63,
       "created_at": "2026-03-21T21:58:46Z",
       "duration": 47.9,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/815db0b5-6868-48bb-8b28-834f82177229/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -27,7 +27,7 @@
       "title": "Sapin monté, sapin déboîté",
       "creator_name": "Omiilia",
       "game": "Just Chatting",
-      "view_count": 35,
+      "view_count": 36,
       "created_at": "2025-12-01T21:00:15Z",
       "duration": 12,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/4d039bd0-3c6a-4b7f-8a9c-d0ed12640e37/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -36,15 +36,59 @@
   ],
   "clips": [
     {
+      "id": "StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv",
+      "title": "Zozotanus",
+      "creator_name": "nethiepoo",
+      "game": "Petit Planet",
+      "view_count": 3,
+      "created_at": "2026-09-20T21:38:27Z",
+      "duration": 19.3,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/9948d268-238a-4080-8d30-079539a0fb24/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv"
+    },
+    {
+      "id": "HungryBloodyOctopusRaccAttack-Scuv8O27a-DhbaZU",
+      "title": "On se petit la planète sans relâche 👀 | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "game": "Petit Planet",
+      "view_count": 2,
+      "created_at": "2026-09-20T21:18:38Z",
+      "duration": 56.3,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/42a4d225-7680-4cc3-a5e0-54e2e97d50c9/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/HungryBloodyOctopusRaccAttack-Scuv8O27a-DhbaZU"
+    },
+    {
+      "id": "InexpensiveArtisticHamburgerPogChamp--2wRoYAVwVgzLmy4",
+      "title": "",
+      "creator_name": "gagi49",
+      "game": "Petit Planet",
+      "view_count": 2,
+      "created_at": "2026-09-20T20:59:14Z",
+      "duration": 60,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/f17b7320-0d31-422d-a894-12d6232ef466/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/InexpensiveArtisticHamburgerPogChamp--2wRoYAVwVgzLmy4"
+    },
+    {
       "id": "BreakableObservantMouseShadyLulu-iQqOXteVZY-Tyy9W",
       "title": "j'ai envie de nettoyer le sol avec sa queue...",
       "creator_name": "teph_woot_la_miche",
       "game": "Petit Planet",
-      "view_count": 5,
+      "view_count": 8,
       "created_at": "2026-09-20T20:41:00Z",
       "duration": 9.4,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/d322baa6-3e4e-4f36-a48b-f610d0c538d6/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/BreakableObservantMouseShadyLulu-iQqOXteVZY-Tyy9W"
+    },
+    {
+      "id": "BreakablePerfectLardEagleEye-1u4lF56OMtudKxQn",
+      "title": "On se petit la planète sans relâche 👀 | !discord !insta",
+      "creator_name": "BaguetteChaussette",
+      "game": "Petit Planet",
+      "view_count": 1,
+      "created_at": "2026-09-20T20:30:35Z",
+      "duration": 60,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/75aa903b-50a6-4ede-879a-0f88a10ffba4/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/BreakablePerfectLardEagleEye-1u4lF56OMtudKxQn"
     },
     {
       "id": "HeartlessRacyFriesTBTacoRight-gZ9rdDfFFYVfiVNI",
@@ -205,7 +249,7 @@
       "title": "",
       "creator_name": "gagi49",
       "game": "Last Pirates: Die Together",
-      "view_count": 16,
+      "view_count": 23,
       "created_at": "2026-09-16T21:57:54Z",
       "duration": 60,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/29ba12ff-a5de-4386-9f72-320b004a11a1/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -320,51 +364,7 @@
       "duration": 30,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/fa24b73b-af0f-4f90-9240-1f1e622eb443/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/NaiveHandsomeNostrilAMPEnergy-NTNiKCWZfeUDFzr1"
-    },
-    {
-      "id": "DeafTriumphantAniseLitFam-EBU2XjJ-4ZN1zWoD",
-      "title": "un coquillage qui claque des culs",
-      "creator_name": "teph_woot_la_miche",
-      "game": "Last Pirates: Die Together",
-      "view_count": 11,
-      "created_at": "2026-09-16T19:45:29Z",
-      "duration": 30,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/5bb22256-7db9-47c2-8733-b5add6db2f93/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/DeafTriumphantAniseLitFam-EBU2XjJ-4ZN1zWoD"
-    },
-    {
-      "id": "SecretiveThoughtfulBottleDansGame-i7nHR_Nncnw9Nuyy",
-      "title": "un petit cul neuf pour tout le monde",
-      "creator_name": "teph_woot_la_miche",
-      "game": "Last Pirates: Die Together",
-      "view_count": 6,
-      "created_at": "2026-09-16T19:42:14Z",
-      "duration": 30,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/a1141eaa-35fb-472a-a126-7fec50229eaf/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/SecretiveThoughtfulBottleDansGame-i7nHR_Nncnw9Nuyy"
-    },
-    {
-      "id": "DifferentBloodyDunlinSwiftRage-ytN_YwZVuNoef2H_",
-      "title": "baguette a peur des singes",
-      "creator_name": "teph_woot_la_miche",
-      "game": "Last Pirates: Die Together",
-      "view_count": 6,
-      "created_at": "2026-09-16T19:39:52Z",
-      "duration": 30,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/fd8bc750-7b5e-4df1-be47-f2fb8fbe00bc/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/DifferentBloodyDunlinSwiftRage-ytN_YwZVuNoef2H_"
-    },
-    {
-      "id": "AthleticCautiousJaguarHotPokket-JHrLt4CkSz4_IYNl",
-      "title": "le cul dans le chaudron",
-      "creator_name": "teph_woot_la_miche",
-      "game": "Last Pirates: Die Together",
-      "view_count": 9,
-      "created_at": "2026-09-16T19:36:11Z",
-      "duration": 23.3,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/65cec474-0ae9-4e29-81d2-70aed9bba4b5/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/AthleticCautiousJaguarHotPokket-JHrLt4CkSz4_IYNl"
     }
   ],
-  "updated_at": "2026-09-21T10:49:13Z"
+  "updated_at": "2026-09-23T10:04:30Z"
 }
