@@ -127,14 +127,9 @@
         white-space: nowrap;
     }
 
-    .page-hero-subtitle {
-        margin: 2px 0 0;
-        max-width: 760px;
-        font-size: 1rem;
-        line-height: 1.55;
-        color: rgba(63, 47, 37, 0.8);
-        text-align: left;
-    }
+    /* Une seule ligne sous le titre, comme la maquette. Le renvoi vers Twitch
+       est déjà sur la ligne des « derniers clips ». */
+    .page-hero-subtitle { display: none; }
 
     /* ============================================
        Clip de la semaine : vote, puis gagnant et
@@ -527,7 +522,10 @@
         margin: 0;
     }
 
+    .clippers-grid { counter-reset: clippeur; }
+
     .clipper-card {
+        counter-increment: clippeur;
         flex: 0 0 auto;
         margin: 0;
         padding: 12px 16px;
@@ -536,11 +534,13 @@
         border-radius: 18px;
         box-shadow: none;
         display: grid;
-        grid-template-columns: auto auto minmax(0, 1fr);
+        /* Colonne du grade en « auto » : la mention qui suit se colle à lui
+           au lieu d'être repoussée au bord droit de la carte. */
+        grid-template-columns: auto auto auto minmax(0, 1fr);
         grid-template-areas:
-            "rang emoji nom"
-            "rang emoji grade"
-            "rang emoji stats";
+            "rang emoji nom   nom"
+            "rang emoji grade mention"
+            "rang emoji stats stats";
         align-items: center;
         column-gap: 12px;
         row-gap: 0;
@@ -549,19 +549,27 @@
 
     .clipper-card:hover { transform: none; box-shadow: none; }
 
+    /* Le rang est un simple chiffre, sans médaille : le JS pose 🥇🥈🥉 pour le
+       podium et « #4 » ensuite, on le masque et on recompte en CSS. Le mobile
+       garde ses médailles. */
     .clipper-rank {
         grid-area: rang;
         width: 28px;
         height: 28px;
         margin: 0;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.7);
+        background: none;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 0;
+        color: var(--text-muted);
+    }
+
+    .clipper-rank::before {
+        content: counter(clippeur);
         font-size: 0.84375rem;
         font-weight: 800;
-        color: var(--text-muted);
     }
 
     .clipper-badge {
@@ -594,14 +602,16 @@
     }
 
     .clipper-suffix {
-        grid-area: grade;
-        justify-self: end;
+        grid-area: mention;
+        justify-self: start;
         margin: 0;
         font-size: 0.84375rem;
         font-style: italic;
         line-height: 1.3;
         color: #8a6a1f;
     }
+
+    .clipper-suffix::before { content: '· '; font-style: normal; }
 
     .clipper-stats {
         grid-area: stats;
@@ -747,5 +757,14 @@
         font-size: 0.6875rem; /* 11 px */
         box-shadow: none;
         z-index: 1;
+    }
+
+    /* Sauf sur le clip de la semaine : sa vignette fait 506 px de large,
+       une pastille de 30 px s'y perdait. */
+    .cow-winner .clip-play {
+        width: 64px;
+        height: 64px;
+        font-size: 1.375rem; /* 22 px */
+        padding-left: 3px;
     }
 }
