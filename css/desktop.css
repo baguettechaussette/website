@@ -511,16 +511,19 @@
     .schedule-time { white-space: nowrap; }
 
     /* Le jour est rempli par un dégradé dans components.css, donc
-       -webkit-text-fill-color transparent. Comme en mobile, on repasse à la
-       couleur pleine de la charte. */
+       -webkit-text-fill-color transparent. On repasse à la couleur pleine,
+       en --green-deep : c'est celle de la maquette et des titres de section,
+       et base.css la décrit comme la variante des petits textes verts sur
+       fond clair. --green, plus clair, ne tenait pas à 17 px. */
     .schedule-day,
-    .schedule-item.is-next .schedule-day {
+    .schedule-item.is-next .schedule-day,
+    .schedule-item.is-live .schedule-day {
         margin: 0;
         background: none;
         font-size: 1.0625rem; /* 17 px */
         font-weight: 700;
-        color: var(--green);
-        -webkit-text-fill-color: var(--green);
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
     }
 
     .schedule-time {
@@ -1062,6 +1065,7 @@
         gap: 8px;
         font-size: 0.875rem;
         font-weight: 600;
+        line-height: 1.2; /* le <p> du media kit héritait d'un interligne plus grand */
         color: var(--text-secondary);
         text-align: left;
     }
