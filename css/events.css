@@ -1008,3 +1008,419 @@ body.g4p-modal-open .particle {
     .event-description, .baguettectober-desc { font-size: 1.05em; line-height: 1.6; }
     .event-badge, .baguettectober-badge { font-size: 1em; padding: 9px 20px; }
 }
+
+/* ============================================
+   EVENTS MOBILE v2 (maquette Claude Design du 23/09/2026)
+   Deux temps : « À venir » (Gamers4Pets déplié) puis « L'archive » (éditions
+   passées repliées, une ligne emoji + titre + type · date + bouton). Manches
+   des DTI en bande horizontale, semaines du Baguettectober en cartes emoji.
+   Desktop intouché : les éléments neufs (séparateurs, emoji, boutons) sont
+   masqués au-dessus de 768 px, et la mosaïque garde son placeholder masqué.
+   ============================================ */
+
+.events-divider,
+.event-emoji,
+.event-toggle,
+.gallery-placeholder.is-replaced {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* ---- Hero : titre en vert uni (maquette), plus de puces d'accès rapide ---- */
+    .event-anchors { display: none; }
+    .page-hero { padding-bottom: 12px; }
+
+    .page-hero-title {
+        background: none;
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
+    }
+
+    /* ---- Séparateurs « À venir » / « L'archive » ---- */
+    .events-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        padding: 14px 18px 0;
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-tertiary);
+    }
+
+    .events-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(63, 47, 37, 0.12);
+    }
+
+    /* Les sections d'événements se suivent à 12 px, sans les 32 px génériques */
+    section:has(> .event-container) { padding: 12px 18px; }
+
+    /* ---- Carte d'événement ---- */
+    .event-container {
+        padding: 16px;
+        border-radius: 28px;
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow: none;
+    }
+
+    .event-container::before { display: none; } /* l'emoji de fond qui tourne */
+
+    .event-intro { margin-bottom: 16px; }
+
+    .event-container .event-badge {
+        display: inline-block;
+        margin: 0 0 10px;
+        padding: 8px 18px;
+        border-radius: var(--radius-full);
+        background: rgba(127, 184, 147, 0.28);
+        color: var(--green-deep);
+        box-shadow: none;
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .event-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0 0 10px;
+        color: var(--green-deep);
+    }
+
+    .event-description {
+        font-size: 0.97em;
+        line-height: 1.55;
+    }
+
+    /* Stats de l'événement à venir : compte à rebours pleine ligne, deux chiffres dessous */
+    .event-stats-strip { margin-bottom: 16px; gap: 9px; }
+
+    .event-stat-chip {
+        padding: 13px 10px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 0;
+        box-shadow: none;
+    }
+
+    .event-stat-number { font-size: 1.55em; color: var(--green-deep); }
+
+    .event-stat-label {
+        text-transform: none;
+        letter-spacing: 0;
+        font-weight: 400;
+        color: var(--text-tertiary);
+        text-align: center;
+    }
+
+    .g4p-countdown-value { font-size: 1.55em; }
+
+    /* Blocs « La cause » / « Le mur des donateurs » */
+    .dti-gallery-block,
+    .event-block {
+        margin-top: 12px;
+        max-width: none;
+    }
+
+    .event-block,
+    .event-block-highlight {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.45);
+        border: 0;
+        box-shadow: none;
+    }
+
+    .event-block-highlight { background: rgba(255, 255, 255, 0.55); }
+
+    .dti-section-title,
+    .event-block-title {
+        font-size: 1.1875em;
+        margin: 0 0 7px;
+        text-align: left;
+        color: var(--green-deep);
+    }
+
+    .dti-section-text,
+    .event-block-text {
+        font-size: 0.9em;
+        line-height: 1.55;
+        text-align: left;
+        margin: 0 0 10px;
+    }
+
+    .event-block-text:last-child { margin-bottom: 0; }
+
+    .g4p-donor-cta { text-align: left; }
+    .g4p-donor-btn { width: 100%; font-size: 0.9em; padding: 12px 18px; min-height: 46px; }
+    .g4p-donor-note { margin-top: 8px; font-size: 0.85em; }
+
+    /* ---- L'archive : une ligne repliable par édition ---- */
+    .is-collapsible .event-intro {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "emoji title toggle"
+            "emoji badge toggle"
+            "desc desc desc";
+        column-gap: 12px;
+        row-gap: 2px;
+        align-items: center;
+        text-align: left;
+        margin-bottom: 0;
+    }
+
+    .event-emoji {
+        grid-area: emoji;
+        display: block;
+        font-size: 1.625em;
+        line-height: 1;
+    }
+
+    .is-collapsible .event-title {
+        grid-area: title;
+        align-self: end;
+        margin: 0;
+        font-size: 1.25em;
+        color: var(--text-primary);
+    }
+
+    /* Le badge devient la ligne « type · date », en texte simple */
+    .is-collapsible .event-badge {
+        grid-area: badge;
+        align-self: start;
+        justify-self: start;
+        display: block;
+        margin: 0;
+        padding: 0;
+        background: none;
+        color: var(--text-tertiary);
+        font-size: 0.82em;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .event-toggle {
+        grid-area: toggle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(63, 47, 37, 0.08);
+        color: var(--text-primary);
+        cursor: pointer;
+    }
+
+    .event-toggle::before {
+        content: '+';
+        font-size: 1.25em;
+        font-weight: 700;
+        line-height: 1;
+        transition: transform var(--transition-base);
+    }
+
+    .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
+
+    .is-collapsible .event-description {
+        grid-area: desc;
+        margin: 14px 0 0;
+    }
+
+    .is-collapsible .event-intro:has(+ *) { margin-bottom: 14px; }
+
+    .is-collapsed .event-description,
+    .is-collapsed > :not(.event-intro) { display: none; }
+    .is-collapsed .event-intro { margin-bottom: 0; }
+
+    /* Chiffres clés en pastilles : « 10 participants », « 5 manches »… */
+    .is-collapsible .event-stats-strip {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 7px;
+        margin: 0 0 14px;
+    }
+
+    .is-collapsible .event-stat-chip {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 4px;
+        padding: 6px 12px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.7);
+        min-width: 0;
+    }
+
+    .is-collapsible .event-stat-number,
+    .is-collapsible .event-stat-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        line-height: 1.3;
+    }
+
+    .is-collapsible .event-stat-number { font-weight: 700; }
+
+    /* ---- DTI : une bande de photos qui défile, légendée « Manche N · thème » ---- */
+    .dti-gallery-block { margin-top: 14px; }
+
+    .dti-photo-grid {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        margin: 0 -16px;             /* la photo suivante dépasse au bord de la carte */
+        padding: 0 16px 4px;
+        counter-reset: manche;
+    }
+
+    .dti-photo-grid::-webkit-scrollbar { display: none; }
+
+    .dti-photo-item {
+        flex: 0 0 262px;
+        scroll-snap-align: start;
+        border-radius: 16px;
+        box-shadow: none;
+    }
+
+    .dti-photo-item:hover { transform: none; }
+    .dti-photo-item a { aspect-ratio: 16 / 10; border: 0; }
+
+    .dti-photo-grid:not(.dti-photo-grid-finale) .dti-photo-item { counter-increment: manche; }
+
+    .dti-photo-caption {
+        text-align: left;
+        padding: 30px 12px 10px;
+        font-size: 0.82em;
+    }
+
+    .dti-photo-grid:not(.dti-photo-grid-finale) .dti-photo-caption::before {
+        content: "Manche " counter(manche) " · ";
+    }
+
+    /* Podium : trois cartes, médaille et pseudo */
+    .event-podium-section { margin: 14px 0 0; }
+
+    .event-podium-title {
+        text-align: left;
+        font-size: 1em;
+        margin-bottom: 9px;
+        color: var(--text-primary);
+        letter-spacing: 0;
+    }
+
+    .event-podium { gap: 8px; }
+
+    .podium-card {
+        padding: 12px 6px;
+        gap: 2px;
+        border-radius: 16px;
+        backdrop-filter: none;
+    }
+
+    .podium-card.rank-1 { padding: 16px 6px; }
+    .podium-medal { font-size: 1.45em; line-height: 1; }
+    .podium-card.rank-1 .podium-medal { font-size: 1.7em; }
+    .podium-rank { display: none; }
+    .podium-name { font-size: 0.82em; overflow-wrap: anywhere; }
+
+    /* ---- Baguettectober : une carte emoji par semaine, le bonus en pleine largeur ---- */
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        max-width: none;
+    }
+
+    .gallery-item,
+    .theme-autumn .gallery-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        box-shadow: none;
+    }
+
+    .gallery-item:hover,
+    .theme-autumn .gallery-item:hover {
+        transform: none;
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.75);
+    }
+
+    .gallery-mosaic { display: none; }
+
+    .gallery-placeholder,
+    .gallery-placeholder.is-replaced,
+    .theme-autumn .gallery-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        aspect-ratio: auto;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .gallery-icon { font-size: 1.75em; line-height: 1; margin: 0; }
+
+    .gallery-week-label,
+    .theme-autumn .gallery-week-label {
+        margin: 0;
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--pink-deep);
+    }
+
+    .gallery-week {
+        margin: 0;
+        font-size: 0.94em;
+        line-height: 1.25;
+        -webkit-line-clamp: 3;
+    }
+
+    /* L'appel « Voir les dessins → » est dessiné par la carte, le bouton transparent la couvre */
+    .gallery-item::after {
+        content: 'Voir les dessins →';
+        position: static;
+        margin-top: 2px;
+        font-size: 0.82em;
+        font-weight: 700;
+        color: var(--pink-deep);
+    }
+
+    .gallery-item[data-week="bonus"] { grid-column: 1 / -1; }
+}
+
+@media (max-width: 480px) {
+    section:has(> .event-container) { padding: 10px 18px; }
+    .event-container { padding: 16px; border-radius: 28px; }
+    .event-stat-chip { padding: 13px 10px; min-width: 0; }
+    .event-badge, .baguettectober-badge { font-size: 0.82em; padding: 8px 18px; }
+    .event-description, .baguettectober-desc { font-size: 0.97em; line-height: 1.55; }
+    .gallery-item { padding: 14px; }
+    .gallery-week { margin: 0; }
+    .gallery-icon { font-size: 1.75em; margin: 0; }
+}
