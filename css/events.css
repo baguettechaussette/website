@@ -858,24 +858,11 @@ body.g4p-modal-open .particle {
    RESPONSIVE — Events
    ============================================ */
 
-@media (max-width: 768px) {
-    .event-title { font-size: 1.8em; }
-
-    .event-container {
-        padding: var(--spacing-md) var(--spacing-sm);
-        border-radius: 25px;
-    }
-
+@media (max-width: 768px) {
     .event-container::before { width: 140px; height: 140px; }
     .event-container.theme-winter::after { font-size: 5em; }
 
-    /* Galerie 2 colonnes */
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        max-width: 100%;
-    }
-
+    /* Galerie 2 colonnes */
     /* Overlay toujours visible (pas de hover sur mobile) */
     .has-gallery .gallery-mosaic::after { opacity: 1; }
     .has-gallery .gallery-mosaic-inner { filter: blur(5px) brightness(0.82); }
@@ -898,12 +885,7 @@ body.g4p-modal-open .particle {
 
     /* DTI */
     .dti-gallery-block-highlight,
-    .event-block-highlight { padding: 20px; }
-    .dti-section-title,
-    .event-block-title { font-size: 1.25em; }
-    .dti-section-text,
-    .event-block-text  { font-size: 1em; }
-}
+    .event-block-highlight { padding: 20px; }}
 
 @media (max-width: 640px) {
     /* Podium compact horizontal */
@@ -947,26 +929,7 @@ body.g4p-modal-open .particle {
     .g4p-modal__title { font-size: 1.25em; }
 }
 
-@media (max-width: 480px) {
-    .event-container { padding: 30px 15px; }
-
-    .event-stat-chip {
-        padding: 14px 20px;
-        min-width: 90px;
-    }
-
-    .event-badge, .baguettectober-badge {
-        font-size: 1.15em;
-        padding: 10px 24px;
-    }
-
-    .event-description, .baguettectober-desc {
-        font-size: 1.15em;
-        line-height: 1.6;
-    }
-
-    .gallery-item  { padding: 12px; }
-    .gallery-week  { margin-top: 8px; margin-bottom: 4px; }
+@media (max-width: 480px) {    .gallery-week  { margin-top: 8px; margin-bottom: 4px; }
     .gallery-icon  { font-size: 2.8em; margin-bottom: 6px; }
 }
 
@@ -982,19 +945,13 @@ body.g4p-modal-open .particle {
 
 @media (max-width: 768px) {
     .event-title, .dti-section-title, .event-block-title { font-size: 1.3em; line-height: 1.25; }
-    .event-stat-label { font-size: 0.82rem; } /* rem : le parent fait < 16 px */
-    .event-container { padding: 26px 18px; border-radius: var(--radius-lg); }
-    .event-anchors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .event-stat-label { font-size: 0.82rem; } /* rem : le parent fait < 16 px */    .event-anchors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
     .event-anchor { justify-content: center; text-align: center; padding: 11px 10px; font-size: 0.85em; line-height: 1.3; min-width: 0; }
     .event-stats-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 28px; }
     .event-stats-strip .g4p-countdown { grid-column: 1 / -1; }
-    .event-stat-chip { padding: 14px 12px; min-width: 0; }
-    .event-stat-number { font-size: 1.7em; }
-}
+    .event-stat-chip { padding: 14px 12px; min-width: 0; }}
 
-@media (max-width: 480px) {
-    .event-container { padding: 24px 15px; border-radius: var(--radius-md); }
-    .event-anchors, .event-stats-strip { gap: 8px; }
+@media (max-width: 480px) {    .event-anchors, .event-stats-strip { gap: 8px; }
 }
 
 @media (max-width: 360px) {
