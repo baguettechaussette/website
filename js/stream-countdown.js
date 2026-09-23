@@ -229,7 +229,7 @@
     function renderHero(isLive, info) {
         if (!hero.card) return;
         hero.card.classList.toggle("is-live", isLive);
-        hero.label.textContent = isLive ? "En direct maintenant" : "Prochain live";
+        hero.label.textContent = isLive ? "En direct" : "Prochain live";
         hero.value.textContent = isLive
             ? "Ça se passe maintenant !"
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
