@@ -72,7 +72,10 @@
         text-decoration: none;
     }
 
+    /* responsive.css masque l'avatar par défaut au-dessus de 768 px : la
+       maquette le garde à gauche du nom, comme en mobile. */
     .logo .logo-avatar {
+        display: block;
         width: 36px;
         height: 36px;
         flex: none;

@@ -59,9 +59,11 @@
        Entête de page
        ============================================ */
 
+    /* 72 px pour dégager la barre de navigation, qui est fixée, puis 44 px
+       d'air. Sans cette réserve le surtitre passait sous la barre. */
     .page-hero {
         min-height: 0;
-        padding: 44px 0 0;
+        padding: 116px 0 0;
         display: block;
     }
 
