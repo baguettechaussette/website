@@ -163,11 +163,29 @@
 
     let liveFails = 0; // 3 échecs d'affilée avant de considérer le live terminé
 
+// Test local uniquement : ?live=1 force l'état « en live », ?live=0 le retire, et le
+    // choix est gardé pour la session (sessionStorage) d'une page à l'autre. Hors
+    // localhost la fonction renvoie null et le worker fait foi, comme d'habitude.
+    function forcedLiveForTests() {
+        if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
+        const p = new URLSearchParams(location.search).get('live');
+        if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live'); // ?live= : retour au vrai statut
+        else if (p !== null) sessionStorage.setItem('bc_force_live', p);
+        const v = sessionStorage.getItem('bc_force_live');
+        if (v === null) return null;
+        return v === '1'
+            ? { is_live: true, game: 'Jeu de test', title: 'Live de test', started_at: new Date(Date.now() - 42 * 60000).toISOString() }
+            : { is_live: false, game: null, title: null, started_at: null };
+    }
+
     async function pollLive() {
         try {
-            const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
-            if (!r.ok) throw new Error(String(r.status));
-            const json    = await r.json();
+            let json = forcedLiveForTests();
+            if (!json) {
+                const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
+                if (!r.ok) throw new Error(String(r.status));
+                json = await r.json();
+            }
             liveFails     = 0;
             const newLive = !!(json && json.is_live);
             liveMeta      = newLive ? json : null;
