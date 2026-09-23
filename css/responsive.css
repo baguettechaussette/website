@@ -853,6 +853,16 @@
 
 .logo .logo-avatar, /* .logo img (base.css) le forçait en inline-block sur desktop */
 .nav-links-footer,
+.page-hero-kicker,
+.page-hero-meta,
+.clips-twitch-link,
+.clip-howto,
+.cow-num,
+.cow-dots,
+.cow-voted-banner,
+.cow-others-label,
+.cow-winner-head,
+.cow-winner-teaser,
 .hero-live-card,
 .stat-label-short,
 .social-cta,
@@ -1728,4 +1738,651 @@
 
     footer p:last-child { margin-bottom: 0; }
     footer a { font-weight: 600; }
+}
+
+/* ============================================
+   CLIPS MOBILE v2, « le défilé » (maquette Claude Design 18a, 23/09/2026)
+   Hero : surtitre + la question du vote. Finalistes en carrousel d'une carte,
+   bouton vert plein, points de position. Après le vote : bannière « A voté »,
+   le clip choisi en tête, les autres en petit. Bloc gagnant sombre sous le vote.
+   Panthéon en carte blanche (1er en pleine largeur, 2e et 3e côte à côte, la
+   suite en liste) suivi de « comment clipper ». Derniers clips en carrousel.
+   Desktop intouché : les éléments neufs sont masqués au-dessus de 768 px.
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Ordre de la page : vote, gagnant, Panthéon, derniers clips.
+       Les sections ont un margin: 0 auto (base.css) : en colonne flex elles se
+       resserreraient sur leur contenu (le carrousel les étirait à 1 100 px),
+       d'où des marges latérales explicites pour qu'elles s'étirent à la page. */
+    main:has(#clip-semaine) { display: flex; flex-direction: column; }
+    main:has(#clip-semaine) > * { margin-left: 0; margin-right: 0; max-width: none; min-width: 0; }
+    main:has(#clip-semaine) .page-hero { order: 0; }
+    #clip-semaine { order: 1; }
+    #clippeurs { order: 2; }
+    main:has(#clip-semaine) #clips { order: 3; }
+
+    /* ---- Hero ---- */
+    main:has(#clip-semaine) .page-hero { padding: 84px 18px 14px; }
+    main:has(#clip-semaine) .page-hero-content { text-align: left; }
+
+    .page-hero-kicker {
+        display: block;
+        margin: 0 0 6px;
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--pink-deep);
+    }
+
+    main:has(#clip-semaine) .page-hero-title {
+        margin: 0 0 6px;
+        font-size: 2em;
+        line-height: 1.1;
+        text-align: left;
+        background: none;
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
+    }
+
+    main:has(#clip-semaine) .page-hero-subtitle { display: none; }
+
+    .page-hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 0.9em;
+        color: var(--text-secondary);
+    }
+
+    .page-hero-meta-votes { font-weight: 700; color: var(--text-primary); }
+    .page-hero-meta-votes::before { content: '·'; margin-right: 8px; font-weight: 400; color: rgba(63, 47, 37, 0.45); }
+    .page-hero-meta-votes[hidden] { display: none; }
+
+    /* ---- Le vote : plus de panneau doré, le carrousel repose sur la page ---- */
+    #clip-semaine { padding: 0 0 30px; }
+
+    .cow-container {
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        backdrop-filter: none;
+    }
+
+    .cow-container .section-header,
+    .cow-block-heading,
+    .cow-turnout { display: none; } /* le hero porte le titre et la participation */
+
+    .cow-grid {
+        display: flex;
+        gap: 12px;
+        max-width: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x proximity;
+        scroll-padding: 0 18px;
+        padding: 0 18px 12px;
+        touch-action: pan-x pan-y;
+        scrollbar-width: none;
+        cursor: grab;
+    }
+
+    .cow-grid::-webkit-scrollbar { display: none; }
+    .cow-grid.is-grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+    .cow-card {
+        position: relative;
+        flex: 0 0 calc(100% - 46px); /* la carte suivante dépasse au bord */
+        scroll-snap-align: start;
+        gap: 0;
+        padding: 0;
+        border-radius: 28px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 12px 30px rgba(63, 47, 37, 0.1);
+    }
+
+    .cow-card .clip-thumb { border-radius: 0; box-shadow: none; }
+    .cow-card .clip-thumb:hover { transform: none; }
+    .cow-card .clip-play { width: 60px; height: 60px; font-size: 1.4em; padding-left: 5px; }
+
+    .cow-num {
+        display: block;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 5px 12px;
+        border-radius: var(--radius-full);
+        background: var(--text-primary);
+        color: var(--bg-primary);
+        font-size: 0.875em;
+        font-weight: 800;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .cow-card .clip-meta {
+        display: block;
+        margin: 14px 16px 2px;
+        font-size: 1.1875em;
+        font-weight: 800;
+        line-height: 1.25;
+        text-align: left;
+        color: var(--text-primary);
+        -webkit-line-clamp: unset;
+    }
+
+    .cow-card .clip-clipper {
+        margin: 0 16px;
+        text-align: left;
+        font-size: 0.875em;
+        color: var(--text-tertiary);
+        white-space: normal;
+    }
+
+    .cow-vote-btn,
+    .cow-vote-btn:hover:not(:disabled) {
+        margin: 12px 16px 16px;
+        min-height: 50px;
+        padding: 12px 18px;
+        border: 0;
+        background: var(--green-deep); /* la seule action de la page : elle se voit (blanc dessus 6,1:1) */
+        color: #fff;
+        font-size: 1em;
+        transform: none;
+    }
+
+    .cow-vote-btn:disabled { opacity: 0.45; }
+    .cow-vote-btn.is-voted { background: rgba(63, 107, 79, 0.12); color: var(--green-deep); opacity: 1; }
+
+    /* Points de position + indice de glissement */
+    .cow-dots {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px;
+    }
+
+    .cow-dots-track { flex: 1; display: flex; gap: 5px; }
+
+    .cow-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(63, 47, 37, 0.22);
+        transition: width var(--transition-base), background var(--transition-base);
+    }
+
+    .cow-dot.is-active { width: 22px; border-radius: var(--radius-full); background: var(--green-deep); }
+
+    .cow-dots-hint { font-size: 0.85em; font-weight: 700; color: var(--text-tertiary); white-space: nowrap; }
+
+    /* ---- Après le vote : bannière, le clip choisi en tête, les autres en petit ---- */
+    .cow-vote-block.is-voted .cow-dots { display: none; }
+
+    .cow-voted-banner {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 0 18px 14px;
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(242, 201, 107, 0.26);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .cow-voted-title { margin: 0; font-size: 1.25em; font-weight: 800; color: var(--text-primary); }
+    .cow-voted-text { margin: 0; font-size: 0.9em; line-height: 1.45; color: var(--text-secondary); }
+
+    .cow-voted-discord {
+        align-self: flex-start;
+        margin-top: 6px;
+        padding: 9px 16px;
+        border-radius: var(--radius-full);
+        background: #fff;
+        color: var(--text-primary);
+        font-size: 0.875em;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .cow-vote-block.is-voted .cow-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        overflow: visible;
+        padding: 0 18px;
+        cursor: default;
+    }
+
+    .cow-vote-block.is-voted .cow-card.is-mine {
+        grid-column: 1 / -1;
+        border: 2px solid var(--green-deep);
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: none;
+        border-radius: 24px;
+    }
+
+    .cow-vote-block.is-voted .cow-card.is-mine .cow-num { width: 34px; height: 34px; padding: 0; display: flex; align-items: center; justify-content: center; top: 10px; left: 10px; font-size: 1em; }
+    .cow-vote-block.is-voted .cow-card.is-mine .cow-num::after { content: ''; }
+    .cow-vote-block.is-voted .cow-card.is-mine .clip-meta { font-size: 1.0625em; font-weight: 700; margin: 12px 14px 4px; }
+    .cow-vote-block.is-voted .cow-card.is-mine .clip-clipper { margin: 0 14px; }
+    .cow-vote-block.is-voted .cow-card.is-mine .cow-vote-btn { margin: 10px 14px 14px; min-height: 44px; }
+
+    .cow-others-label {
+        display: block;
+        grid-column: 1 / -1;
+        margin: 6px 0 0;
+        font-size: 0.875em;
+        font-weight: 700;
+        color: var(--text-tertiary);
+    }
+
+    .cow-vote-block.is-voted .cow-card.is-other {
+        background: none;
+        border: 0;
+        box-shadow: none;
+        border-radius: 12px;
+        gap: 4px;
+    }
+
+    .cow-vote-block.is-voted .cow-card.is-other .clip-thumb { border-radius: 12px; }
+    .cow-vote-block.is-voted .cow-card.is-other .clip-play { width: 34px; height: 34px; font-size: 0.85em; padding-left: 3px; }
+    .cow-vote-block.is-voted .cow-card.is-other .cow-num,
+    .cow-vote-block.is-voted .cow-card.is-other .clip-clipper,
+    .cow-vote-block.is-voted .cow-card.is-other .cow-vote-btn { display: none; }
+
+    .cow-vote-block.is-voted .cow-card.is-other .clip-meta {
+        margin: 0;
+        font-size: 0.82em;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+    }
+
+    .cow-vote-block.is-voted .cow-card.is-other .clip-meta::before { content: attr(data-num) '. '; }
+
+    /* ---- Le bloc gagnant : la seule carte sombre de la page ---- */
+    .cow-winner,
+    .cow-vote-block[hidden] + .cow-winner {
+        margin: 14px 18px 0;
+        padding: 0;
+        border: 0;
+        border-radius: 26px;
+        overflow: hidden;
+        background: var(--text-primary);
+        color: var(--bg-primary);
+        box-shadow: 0 14px 34px rgba(63, 47, 37, 0.22);
+    }
+
+    .cow-winner .cow-block-heading { display: none; }
+
+    .cow-winner-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px 12px;
+    }
+
+    .cow-winner-crown { font-size: 1.625em; line-height: 1; }
+    .cow-winner-head-meta { display: flex; flex-direction: column; min-width: 0; }
+
+    .cow-winner-kicker {
+        font-size: 0.82em;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--purple);
+    }
+
+    .cow-winner-when { font-size: 0.82em; color: rgba(240, 235, 224, 0.8); }
+
+    .cow-winner-card {
+        display: block;
+        max-width: none;
+        padding: 0;
+        margin: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    .cow-winner-card .clip-thumb {
+        display: block;
+        width: auto;
+        margin: 0 12px;
+        border-radius: 16px;
+        border: 2px solid var(--purple);
+        box-shadow: none;
+    }
+
+    .cow-winner-card .clip-thumb:hover { transform: none; }
+
+    .cow-winner-info { padding: 14px 16px 18px; min-width: 0; }
+
+    .cow-winner-title {
+        margin: 0 0 3px;
+        font-size: 1.3125em;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--bg-primary);
+    }
+
+    .cow-winner-card .clip-clipper {
+        font-size: 0.875em;
+        font-weight: 400;
+        color: rgba(240, 235, 224, 0.8);
+    }
+
+    /* Teaser du dimanche : boîte en pointillés miel, texte clair */
+    .cow-winner-teaser {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin: 0 12px;
+        aspect-ratio: 16 / 9;
+        border-radius: 16px;
+        border: 2px dashed rgba(242, 201, 107, 0.7);
+        background: rgba(240, 235, 224, 0.06);
+    }
+
+    .cow-winner-teaser-icon { font-size: 2.375em; line-height: 1; }
+    .cow-winner-teaser-text { font-size: 0.94em; font-weight: 700; color: var(--bg-primary); }
+
+    .cow-winner > .cow-winner-sub {
+        padding: 14px 16px 18px;
+        text-align: left;
+        font-size: 0.9em;
+        line-height: 1.45;
+        color: rgba(240, 235, 224, 0.85);
+    }
+
+    /* ---- Le Panthéon : la section devient une carte blanche ---- */
+    #clippeurs {
+        margin: 30px 18px 0;
+        padding: 20px 16px;
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+
+    #clippeurs .section-header { margin-bottom: 14px; }
+    #clippeurs .section-title { font-size: 1.5em; margin-bottom: 3px; }
+    #clippeurs .section-subtitle { font-size: 0.9em; line-height: 1.45; }
+
+    .clippers-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        max-width: none;
+        counter-reset: rang;
+    }
+
+    .clipper-card {
+        counter-increment: rang;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        padding: 12px;
+        border: 0;
+        border-radius: 18px;
+        box-shadow: none;
+        text-align: left;
+    }
+
+    /* Le rang s'écrit « #n » quel que soit le contenu (médaille sur desktop) */
+    .clipper-rank {
+        position: static;
+        font-size: 0;
+        color: var(--text-tertiary);
+    }
+
+    .clipper-rank::before {
+        content: '#' counter(rang);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .clipper-badge { font-size: 1.375em; margin: 0; }
+    .clipper-name { font-size: 0.94em; line-height: 1.25; }
+    .clipper-grade { font-size: 0.82em; line-height: 1.25; color: var(--green-deep); }
+    .clipper-suffix { margin: 0; font-size: 0.82em; color: #8a6a1f; }
+    .clipper-stats { margin-top: 3px; font-size: 0.82em; line-height: 1.25; }
+
+    /* #1 : pleine largeur, badge dans un rond, colonne de textes */
+    .clipper-card:first-child {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 56px minmax(0, 1fr);
+        grid-template-areas:
+            "badge rank"
+            "badge name"
+            "badge grade"
+            "badge suffix"
+            "badge stats";
+        column-gap: 14px;
+        row-gap: 1px;
+        align-items: center;
+        padding: 14px 16px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
+    }
+
+    .clipper-card:first-child .clipper-badge {
+        grid-area: badge;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        font-size: 1.875em;
+    }
+
+    .clipper-card:first-child .clipper-rank { grid-area: rank; }
+    .clipper-card:first-child .clipper-name { grid-area: name; font-size: 1.0625em; }
+    .clipper-card:first-child .clipper-grade { grid-area: grade; font-size: 0.85em; }
+    .clipper-card:first-child .clipper-suffix { grid-area: suffix; }
+    .clipper-card:first-child .clipper-stats { grid-area: stats; margin: 0; }
+
+    /* #2 et #3 côte à côte : emoji à gauche, rang à droite sur la première ligne */
+    .clipper-card:nth-child(2),
+    .clipper-card:nth-child(3) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "badge rank"
+            "name name"
+            "grade grade"
+            "suffix suffix"
+            "stats stats";
+        align-items: center;
+    }
+
+    .clipper-card:nth-child(2) { background: linear-gradient(135deg, rgba(192, 192, 192, 0.18), rgba(150, 150, 150, 0.08)); }
+    .clipper-card:nth-child(3) { background: linear-gradient(135deg, rgba(205, 127, 50, 0.18), rgba(180, 100, 30, 0.08)); }
+
+    .clipper-card:nth-child(2) .clipper-badge, .clipper-card:nth-child(3) .clipper-badge { grid-area: badge; }
+    .clipper-card:nth-child(2) .clipper-rank,  .clipper-card:nth-child(3) .clipper-rank  { grid-area: rank; }
+    .clipper-card:nth-child(2) .clipper-name,  .clipper-card:nth-child(3) .clipper-name  { grid-area: name; }
+    .clipper-card:nth-child(2) .clipper-grade, .clipper-card:nth-child(3) .clipper-grade { grid-area: grade; }
+    .clipper-card:nth-child(2) .clipper-suffix, .clipper-card:nth-child(3) .clipper-suffix { grid-area: suffix; }
+    .clipper-card:nth-child(2) .clipper-stats, .clipper-card:nth-child(3) .clipper-stats { grid-area: stats; }
+
+    /* #4 et suivants : une liste blanche, une ligne par clippeur */
+    .clipper-card:nth-child(n + 4) {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 24px 24px minmax(0, 1fr);
+        grid-template-areas:
+            "rank badge name"
+            "rank badge grade"
+            "rank badge stats";
+        column-gap: 12px;
+        row-gap: 0;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    .clipper-card:nth-child(4) { border-radius: 18px 18px 0 0; }
+    .clipper-card:last-child:nth-child(n + 4) { border-radius: 0 0 18px 18px; }
+    .clipper-card:nth-child(4):last-child { border-radius: 18px; }
+    .clipper-card:nth-child(n + 5) { margin-top: -8px; border-top: 1px solid rgba(63, 47, 37, 0.08); }
+
+    .clipper-card:nth-child(n + 4) .clipper-rank  { grid-area: rank; }
+    .clipper-card:nth-child(n + 4) .clipper-badge { grid-area: badge; font-size: 1.25em; text-align: center; }
+    .clipper-card:nth-child(n + 4) .clipper-name  { grid-area: name; font-size: 0.9em; }
+    .clipper-card:nth-child(n + 4) .clipper-grade { grid-area: grade; }
+    .clipper-card:nth-child(n + 4) .clipper-suffix { display: inline; }
+    .clipper-card:nth-child(n + 4) .clipper-grade::after { content: ' · '; }
+    .clipper-card:nth-child(n + 4) .clipper-stats { grid-area: stats; margin: 0; }
+
+    /* grade et suffixe sur la même ligne dans la liste */
+    .clipper-card:nth-child(n + 4) .clipper-grade,
+    .clipper-card:nth-child(n + 4) .clipper-suffix { grid-area: grade; }
+    .clipper-card:nth-child(n + 4) .clipper-suffix { justify-self: start; margin-left: 0; padding-left: 0; }
+
+    /* Comment clipper */
+    .clip-howto {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(63, 47, 37, 0.1);
+    }
+
+    .clip-howto-title {
+        margin: 0;
+        font-size: 1.125em;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        color: var(--text-primary);
+    }
+
+    .clip-howto-steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        counter-reset: etape;
+    }
+
+    .clip-howto-steps li {
+        counter-increment: etape;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 0.9em;
+        line-height: 1.45;
+        color: var(--text-secondary);
+    }
+
+    .clip-howto-steps li::before {
+        content: counter(etape);
+        flex: none;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: rgba(242, 201, 107, 0.35);
+        color: #8a6a1f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85em;
+        font-weight: 800;
+    }
+
+    /* ---- Les derniers clips : carrousel de cartes de 260 px ---- */
+    main:has(#clip-semaine) #clips { padding: 30px 0 32px; }
+
+    #clips .section-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: baseline;
+        column-gap: 10px;
+        margin: 0 18px 12px;
+        text-align: left;
+    }
+
+    #clips .section-title { font-size: 1.375em; margin: 0; text-align: left; }
+    #clips .section-subtitle { display: none; }
+
+    .clips-twitch-link {
+        display: block;
+        font-size: 0.85em;
+        font-weight: 700;
+        color: var(--green-deep);
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    #clips .clips-grid {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x proximity;
+        scroll-padding: 0 18px;
+        padding: 0 18px 4px;
+        touch-action: pan-x pan-y;
+        scrollbar-width: none;
+        cursor: grab;
+    }
+
+    #clips .clips-grid::-webkit-scrollbar { display: none; }
+    #clips .clips-grid.is-grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+    #clips .clip-card {
+        flex: 0 0 260px;
+        scroll-snap-align: start;
+        border-radius: 20px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.55);
+        border: 2px solid rgba(255, 255, 255, 0.75);
+    }
+
+    #clips .clip-card .clip-thumb { border-radius: 0; box-shadow: none; }
+    #clips .clip-card .clip-thumb:hover { transform: none; }
+    #clips .clip-card .clip-play { width: 42px; height: 42px; font-size: 0.95em; padding-left: 4px; }
+
+    #clips .clip-card .clip-meta {
+        display: block;
+        margin: 10px 12px 0;
+        font-size: 0.94em;
+        font-weight: 700;
+        line-height: 1.25;
+        text-align: left;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: unset;
+    }
+
+    #clips .clip-card .clip-clipper {
+        margin: 0 12px 12px;
+        text-align: left;
+        font-size: 0.82em;
+    }
+
+    #clips .clip-skeleton { flex: 0 0 260px; }
 }

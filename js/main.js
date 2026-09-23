@@ -276,6 +276,64 @@ window.addEventListener('resize', () => {
     }, 250);
 }, { passive: true });
 
+// Cliquer-glisser à la souris sur une bande horizontale (voir l'appel dans DOMContentLoaded)
+function initDragScroll(strip) {
+    let down = false, moved = false, startX = 0, startLeft = 0, pending = 0, raf = 0, settle = 0;
+
+    // Fin du glissement : la bande se pose en douceur sur la carte la plus proche,
+    // puis on rend la main à l'accroche CSS.
+    const end = () => {
+        if (!down) return;
+        down = false;
+        strip.classList.remove('is-grabbing');
+        if (raf) { cancelAnimationFrame(raf); raf = 0; strip.scrollLeft = pending; }
+        if (!moved) { strip.style.scrollSnapType = ''; return; }
+        const padLeft   = parseFloat(getComputedStyle(strip).paddingLeft) || 0;
+        const stripLeft = strip.getBoundingClientRect().left;
+        let best = strip.scrollLeft, bestDist = Infinity;
+        Array.from(strip.children).forEach(item => {
+            const left = item.getBoundingClientRect().left - stripLeft + strip.scrollLeft - padLeft;
+            const dist = Math.abs(left - strip.scrollLeft);
+            if (dist < bestDist) { bestDist = dist; best = left; }
+        });
+        strip.scrollTo({ left: best, behavior: 'smooth' });
+        clearTimeout(settle);
+        settle = setTimeout(() => { strip.style.scrollSnapType = ''; }, 450);
+    };
+
+    strip.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        if (strip.scrollWidth <= strip.clientWidth) return;
+        down = true; moved = false;
+        startX = e.clientX; startLeft = strip.scrollLeft;
+        clearTimeout(settle);
+        strip.style.scrollSnapType = 'none';
+        strip.classList.add('is-grabbing');
+    });
+    strip.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (!moved && Math.abs(dx) > 4) {
+            moved = true;
+            // Capturé seulement une fois le glissement engagé : capturer dès l'appui
+            // détournait le clic et rien ne s'ouvrait plus.
+            strip.setPointerCapture(e.pointerId);
+        }
+        if (!moved) return;
+        pending = startLeft - dx;
+        if (!raf) raf = requestAnimationFrame(() => { strip.scrollLeft = pending; raf = 0; });
+    });
+    strip.addEventListener('pointerup', end);
+    strip.addEventListener('pointercancel', end);
+    strip.addEventListener('dragstart', (e) => e.preventDefault());
+    strip.addEventListener('click', (e) => {
+        if (!moved) return;
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+    }, true);
+}
+
 // Animations au défilement (Intersection Observer)
 function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
@@ -376,6 +434,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     expandHashTarget();
     window.addEventListener('hashchange', expandHashTarget);
+
+    // Bandes qui défilent à l'horizontale en mobile (manches DTI, finalistes, derniers clips) :
+    // au doigt elles défilent nativement ; à la souris (fenêtre étroite, pas de tactile) un bloc
+    // sans barre visible ne bouge pas, on traduit le cliquer-glisser en défilement et on avale
+    // le clic qui suivrait pour ne pas ouvrir la lightbox ou voter par accident.
+    document.querySelectorAll('.dti-photo-grid, .cow-grid, .clips-grid').forEach(initDragScroll);
 
     // Emails assemblés côté client (anti-bots spam)
     document.querySelectorAll('.js-email').forEach(el => {

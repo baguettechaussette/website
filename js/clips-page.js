@@ -51,6 +51,12 @@ async function injectVideoSchema() {
 // et dans la variable de dépôt GitHub VOTE_API_URL (dépouillement auto).
 const VOTE_API = 'https://bc-vote.baguette-chaussette.workers.dev';
 
+// Sous 768 px la page suit la maquette « défilé » : carrousel des finalistes,
+// bloc gagnant sombre, écran « A voté » après le vote. Les éléments construits
+// pour ce mode sont masqués au-dessus de 768 px par le CSS.
+const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
+const DISCORD_URL = 'https://discord.gg/QHNF684bBf';
+
 // ── Petits helpers DOM ──────────────────────────────────────
 function makeEl(tag, cls, text) {
     const e = document.createElement(tag);
@@ -147,9 +153,10 @@ async function loadClipOfWeek() {
             const range = finalistWeekRange(week);
             if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
             const votedKey = `clip-vote-${week}`;
-            finalists.forEach(clip => {
-                grid.appendChild(buildFinalistCard(clip, week, votedKey));
+            finalists.forEach((clip, i) => {
+                grid.appendChild(buildFinalistCard(clip, week, votedKey, i + 1, finalists.length));
             });
+            buildDots(voteBlock, grid, finalists.length);
             // Confirmation de vote annoncée aux lecteurs d'écran
             const status = makeEl('p', 'visually-hidden');
             status.id = 'cowVoteStatus';
@@ -165,7 +172,9 @@ async function loadClipOfWeek() {
         // dimanche, ou filet du lundi). Avant : un teaser, pour que personne
         // ne voie le gagnant sur le site avant la cérémonie de 21h.
         if (data.winner && data.winner.id) {
-            if (await isWinnerRevealed(week)) {
+            const revealed = await isWinnerRevealed(week);
+            winnerBox.appendChild(buildWinnerHead(week, revealed));
+            if (revealed) {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
                 const card = makeEl('div', 'cow-winner-card');
                 card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner', '240px'));
@@ -178,10 +187,21 @@ async function loadClipOfWeek() {
                 winnerBox.appendChild(card);
             } else {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le gagnant est dans la boîte…'));
+                const teaser = makeEl('div', 'cow-winner-teaser');
+                teaser.append(makeEl('span', 'cow-winner-teaser-icon', '📦'), makeEl('span', 'cow-winner-teaser-text', 'Le gagnant est dans la boîte…'));
+                winnerBox.appendChild(teaser);
                 winnerBox.appendChild(makeEl('p', 'cow-winner-sub',
                     'Les votes sont dépouillés ! Révélation en live dimanche à 21h, suspense 🥖'));
             }
             winnerBox.hidden = false;
+        }
+
+        // Sans vote en cours, le h1 mobile ne pose plus la question
+        if (voteBlock.hidden) {
+            const t = document.getElementById('clipsHeroTitle');
+            const m = document.getElementById('clipsHeroMeta');
+            if (t) t.textContent = 'Les clips des p\'tits pains';
+            if (m) m.hidden = true;
         }
 
         // Ni vote ni gagnant (ne devrait pas arriver) : on replie la section
@@ -189,10 +209,94 @@ async function loadClipOfWeek() {
     } catch { collapse(); /* silencieux : sans données, pas de section */ }
 }
 
-function buildFinalistCard(clip, week, votedKey) {
+// En-tête du bloc gagnant (mobile) : 👑, « Clip de la semaine », date du dimanche du couronnement
+function buildWinnerHead(week, revealed) {
+    const head = makeEl('div', 'cow-winner-head');
+    const meta = makeEl('div', 'cow-winner-head-meta');
+    let when = 'dépouillement terminé';
+    if (revealed) {
+        const monday = isoWeekMonday(week);
+        if (monday) {
+            const sunday = new Date(monday); sunday.setUTCDate(sunday.getUTCDate() - 1);
+            when = `élu par la commu · ${sunday.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })}`;
+        } else {
+            when = 'élu par la commu';
+        }
+    }
+    meta.append(makeEl('span', 'cow-winner-kicker', 'Clip de la semaine'), makeEl('span', 'cow-winner-when', when));
+    head.append(makeEl('span', 'cow-winner-crown', '👑'), meta);
+    return head;
+}
+
+// Points de position sous le carrousel (mobile) + « Glisse pour voir les 7 autres → »
+function buildDots(voteBlock, grid, count) {
+    if (count < 2) return;
+    const wrap = makeEl('div', 'cow-dots');
+    const track = makeEl('div', 'cow-dots-track');
+    for (let i = 0; i < count; i++) track.appendChild(makeEl('span', 'cow-dot' + (i === 0 ? ' is-active' : '')));
+    const hint = makeEl('span', 'cow-dots-hint', `Glisse pour voir ${count - 1 > 1 ? `les ${count - 1} autres` : 'le suivant'} →`);
+    wrap.append(track, hint);
+    voteBlock.appendChild(wrap);
+
+    let raf = 0;
+    grid.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+            raf = 0;
+            const cards = grid.querySelectorAll('.cow-card');
+            if (!cards.length) return;
+            const step = cards[0].offsetWidth + (parseFloat(getComputedStyle(grid).columnGap || getComputedStyle(grid).gap) || 0);
+            const idx = Math.max(0, Math.min(count - 1, Math.round(grid.scrollLeft / step)));
+            track.querySelectorAll('.cow-dot').forEach((d, i) => d.classList.toggle('is-active', i === idx));
+            hint.textContent = idx >= count - 1 ? 'Tu as tout vu 🥖' : `Encore ${count - 1 - idx} à voir →`;
+        });
+    }, { passive: true });
+}
+
+// Après le vote (mobile) : bannière « A voté ! », le clip choisi en tête, les autres en petit
+function applyVotedLayout(grid, votedClip) {
+    if (!MOBILE_MQ.matches || !grid || !votedClip) return;
+    const voteBlock = grid.closest('.cow-vote-block');
+    if (!voteBlock || voteBlock.classList.contains('is-voted')) return;
+    const cards = Array.from(grid.querySelectorAll('.cow-card'));
+    const mine = cards.find(c => c.querySelector('.cow-vote-btn')?.dataset.clip === votedClip);
+    if (!mine) return;
+
+    voteBlock.classList.add('is-voted');
+    mine.classList.add('is-mine');
+    cards.forEach(c => { if (c !== mine) c.classList.add('is-other'); });
+    grid.prepend(mine);
+
+    const num = mine.dataset.num || '';
+    const banner = makeEl('div', 'cow-voted-banner');
+    banner.append(
+        makeEl('p', 'cow-voted-title', 'A voté ! 🗳️'),
+        makeEl('p', 'cow-voted-text', `Ton vote${num ? ` pour le n°${num}` : ''} est enregistré. Le résultat tombe dimanche à 21h en live, puis sur Discord.`)
+    );
+    const discord = makeEl('a', 'cow-voted-discord', 'Rejoindre Discord');
+    discord.href = DISCORD_URL; discord.target = '_blank'; discord.rel = 'noopener';
+    discord.setAttribute('data-umami-event', 'Clips - Discord apres vote');
+    banner.appendChild(discord);
+    grid.before(banner);
+
+    if (cards.length > 1) {
+        const others = cards.length - 1;
+        mine.after(makeEl('p', 'cow-others-label', others > 1 ? `Les ${others} autres finalistes` : 'L\'autre finaliste'));
+    }
+}
+
+function buildFinalistCard(clip, week, votedKey, num, total) {
     const card = makeEl('div', 'cow-card');
+    if (num) card.dataset.num = String(num);
     card.appendChild(makeClipThumb(clip, 'Clips - Play Finalist'));
-    card.appendChild(makeEl('p', 'clip-meta', `« ${clipDisplayTitle(clip)} »`));
+    if (num && total) {
+        const badge = makeEl('span', 'cow-num', `${num} / ${total}`);
+        badge.setAttribute('aria-hidden', 'true');
+        card.appendChild(badge);
+    }
+    const meta = makeEl('p', 'clip-meta', `« ${clipDisplayTitle(clip)} »`);
+    if (num) meta.dataset.num = String(num);
+    card.appendChild(meta);
     if (clip.creator_name) {
         card.appendChild(makeEl('p', 'clip-clipper', `clippé par ${clip.creator_name}`));
     }
@@ -256,6 +360,9 @@ async function showTurnout(week, after) {
         if (n <= 3) return;
         after.insertAdjacentElement('afterend',
             makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
+        // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
+        const hero = document.getElementById('cowHeroTurnout');
+        if (hero) { hero.textContent = `${n} vote${n > 1 ? 's' : ''}`; hero.hidden = false; }
     } catch { /* silencieux : simple bonus d'ambiance */ }
 }
 
@@ -268,6 +375,7 @@ function refreshVoteButtons(grid, votedClip) {
             btn.textContent = 'Voté, merci ! ✔';
         }
     });
+    applyVotedLayout(grid, votedClip);
 }
 
 // ── Le Panthéon des clippeurs ───────────────────────────────
