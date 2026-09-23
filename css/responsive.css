@@ -645,6 +645,7 @@
 .social-cta,
 .title-mobile,
 .subtitle-desktop,
+.meta-desktop,
 .mediakit-icon,
 .socials-all-link {
     display: none;
@@ -1869,6 +1870,12 @@
         font-size: 0.875em;
         font-weight: 400;
         color: rgba(240, 235, 224, 0.8);
+    }
+
+    /* Le pseudo ressort en dore, comme en desktop */
+    .cow-winner-card .clip-clipper strong {
+        font-weight: 700;
+        color: #f2c96b;
     }
 
     /* Teaser du dimanche : boîte en pointillés miel, texte clair */

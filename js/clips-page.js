@@ -147,6 +147,10 @@ function finalistWeekRange(week) {
     const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 15);
     const end = new Date(voteMonday); end.setUTCDate(end.getUTCDate() - 1);
     const fmt = d => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
+    // Meme mois : on ne le repete pas (« du 7 au 21 septembre »)
+    if (start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear()) {
+        return `${start.getUTCDate()} au ${fmt(end)}`;
+    }
     return `${fmt(start)} au ${fmt(end)}`;
 }
 
@@ -184,6 +188,14 @@ async function loadClipOfWeek() {
         if (week && finalists.length >= 2) {
             const range = finalistWeekRange(week);
             if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
+            // Ligne de l'entete, version desktop : le compte, la fenetre de
+            // selection et le rendez-vous, en une phrase.
+            const heroLine = document.getElementById('clipsHeroLine');
+            if (heroLine && range) {
+                heroLine.textContent =
+                    `${finalists.length} finalistes clippés du ${range}. `
+                    + 'Le résultat tombe dimanche à 21h en live, puis sur Discord.';
+            }
             const votedKey = `clip-vote-${week}`;
             if (cowTest === 'vote') lsRemove(votedKey);
             else if (cowTest === 'voted' && finalists[0]) lsSet(votedKey, finalists[0].id);
@@ -215,7 +227,10 @@ async function loadClipOfWeek() {
                 const info = makeEl('div', 'cow-winner-info');
                 info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
                 if (data.winner.creator_name) {
-                    info.appendChild(makeEl('p', 'clip-clipper', `clippé par ${data.winner.creator_name}`));
+                    // Le nom dans un <strong> : il porte sa propre couleur
+                    const par = makeEl('p', 'clip-clipper');
+                    par.append('clippé par ', makeEl('strong', '', data.winner.creator_name));
+                    info.appendChild(par);
                 }
                 card.appendChild(info);
                 winnerBox.appendChild(card);
@@ -407,7 +422,7 @@ function renderTurnout(n, after) {
         makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
     // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
     const hero = document.getElementById('cowHeroTurnout');
-    if (hero) { hero.textContent = `${n} vote${n > 1 ? 's' : ''}`; hero.hidden = false; }
+    if (hero) { hero.textContent = `Déjà ${n} vote${n > 1 ? 's' : ''} 🗳️`; hero.hidden = false; }
 }
 
 function refreshVoteButtons(grid, votedClip) {

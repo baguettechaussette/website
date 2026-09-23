@@ -115,6 +115,10 @@
         color: rgba(63, 47, 37, 0.8);
     }
 
+    /* La ligne longue prend le relais de la version courte du mobile */
+    .meta-mobile { display: none; }
+    .meta-desktop { display: inline; }
+
     .page-hero-meta-votes {
         margin-left: auto;
         padding: 9px 18px;
@@ -394,15 +398,22 @@
         text-align: left;
     }
 
+    /* « clippé par » en clair, le pseudo en doré : sections.css colore toute
+       la ligne en #c9902e, illisible sur le fond sombre. */
     .cow-winner-info p:not(.cow-winner-title),
+    .cow-winner-card .clip-clipper,
     .cow-winner-sub {
         margin: 0;
         font-size: 0.9375rem;
+        font-weight: 400;
         color: rgba(240, 235, 224, 0.8);
         text-align: left;
     }
 
-    .cow-winner-info strong { color: #f2c96b; }
+    .cow-winner-card .clip-clipper strong {
+        font-weight: 700;
+        color: #f2c96b;
+    }
 
     /* Gagnant pas encore révélé : le teaser reste sobre sur le fond sombre */
     .cow-winner-teaser {
@@ -542,7 +553,10 @@
             "rang emoji grade mention"
             "rang emoji stats stats";
         align-items: center;
-        column-gap: 12px;
+        /* Gouttière portée par le rang et l'emoji plutôt que par la grille :
+           le point entre le grade et sa mention reste ainsi à égale distance
+           des deux, au lieu d'être collé à la mention. */
+        column-gap: 0;
         row-gap: 0;
         text-align: left;
     }
@@ -556,7 +570,7 @@
         grid-area: rang;
         width: 28px;
         height: 28px;
-        margin: 0;
+        margin: 0 12px 0 0;
         border-radius: 50%;
         background: none;
         display: flex;
@@ -575,7 +589,7 @@
     .clipper-badge {
         grid-area: emoji;
         width: 26px;
-        margin: 0;
+        margin: 0 12px 0 0;
         font-size: 1.3125rem; /* 21 px */
         line-height: 1;
         text-align: center;
@@ -611,7 +625,11 @@
         color: #8a6a1f;
     }
 
-    .clipper-suffix::before { content: '· '; font-style: normal; }
+    .clipper-suffix::before {
+        content: '·';
+        margin: 0 6px;
+        font-style: normal;
+    }
 
     .clipper-stats {
         grid-area: stats;
