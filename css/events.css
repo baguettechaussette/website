@@ -1281,7 +1281,10 @@ body.g4p-modal-open .particle {
         display: flex;
         gap: 10px;
         overflow-x: auto;
+        overflow-y: hidden;           /* sans ça la bande défilait aussi de quelques px en vertical */
+        align-items: flex-start;
         scroll-snap-type: x proximity; /* mandatory collait trop, le doigt ne « prenait » pas */
+        scroll-padding: 0 16px;       /* la photo accrochée s'aligne sur le bord intérieur de la carte */
         touch-action: pan-x pan-y;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;

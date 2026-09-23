@@ -386,12 +386,16 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(settle);
             strip.style.scrollSnapType = 'none'; // pas d'accroche pendant qu'on tire
             strip.classList.add('is-grabbing');
-            strip.setPointerCapture(e.pointerId); // le glissement continue même si le curseur sort de la bande
         });
         strip.addEventListener('pointermove', (e) => {
             if (!down) return;
             const dx = e.clientX - startX;
-            if (Math.abs(dx) > 4) moved = true;
+            if (!moved && Math.abs(dx) > 4) {
+                moved = true;
+                // Capturé seulement une fois le glissement engagé : capturer dès l'appui
+                // déroutait le clic vers la bande et la photo ne s'ouvrait plus en grand.
+                strip.setPointerCapture(e.pointerId);
+            }
             if (!moved) return;
             pending = startLeft - dx;
             if (!raf) raf = requestAnimationFrame(() => { strip.scrollLeft = pending; raf = 0; }); // une écriture par image
