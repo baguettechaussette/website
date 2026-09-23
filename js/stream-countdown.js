@@ -206,10 +206,12 @@
         }
     }
 
-    // Ligne "🎮 jeu en cours" ajoutée à la carte live du planning et à la carte du hero
-    // (textContent : pas d'injection HTML)
+    // Ligne du jeu en cours, sur la carte live du planning et sur celle du hero.
+    // Sans emoji : game_name est la catégorie Twitch, pas toujours un jeu
+    // (« Just Chatting », « Art »…), un 🎮 devant sonnait faux.
+    // textContent : pas d'injection HTML.
     function renderLiveMeta() {
-        const text = liveMeta && liveMeta.game ? `🎮 ${liveMeta.game}` : "";
+        const text = liveMeta && liveMeta.game ? liveMeta.game : "";
         const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
         if (el) {
             el.textContent = text;
