@@ -2155,3 +2155,15 @@
 
     #clips .clip-skeleton { flex: 0 0 260px; }
 }
+
+/* ============================================
+   Blocs réservés au desktop
+   ============================================ */
+
+/* La section « Vote pour le clip de la semaine » a été retirée de l'accueil
+   mobile le 23/09 ; la maquette 19b la remet en desktop, à côté du planning.
+   L'attribut hidden est levé par main.js quand les finalistes arrivent, d'où
+   cette règle qui reprend la main sous 768 px. */
+@media (max-width: 768px) {
+    .desktop-only { display: none; }
+}
