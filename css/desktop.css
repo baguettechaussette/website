@@ -79,10 +79,6 @@
         #soutenir     { grid-column: 5 / 6; }
         #contact      { grid-column: 1 / 4; }
         #partenaires  { grid-column: 5 / 6; }
-
-        /* 62 px de plus que la colonne de gauche : les cartes se posent au
-           niveau de la carte e-mail, pas du titre */
-        #partenaires { padding-top: 102px; }
     }
 
     /* ============================================
@@ -501,8 +497,12 @@
         color: rgba(63, 47, 37, 0.88);
     }
 
-    /* Le décompte est du texte nu dans la maquette, pas une pastille */
-    .schedule-countdown {
+    /* Le décompte est du texte nu dans la maquette, pas une pastille.
+       Il faut viser aussi les états is-next et is-live, qui lui posent
+       un fond vert dans components.css. */
+    .schedule-countdown,
+    .schedule-item.is-next .schedule-countdown,
+    .schedule-item.is-live .schedule-countdown {
         margin: 0;
         padding: 0;
         background: none;
@@ -512,6 +512,16 @@
         font-weight: 400;
         color: var(--text-muted);
     }
+
+    /* Les trois rangées sont identiques dans la maquette : la colonne
+       « dans 1 j » dit déjà laquelle vient ensuite. Seul le direct garde
+       sa couleur, pour qu'un live en cours reste repérable. */
+    .schedule-item.is-next {
+        background: rgba(255, 255, 255, 0.55);
+        border: 0;
+    }
+
+    .schedule-item.is-next .schedule-day { color: var(--green-deep); }
 
     /* Le bouton ajouté sur la prochaine ligne cassait l'alignement :
        la carte du hero porte déjà le même appel */
@@ -614,12 +624,16 @@
         margin: 0;
     }
 
-    .event-archive-card {
+    /* Préfixé par #evenements : sections.css colore chaque carte selon son
+       thème (.theme-charity, .theme-summer …) avec deux classes, donc plus
+       fort qu'un simple .event-archive-card. La maquette les veut neutres. */
+    #evenements .event-archive-card {
         padding: 18px 20px;
         background: rgba(255, 255, 255, 0.45);
         border: 2px solid rgba(255, 255, 255, 0.6);
         border-radius: 22px;
         box-shadow: none;
+        backdrop-filter: none;
         display: grid;
         grid-template-columns: auto minmax(0, 1fr) auto;
         grid-template-areas:
@@ -631,7 +645,9 @@
         text-decoration: none;
     }
 
-    .event-archive-card:hover {
+    #evenements .event-archive-card:hover {
+        background: rgba(255, 255, 255, 0.65);
+        border-color: rgba(255, 255, 255, 0.85);
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(63, 47, 37, 0.08);
     }
@@ -849,6 +865,17 @@
         .title-mobile { display: inline; }
 
         #partenaires .section-header { display: none; }
+
+        /* Les cartes partenaires se posent au niveau de la carte e-mail,
+           pas du haut de la bande : 40 de fond de bande, le titre et son
+           sous-titre d'une ligne, puis la gouttière de 14. Cette règle doit
+           rester après le padding raccourci de #partenaires, sinon le
+           raccourci la remettrait à zéro. */
+        #partenaires { padding-top: 91px; }
+
+        /* Sous-titre court de la maquette, à la place de celui du mobile */
+        .subtitle-mobile { display: none; }
+        .subtitle-desktop { display: inline; }
     }
 
     /* ── Carte e-mail ── */
@@ -879,6 +906,7 @@
         grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
         gap: 0 12px;
+        text-align: left; /* la carte est centrée en mobile */
     }
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
@@ -905,6 +933,7 @@
         font-weight: 700;
         line-height: 1.2;
         color: var(--green-deep);
+        text-align: left;
     }
 
     /* Ligne d'assurance sous le titre, comme la maquette */
@@ -960,8 +989,11 @@
 
     .contact-card:hover { transform: none; box-shadow: none; }
 
+    /* .mediakit-icon est masquée par défaut au-dessus de 768 px par
+       responsive.css : la maquette met bien un pictogramme sur les 4 étiquettes */
     .contact-card-icon,
     .mediakit-icon {
+        display: inline-block;
         margin: 0;
         font-size: 1rem;
         line-height: 1;
@@ -1168,8 +1200,10 @@
 
     .socials-container { display: contents; }
 
-    /* Le lien remonte sur la ligne du titre */
+    /* Le lien remonte sur la ligne du titre. Il est masqué par défaut
+       au-dessus de 768 px par responsive.css, d'où le display explicite. */
     .socials-all-link {
+        display: block;
         grid-column: 2;
         grid-row: 1;
         justify-self: end;
