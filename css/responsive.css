@@ -2088,20 +2088,24 @@
     }
 
     /* Teaser du dimanche : boîte en pointillés miel, texte clair */
+    /* Pas d'aspect-ratio 16/9 ici : réserver la place de la future vignette
+       donnait une boîte de 177 px presque vide (39 % de l'écran pour une icône
+       et une ligne). Le gagnant s'affiche au chargement suivant, il n'y a pas
+       de saut de mise en page à éviter. Icône et texte sur une ligne. */
     .cow-winner-teaser {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 10px;
         margin: 0 12px;
-        aspect-ratio: 16 / 9;
+        padding: 16px 14px;
         border-radius: 16px;
         border: 2px dashed rgba(242, 201, 107, 0.7);
         background: rgba(240, 235, 224, 0.06);
     }
 
-    .cow-winner-teaser-icon { font-size: 2.375em; line-height: 1; }
+    .cow-winner-teaser-icon { font-size: 1.75em; line-height: 1; }
     .cow-winner-teaser-text { font-size: 0.94em; font-weight: 700; color: var(--bg-primary); }
 
     .cow-winner > .cow-winner-sub {
