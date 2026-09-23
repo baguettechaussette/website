@@ -216,14 +216,135 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // --- Baguettectober 2025 ---
-        document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]').forEach(card => {
+        // Desktop : le viewer plein écran, dessin par dessin.
+        // Mobile (≤ 768 px) : un panneau qui monte du bas avec tous les dessins de la
+        // semaine et le pseudo de chaque artiste ; un tap sur un dessin ouvre le viewer.
+        const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
+        const weekCards = Array.from(document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]'))
+            .filter(card => (GALLERIES.baguettectober2025?.[card.getAttribute('data-week')] || []).length);
+
+        weekCards.forEach(card => {
             const week = card.getAttribute('data-week');
-            const list = GALLERIES.baguettectober2025?.[week] || [];
-            if (!list.length) return;
+            const list = GALLERIES.baguettectober2025[week];
             // Le clic vient du <button class="gallery-trigger"> et remonte jusqu'ici ;
             // Entrée/Espace déclenchent un clic natif, pas besoin de keydown maison.
-            card.addEventListener('click', () => open(list, 0));
+            card.addEventListener('click', () => {
+                if (MOBILE_MQ.matches) openSheet(card);
+                else open(list, 0);
+            });
         });
+
+        // -------- Panneau semaine (mobile) --------
+        let sheet = null, sheetCard = null, sheetLastFocus = null;
+
+        function ensureSheet() {
+            if (sheet) return sheet;
+            sheet = document.createElement('div');
+            sheet.className = 'bgal-sheet';
+            sheet.setAttribute('role', 'dialog');
+            sheet.setAttribute('aria-modal', 'true');
+            sheet.setAttribute('aria-labelledby', 'bgalSheetTitle');
+            sheet.innerHTML =
+                '<div class="bgal-sheet__panel">' +
+                  '<div class="bgal-sheet__handle" aria-hidden="true"></div>' +
+                  '<div class="bgal-sheet__head">' +
+                    '<div class="bgal-sheet__meta">' +
+                      '<p class="bgal-sheet__label" id="bgalSheetLabel"></p>' +
+                      '<h3 class="bgal-sheet__title" id="bgalSheetTitle"></h3>' +
+                      '<p class="bgal-sheet__desc" id="bgalSheetDesc"></p>' +
+                    '</div>' +
+                    '<button type="button" class="bgal-sheet__close" aria-label="Fermer">✕</button>' +
+                  '</div>' +
+                  '<div class="bgal-sheet__grid" id="bgalSheetGrid"></div>' +
+                  '<div class="bgal-sheet__nav">' +
+                    '<button type="button" class="bgal-sheet__prev"></button>' +
+                    '<button type="button" class="bgal-sheet__next"></button>' +
+                  '</div>' +
+                '</div>';
+            document.body.appendChild(sheet);
+
+            sheet.addEventListener('click', (e) => { if (e.target === sheet) closeSheet(); });
+            sheet.querySelector('.bgal-sheet__close').addEventListener('click', closeSheet);
+            sheet.querySelector('.bgal-sheet__prev').addEventListener('click', () => stepSheet(-1));
+            sheet.querySelector('.bgal-sheet__next').addEventListener('click', () => stepSheet(1));
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sheet.classList.contains('is-open') && !viewer.classList.contains('is-open')) closeSheet();
+            });
+            return sheet;
+        }
+
+        function weekLabel(card) {
+            return (card.querySelector('.gallery-week-label')?.textContent || '').trim();
+        }
+
+        function renderSheet(card) {
+            sheetCard = card;
+            const week = card.getAttribute('data-week');
+            const list = GALLERIES.baguettectober2025[week];
+            // fluent-emoji.js a remplacé l'emoji par une image : on relit son alt
+            const iconEl = card.querySelector('.gallery-icon');
+            const icon = (iconEl?.querySelector('img')?.alt || iconEl?.textContent || '').trim();
+
+            sheet.querySelector('#bgalSheetLabel').textContent = `${weekLabel(card)} · ${icon}`;
+            sheet.querySelector('#bgalSheetTitle').textContent = (card.querySelector('.gallery-week')?.textContent || '').trim();
+            sheet.querySelector('#bgalSheetDesc').textContent  = (card.querySelector('.gallery-artist')?.textContent || '').trim();
+
+            const grid = sheet.querySelector('#bgalSheetGrid');
+            grid.innerHTML = '';
+            list.forEach((item, i) => {
+                const fig = document.createElement('figure');
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'bgal-sheet__thumb';
+                btn.setAttribute('aria-label', `Voir en grand : ${item.caption || 'dessin'}`);
+                const img = document.createElement('img');
+                img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
+                img.alt = `${(item.caption || '').replace('Auteur : ', 'Dessin de ')} — Baguettectober 2025`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.width = 400;
+                img.height = 400;
+                img.addEventListener('error', () => { img.src = item.src; }, { once: true });
+                btn.appendChild(img);
+                btn.addEventListener('click', () => open(list, i));
+                const cap = document.createElement('figcaption');
+                cap.textContent = (item.caption || '').replace('Auteur : ', '');
+                fig.append(btn, cap);
+                grid.appendChild(fig);
+            });
+            grid.scrollTop = 0;
+
+            const i = weekCards.indexOf(card);
+            const prev = weekCards[i - 1], next = weekCards[i + 1];
+            const btnPrev = sheet.querySelector('.bgal-sheet__prev');
+            const btnNext = sheet.querySelector('.bgal-sheet__next');
+            btnPrev.hidden = !prev;
+            btnNext.hidden = !next;
+            if (prev) btnPrev.textContent = `← ${weekLabel(prev)}`;
+            if (next) btnNext.textContent = `${weekLabel(next)} →`;
+        }
+
+        function openSheet(card) {
+            ensureSheet();
+            sheetLastFocus = document.activeElement;
+            renderSheet(card);
+            sheet.classList.add('is-open');
+            document.body.classList.add('bgal-open');
+            sheet.querySelector('.bgal-sheet__close').focus({ preventScroll: true });
+        }
+
+        function stepSheet(dir) {
+            const i = weekCards.indexOf(sheetCard);
+            const target = weekCards[i + dir];
+            if (target) renderSheet(target);
+        }
+
+        function closeSheet() {
+            if (!sheet) return;
+            sheet.classList.remove('is-open');
+            document.body.classList.remove('bgal-open');
+            sheetLastFocus?.focus({ preventScroll: true });
+        }
 
     })();
 
