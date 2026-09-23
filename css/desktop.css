@@ -281,8 +281,8 @@
     }
 
     .hero-live-card.is-live {
-        background: rgba(230, 103, 103, 0.14);
-        border-color: rgba(214, 78, 78, 0.6);
+        background: #f8e6e1; /* couleur pleine, plus de fond transparent */
+        border: 2px solid #e3a09a;
     }
 
     .hero-live-head {
@@ -312,9 +312,9 @@
         margin: 2px 0 0;
         padding: 0;
         background: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--text-tertiary);
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(63, 47, 37, 0.9);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -379,8 +379,9 @@
     }
 
     .hero-live-card.is-live .hero-live-cta {
-        border-color: rgba(214, 78, 78, 0.6);
-        color: var(--live-red-deep);
+        background: #fff;
+        border: 0;
+        color: #b83a3a;
     }
 
     .hero-live-actions .hero-live-cta:hover {

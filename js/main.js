@@ -134,6 +134,13 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // Animation du compteur (pour les stats)
+
+// Milliers separes par une espace fine insecable (U+202F), quel que soit le
+// separateur que le navigateur choisit pour fr-FR (espace insecable ordinaire
+// sur d'anciennes versions, fine sur les recentes).
+function milliers(n) {
+    return n.toLocaleString('fr-FR').replace(/\s/g, String.fromCharCode(8239));
+}
 function animateCounter(element, start, end, duration, suffix = '') {
     const startTime = performance.now();
     const range = end - start;
@@ -146,12 +153,12 @@ function animateCounter(element, start, end, duration, suffix = '') {
         const easeProgress = 1 - Math.pow(1 - progress, 2);
         const current = Math.floor(start + range * easeProgress);
 
-        element.textContent = current.toLocaleString('fr-FR') + suffix;
+        element.textContent = milliers(current) + suffix;
 
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = end.toLocaleString('fr-FR') + suffix;
+            element.textContent = milliers(end) + suffix;
         }
     }
 
