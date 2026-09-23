@@ -349,6 +349,41 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     // --------------------------
+    // Bandes de photos (DTI en mobile) : glisser à la souris
+    // --------------------------
+    // Au doigt, la bande défile nativement. À la souris (fenêtre étroite, trackpad
+    // absent), un div sans barre visible ne bouge pas : on traduit le cliquer-glisser
+    // en défilement, et on avale le clic qui suivrait pour ne pas ouvrir la lightbox.
+    document.querySelectorAll('.dti-photo-grid').forEach(strip => {
+        let down = false, moved = false, startX = 0, startLeft = 0;
+        const end = () => { down = false; strip.classList.remove('is-grabbing'); };
+
+        strip.addEventListener('pointerdown', (e) => {
+            if (e.pointerType !== 'mouse' || e.button !== 0) return;
+            if (strip.scrollWidth <= strip.clientWidth) return;
+            down = true; moved = false;
+            startX = e.clientX; startLeft = strip.scrollLeft;
+            strip.classList.add('is-grabbing');
+        });
+        strip.addEventListener('pointermove', (e) => {
+            if (!down) return;
+            const dx = e.clientX - startX;
+            if (Math.abs(dx) > 4) moved = true;
+            if (moved) strip.scrollLeft = startLeft - dx;
+        });
+        strip.addEventListener('pointerup', end);
+        strip.addEventListener('pointerleave', end);
+        strip.addEventListener('pointercancel', end);
+        strip.addEventListener('dragstart', (e) => e.preventDefault()); // pas de drag natif des images
+        strip.addEventListener('click', (e) => {
+            if (!moved) return;
+            e.preventDefault();
+            e.stopPropagation();
+            moved = false;
+        }, true);
+    });
+
+    // --------------------------
     // Génération des mosaïques
     // --------------------------
     document.querySelectorAll('.gallery-item[data-week]').forEach(card => {

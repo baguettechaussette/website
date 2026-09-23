@@ -1291,6 +1291,8 @@ body.g4p-modal-open .particle {
     }
 
     .dti-photo-grid::-webkit-scrollbar { display: none; }
+    .dti-photo-grid { cursor: grab; }
+    .dti-photo-grid.is-grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 
     .dti-photo-item {
         flex: 0 0 262px;
