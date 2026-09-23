@@ -1561,6 +1561,11 @@
 
     /* ---- Hero ---- */
     main:has(#clip-semaine) .page-hero { padding: 84px 18px 14px; }
+
+    /* .container ajoute 40 px de chaque cote en plus des 18 du hero : le texte
+       commencait a 58 px alors que tout le reste de la page est a 18. */
+    main:has(#clip-semaine) .page-hero .container { padding: 0; }
+
     main:has(#clip-semaine) .page-hero-content { text-align: left; }
 
     .page-hero-kicker {
