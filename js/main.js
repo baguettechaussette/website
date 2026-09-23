@@ -510,7 +510,22 @@ async function loadTopClips() {
             // Même seuil que la page clips (2 finalistes minimum pour un vote) :
             // sinon le CTA "Voter maintenant" mènerait vers un bloc masqué.
             if (finalists.length < 2) return;
-            finalists.slice(0, limit).forEach(clip => grid.appendChild(buildClipCard(clip)));
+            const montres = finalists.slice(0, limit);
+            montres.forEach(clip => grid.appendChild(buildClipCard(clip)));
+            // Maquette 19b : la dernière vignette porte le nombre de finalistes
+            // qu'on ne montre pas, elle comprise. 8 finalistes, 4 vignettes →
+            // 3 clips visibles et « +5 » sur la quatrième.
+            if (finalists.length > montres.length) {
+                const reste = finalists.length - montres.length + 1;
+                const derniere = grid.lastElementChild;
+                if (derniere) {
+                    derniere.classList.add('clip-card-more');
+                    const play = derniere.querySelector('.clip-play');
+                    if (play) play.textContent = '+' + reste;
+                    const vignette = derniere.querySelector('.clip-thumb');
+                    if (vignette) vignette.setAttribute('aria-label', `Voir les ${reste} autres finalistes`);
+                }
+            }
             section.hidden = false;
             return;
         }
