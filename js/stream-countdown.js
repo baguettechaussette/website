@@ -153,6 +153,25 @@
         return "moins d'une minute";
     }
 
+    // Duree d'antenne, forme « 1 h 12 » (heures puis minutes sur deux chiffres),
+    // ou « 42 min » sous l'heure. Sert a la ligne « sur Twitch, depuis ... ».
+    function formatUptime(ms) {
+        const total   = Math.max(0, Math.floor(ms / 1000));
+        const hours   = Math.floor(total / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+        if (hours > 0) return `${hours} h ${String(minutes).padStart(2, "0")}`;
+        if (minutes > 0) return `${minutes} min`;
+        return "quelques instants";
+    }
+
+    // Sous-titre de la carte quand un live tourne : la plateforme et le temps
+    // d'antenne. Sans started_at exploitable, on s'en tient a la plateforme.
+    function liveSinceText() {
+        const started = liveMeta && liveMeta.started_at ? Date.parse(liveMeta.started_at) : NaN;
+        if (!Number.isFinite(started)) return "sur Twitch";
+        return `sur Twitch, depuis ${formatUptime(Date.now() - started)}`;
+    }
+
     const formatTime = (h, m) =>
         `${String(h).padStart(2, "0")}h${String(m).padStart(2, "0")}`;
 
@@ -219,9 +238,16 @@
             el.textContent = text;
             el.hidden = !text;
         }
+        // Carte du hero : le jeu devient le titre de la carte, et la ligne du
+        // dessous dit la plateforme et depuis combien de temps.
+        if (hero.value && liveMeta) {
+            const titre = text || "Ça se passe maintenant !";
+            if (hero.value.textContent !== titre) hero.value.textContent = titre;
+        }
         if (hero.game) {
-            hero.game.textContent = text;
-            hero.game.hidden = !text;
+            const sous = liveMeta ? liveSinceText() : "";
+            if (hero.game.textContent !== sous) hero.game.textContent = sous;
+            hero.game.hidden = !sous;
         }
     }
 
@@ -231,8 +257,9 @@
         hero.card.classList.toggle("is-live", isLive);
         hero.label.textContent = isLive ? "En direct" : "Prochain live";
         hero.value.textContent = isLive
-            ? "Ça se passe maintenant !"
+            ? (liveMeta && liveMeta.game ? liveMeta.game : "Ça se passe maintenant !")
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
+        if (isLive) renderLiveMeta();
         hero.cta.textContent = isLive ? "Viens te poser 🧦" : "Suivre la chaîne ♥"; // mêmes textes que le CTA du planning desktop
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
         if (isLive && hero.cd) hero.cd.textContent = "";
@@ -341,6 +368,8 @@
         if (hero.cd && !isLive && info.date) {
             const t = `dans ${formatCountdownShort(info.date - now)}`;
             if (hero.cd.textContent !== t) hero.cd.textContent = t;
+        } else if (isLive) {
+            renderLiveMeta(); // garde « depuis ... » a l'heure
         }
     }
 

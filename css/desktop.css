@@ -309,13 +309,12 @@
         grid-row: 3;
         justify-self: start;
         max-width: 100%;
-        margin: 6px 0 0;
-        padding: 6px 13px;
-        border-radius: var(--radius-full);
-        background: rgba(255, 255, 255, 0.75); /* pastille du mobile */
+        margin: 2px 0 0;
+        padding: 0;
+        background: none;
         font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--text-primary);
+        font-weight: 500;
+        color: var(--text-tertiary);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -689,10 +688,12 @@
 
     /* La dernière annonce le reste des finalistes : même pastille violette,
        juste plus grande pour porter « +N ». Le vote se fait sur /clips. */
+    /* Même pastille que les trois autres, seul le texte grossit */
     #clips .clip-card-more .clip-play {
-        width: 44px;
-        height: 44px;
-        font-size: 1.125rem; /* 18 px, comme la maquette */
+        width: 30px;
+        height: 30px;
+        padding-left: 0;
+        font-size: 0.875rem; /* 14 px */
         font-weight: 800;
         letter-spacing: -0.02em;
     }
