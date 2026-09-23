@@ -1,0 +1,886 @@
+/* ============================================================
+   DESKTOP.CSS — Accueil desktop, maquette Claude Design 19b
+   « 2 colonnes, 1 100 px max »
+
+   Chargée après responsive.css sur index.html uniquement, et tout
+   son contenu vit dans @media (min-width: 769px) : le mobile v2 des
+   maquettes 12B/13E/14C n'est jamais touché par ce fichier.
+
+   Principe de 19b : mêmes blocs que le mobile, regroupés par paires
+   quand ils se complètent. La page passe de 3 606 px (une colonne) à
+   2 835 px, et chaque écran porte deux sujets.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* ---- Colonne de contenu ----------------------------------
+       main devient la grille : deux colonnes égales de la bande de
+       1 100 px, centrée. Les sections sont ses enfants directs, on les
+       place une par une plus bas. */
+    main {
+        display: grid;
+        grid-template-columns:
+            [bord-gauche] minmax(20px, 1fr)
+            [col1] minmax(0, 538px)
+            [gouttiere] 24px
+            [col2] minmax(0, 538px)
+            [bord-droit] minmax(20px, 1fr);
+        row-gap: 28px;
+        align-items: start;
+    }
+
+    /* Par défaut une section occupe toute la bande de contenu */
+    main > section,
+    main > header {
+        grid-column: col1 / bord-droit;
+        width: auto;
+        max-width: none;
+        margin: 0;
+        padding: 36px 0;
+    }
+
+    /* ---- 0. Barre de navigation ------------------------------
+       72 px, avatar + nom à gauche, liens en pilules à droite. */
+    #navbar {
+        padding: 0;
+        background: #f3eee4;
+        backdrop-filter: none;
+        border-bottom: 1px solid rgba(63, 47, 37, 0.08);
+    }
+
+    #navbar.scrolled {
+        padding: 0;
+        background: #f3eee4;
+    }
+
+    #navbar .container {
+        height: 72px;
+        max-width: 1440px;
+        padding: 0 40px;
+        gap: 12px;
+    }
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* L'avatar de la barre existe déjà pour le mobile (13E) : on le
+       remet en jeu ici, la règle de base le masquait au-dessus de 768 px. */
+    .logo .logo-avatar {
+        display: block;
+        width: 36px;
+        height: 36px;
+        flex: none;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        background: #f6efe4;
+        object-fit: cover;
+    }
+
+    .logo {
+        font-size: 1.125em;
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        color: var(--text-primary);
+    }
+
+    .nav-links {
+        gap: 4px;
+    }
+
+    .nav-links a {
+        padding: 8px 16px;
+        border-radius: var(--radius-full);
+        font-size: 0.97em;
+        font-weight: 700;
+        color: var(--text-primary);
+        transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .nav-links a:hover {
+        background: rgba(127, 184, 147, 0.12);
+    }
+
+    .nav-links a[aria-current="page"] {
+        background: rgba(127, 184, 147, 0.18);
+        color: var(--green-deep);
+    }
+
+    /* 19b remplace « Réseaux » par « Tous mes liens ↗ » (en terracotta) :
+       l'entrée existe déjà, elle servait de pied au panneau mobile. */
+    .nav-links > li:nth-child(5) { display: none; }
+
+    .nav-links-footer {
+        display: list-item;
+    }
+
+    .nav-links-footer a {
+        color: var(--pink-deep);
+    }
+
+    .nav-links-footer a:hover {
+        background: rgba(197, 106, 82, 0.1);
+    }
+
+    /* ---- 1. Hero centré --------------------------------------
+       Choix n° 1 de la maquette : même composition que le mobile,
+       avatar au-dessus du nom, carte du prochain live, pastilles. */
+    main > .hero {
+        grid-column: col1 / bord-droit;
+        /* layout.css impose min-height: 100vh au hero « plein écran » d'origine :
+           19b le veut à sa hauteur de contenu */
+        min-height: 0;
+        display: block;
+        padding: 52px 0 12px;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        text-align: center;
+    }
+
+    .hero-right { order: -1; }
+
+    .hero-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+    }
+
+    .avatar-container,
+    .avatar-main {
+        width: 120px;
+        height: 120px;
+        margin: 0;
+    }
+
+    .avatar-glow { display: none; }
+
+    .hero-title {
+        font-size: 3.25em;
+        line-height: 1.05;
+        margin: 0;
+        color: var(--green-deep);
+        background: none;
+        -webkit-text-fill-color: currentColor;
+        text-shadow: none;
+    }
+
+    .hero-subtitle {
+        margin: 0;
+        font-size: 1.125em;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    /* La carte du prochain live vient du mobile (14C) : la règle de base
+       la masquait au-dessus de 768 px, 19b la garde au centre. */
+    /* Grille et non flex : le mobile empile en colonne, ici le texte occupe
+       la première colonne et le bouton la seconde, sans repli hasardeux. */
+    .hero-live-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "entete bouton"
+            "valeur bouton"
+            "jeu    bouton";
+        align-items: center;
+        column-gap: 16px;
+        row-gap: 0;
+        width: 100%;
+        max-width: 520px;
+        margin-top: 8px;
+        padding: 18px 20px;
+        background: rgba(127, 184, 147, 0.18);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: var(--radius-lg);
+        text-align: left;
+    }
+
+    .hero-live-card.is-live {
+        background: rgba(230, 103, 103, 0.14);
+        border-color: rgba(230, 103, 103, 0.4);
+    }
+
+    .hero-live-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0;
+    }
+
+    .hero-live-dot {
+        width: 10px;
+        height: 10px;
+        flex: none;
+        border-radius: 50%;
+        background: var(--green);
+    }
+
+    .hero-live-card.is-live .hero-live-dot { background: var(--live-red-deep); }
+
+    .hero-live-label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+    }
+
+    .hero-live-card.is-live .hero-live-label { color: var(--live-red-deep); }
+
+    .hero-live-countdown {
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+    }
+
+    .hero-live-countdown::before { content: '· '; }
+
+    .hero-live-value {
+        margin: 2px 0 0;
+        font-size: 1.5em;
+        font-weight: 800;
+        color: var(--text-primary);
+    }
+
+    .hero-live-game {
+        margin: 2px 0 0;
+        font-size: 0.9em;
+        color: var(--text-tertiary);
+    }
+
+    .hero-live-head  { grid-area: entete; }
+    .hero-live-value { grid-area: valeur; }
+    .hero-live-game  { grid-area: jeu; }
+
+    .hero-live-actions {
+        grid-area: bouton;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-live-actions .btn,
+    .hero-live-actions a {
+        padding: 13px 22px;
+        background: #fff;
+        color: var(--text-primary);
+        border: 0;
+        box-shadow: none;
+        font-size: 0.94em;
+        white-space: nowrap;
+    }
+
+    .hero-live-actions .btn:hover {
+        transform: none;
+        background: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Les boutons d'origine du hero font doublon avec la carte du live */
+    .hero-buttons { display: none; }
+
+    /* Statistiques : trois pastilles sur une ligne */
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 0;
+    }
+
+    .stat-box {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: var(--radius-full);
+        background: rgba(255, 255, 255, 0.55);
+        border: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    .stat-number {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--green-deep);
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--text-tertiary);
+    }
+
+    /* ---- 2. Planning | Vote ----------------------------------
+       Deux panneaux côte à côte, de même hauteur. */
+    #planning,
+    #clips {
+        align-self: stretch;
+        padding: 0;
+    }
+
+    #planning { grid-column: col1; }
+    #clips    { grid-column: col2; }
+
+    #planning .section-header,
+    #clips .section-header {
+        margin: 0 0 14px;
+        text-align: left;
+    }
+
+    #planning .section-title,
+    #clips .section-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    #planning .section-subtitle,
+    #clips .section-subtitle {
+        margin: 4px 0 0;
+        font-size: 0.94em;
+    }
+
+    .schedule-container,
+    #clips .section-panel {
+        height: 100%;
+        padding: 24px;
+        background: rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 28px;
+        backdrop-filter: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Planning : une ligne par jour, jour / heure / délai alignés */
+    .schedule-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .schedule-item {
+        display: flex;
+        /* components.css empile le créneau en colonne (carte du planning
+           d'origine) et lui donne height: 100% : ici c'est une ligne */
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        height: auto;
+        padding: 12px 18px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 0;
+        border-radius: var(--radius-md);
+        box-shadow: none;
+    }
+
+    .schedule-item:hover { transform: none; }
+
+    /* Le bouton « Suivre la chaîne » posé par stream-countdown.js sur le prochain
+       créneau vient du mobile : en desktop la carte du hero le porte déjà, et sur
+       une ligne de 538 px il faisait passer le créneau sur quatre lignes. */
+    .schedule-cta { display: none; }
+
+    .schedule-live-game {
+        width: 100%;
+        margin: 2px 0 0;
+        font-size: 0.85em;
+        color: var(--text-tertiary);
+    }
+
+    .schedule-day {
+        font-size: 1.06em;
+        font-weight: 700;
+        color: var(--green-deep);
+    }
+
+    .schedule-time {
+        font-size: 1em;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .schedule-countdown {
+        padding: 0;
+        background: none;
+        border: 0;
+        font-size: 0.85em;
+        color: var(--text-tertiary);
+        white-space: nowrap;
+    }
+
+    /* Vote : vitrine seulement, quatre vignettes et un lien vers /clips */
+    .clips-teaser-intro {
+        margin: 0;
+        font-size: 0.94em;
+        line-height: 1.5;
+        color: var(--text-secondary);
+    }
+
+    #clips .clips-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: auto;
+    }
+
+    /* Vignettes nues : ni titre ni clippeur, c'est un teaser */
+    #clips .clip-meta,
+    #clips .clip-clipper { display: none; }
+
+    #clips .clip-thumb { border-radius: 12px; }
+
+    .clips-more {
+        margin: 0;
+        text-align: left;
+    }
+
+    /* ---- 3. Événements | Me soutenir -------------------------- */
+    #evenements { grid-column: col1; }
+    #soutenir   { grid-column: col2; }
+
+    #evenements,
+    #soutenir {
+        align-self: stretch;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    #evenements .section-header,
+    #soutenir .section-header {
+        margin: 0;
+        text-align: left;
+    }
+
+    #evenements .section-title,
+    #soutenir .section-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    #evenements .section-subtitle,
+    #soutenir .section-subtitle { display: none; }
+
+    .events-archive-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .event-archive-card {
+        padding: 18px 20px;
+        border-radius: 22px;
+        gap: 8px;
+    }
+
+    .event-archive-card:hover { transform: translateY(-3px); }
+
+    .event-archive-icon { font-size: 1.375em; }
+
+    .event-archive-title { font-size: 1.125em; }
+
+    .event-archive-desc {
+        font-size: 0.9em;
+        line-height: 1.5;
+    }
+
+    .clips-more { margin-top: 0; }
+
+    /* Soutien : deux cartes empilées, bouton sur la ligne du titre */
+    .support-container .social-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    #soutenir .social-card {
+        padding: 18px 20px;
+        border-radius: 22px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "icone nom    action"
+            "desc  desc   desc";
+        align-items: center;
+        gap: 8px 11px;
+    }
+
+    #soutenir .social-card:hover { transform: translateY(-3px); }
+
+    #soutenir .social-icon {
+        grid-area: icone;
+        font-size: 1.5em;
+        margin: 0;
+    }
+
+    #soutenir .social-name {
+        grid-area: nom;
+        font-size: 1.125em;
+        margin: 0;
+    }
+
+    #soutenir .social-desc {
+        grid-area: desc;
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    #soutenir .social-cta {
+        display: inline-flex;
+        grid-area: action;
+        padding: 9px 20px;
+        border-radius: var(--radius-full);
+        font-size: 0.875em;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    /* ---- 4. Bande « Marques & studios » -----------------------
+       Contact à gauche, partenaires à droite, sur un fond pleine largeur. */
+    #contact {
+        grid-column: col1;
+        isolation: isolate;
+        position: relative;
+        padding: 40px 0;
+        /* les deux colonnes de la bande font la même hauteur, sinon le fond
+           s'arrête au plus court des deux */
+        align-self: stretch;
+    }
+
+    #partenaires {
+        grid-column: col2;
+        position: relative;
+        align-self: stretch;
+        padding: 40px 0;
+    }
+
+    /* Le fond de la bande déborde jusqu'aux bords de la fenêtre. Porté par
+       #contact, il passe aussi derrière #partenaires (sans fond propre). */
+    #contact::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 100vw;
+        margin-left: -50vw;
+        background: rgba(242, 227, 216, 0.5);
+        z-index: -1;
+    }
+
+    /* Le titre est le même qu'en mobile depuis 19b : « Marques & studios » */
+    .title-desktop { display: none; }
+    .title-mobile { display: inline; }
+
+    #contact .section-header,
+    #partenaires .section-header {
+        margin: 0 0 14px;
+        text-align: left;
+    }
+
+    #contact .section-title,
+    #partenaires .section-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    #contact .section-subtitle {
+        margin: 4px 0 0;
+        font-size: 0.94em;
+    }
+
+    /* Les partenaires n'ont pas de titre propre dans 19b : ils prolongent
+       la colonne de droite, alignés sur la carte e-mail. */
+    #partenaires .section-header { display: none; }
+    #partenaires { padding-top: 102px; }
+
+    .contact-container {
+        padding: 0;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    .contact-content {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .contact-info-box {
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 26px;
+        box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        text-align: left;
+    }
+
+    .contact-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex: none;
+        margin: 0;
+        border-radius: 14px;
+        background: rgba(127, 184, 147, 0.22);
+        font-size: 1.375em;
+    }
+
+    .contact-title {
+        margin: 0;
+        font-size: 1.125em;
+        font-weight: 700;
+        color: var(--green-deep);
+    }
+
+    .contact-email {
+        display: block;
+        margin: 0;
+        padding: 13px 18px;
+        border-radius: var(--radius-full);
+        background: var(--green);
+        color: #fff;
+        font-size: 0.94em;
+        font-weight: 600;
+        text-align: center;
+        overflow-wrap: anywhere;
+    }
+
+    .contact-email:hover { background: var(--green-deep); }
+
+    .contact-cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .contact-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 0;
+        box-shadow: none;
+        text-align: left;
+    }
+
+    .contact-card:hover { transform: none; }
+
+    .contact-card-icon { font-size: 1em; margin: 0; }
+
+    .contact-card-title {
+        margin: 0;
+        font-size: 0.875em;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .contact-card-text { display: none; }
+
+    .contact-mediakit { margin: 0; font-size: 0.85em; }
+
+    /* Partenaires : Loftia dépliée, inKONBINI repliée (comme le mobile) */
+    .partners-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 0;
+    }
+
+    .partner-card {
+        padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        box-shadow: 0 10px 28px rgba(63, 47, 37, 0.08);
+        gap: 12px;
+    }
+
+    .partner-card:hover { transform: none; }
+
+    .partner-toggle {
+        display: inline-flex;
+        margin-left: auto;
+    }
+
+    .partner-logo { margin: 0; }
+
+    .partner-description {
+        font-size: 0.9em;
+        line-height: 1.5;
+    }
+
+    /* ---- 5. Réseaux : trois colonnes -------------------------- */
+    #reseaux {
+        grid-column: col1 / bord-droit;
+        padding: 44px 0 0;
+    }
+
+    #reseaux .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 14px;
+        text-align: left;
+    }
+
+    #reseaux .section-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    #reseaux .section-subtitle { display: none; }
+
+    /* Lien « Tous mes liens ↗ » à droite du titre (masqué par la règle de base) */
+    .socials-all-link {
+        display: inline;
+        font-size: 0.9em;
+        font-weight: 700;
+        color: var(--pink-deep);
+    }
+
+    /* sections.css coupe la section en deux colonnes (cartes 550 px | Discord
+       500 px) : 19b veut les six réseaux sur toute la largeur, le widget dessous. */
+    #reseaux .socials-container {
+        max-width: none;
+        padding: 0;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    #reseaux .socials-content {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    #reseaux .socials-left { width: 100%; }
+
+    #reseaux .social-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    #reseaux .social-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        border-radius: 18px;
+        text-align: left;
+    }
+
+    #reseaux .social-card:hover { transform: translateY(-3px); }
+
+    #reseaux .social-icon {
+        width: 32px;
+        flex: none;
+        margin: 0;
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    #reseaux .social-name {
+        margin: 0;
+        font-size: 1em;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    #reseaux .social-desc {
+        margin: 0;
+        font-size: 0.85em;
+        color: var(--text-tertiary);
+    }
+
+    /* Le widget Discord alourdissait la grille : il reste sous les cartes */
+    .discord-widget-wrap { margin-top: 18px; }
+
+    /* ---- 6. FAQ : titre à gauche, questions à droite ---------- */
+    #faq {
+        grid-column: col1 / bord-droit;
+        display: grid;
+        grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+        padding: 44px 0 52px;
+    }
+
+    #faq .section-header {
+        margin: 0;
+        text-align: left;
+    }
+
+    #faq .section-title {
+        font-size: 1.75em;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    #faq .section-subtitle {
+        margin: 6px 0 0;
+        font-size: 0.94em;
+    }
+
+    .faq-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: none;
+    }
+
+    .faq-item {
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .faq-item[open] {
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .faq-item summary {
+        padding: 14px 20px;
+        font-size: 1em;
+    }
+
+    /* ---- Pied de page (hors de <main>, donc pas un élément de la grille) ---- */
+    footer {
+        padding: 24px;
+        background: rgba(242, 227, 216, 0.6);
+    }
+}
