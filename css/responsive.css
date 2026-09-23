@@ -2059,7 +2059,8 @@
 
     .cow-winner-card .clip-thumb {
         display: block;
-        width: auto;
+        width: calc(100% - 24px); /* un <button> en width: auto ne s'étire pas : la vignette disparaissait */
+        flex: none;
         margin: 0 12px;
         border-radius: 16px;
         border: 2px solid var(--purple);
@@ -2068,6 +2069,8 @@
 
     .cow-winner-card .clip-thumb:hover { transform: none; }
 
+    .cow-winner-info,
+    .cow-winner-card .clip-clipper { text-align: left; }
     .cow-winner-info { padding: 14px 16px 18px; min-width: 0; }
 
     .cow-winner-title {
@@ -2215,6 +2218,18 @@
     .clipper-card:nth-child(2) { background: linear-gradient(135deg, rgba(192, 192, 192, 0.18), rgba(150, 150, 150, 0.08)); }
     .clipper-card:nth-child(3) { background: linear-gradient(135deg, rgba(205, 127, 50, 0.18), rgba(180, 100, 30, 0.08)); }
 
+    /* Pseudos longs (« teph_woot_la_miche ») : un cran plus petit et coupés par une ellipse
+       plutôt qu'une lettre orpheline sur la ligne suivante */
+    .clipper-card:nth-child(2) .clipper-name,
+    .clipper-card:nth-child(3) .clipper-name {
+        font-size: 0.875em;
+        overflow-wrap: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+
     .clipper-card:nth-child(2) .clipper-badge, .clipper-card:nth-child(3) .clipper-badge { grid-area: badge; }
     .clipper-card:nth-child(2) .clipper-rank,  .clipper-card:nth-child(3) .clipper-rank  { grid-area: rank; }
     .clipper-card:nth-child(2) .clipper-name,  .clipper-card:nth-child(3) .clipper-name  { grid-area: name; }
@@ -2230,6 +2245,7 @@
         grid-template-areas:
             "rank badge name"
             "rank badge grade"
+            "rank badge suffix"
             "rank badge stats";
         column-gap: 12px;
         row-gap: 0;
@@ -2247,15 +2263,9 @@
     .clipper-card:nth-child(n + 4) .clipper-rank  { grid-area: rank; }
     .clipper-card:nth-child(n + 4) .clipper-badge { grid-area: badge; font-size: 1.25em; text-align: center; }
     .clipper-card:nth-child(n + 4) .clipper-name  { grid-area: name; font-size: 0.9em; }
-    .clipper-card:nth-child(n + 4) .clipper-grade { grid-area: grade; }
-    .clipper-card:nth-child(n + 4) .clipper-suffix { display: inline; }
-    .clipper-card:nth-child(n + 4) .clipper-grade::after { content: ' · '; }
-    .clipper-card:nth-child(n + 4) .clipper-stats { grid-area: stats; margin: 0; }
-
-    /* grade et suffixe sur la même ligne dans la liste */
-    .clipper-card:nth-child(n + 4) .clipper-grade,
-    .clipper-card:nth-child(n + 4) .clipper-suffix { grid-area: grade; }
-    .clipper-card:nth-child(n + 4) .clipper-suffix { justify-self: start; margin-left: 0; padding-left: 0; }
+    .clipper-card:nth-child(n + 4) .clipper-grade  { grid-area: grade; }
+    .clipper-card:nth-child(n + 4) .clipper-suffix { grid-area: suffix; }
+    .clipper-card:nth-child(n + 4) .clipper-stats  { grid-area: stats; margin: 0; }
 
     /* Comment clipper */
     .clip-howto {
@@ -2286,11 +2296,12 @@
         counter-reset: etape;
     }
 
+    /* Pas de flex sur le <li> : le <strong> devenait une cellule à part et cassait la phrase */
     .clip-howto-steps li {
         counter-increment: etape;
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
+        position: relative;
+        padding-left: 36px;
+        min-height: 26px;
         font-size: 0.9em;
         line-height: 1.45;
         color: var(--text-secondary);
@@ -2298,7 +2309,9 @@
 
     .clip-howto-steps li::before {
         content: counter(etape);
-        flex: none;
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 26px;
         height: 26px;
         border-radius: 50%;
