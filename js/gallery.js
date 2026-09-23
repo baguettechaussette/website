@@ -355,24 +355,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // absent), un div sans barre visible ne bouge pas : on traduit le cliquer-glisser
     // en défilement, et on avale le clic qui suivrait pour ne pas ouvrir la lightbox.
     document.querySelectorAll('.dti-photo-grid').forEach(strip => {
-        let down = false, moved = false, startX = 0, startLeft = 0;
-        const end = () => { down = false; strip.classList.remove('is-grabbing'); };
+        let down = false, moved = false, startX = 0, startLeft = 0, pending = 0, raf = 0, settle = 0;
+
+        // Fin du glissement : on laisse la bande se poser en douceur sur la photo la
+        // plus proche, puis on rend la main à l'accroche CSS (sinon elle sautait sec).
+        const end = () => {
+            if (!down) return;
+            down = false;
+            strip.classList.remove('is-grabbing');
+            if (raf) { cancelAnimationFrame(raf); raf = 0; strip.scrollLeft = pending; }
+            if (!moved) { strip.style.scrollSnapType = ''; return; }
+            const padLeft  = parseFloat(getComputedStyle(strip).paddingLeft) || 0;
+            const stripLeft = strip.getBoundingClientRect().left;
+            let best = strip.scrollLeft, bestDist = Infinity;
+            Array.from(strip.children).forEach(item => {
+                const left = item.getBoundingClientRect().left - stripLeft + strip.scrollLeft - padLeft;
+                const dist = Math.abs(left - strip.scrollLeft);
+                if (dist < bestDist) { bestDist = dist; best = left; }
+            });
+            strip.scrollTo({ left: best, behavior: 'smooth' });
+            clearTimeout(settle);
+            settle = setTimeout(() => { strip.style.scrollSnapType = ''; }, 450);
+        };
 
         strip.addEventListener('pointerdown', (e) => {
             if (e.pointerType !== 'mouse' || e.button !== 0) return;
             if (strip.scrollWidth <= strip.clientWidth) return;
             down = true; moved = false;
             startX = e.clientX; startLeft = strip.scrollLeft;
+            clearTimeout(settle);
+            strip.style.scrollSnapType = 'none'; // pas d'accroche pendant qu'on tire
             strip.classList.add('is-grabbing');
+            strip.setPointerCapture(e.pointerId); // le glissement continue même si le curseur sort de la bande
         });
         strip.addEventListener('pointermove', (e) => {
             if (!down) return;
             const dx = e.clientX - startX;
             if (Math.abs(dx) > 4) moved = true;
-            if (moved) strip.scrollLeft = startLeft - dx;
+            if (!moved) return;
+            pending = startLeft - dx;
+            if (!raf) raf = requestAnimationFrame(() => { strip.scrollLeft = pending; raf = 0; }); // une écriture par image
         });
         strip.addEventListener('pointerup', end);
-        strip.addEventListener('pointerleave', end);
         strip.addEventListener('pointercancel', end);
         strip.addEventListener('dragstart', (e) => e.preventDefault()); // pas de drag natif des images
         strip.addEventListener('click', (e) => {
