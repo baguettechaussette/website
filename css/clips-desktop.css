@@ -1,0 +1,751 @@
+/* ============================================================
+   PAGE CLIPS, DESKTOP — maquette Claude Design 21a
+   « Clips desktop, dans l'esprit de 19b »
+
+   Chargée par clips.html seulement, après desktop-chrome.css.
+   Tout est enfermé dans min-width: 769px, le mobile n'est jamais
+   touché.
+
+   Même ordre qu'en mobile : le vote, le gagnant, le Panthéon, les
+   derniers clips. Le carrousel des finalistes disparaît : les huit
+   tiennent en une grille de 4 × 2 et on vote sous chacun.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* ============================================
+       Gabarit : une colonne de 1 100 px
+       ============================================ */
+
+    main {
+        width: min(1100px, 100% - 80px);
+        margin-inline: auto;
+        padding: 0 0 56px;
+        display: flex;
+        flex-direction: column;
+        gap: 44px;
+    }
+
+    /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
+       padding: 120px … » : on remet à plat, chaque bloc repose ensuite
+       ses propres valeurs. */
+    main > section,
+    main > header {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Le Panthéon passe avant les derniers clips, comme la maquette */
+    #clip-semaine { order: 1; }
+    #clippeurs    { order: 2; }
+    #clips        { order: 3; }
+
+    /* sections.css enferme le vote dans un panneau jaune : la maquette pose
+       les cartes directement sur le fond de page. */
+    .clips-container,
+    .cow-container {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    /* ============================================
+       Entête de page
+       ============================================ */
+
+    .page-hero {
+        min-height: 0;
+        padding: 44px 0 0;
+        display: block;
+    }
+
+    .page-hero .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .page-hero-content {
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: left;
+    }
+
+    /* Masqué par défaut au-dessus de 768 px par responsive.css */
+    .page-hero-kicker {
+        display: block;
+        margin: 0;
+        font-size: 0.84375rem; /* 13,5 px */
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--pink-deep);
+    }
+
+    /* La question remplace le simple « Clips » : c'est elle qui porte la page */
+    .page-hero-title .title-desktop { display: none; }
+    .page-hero-title .title-mobile { display: inline; }
+
+    .page-hero-title {
+        margin: 0;
+        font-size: 3rem; /* 48 px */
+        font-weight: 800;
+        line-height: 1.08;
+        background: none;
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
+    }
+
+    .page-hero-title::after { display: none; }
+
+    /* Le décompte des votes part à droite, en pastille */
+    .page-hero-meta {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin: 0;
+        font-size: 1rem;
+        color: rgba(63, 47, 37, 0.8);
+    }
+
+    .page-hero-meta-votes {
+        margin-left: auto;
+        padding: 9px 18px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        color: var(--text-secondary);
+        white-space: nowrap;
+    }
+
+    .page-hero-subtitle {
+        margin: 2px 0 0;
+        max-width: 760px;
+        font-size: 1rem;
+        line-height: 1.55;
+        color: rgba(63, 47, 37, 0.8);
+        text-align: left;
+    }
+
+    /* ============================================
+       Clip de la semaine : vote, puis gagnant et
+       « comment clipper » côte à côte
+       ============================================ */
+
+    #clip-semaine { display: flex; flex-direction: column; }
+
+    .cow-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    /* Entête, squelette et bloc de vote tiennent toute la largeur ; le
+       gagnant et le bloc « et si c'était ton clip » se partagent la rangée
+       suivante. Le gagnant masqué, le second prend la première colonne. */
+    .cow-container > .section-header,
+    .cow-container > .cow-skeleton,
+    .cow-container > .cow-vote-block { grid-column: 1 / -1; }
+
+    /* Le titre de la page pose déjà la question du vote : « Le Clip de la
+       Semaine » et le compteur de votants sous la grille faisaient trois
+       entêtes d'affilée. Le décompte reste, en pastille dans le hero. */
+    #clip-semaine .section-header,
+    .cow-turnout { display: none; }
+
+    #clip-semaine .section-title,
+    #clips .section-title,
+    #clippeurs .section-title {
+        margin: 0;
+        font-size: 1.75rem; /* 28 px */
+        font-weight: 800;
+        line-height: 1.15;
+        background: none;
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
+    }
+
+    #clip-semaine .section-title::after,
+    #clips .section-title::after,
+    #clippeurs .section-title::after { display: none; }
+
+    #clip-semaine .section-subtitle,
+    #clips .section-subtitle,
+    #clippeurs .section-subtitle {
+        margin: 4px 0 0;
+        max-width: none;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
+        text-align: left;
+    }
+
+    .cow-block-heading {
+        margin: 0 0 14px;
+        font-size: 1.125rem;
+        font-weight: 800;
+        color: var(--text-secondary);
+        text-align: left;
+    }
+
+    /* ── Grille des finalistes : 4 × 2, plus de carrousel ── */
+
+    .cow-vote-block { margin: 0; }
+
+    .cow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px 16px;
+        /* sections.css la bride à 1 000 px, ce qui ne laissait que 3 colonnes */
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    /* Les points du carrousel n'ont plus d'objet */
+    .cow-dots { display: none; }
+
+    .cow-card {
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: none;
+        scroll-snap-align: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .cow-card .clip-thumb {
+        aspect-ratio: 16 / 10;
+        width: 100%;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .cow-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Le numéro du finaliste, masqué par défaut au-dessus de 768 px */
+    .cow-num {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        padding: 3px 10px;
+        border-radius: 50px;
+        background: var(--text-primary);
+        color: #f0ebe0;
+        font-size: 0.8125rem; /* 13 px */
+        font-weight: 800;
+    }
+
+    .cow-card .clip-meta {
+        margin: 12px 14px 0;
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1.25;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    .cow-card .clip-clipper {
+        margin: 1px 14px 0;
+        font-size: 0.84375rem; /* 13,5 px */
+        color: var(--text-muted);
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    .cow-vote-btn {
+        margin: auto 14px 14px;
+        margin-top: auto;
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 50px;
+        background: var(--green-deep);
+        border: 2px solid var(--green-deep);
+        color: #fff;
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background var(--transition-base), transform var(--transition-base);
+    }
+
+    .cow-vote-btn:hover:not(:disabled) {
+        background: #35583f;
+        border-color: #35583f;
+        transform: translateY(-1px);
+    }
+
+    /* Une fois le vote posé : la carte choisie ressort, les autres s'effacent */
+    .cow-vote-block.is-voted .cow-card { opacity: 0.72; }
+
+    .cow-vote-block.is-voted .cow-card.is-mine {
+        opacity: 1;
+        border-color: var(--green);
+        box-shadow: 0 14px 32px rgba(63, 47, 37, 0.16);
+    }
+
+    /* ── Gagnant de la semaine ── */
+
+    .cow-winner {
+        margin: 0;
+        padding: 0;
+        background: var(--text-primary);
+        border: 0;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 16px 40px rgba(63, 47, 37, 0.22);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cow-winner .cow-block-heading { display: none; } /* l'entête interne suffit */
+
+    .cow-winner-head {
+        margin: 0;
+        padding: 18px 22px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cow-winner-crown { font-size: 1.875rem; line-height: 1; }
+
+    .cow-winner-head-meta { display: flex; flex-direction: column; }
+
+    .cow-winner-kicker {
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #f2c96b;
+    }
+
+    .cow-winner-when {
+        font-size: 0.84375rem;
+        color: rgba(240, 235, 224, 0.8);
+    }
+
+    .cow-winner-card {
+        margin: 0;
+        padding: 0;
+        max-width: none;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        /* En bloc plutôt qu'en flex : sections.css en fait une carte à deux
+           colonnes centrées, où la vignette était figée à 240 px et où son
+           aspect 16/9 ne donnait aucune hauteur. */
+        display: block;
+    }
+
+    /* sections.css la fige à « flex: 0 0 240px ; width: 240px » : ici elle
+       occupe toute la largeur de la carte. */
+    .cow-winner-card .clip-thumb {
+        display: block;
+        /* un <button> ne s'étire pas tout seul : largeur explicite */
+        width: calc(100% - 32px);
+        max-width: none;
+        margin: 0 16px;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        border: 2px solid #f2c96b;
+        overflow: hidden;
+    }
+
+    .cow-winner-info {
+        min-width: 0;
+        text-align: left;
+    }
+
+    .cow-winner-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cow-winner-info {
+        padding: 16px 22px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .cow-winner-title {
+        margin: 0;
+        font-size: 1.5rem; /* 24 px */
+        font-weight: 800;
+        line-height: 1.2;
+        color: #f0ebe0;
+        text-align: left;
+    }
+
+    .cow-winner-info p:not(.cow-winner-title),
+    .cow-winner-sub {
+        margin: 0;
+        font-size: 0.9375rem;
+        color: rgba(240, 235, 224, 0.8);
+        text-align: left;
+    }
+
+    .cow-winner-info strong { color: #f2c96b; }
+
+    /* Gagnant pas encore révélé : le teaser reste sobre sur le fond sombre */
+    .cow-winner-teaser {
+        margin: 0 16px;
+        padding: 26px;
+        border-radius: 18px;
+        border: 2px dashed rgba(242, 201, 107, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        color: #f0ebe0;
+    }
+
+    .cow-winner-teaser-icon { font-size: 1.75rem; line-height: 1; }
+
+    .cow-winner-teaser-text {
+        font-size: 1.0625rem;
+        font-weight: 700;
+        color: #f0ebe0;
+    }
+
+    .cow-winner .cow-winner-sub { padding: 16px 22px 22px; }
+
+    /* ── « Et si le prochain finaliste, c'était ton clip ? » ── */
+
+    /* Masqué par défaut au-dessus de 768 px par responsive.css */
+    .clip-howto {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 18px;
+        margin: 0;
+        padding: 28px;
+        background: rgba(242, 201, 107, 0.14);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 28px;
+    }
+
+    .clip-howto-title {
+        margin: 0;
+        font-size: 1.75rem; /* 28 px */
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    .clip-howto-steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        counter-reset: etape;
+    }
+
+    .clip-howto-steps li {
+        counter-increment: etape;
+        position: relative;
+        padding-left: 42px;
+        min-height: 30px;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.88);
+    }
+
+    .clip-howto-steps li::before {
+        content: counter(etape);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(242, 201, 107, 0.4);
+        color: #8a6a1f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9375rem;
+        font-weight: 800;
+    }
+
+    /* ============================================
+       Le Panthéon des clippeurs
+       ============================================ */
+
+    #clippeurs {
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.45);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    #clippeurs .section-header {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+        text-align: center;
+    }
+
+    #clippeurs .section-title { font-size: 2.125rem; /* 34 px */ }
+
+    #clippeurs .section-subtitle { text-align: center; }
+
+    .clippers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 10px;
+        margin: 0;
+    }
+
+    .clipper-card {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        border-radius: 18px;
+        box-shadow: none;
+        display: grid;
+        grid-template-columns: auto auto minmax(0, 1fr);
+        grid-template-areas:
+            "rang emoji nom"
+            "rang emoji grade"
+            "rang emoji stats";
+        align-items: center;
+        column-gap: 12px;
+        row-gap: 0;
+        text-align: left;
+    }
+
+    .clipper-card:hover { transform: none; box-shadow: none; }
+
+    .clipper-rank {
+        grid-area: rang;
+        width: 28px;
+        height: 28px;
+        margin: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.84375rem;
+        font-weight: 800;
+        color: var(--text-muted);
+    }
+
+    .clipper-badge {
+        grid-area: emoji;
+        width: 26px;
+        margin: 0;
+        font-size: 1.3125rem; /* 21 px */
+        line-height: 1;
+        text-align: center;
+    }
+
+    .clipper-name {
+        grid-area: nom;
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--text-primary);
+        overflow-wrap: anywhere;
+    }
+
+    /* Grade et mention sur une même ligne, séparés par un point médian */
+    .clipper-grade {
+        grid-area: grade;
+        margin: 0;
+        font-size: 0.84375rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--green-deep);
+    }
+
+    .clipper-suffix {
+        grid-area: grade;
+        justify-self: end;
+        margin: 0;
+        font-size: 0.84375rem;
+        font-style: italic;
+        line-height: 1.3;
+        color: #8a6a1f;
+    }
+
+    .clipper-stats {
+        grid-area: stats;
+        margin: 0;
+        font-size: 0.84375rem;
+        line-height: 1.3;
+        color: var(--text-muted);
+    }
+
+    /* Podium : les trois premières cartes gardent leur métal */
+    .clipper-card.clipper-rank-1 {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.24), rgba(255, 165, 0, 0.10));
+    }
+
+    .clipper-card.clipper-rank-1 .clipper-rank {
+        background: linear-gradient(145deg, #f7dc7a, #d9a93a);
+        color: #5a4210;
+    }
+
+    .clipper-card.clipper-rank-2 {
+        background: linear-gradient(135deg, rgba(192, 192, 192, 0.26), rgba(150, 150, 150, 0.10));
+    }
+
+    .clipper-card.clipper-rank-2 .clipper-rank {
+        background: linear-gradient(145deg, #eeeeee, #b9b9b9);
+        color: #3f3f3f;
+    }
+
+    .clipper-card.clipper-rank-3 {
+        background: linear-gradient(135deg, rgba(205, 127, 50, 0.22), rgba(180, 100, 30, 0.08));
+    }
+
+    .clipper-card.clipper-rank-3 .clipper-rank {
+        background: linear-gradient(145deg, #e8b07a, #b87333);
+        color: #4a2a10;
+    }
+
+    .clipper-card.clipper-rank-1 .clipper-rank,
+    .clipper-card.clipper-rank-2 .clipper-rank,
+    .clipper-card.clipper-rank-3 .clipper-rank {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 3px rgba(63, 47, 37, 0.18);
+    }
+
+    /* ============================================
+       Les derniers clips
+       ============================================ */
+
+    #clips {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* Le lien Twitch remonte sur la ligne du titre. Masqué par défaut
+       au-dessus de 768 px par responsive.css. */
+    #clips .section-header {
+        margin: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: baseline;
+        column-gap: 12px;
+        text-align: left;
+    }
+
+    #clips .section-title { grid-column: 1; }
+    #clips .section-subtitle { grid-column: 1; }
+
+    .clips-twitch-link {
+        display: block;
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--green-deep);
+        text-decoration: none;
+    }
+
+    .clips-twitch-link:hover { text-decoration: underline; }
+
+    #clips .clips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px 14px;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+    }
+
+    #clips .clip-card {
+        width: auto;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #clips .clip-thumb {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    #clips .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    #clips .clip-meta {
+        margin: 0;
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    #clips .clip-clipper {
+        margin: 0;
+        font-size: 0.84375rem;
+        color: var(--text-muted);
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    /* ============================================
+       Vignettes : même traitement que l'accueil
+       ============================================ */
+
+    /* Voile sombre sur toutes les miniatures de la page */
+    .clip-thumb::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(63, 47, 37, 0.62);
+        pointer-events: none;
+    }
+
+    /* Bouton de lecture à la taille de l'accueil */
+    .clip-play {
+        width: 30px;
+        height: 30px;
+        padding-left: 0;
+        font-size: 0.6875rem; /* 11 px */
+        box-shadow: none;
+        z-index: 1;
+    }
+}

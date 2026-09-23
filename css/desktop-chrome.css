@@ -1,0 +1,146 @@
+/* ============================================================
+   HABILLAGE DESKTOP COMMUN
+   Fond de page, barre de navigation et pied de page, partages
+   par toutes les pages qui ont une version desktop refondue.
+   A charger AVANT la feuille propre a la page.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* ============================================
+       Fond de page
+       ============================================ */
+
+    /* Même fond qu'en mobile : le dégradé de .bg-container à 8 %, sans
+       animation, et pas de particules. Le dégradé maison que j'avais posé
+       ici sortait de la charte. */
+    .bg-container {
+        animation: none;
+        opacity: 0.08;
+    }
+
+    .particles { display: none; }
+
+    /* ============================================
+       Barre de navigation — 72 px, liens en pastilles
+       ============================================ */
+
+    #navbar {
+        height: 72px;
+        padding: 0;
+        background: #f3eee4;
+        border-bottom: 1px solid rgba(63, 47, 37, 0.08);
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    /* layout.css repose « padding: 15px 0 » sur la barre scrollée, plus
+       spécifique que mon « #navbar { padding: 0 } » : la barre gagnait 30 px
+       et son contenu débordait. */
+    #navbar.scrolled {
+        height: 72px;
+        padding: 0;
+        background: #f3eee4;
+        box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
+    }
+
+    #navbar .container {
+        max-width: none;
+        height: 72px;
+        padding: 0 40px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+    }
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.125rem; /* 18 px */
+        font-weight: 800;
+        background: none;
+        color: var(--text-secondary);
+        -webkit-text-fill-color: var(--text-secondary); /* pas le dégradé du mobile */
+        text-decoration: none;
+    }
+
+    .logo .logo-avatar {
+        width: 36px;
+        height: 36px;
+        flex: none;
+        border-radius: 50%;
+        background: #f6efe4;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        object-fit: cover;
+    }
+
+    .nav-links {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.97rem; /* 15,5 px */
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: background var(--transition-base), color var(--transition-base);
+    }
+
+    .nav-links a::after { display: none; } /* le soulignement laisse place à la pastille */
+
+    .nav-links a:hover { background: rgba(127, 184, 147, 0.12); }
+
+    .nav-links a[aria-current="page"] {
+        background: rgba(127, 184, 147, 0.18);
+        color: var(--green-deep);
+    }
+
+    /* Le 5e lien devient « Tous mes liens ↗ », en terracotta */
+    .nav-links > li:nth-child(5) { display: none; }
+
+    .nav-links-footer { display: list-item; }
+
+    .nav-links-footer a { color: var(--pink-deep); }
+
+    .nav-links-footer a:hover { background: rgba(154, 74, 54, 0.1); }
+
+
+    /* ============================================
+       Pied de page
+       ============================================ */
+
+    footer {
+        padding: 24px;
+        background: rgba(242, 227, 216, 0.6);
+        border: 0;
+    }
+
+    .footer-content {
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+    }
+
+    .footer-content p {
+        margin: 0;
+        font-size: 0.84375rem;
+        color: var(--text-muted);
+    }
+}

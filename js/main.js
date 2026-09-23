@@ -92,6 +92,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             return;
         }
 
+        // Le lien e-mail part de href="#" puis js-email le reecrit en
+        // « mailto: ... » : l'ecouteur pose au chargement reste accroche et
+        // querySelector levait une SyntaxError a chaque clic.
+        if (!href || href.charAt(0) !== '#') return;
+
         const target = document.querySelector(href);
 
         if (target) {
