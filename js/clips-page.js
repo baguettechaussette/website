@@ -73,6 +73,31 @@ function lsGet(key) {
 function lsSet(key, value) {
     try { localStorage.setItem(key, value); } catch { /* privé strict : tant pis */ }
 }
+function lsRemove(key) {
+    try { localStorage.removeItem(key); } catch { /* privé strict : tant pis */ }
+}
+
+// ── Interrupteurs de test, sur localhost uniquement ─────────
+// ?cow=<état> rejoue les états du Clip de la Semaine sans toucher aux données :
+//   vote   → vote ouvert, personne n'a voté (efface le vote enregistré)
+//   voted  → comme si on avait voté pour le premier finaliste
+//   winner → le gagnant est révélé (sa carte)
+//   teaser → le gagnant attend la révélation en live (📦)
+//   empty  → ni finalistes ni gagnant : la section se replie
+//   ?cow=  → rend la main aux vraies données
+// ?turnout=<n> force le nombre de votants (le worker n'est plus consulté).
+// Le choix est gardé pour la session, d'une page à l'autre. Hors localhost
+// et 127.0.0.1, ces fonctions renvoient null et rien ne change.
+function testFlag(name) {
+    if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
+    const key = `bc_test_${name}`;
+    const p = new URLSearchParams(location.search).get(name);
+    if (p === '') { try { sessionStorage.removeItem(key); } catch {} return null; }
+    try {
+        if (p !== null) sessionStorage.setItem(key, p);
+        return sessionStorage.getItem(key);
+    } catch { return p; }
+}
 
 // Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
 // sizes : largeur CSS de la vignette (finalistes : 2 colonnes en mobile, ~175 px en desktop)
@@ -144,15 +169,24 @@ async function loadClipOfWeek() {
         const r = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
         if (!r.ok) { collapse(); return; }
         const data = await r.json();
-        const finalists = (Array.isArray(data.finalists) ? data.finalists : []).filter(c => c && c.id);
+        let finalists = (Array.isArray(data.finalists) ? data.finalists : []).filter(c => c && c.id);
         const week = data.week;
         skeleton?.remove();
+
+        const cowTest = testFlag('cow');
+        if (cowTest === 'empty') { finalists = []; data.winner = null; }
+        // winner / teaser sans gagnant dans le JSON : on en emprunte un pour la démo
+        if ((cowTest === 'winner' || cowTest === 'teaser') && !(data.winner && data.winner.id) && finalists[0]) {
+            data.winner = finalists[0];
+        }
 
         // Le vote d'abord : c'est l'action principale de la section
         if (week && finalists.length >= 2) {
             const range = finalistWeekRange(week);
             if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
             const votedKey = `clip-vote-${week}`;
+            if (cowTest === 'vote') lsRemove(votedKey);
+            else if (cowTest === 'voted' && finalists[0]) lsSet(votedKey, finalists[0].id);
             finalists.forEach((clip, i) => {
                 grid.appendChild(buildFinalistCard(clip, week, votedKey, i + 1, finalists.length));
             });
@@ -338,6 +372,9 @@ function buildFinalistCard(clip, week, votedKey, num, total) {
 // worker est muet, on ne révèle PAS (le teaser reste) — un spoiler raté est
 // pire qu'un affichage retardé.
 async function isWinnerRevealed(week) {
+    const forced = testFlag('cow');
+    if (forced === 'winner') return true;
+    if (forced === 'teaser') return false;
     if (!VOTE_API || !week) return false;
     try {
         const r = await fetch(`${VOTE_API}/revealed/${encodeURIComponent(week)}`);
@@ -351,19 +388,26 @@ async function isWinnerRevealed(week) {
 // votants (le worker ne révèle jamais qui mène : le suspense reste entier).
 // Masqué sous 4 voix : "2 p'tits pains ont voté" ferait plus vide qu'incitatif.
 async function showTurnout(week, after) {
-    if (!VOTE_API || !after) return;
+    if (!after) return;
+    const forcedTurnout = testFlag('turnout');
+    if (forcedTurnout !== null) return renderTurnout(Number(forcedTurnout) || 0, after);
+    if (!VOTE_API || !week) return;
     try {
         const r = await fetch(`${VOTE_API}/turnout/${encodeURIComponent(week)}`);
         if (!r.ok) return;
         const { count } = await r.json();
-        const n = Number(count) || 0;
-        if (n <= 3) return;
-        after.insertAdjacentElement('afterend',
-            makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
-        // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
-        const hero = document.getElementById('cowHeroTurnout');
-        if (hero) { hero.textContent = `${n} vote${n > 1 ? 's' : ''}`; hero.hidden = false; }
+        renderTurnout(Number(count) || 0, after);
     } catch { /* silencieux : simple bonus d'ambiance */ }
+}
+
+// Masqué sous 4 voix : « 2 p'tits pains ont voté » ferait plus vide qu'incitatif.
+function renderTurnout(n, after) {
+    if (n <= 3) return;
+    after.insertAdjacentElement('afterend',
+        makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
+    // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
+    const hero = document.getElementById('cowHeroTurnout');
+    if (hero) { hero.textContent = `${n} vote${n > 1 ? 's' : ''}`; hero.hidden = false; }
 }
 
 function refreshVoteButtons(grid, votedClip) {
