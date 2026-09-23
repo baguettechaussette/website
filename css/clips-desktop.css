@@ -562,13 +562,15 @@
         border-radius: 18px;
         box-shadow: none;
         display: grid;
-        /* Colonne du grade en « auto » : la mention qui suit se colle à lui
-           au lieu d'être repoussée au bord droit de la carte. */
-        grid-template-columns: auto auto auto minmax(0, 1fr);
+        /* L'emoji passe au-dessus du pseudo : en colonne il rognait la place
+           du texte. Colonne du grade en « auto » pour que la mention qui
+           suit se colle à lui au lieu d'aller au bord droit de la carte. */
+        grid-template-columns: auto auto minmax(0, 1fr);
         grid-template-areas:
-            "rang emoji nom   nom"
-            "rang emoji grade mention"
-            "rang emoji stats stats";
+            "rang emoji emoji"
+            "rang nom   nom"
+            "rang grade mention"
+            "rang stats stats";
         align-items: center;
         /* Gouttière portée par le rang et l'emoji plutôt que par la grille :
            le point entre le grade et sa mention reste ainsi à égale distance
@@ -608,11 +610,12 @@
 
     .clipper-badge {
         grid-area: emoji;
-        width: 26px;
-        margin: 0 12px 0 0;
+        justify-self: start;
+        width: auto;
+        margin: 0 0 2px;
         font-size: 1.3125rem; /* 21 px */
         line-height: 1;
-        text-align: center;
+        text-align: left;
     }
 
     .clipper-name {
