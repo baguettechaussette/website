@@ -1637,6 +1637,10 @@
     .cow-card .clip-thumb:hover { transform: none; }
     .cow-card .clip-play { width: 60px; height: 60px; font-size: 1.4em; padding-left: 5px; }
 
+    /* Le gagnant porte la plus grande vignette de la page : sans cette ligne
+       il heritait des 34 px de base, plus petit que les finalistes. */
+    .cow-winner-card .clip-play { width: 60px; height: 60px; font-size: 1.4em; padding-left: 5px; }
+
     .cow-num {
         display: block;
         position: absolute;
