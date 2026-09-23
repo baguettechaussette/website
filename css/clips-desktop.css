@@ -562,15 +562,16 @@
         border-radius: 18px;
         box-shadow: none;
         display: grid;
-        /* L'emoji passe au-dessus du pseudo : en colonne il rognait la place
-           du texte. Colonne du grade en « auto » pour que la mention qui
-           suit se colle à lui au lieu d'aller au bord droit de la carte. */
+        /* Rang et emoji forment une ligne d'entête, le texte occupe ensuite
+           toute la largeur de la carte : c'est ce qui laisse le plus de place
+           aux pseudos longs. Le grade s'étale sur les deux premières colonnes
+           pour que la mention qui le suit se colle à lui. */
         grid-template-columns: auto auto minmax(0, 1fr);
         grid-template-areas:
-            "rang emoji emoji"
-            "rang nom   nom"
-            "rang grade mention"
-            "rang stats stats";
+            "rang  emoji emoji"
+            "nom   nom   nom"
+            "grade grade mention"
+            "stats stats stats";
         align-items: center;
         /* Gouttière portée par le rang et l'emoji plutôt que par la grille :
            le point entre le grade et sa mention reste ainsi à égale distance
@@ -592,7 +593,7 @@
         position: static;
         width: 28px;
         height: 28px;
-        margin: 0 12px 0 0;
+        margin: 0 10px 6px 0;
         border-radius: 50%;
         background: none;
         display: flex;
@@ -612,7 +613,7 @@
         grid-area: emoji;
         justify-self: start;
         width: auto;
-        margin: 0 0 2px;
+        margin: 0 0 6px;
         font-size: 1.3125rem; /* 21 px */
         line-height: 1;
         text-align: left;
