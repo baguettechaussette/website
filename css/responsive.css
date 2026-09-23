@@ -1104,21 +1104,25 @@
 
     .schedule-item.is-next .schedule-countdown { color: var(--text-tertiary); font-weight: 600; }
 
-    /* En live en revanche, la ligne rougit : jour en terracotta, pastille + « En direct » */
+    /* Un live en cours ne change plus la ligne du planning : la carte du hero
+       l'annonce deja, et deux signaux rouges faisaient trop. La ligne reste
+       identique aux autres, seul son texte dit « En direct ». */
     .schedule-item.is-live {
-        background: rgba(255, 255, 255, 0.82);
-        border-color: rgba(230, 103, 103, 0.8);
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.4);
         box-shadow: none;
         animation: none;
     }
 
+    .schedule-item.is-live::before { display: none; } /* le bandeau rouge de 5 px */
+
     .schedule-item.is-live .schedule-day {
         background: none;
-        -webkit-text-fill-color: var(--pink-deep);
-        color: var(--pink-deep);
+        -webkit-text-fill-color: var(--green);
+        color: var(--green);
     }
 
-    .schedule-item.is-live .schedule-countdown { color: var(--live-red-deep); font-weight: 700; }
+    .schedule-item.is-live .schedule-countdown::before { display: none; } /* la pastille rouge */
 
     .schedule-cta,
     .schedule-live-game { display: none; }
