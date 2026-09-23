@@ -94,6 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // Live status check (poll toutes les 30s, comme sur l'accueil).
 // Source : le worker Cloudflare, qui interroge Twitch en direct.
 const LIVE_API = 'https://bc-vote.baguette-chaussette.workers.dev/live';
+
+// Test local uniquement : ?live=1 force l'état « en live », ?live=0 le retire, et le
+// choix est gardé pour la session (sessionStorage) d'une page à l'autre. Hors
+// localhost la fonction renvoie null et le worker fait foi, comme d'habitude.
+function forcedLiveForTests() {
+    if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
+    const p = new URLSearchParams(location.search).get('live');
+    if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live'); // ?live= : retour au vrai statut
+    else if (p !== null) sessionStorage.setItem('bc_force_live', p);
+    const v = sessionStorage.getItem('bc_force_live');
+    if (v === null) return null;
+    return v === '1'
+        ? { is_live: true, game: 'Jeu de test', title: 'Live de test', started_at: new Date(Date.now() - 42 * 60000).toISOString() }
+        : { is_live: false, game: null, title: null, started_at: null };
+}
 let liveFails = 0; // 3 échecs d'affilée avant de masquer (tolère un blip réseau)
 
 async function checkLiveStatus() {
@@ -102,16 +117,15 @@ async function checkLiveStatus() {
     // consulte pas le worker (évite aussi le bruit CSP sur ces pages).
     if (!badge) return;
     try {
-        const response = await fetch(LIVE_API, {
-            cache: 'no-store',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) throw new Error(String(response.status));
-
-        const data = await response.json();
+        let data = forcedLiveForTests();
+        if (!data) {
+            const response = await fetch(LIVE_API, {
+                cache: 'no-store',
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!response.ok) throw new Error(String(response.status));
+            data = await response.json();
+        }
         liveFails = 0;
 
         if (badge) {
