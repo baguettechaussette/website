@@ -160,6 +160,7 @@
        Semaine » et le compteur de votants sous la grille faisaient trois
        entêtes d'affilée. Le décompte reste, en pastille dans le hero. */
     #clip-semaine .section-header,
+    #cowVoteHeading,
     .cow-turnout { display: none; }
 
     #clip-semaine .section-title,
@@ -568,6 +569,9 @@
        garde ses médailles. */
     .clipper-rank {
         grid-area: rang;
+        /* sections.css le pose en absolu dans le coin de la carte : il se
+           superposait à l'emoji au lieu d'occuper sa colonne. */
+        position: static;
         width: 28px;
         height: 28px;
         margin: 0 12px 0 0;
