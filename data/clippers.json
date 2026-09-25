@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "alizee_ngs",
-      "clips": 38,
-      "total_views": 235,
+      "clips": 40,
+      "total_views": 240,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -12,8 +12,8 @@
     },
     {
       "name": "teph_woot_la_miche",
-      "clips": 31,
-      "total_views": 259,
+      "clips": 32,
+      "total_views": 269,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -23,7 +23,7 @@
     {
       "name": "miche__france",
       "clips": 29,
-      "total_views": 167,
+      "total_views": 168,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -82,8 +82,8 @@
     },
     {
       "name": "poketicyt",
-      "clips": 15,
-      "total_views": 80,
+      "clips": 14,
+      "total_views": 79,
       "best_clip": {
         "id": "EnticingSparklingWatercressPeanutButterJellyTime-Nh6C8obb7yzoXCGK",
         "title": "Ca restera dans quoi ?",
@@ -511,6 +511,16 @@
       }
     },
     {
+      "name": "nethiepoo",
+      "clips": 2,
+      "total_views": 7,
+      "best_clip": {
+        "id": "StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv",
+        "title": "Zozotanus",
+        "view_count": 4
+      }
+    },
+    {
       "name": "alannnvl08",
       "clips": 1,
       "total_views": 31,
@@ -521,6 +531,16 @@
       }
     },
     {
+      "name": "Dj0h",
+      "clips": 1,
+      "total_views": 21,
+      "best_clip": {
+        "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
+        "title": "Il va faire quoi ? x)",
+        "view_count": 21
+      }
+    },
+    {
       "name": "july21716",
       "clips": 1,
       "total_views": 20,
@@ -528,16 +548,6 @@
         "id": "RelentlessFaithfulToothTriHard-1eLIaR-q26JvWJjn",
         "title": "Téter la faucheuse ?",
         "view_count": 20
-      }
-    },
-    {
-      "name": "Dj0h",
-      "clips": 1,
-      "total_views": 17,
-      "best_clip": {
-        "id": "ProtectivePlausibleBeaverVoteNay-jc0QsoRewMK9DqyP",
-        "title": "Il va faire quoi ? x)",
-        "view_count": 17
       }
     },
     {
@@ -651,16 +661,6 @@
       }
     },
     {
-      "name": "nethiepoo",
-      "clips": 1,
-      "total_views": 3,
-      "best_clip": {
-        "id": "StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv",
-        "title": "Zozotanus",
-        "view_count": 3
-      }
-    },
-    {
       "name": "rafoulecamp",
       "clips": 1,
       "total_views": 3,
@@ -731,6 +731,6 @@
       }
     }
   ],
-  "total_clips": 452,
-  "updated_at": "2026-09-23T10:04:34Z"
+  "total_clips": 455,
+  "updated_at": "2026-09-25T10:16:00Z"
 }
