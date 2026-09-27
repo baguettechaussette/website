@@ -36,6 +36,17 @@
   ],
   "clips": [
     {
+      "id": "FurtiveYawningPicklesCclamChamp-_hWm1INdcUS3YB58",
+      "title": "",
+      "creator_name": "alizee_ngs",
+      "game": "Petit Planet",
+      "view_count": 15,
+      "created_at": "2026-09-25T19:52:29Z",
+      "duration": 60,
+      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/255d832e-f840-4c22-866b-cee117e2aa48/landscape/thumb/thumb-0000000000-480x272.jpg",
+      "url": "https://www.twitch.tv/baguettechaussette/clip/FurtiveYawningPicklesCclamChamp-_hWm1INdcUS3YB58"
+    },
+    {
       "id": "GlutenFreeMistyDogTooSpicy-dr7JoMRe5aOIeZG5",
       "title": "",
       "creator_name": "alizee_ngs",
@@ -51,7 +62,7 @@
       "title": "le cul de Donald qui remu",
       "creator_name": "teph_woot_la_miche",
       "game": "Disney Dreamlight Valley",
-      "view_count": 10,
+      "view_count": 13,
       "created_at": "2026-09-23T22:19:10Z",
       "duration": 21.6,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/36b0c8e7-7404-4a05-9911-4cbfaa25629d/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -62,7 +73,7 @@
       "title": "",
       "creator_name": "alizee_ngs",
       "game": "Disney Dreamlight Valley",
-      "view_count": 3,
+      "view_count": 4,
       "created_at": "2026-09-23T22:16:54Z",
       "duration": 60,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/822e5d5c-023b-469a-be59-403dfd1853dc/landscape/thumb/thumb-0000000000-480x272.jpg",
@@ -353,18 +364,7 @@
       "duration": 60,
       "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/676a9e2e-de76-466c-a9e5-562d2c1f6203/landscape/thumb/thumb-0000000000-480x272.jpg",
       "url": "https://www.twitch.tv/baguettechaussette/clip/BoldCredulousRutabagaStoneLightning-C0QjAkmBzn1uoJGL"
-    },
-    {
-      "id": "TentativeExquisiteSrirachaOSfrog-FMIJEfli5RKFH8J6",
-      "title": "baguette joue des tours à Omiilia",
-      "creator_name": "teph_woot_la_miche",
-      "game": "Last Pirates: Die Together",
-      "view_count": 5,
-      "created_at": "2026-09-16T20:04:16Z",
-      "duration": 30,
-      "thumbnail_url": "https://static-cdn.jtvnw.net/twitch-video-assets/twitch-vap-video-assets-prod-us-west-2/d07d79c7-f49c-433a-a8ec-22968e84f28c/landscape/thumb/thumb-0000000000-480x272.jpg",
-      "url": "https://www.twitch.tv/baguettechaussette/clip/TentativeExquisiteSrirachaOSfrog-FMIJEfli5RKFH8J6"
     }
   ],
-  "updated_at": "2026-09-25T10:15:57Z"
+  "updated_at": "2026-09-27T10:36:08Z"
 }

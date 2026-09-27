@@ -2,8 +2,8 @@
   "clippers": [
     {
       "name": "alizee_ngs",
-      "clips": 40,
-      "total_views": 240,
+      "clips": 41,
+      "total_views": 256,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -13,7 +13,7 @@
     {
       "name": "teph_woot_la_miche",
       "clips": 32,
-      "total_views": 269,
+      "total_views": 273,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -42,8 +42,8 @@
     },
     {
       "name": "gwendo05062020",
-      "clips": 23,
-      "total_views": 182,
+      "clips": 22,
+      "total_views": 180,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
@@ -641,7 +641,7 @@
       }
     },
     {
-      "name": "morty__mood",
+      "name": "katxboris",
       "clips": 1,
       "total_views": 3,
       "best_clip": {
@@ -732,5 +732,5 @@
     }
   ],
   "total_clips": 455,
-  "updated_at": "2026-09-25T10:16:00Z"
+  "updated_at": "2026-09-27T10:36:11Z"
 }
