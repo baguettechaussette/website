@@ -3,7 +3,7 @@
     {
       "name": "alizee_ngs",
       "clips": 41,
-      "total_views": 259,
+      "total_views": 263,
       "best_clip": {
         "id": "PopularSmellyFlyBrokeBack-Vc6HjHn1Pu8eRgNR",
         "title": "WzBot CLIP | DE RETOUR SUR HEARTOPIA (Grosse MAJ) ✨ | !discord !insta (by alizee_ngs)",
@@ -12,8 +12,8 @@
     },
     {
       "name": "teph_woot_la_miche",
-      "clips": 32,
-      "total_views": 277,
+      "clips": 33,
+      "total_views": 301,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -23,7 +23,7 @@
     {
       "name": "miche__france",
       "clips": 29,
-      "total_views": 170,
+      "total_views": 174,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -33,11 +33,11 @@
     {
       "name": "Barbouy",
       "clips": 24,
-      "total_views": 440,
+      "total_views": 442,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
-        "view_count": 115
+        "view_count": 116
       }
     },
     {
@@ -111,6 +111,16 @@
       }
     },
     {
+      "name": "gagi49",
+      "clips": 12,
+      "total_views": 84,
+      "best_clip": {
+        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
+        "title": "Horrible",
+        "view_count": 32
+      }
+    },
+    {
       "name": "Mimie_chan",
       "clips": 11,
       "total_views": 110,
@@ -118,16 +128,6 @@
         "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
         "title": "Twerker sur la bouse",
         "view_count": 27
-      }
-    },
-    {
-      "name": "gagi49",
-      "clips": 11,
-      "total_views": 83,
-      "best_clip": {
-        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
-        "title": "Horrible",
-        "view_count": 32
       }
     },
     {
@@ -233,11 +233,11 @@
     {
       "name": "flofloria9",
       "clips": 6,
-      "total_views": 192,
+      "total_views": 193,
       "best_clip": {
         "id": "CoyInterestingDaikonFloof-z9UYz8UOFBXjqNrt",
         "title": "Baguette Grande ?",
-        "view_count": 151
+        "view_count": 152
       }
     },
     {
@@ -271,16 +271,6 @@
       }
     },
     {
-      "name": "TsukinoArisu",
-      "clips": 5,
-      "total_views": 37,
-      "best_clip": {
-        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
-        "title": "Stalké la Stalkeuse qui se faxe.....",
-        "view_count": 17
-      }
-    },
-    {
       "name": "Ti_Ch0u",
       "clips": 5,
       "total_views": 26,
@@ -288,16 +278,6 @@
         "id": "AliveLazyMagpieRalpherZ-BKQvuwWXf1AUrArb",
         "title": "WzBot CLIP | On continue la découverte de Lou's Lagoon [GIVEAWAY] ✨ | !discord !insta (by ti_ch0u)",
         "view_count": 14
-      }
-    },
-    {
-      "name": "morado290",
-      "clips": 5,
-      "total_views": 23,
-      "best_clip": {
-        "id": "ConcernedFragilePresidentChocolateRain-Hjs0FoxqHt4wHmGt",
-        "title": "WzBot CLIP | Come back sur TOMO ✨ | !Japhy !discord !insta (by morado290)",
-        "view_count": 10
       }
     },
     {
@@ -311,6 +291,16 @@
       }
     },
     {
+      "name": "TsukinoArisu",
+      "clips": 4,
+      "total_views": 36,
+      "best_clip": {
+        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
+        "title": "Stalké la Stalkeuse qui se faxe.....",
+        "view_count": 17
+      }
+    },
+    {
       "name": "Antz_Virtual",
       "clips": 4,
       "total_views": 28,
@@ -318,6 +308,16 @@
         "id": "IgnorantSpinelessSkunkUncleNox-BPV0WOrpjPOSFHUF",
         "title": "1 2 3.. QUOI ?",
         "view_count": 16
+      }
+    },
+    {
+      "name": "morado290",
+      "clips": 4,
+      "total_views": 22,
+      "best_clip": {
+        "id": "ConcernedFragilePresidentChocolateRain-Hjs0FoxqHt4wHmGt",
+        "title": "WzBot CLIP | Come back sur TOMO ✨ | !Japhy !discord !insta (by morado290)",
+        "view_count": 10
       }
     },
     {
@@ -403,11 +403,11 @@
     {
       "name": "DragonoZelos",
       "clips": 2,
-      "total_views": 128,
+      "total_views": 129,
       "best_clip": {
         "id": "AmorphousThirstyCocoaVoHiYo-p1_2p5oezESGDflu",
         "title": "Pardon ?",
-        "view_count": 89
+        "view_count": 90
       }
     },
     {
@@ -732,5 +732,5 @@
     }
   ],
   "total_clips": 457,
-  "updated_at": "2026-09-29T11:24:47Z"
+  "updated_at": "2026-10-01T11:40:11Z"
 }
