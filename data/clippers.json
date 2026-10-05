@@ -1,6 +1,16 @@
 {
   "clippers": [
     {
+      "name": "teph_woot_la_miche",
+      "clips": 43,
+      "total_views": 370,
+      "best_clip": {
+        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
+        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
+        "view_count": 34
+      }
+    },
+    {
       "name": "alizee_ngs",
       "clips": 41,
       "total_views": 266,
@@ -12,8 +22,8 @@
     },
     {
       "name": "miche__france",
-      "clips": 37,
-      "total_views": 197,
+      "clips": 39,
+      "total_views": 210,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -21,33 +31,33 @@
       }
     },
     {
-      "name": "teph_woot_la_miche",
-      "clips": 33,
-      "total_views": 304,
-      "best_clip": {
-        "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
-        "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
-        "view_count": 34
-      }
-    },
-    {
       "name": "Barbouy",
       "clips": 24,
-      "total_views": 443,
+      "total_views": 445,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
-        "view_count": 117
+        "view_count": 118
       }
     },
     {
-      "name": "gwendo05062020",
+      "name": "gwendoree",
       "clips": 23,
       "total_views": 182,
       "best_clip": {
         "id": "ArtisticSucculentMarrowHassaanChop-oGPc4WwMp57Dw8ea",
         "title": "la famille twerke",
         "view_count": 23
+      }
+    },
+    {
+      "name": "mimie_chan",
+      "clips": 21,
+      "total_views": 134,
+      "best_clip": {
+        "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
+        "title": "Twerker sur la bouse",
+        "view_count": 27
       }
     },
     {
@@ -81,6 +91,16 @@
       }
     },
     {
+      "name": "gagi49",
+      "clips": 14,
+      "total_views": 93,
+      "best_clip": {
+        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
+        "title": "Horrible",
+        "view_count": 32
+      }
+    },
+    {
       "name": "poketicyt",
       "clips": 14,
       "total_views": 79,
@@ -101,16 +121,6 @@
       }
     },
     {
-      "name": "Mimie_chan",
-      "clips": 12,
-      "total_views": 113,
-      "best_clip": {
-        "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
-        "title": "Twerker sur la bouse",
-        "view_count": 27
-      }
-    },
-    {
       "name": "teph_woot_woot",
       "clips": 12,
       "total_views": 86,
@@ -118,16 +128,6 @@
         "id": "EnticingGiftedPeafowlPeteZarollTie-WrVyMAYxFAXGoCcE",
         "title": "WzBot CLIP | C'est le week-end ! Blabla et Dreamsnap sur DDV ✨ | !discord !insta (by teph_woot_woot)",
         "view_count": 24
-      }
-    },
-    {
-      "name": "gagi49",
-      "clips": 12,
-      "total_views": 84,
-      "best_clip": {
-        "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
-        "title": "Horrible",
-        "view_count": 32
       }
     },
     {
@@ -181,16 +181,6 @@
       }
     },
     {
-      "name": "virginieopal",
-      "clips": 7,
-      "total_views": 90,
-      "best_clip": {
-        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
-        "title": "le rêve",
-        "view_count": 29
-      }
-    },
-    {
       "name": "PtitMiki_",
       "clips": 7,
       "total_views": 89,
@@ -241,6 +231,26 @@
       }
     },
     {
+      "name": "Virginieopal",
+      "clips": 6,
+      "total_views": 86,
+      "best_clip": {
+        "id": "BlushingSpoopyGooseFeelsBadMan-95HVO0-gOqhUOsTn",
+        "title": "le rêve",
+        "view_count": 29
+      }
+    },
+    {
+      "name": "francebbgg",
+      "clips": 6,
+      "total_views": 60,
+      "best_clip": {
+        "id": "LitigiousPhilanthropicPassionfruitDatBoi-qjF_NSvm0O7_pcA2",
+        "title": "WzBot CLIP | OMG LA SWITCH 2 ?? ✨ | !discord !insta (by francebbgg)",
+        "view_count": 22
+      }
+    },
+    {
       "name": "mllereve",
       "clips": 6,
       "total_views": 52,
@@ -261,13 +271,13 @@
       }
     },
     {
-      "name": "francebbgg",
+      "name": "TsukinoArisu",
       "clips": 5,
-      "total_views": 52,
+      "total_views": 37,
       "best_clip": {
-        "id": "LitigiousPhilanthropicPassionfruitDatBoi-qjF_NSvm0O7_pcA2",
-        "title": "WzBot CLIP | OMG LA SWITCH 2 ?? ✨ | !discord !insta (by francebbgg)",
-        "view_count": 22
+        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
+        "title": "Stalké la Stalkeuse qui se faxe.....",
+        "view_count": 17
       }
     },
     {
@@ -291,23 +301,33 @@
       }
     },
     {
-      "name": "WizeBot",
-      "clips": 4,
-      "total_views": 86,
+      "name": "nethiepoo",
+      "clips": 5,
+      "total_views": 14,
       "best_clip": {
-        "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
-        "title": "Le tchouch dans la bruschetta",
-        "view_count": 64
+        "id": "StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv",
+        "title": "Zozotanus",
+        "view_count": 4
       }
     },
     {
-      "name": "TsukinoArisu",
+      "name": "WizeBot",
       "clips": 4,
-      "total_views": 36,
+      "total_views": 87,
       "best_clip": {
-        "id": "BlightedResilientFalconShadyLulu-lC9TS-iZQ4eKyKw8",
-        "title": "Stalké la Stalkeuse qui se faxe.....",
-        "view_count": 17
+        "id": "RudeEasyTriangleDancingBanana-mhvExzx6cItu1W6V",
+        "title": "Le tchouch dans la bruschetta",
+        "view_count": 65
+      }
+    },
+    {
+      "name": "mieeteee7",
+      "clips": 4,
+      "total_views": 79,
+      "best_clip": {
+        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
+        "title": "je suis boucheuu bée",
+        "view_count": 35
       }
     },
     {
@@ -341,7 +361,7 @@
       }
     },
     {
-      "name": "sunnyhaze69",
+      "name": "sunyora",
       "clips": 3,
       "total_views": 72,
       "best_clip": {
@@ -351,13 +371,13 @@
       }
     },
     {
-      "name": "mieeteee7",
+      "name": "cosimiche",
       "clips": 3,
-      "total_views": 69,
+      "total_views": 24,
       "best_clip": {
-        "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
-        "title": "je suis boucheuu bée",
-        "view_count": 35
+        "id": "BoxyEncouragingSoybeanBabyRage-NyXy0eNvUOaX0aGN",
+        "title": "WzBot CLIP | BONSOIR POKO LOKO WEEKEND✨ | !discord !insta (by cosimiche)",
+        "view_count": 19
       }
     },
     {
@@ -371,23 +391,13 @@
       }
     },
     {
-      "name": "cosimiche",
-      "clips": 3,
-      "total_views": 23,
-      "best_clip": {
-        "id": "BoxyEncouragingSoybeanBabyRage-NyXy0eNvUOaX0aGN",
-        "title": "WzBot CLIP | BONSOIR POKO LOKO WEEKEND✨ | !discord !insta (by cosimiche)",
-        "view_count": 19
-      }
-    },
-    {
       "name": "SajaHyra",
       "clips": 3,
-      "total_views": 14,
+      "total_views": 15,
       "best_clip": {
         "id": "CrowdedSleepyPineappleUnSane-WQja00dLZ52SERuo",
         "title": "On a la sa .. cha. sagesse",
-        "view_count": 11
+        "view_count": 12
       }
     },
     {
@@ -418,16 +428,6 @@
         "id": "MistyAlluringDinosaurMcaT-g0ifYQLCZMFtAX94",
         "title": "WzBot CLIP | Nous l'attendions, il est enfin là ! ✨ | !discord !insta (by dylanos564)",
         "view_count": 6
-      }
-    },
-    {
-      "name": "nethiepoo",
-      "clips": 3,
-      "total_views": 9,
-      "best_clip": {
-        "id": "StrangeHorribleMonitorUncleNox-CwwPofR0-Yz_jzxv",
-        "title": "Zozotanus",
-        "view_count": 4
       }
     },
     {
@@ -641,7 +641,7 @@
       }
     },
     {
-      "name": "katxboris",
+      "name": "KatXboris",
       "clips": 1,
       "total_views": 3,
       "best_clip": {
@@ -651,7 +651,7 @@
       }
     },
     {
-      "name": "naroutrou2petederoro",
+      "name": "ls_luci7er",
       "clips": 1,
       "total_views": 3,
       "best_clip": {
@@ -677,6 +677,16 @@
       "best_clip": {
         "id": "SpookySecretiveTubersEagleEye-WBcgqw-IFB88v8ig",
         "title": "Daddy",
+        "view_count": 2
+      }
+    },
+    {
+      "name": "elena_black01",
+      "clips": 1,
+      "total_views": 2,
+      "best_clip": {
+        "id": "DullSuccessfulSashimiCopyThis-oJ5s-rrURULXMlHr",
+        "title": "lol robot",
         "view_count": 2
       }
     },
@@ -731,6 +741,6 @@
       }
     }
   ],
-  "total_clips": 470,
-  "updated_at": "2026-10-03T10:27:38Z"
+  "total_clips": 498,
+  "updated_at": "2026-10-05T12:21:37Z"
 }
