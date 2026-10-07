@@ -3,7 +3,7 @@
     {
       "name": "teph_woot_la_miche",
       "clips": 43,
-      "total_views": 370,
+      "total_views": 388,
       "best_clip": {
         "id": "FrailUgliestClamPlanking-KpYonhOBiikowbHI",
         "title": "Clopetyi be like ... baguette est atteind par l'éclipse",
@@ -23,7 +23,7 @@
     {
       "name": "miche__france",
       "clips": 39,
-      "total_views": 210,
+      "total_views": 212,
       "best_clip": {
         "id": "ManlyObedientSkirretBleedPurple-h9R6_oeNzdWk00ms",
         "title": "ON ENTEND DOUBLE!!",
@@ -33,7 +33,7 @@
     {
       "name": "Barbouy",
       "clips": 24,
-      "total_views": 445,
+      "total_views": 448,
       "best_clip": {
         "id": "CoweringSpookyHornetTheTarFu-gVeI8Y4AwlK_UivZ",
         "title": "Cochon va...",
@@ -53,7 +53,7 @@
     {
       "name": "mimie_chan",
       "clips": 21,
-      "total_views": 134,
+      "total_views": 135,
       "best_clip": {
         "id": "TiredHardRaisinGivePLZ-ePaJb0vslnvswgZm",
         "title": "Twerker sur la bouse",
@@ -93,7 +93,7 @@
     {
       "name": "gagi49",
       "clips": 14,
-      "total_views": 93,
+      "total_views": 95,
       "best_clip": {
         "id": "NiceWonderfulCrabsVoteYea-rp-ByB93zTcjdDy5",
         "title": "Horrible",
@@ -323,7 +323,7 @@
     {
       "name": "mieeteee7",
       "clips": 4,
-      "total_views": 79,
+      "total_views": 81,
       "best_clip": {
         "id": "SparklingAltruisticRutabagaFailFish-eKxBLy4vTw2Rq-80",
         "title": "je suis boucheuu bée",
@@ -358,16 +358,6 @@
         "id": "HonorableLachrymoseMelonKAPOW-gDB2_SwUKX-R9WZC",
         "title": "Une rando difficile",
         "view_count": 43
-      }
-    },
-    {
-      "name": "sunyora",
-      "clips": 3,
-      "total_views": 72,
-      "best_clip": {
-        "id": "TsundereCuriousMagpieBloodTrail-utJSl7nU17s_MFo6",
-        "title": "LA SNCF",
-        "view_count": 47
       }
     },
     {
@@ -518,6 +508,16 @@
         "id": "ProtectiveDepressedChipmunkTTours-iME-2yjBUwSnWs9M",
         "title": "WzBot CLIP | Clim installée dans la boulange, viens te rafraîchir ✨ | !Japhy !discor (by nao_playgaming)",
         "view_count": 5
+      }
+    },
+    {
+      "name": "sunyora",
+      "clips": 1,
+      "total_views": 47,
+      "best_clip": {
+        "id": "TsundereCuriousMagpieBloodTrail-utJSl7nU17s_MFo6",
+        "title": "LA SNCF",
+        "view_count": 47
       }
     },
     {
@@ -741,6 +741,6 @@
       }
     }
   ],
-  "total_clips": 498,
-  "updated_at": "2026-10-05T12:21:37Z"
+  "total_clips": 496,
+  "updated_at": "2026-10-07T11:50:29Z"
 }
