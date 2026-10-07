@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements | Baguette Chaussette</title>
-    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (event caritatif à Lyon au profit des refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
+    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -42,16 +42,16 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=144">
+    <link rel="stylesheet" href="./css/fonts.css?v=145">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=144">
-    <link rel="stylesheet" href="./css/layout.css?v=144">
-    <link rel="stylesheet" href="./css/components.css?v=144">
-    <link rel="stylesheet" href="./css/sections.css?v=144">
-    <link rel="stylesheet" href="./css/responsive.css?v=144">
-    <link rel="stylesheet" href="./css/events.css?v=144">
-    <link rel="stylesheet" href="./css/lightbox.css?v=144">
+    <link rel="stylesheet" href="./css/base.css?v=145">
+    <link rel="stylesheet" href="./css/layout.css?v=145">
+    <link rel="stylesheet" href="./css/components.css?v=145">
+    <link rel="stylesheet" href="./css/sections.css?v=145">
+    <link rel="stylesheet" href="./css/responsive.css?v=145">
+    <link rel="stylesheet" href="./css/events.css?v=145">
+    <link rel="stylesheet" href="./css/lightbox.css?v=145">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -64,7 +64,7 @@
                 "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#gamers4pets-2026",
                 "name": "Gamers4Pets 2026, event gaming caritatif",
-                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. Les dons sont reversés à la Confédération Nationale Défense de l'Animal.",
+                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. 1 350 € récoltés pour la Confédération Nationale Défense de l'Animal.",
                 "startDate": "2026-10-02T20:00:00+02:00",
                 "endDate": "2026-10-04T23:59:00+02:00",
                 "eventStatus": "https://schema.org/EventScheduled",
@@ -248,49 +248,53 @@
 -->
 
 <!-- =============================================
-     GAMERS4PETS 2026 — Octobre 2026
+     GAMERS4PETS 2026 — du 29 septembre au 4 octobre 2026 (édition passée)
      ID pattern : gamers4pets-[année]
 
-     • Compte à rebours + mur des donateurs : js/gamers4pets.js
-     • Les pseudos des donateurs se mettent à jour dans
-       data/gamers4pets-donors.json — rien à toucher ici.
-     • Le compte à rebours se masque tout seul après le 4 octobre au soir.
+     • Mur des donateurs : js/gamers4pets.js lit data/gamers4pets-donors.json
+       (37 pseudos), rien à toucher ici.
+     • Prochaine édition « à venir » : recopier ce bloc au-dessus du séparateur
+       « L'archive », avec un séparateur « À venir », sans is-collapsible.
      ============================================= -->
-<p class="events-divider" aria-hidden="true">À venir</p>
+<p class="events-divider" aria-hidden="true">L'archive</p>
 <section id="gamers4pets-2026">
-    <div class="event-container theme-charity">
+    <div class="event-container theme-charity is-collapsible is-collapsed">
         <div class="event-intro">
+            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
+            <span class="event-emoji" aria-hidden="true">🐾</span>
+            <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Gamers4Pets 2026"></button>
             <div class="event-badge">Caritatif • Octobre 2026 🧡</div>
             <h2 class="event-title">Gamers4Pets 2026</h2>
             <p class="event-description">
-                Je suis en live du vendredi 2 octobre à 20h jusqu'au dimanche 4 octobre au soir, avec des jeux
-                cozy et coop, des défis et des actions débloqués par les dons.
+                Mon tout premier event caritatif ! Gamers4Pets a tourné du 29 septembre au 4 octobre au profit
+                de Défense de l'Animal, et je l'ai vécu en présentiel du vendredi 2 au dimanche 4 octobre.
+                Grâce à vous, on a récolté 1 350 €, pile tout rond 🧡
             </p>
         </div>
 
         <div class="event-stats-strip">
-            <!-- Masqué au chargement : js/gamers4pets.js l'affiche une fois les valeurs calculées,
-                 puis le retire définitivement une fois l'event passé. -->
-            <div class="event-stat-chip g4p-countdown" id="g4pCountdown" hidden>
-                <span class="event-stat-number g4p-countdown-value">
-                    <span data-unit="days">0</span><span class="g4p-countdown-sep">j</span><span data-unit="hours">0</span><span class="g4p-countdown-sep">h</span><span data-unit="mins">0</span><span class="g4p-countdown-sep">min</span>
-                </span>
-                <span class="event-stat-label g4p-countdown-label">avant le coup d'envoi</span>
+            <div class="event-stat-chip">
+                <span class="event-stat-number">1 350 €</span>
+                <span class="event-stat-label">récoltés</span>
             </div>
             <div class="event-stat-chip">
-                <span class="event-stat-number">3</span>
-                <span class="event-stat-label">jours de live</span>
+                <span class="event-stat-number">91</span>
+                <span class="event-stat-label">dons</span>
             </div>
             <div class="event-stat-chip">
-                <span class="event-stat-number">270+</span>
-                <span class="event-stat-label">refuges soutenus</span>
+                <span class="event-stat-number">37</span>
+                <span class="event-stat-label">donateurs</span>
+            </div>
+            <div class="event-stat-chip">
+                <span class="event-stat-number">18 / 19</span>
+                <span class="event-stat-label">paliers</span>
             </div>
         </div>
 
         <div class="event-block event-block-highlight">
             <h3 class="event-block-title">La cause</h3>
             <p class="event-block-text">
-                Tout ce qui est récolté va directement à la
+                Tout ce qu'on a récolté est allé directement à la
                 <a href="https://www.defensedelanimal.fr/" target="_blank" rel="nofollow noopener noreferrer"
                    data-umami-event="Events - Gamers4Pets - Confederation"><strong>Confédération Nationale Défense de l'Animal</strong></a>,
                 qui regroupe plus de 270 refuges indépendants partout en France. Ça alimente un fonds d'urgence
@@ -299,24 +303,74 @@
             </p>
             <p class="event-block-text">
                 La France est le pays d'Europe où l'on abandonne le plus, et les refuges manquent cruellement de moyens.
-                C'est pour eux qu'on se donne à fond ce week-end !
+                Merci d'avoir été là pour eux 🫶
             </p>
+        </div>
+
+        <div class="event-block">
+            <h3 class="event-block-title">Les paliers débloqués</h3>
+            <p class="event-block-text">
+                18 paliers sur 19 ! Il ne manquait que 150 € pour la DINGUERIE du voyage à 1 500 €.
+            </p>
+            <ul class="g4p-tiers">
+                <li><strong>20 €</strong> voix suave</li>
+                <li><strong>50 €</strong> Amour sucré</li>
+                <li><strong>70 €</strong> TikTok skincare</li>
+                <li><strong>110 €</strong> streamer dessiné sur Paint</li>
+                <li><strong>140 €</strong> fessier rembourré</li>
+                <li><strong>170 €</strong> Palia</li>
+                <li><strong>230 €</strong> MP au Studio Daniel</li>
+                <li><strong>300 €</strong> live ASMR</li>
+                <li><strong>350 €</strong> anecdote inavouée</li>
+                <li><strong>400 €</strong> débat amoureux sur PowerWash Simulator</li>
+                <li><strong>450 €</strong> carte de remerciement non augmentée à 200K</li>
+                <li><strong>500 €</strong> Dress To Impress 3</li>
+                <li><strong>600 €</strong> rasage de barbe (moustache conservée)</li>
+                <li><strong>610 €</strong> masque au collagène</li>
+                <li><strong>700 €</strong> Guten Morgen en auto-tune</li>
+                <li><strong>800 €</strong> nouveau live cuisine</li>
+                <li><strong>900 €</strong> cheveux teints en violet</li>
+                <li><strong>1 000 €</strong> live 24h</li>
+            </ul>
+        </div>
+
+        <div class="event-block">
+            <h3 class="event-block-title">Les défis du week-end</h3>
+            <ul class="g4p-challenges">
+                <li><strong>40 patchs</strong> collés sur mon visage, un par don de 10 € pile</li>
+                <li><strong>21 défis</strong> à 20 € pile : squats ou Jelly Belly</li>
+                <li><strong>7 dons</strong> de 50 € et plus, remerciés dans 3 stories Insta</li>
+                <li><strong>La guerre des arrondis</strong> : la team arrondi (6 dons de 1,33 €) contre la team 67 (5 dons de 1,67 €), terminée sur un total tout rond</li>
+                <li><strong>100 €</strong> pour le plus gros don en une seule fois</li>
+            </ul>
+        </div>
+
+        <div class="event-block">
+            <h3 class="event-block-title">Les promesses à tenir</h3>
+            <p class="event-block-text">
+                Certains paliers sont des lives à venir. Je les annoncerai ici et sur Discord dès qu'ils ont une date :
+            </p>
+            <ul class="g4p-tiers g4p-promises">
+                <li>Live 24h</li>
+                <li>Nouveau live cuisine</li>
+                <li>Dress To Impress 3</li>
+                <li>Live ASMR</li>
+            </ul>
         </div>
 
         <div class="event-block">
             <h3 class="event-block-title">Le mur des donateurs</h3>
             <p class="event-block-text">
-                Les pseudos de celles et ceux qui ont donné pendant l'event.
+                Les 37 p'tits pains au grand cœur qui ont donné pendant l'event.
             </p>
-            <!-- Le bouton reste désactivé tant que data/gamers4pets-donors.json est vide :
-                 js/gamers4pets.js l'active et masque la note dès qu'il y a un pseudo.
-                 La liste vit dans une modale construite en JS, elle peut être longue. -->
+            <!-- js/gamers4pets.js active le bouton dès que data/gamers4pets-donors.json
+                 contient des pseudos. La liste vit dans une modale construite en JS. -->
             <div class="g4p-donor-cta">
                 <button type="button" class="btn btn-primary g4p-donor-btn" id="g4pDonorBtn" disabled
                         data-umami-event="Events - Gamers4Pets - Mur des donateurs">
                     Voir les p'tits pains au grand cœur 🧡
                 </button>
-                <p class="g4p-donor-note" id="g4pDonorNote">Le mur s'ouvrira après l'event.</p>
+                <p class="g4p-donor-note" id="g4pDonorNote">Le mur se charge…</p>
             </div>
         </div>
 
@@ -327,7 +381,6 @@
      DTI HEARTOPIA #2 — Juin 2026
      ID pattern : dti-heartopia-[mois]-[année]
      ============================================= -->
-<p class="events-divider" aria-hidden="true">L'archive</p>
 <section id="dti-heartopia-juin-2026">
     <div class="event-container theme-summer is-collapsible is-collapsed">
         <div class="event-intro">
@@ -686,11 +739,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=144"></script>
-<script defer src="./js/live-float.js?v=144"></script>
-<script defer src="./js/gallery.js?v=144"></script>
-<script defer src="./js/gamers4pets.js?v=144"></script>
-<script defer src="./js/fluent-emoji.js?v=144"></script>
+<script defer src="./js/main.js?v=145"></script>
+<script defer src="./js/live-float.js?v=145"></script>
+<script defer src="./js/gallery.js?v=145"></script>
+<script defer src="./js/gamers4pets.js?v=145"></script>
+<script defer src="./js/fluent-emoji.js?v=145"></script>
 
 </body>
 </html>

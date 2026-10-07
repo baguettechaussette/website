@@ -91,8 +91,11 @@
             .map(n => n.trim())
             .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
 
-        // Liste vide : le bouton reste désactivé et la note d'attente en place.
-        if (!names.length) return;
+        // Liste vide : le bouton reste désactivé, la note dit pourquoi.
+        if (!names.length) {
+            if (note) note.textContent = "Le mur s'ouvrira très bientôt.";
+            return;
+        }
 
         if (note) note.hidden = true;
         btn.disabled = false;
