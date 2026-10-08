@@ -1165,9 +1165,9 @@
         display: block;
         padding: 12px 20px;
         border-radius: 50px;
-        background: var(--green);
+        background: rgba(127, 184, 147, 0.28); /* pilule sobre, comme les autres boutons (09/10/2026) */
         border: 0;
-        color: #fff;
+        color: var(--green-deep);
         font-size: 0.90625rem;
         font-weight: 700;
         text-align: center;
@@ -1175,7 +1175,7 @@
         box-shadow: none;
     }
 
-    .partner-link-primary:hover { background: var(--green-deep); transform: none; box-shadow: none; }
+    .partner-link-primary:hover { background: rgba(127, 184, 147, 0.42); color: var(--green-deep); transform: none; box-shadow: none; }
 
     /* Le bouton replier / déplier, masqué par défaut au-dessus de 768 px */
     .partner-toggle {

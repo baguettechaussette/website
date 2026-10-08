@@ -473,8 +473,14 @@
         font-size: 0.875rem;
     }
 
-    .partner-link-primary {
-        background: var(--green);
+    /* Pilule sobre, comme les autres boutons (09/10/2026) */
+    .partner-link-primary,
+    .partner-link-primary:hover {
+        background: rgba(127, 184, 147, 0.28);
+        color: var(--green-deep);
         box-shadow: none;
+        transform: none;
     }
+
+    .partner-link-primary:hover { background: rgba(127, 184, 147, 0.42); }
 }
