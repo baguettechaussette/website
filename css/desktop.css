@@ -990,9 +990,9 @@
         margin: 14px 0 0;
         padding: 13px 18px;
         border-radius: 50px;
-        background: var(--green);
+        background: rgba(127, 184, 147, 0.28); /* pilule sobre, comme les autres boutons (09/10/2026) */
         border: 0;
-        color: #fff;
+        color: var(--green-deep);
         font-size: 0.9375rem; /* 15 px */
         font-weight: 600;
         text-align: center;
@@ -1001,7 +1001,7 @@
         box-shadow: none;
     }
 
-    .contact-email:hover { background: var(--green-deep); color: #fff; transform: none; }
+    .contact-email:hover { background: rgba(127, 184, 147, 0.42); color: var(--green-deep); transform: none; box-shadow: none; }
 
     /* Quatre pilules en grille 2 × 2 : les trois cartes et la ligne media kit */
     .contact-cards { display: contents; }

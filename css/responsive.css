@@ -1371,10 +1371,18 @@
         font-weight: 600;
         line-height: 1.35;
         text-align: center;
-        background: var(--green);
+        background: rgba(127, 184, 147, 0.28); /* pilule sobre, comme les autres boutons (09/10/2026) */
+        color: var(--green-deep);
         box-shadow: none;
         word-break: normal;
         overflow-wrap: anywhere;
+    }
+
+    .contact-email:hover {
+        background: rgba(127, 184, 147, 0.42);
+        color: var(--green-deep);
+        transform: none;
+        box-shadow: none;
     }
 
     /* Les pastilles : les 3 cartes rejoignent la ligne du media kit */
