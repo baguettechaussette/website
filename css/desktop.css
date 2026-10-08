@@ -1192,15 +1192,10 @@
     }
 
     .partner-toggle::before {
-        /* Croix dessinée en CSS (deux barres) plutôt qu'un « + » en texte : le
-           glyphe n'est pas centré dans sa boîte, et une fois tourné en « × » il
-           partait de travers. */
-        content: '';
-        width: 12px;
-        height: 12px;
-        background:
-            linear-gradient(currentColor, currentColor) center / 12px 2px no-repeat,
-            linear-gradient(currentColor, currentColor) center / 2px 12px no-repeat;
+        content: '+';
+        font-size: 0.9375rem;
+        font-weight: 700;
+        line-height: 1;
         transition: transform var(--transition-base);
     }
 

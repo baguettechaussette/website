@@ -257,16 +257,10 @@
     }
 
     .event-toggle::before {
-        /* Croix dessinée en CSS (deux barres) plutôt qu'un « + » en texte : le
-           glyphe n'est pas centré dans sa boîte, et une fois tourné en « × » il
-           partait de travers. */
-        content: '';
-        width: 12px;
-        height: 12px;
-        background:
-            linear-gradient(currentColor, currentColor) center / 12px 2px no-repeat,
-            linear-gradient(currentColor, currentColor) center / 2px 12px no-repeat;
-        transition: transform var(--transition-base);
+        content: '+';
+        font-size: 1.0625rem; /* 17 px */
+        font-weight: 700;
+        line-height: 1;
     }
 
     .event-toggle:focus { outline: none; }
@@ -276,8 +270,9 @@
         outline-offset: 2px;
     }
 
-    /* Ouverte : le « + » tourne en « × » */
-    .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
+    /* Ouverte : « × » à la place du « + », sans rotation (le glyphe tourné
+       n'était plus centré) */
+    .is-collapsible:not(.is-collapsed) .event-toggle::before { content: '×'; }
 
     .theme-charity .event-toggle { background: rgba(127, 184, 147, 0.28); color: var(--green-deep); }
     .theme-summer .event-toggle  { background: rgba(63, 184, 175, 0.2); color: #2a7d76; }
