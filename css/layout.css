@@ -433,9 +433,12 @@
 }
 
 /* === Footer === */
+/* Même pied de page partout (accueil, clips, events, mobile et desktop) :
+   la bande pêche des maquettes avec son filet (09/10/2026) */
 footer {
-    background: var(--bg-blur);
-    border-top: 2px solid rgba(140, 191, 159, 0.2);
+    background: #f2e3d8;
+    border: 0;
+    border-top: 1px solid rgba(63, 47, 37, 0.08);
     padding: 60px var(--spacing-md);
     text-align: center;
 }

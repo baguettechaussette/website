@@ -126,11 +126,7 @@
        Pied de page
        ============================================ */
 
-    footer {
-        padding: 24px;
-        background: rgba(242, 227, 216, 0.6);
-        border: 0;
-    }
+    footer { padding: 24px; } /* fond et filet : layout.css */
 
     .footer-content {
         max-width: none;

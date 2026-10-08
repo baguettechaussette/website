@@ -2239,12 +2239,6 @@
     /* L'archive est verte tant qu'elle suit directement le hero (pas de bande
        « À venir »), même logique qu'en desktop */
     .page-hero + .band-archive { background: #e9eee2; }
-
-    body:has(.band) footer {
-        background: #f2e3d8;
-        border: 0;
-        border-top: 1px solid rgba(63, 47, 37, 0.08);
-    }
 }
 
 /* ============================================
