@@ -446,9 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Maquette 25a : la première question de la FAQ est ouverte d'emblée en desktop
         document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
 
-        // Maquette 26a (/events) : l'édition la plus récente de l'archive est ouverte
-        // d'emblée, et toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
-        openLatestEdition();
+        // Maquette 26a (/events) : toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
         document.querySelectorAll('.event-container.is-collapsible > .event-intro').forEach(intro => {
             intro.addEventListener('click', (e) => {
                 if (e.target.closest('a, .event-toggle')) return;
@@ -457,18 +455,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // En desktop, la première édition de l'archive (la plus récente) est ouverte si
-    // aucune ne l'est. Appelé au chargement et quand la fenêtre passe en desktop
-    // (une page ouverte en étroit puis élargie arrivait avec tout replié).
-    function openLatestEdition() {
-        const editions = document.querySelectorAll('.band-archive .event-container.is-collapsible');
-        if (!editions.length) return;
-        if ([...editions].some(c => !c.classList.contains('is-collapsed'))) return;
-        editions[0].classList.remove('is-collapsed');
-        editions[0].querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
-    }
-    const desktopMQ = window.matchMedia('(min-width: 769px)');
-    desktopMQ.addEventListener('change', (e) => { if (e.matches) openLatestEdition(); });
+    // /events : la première édition de l'archive (la plus récente) est ouverte
+    // d'emblée, en mobile comme en desktop (demande du 08/10/2026).
+    (function openLatestEdition() {
+        const first = document.querySelector('.band-archive .event-container.is-collapsible.is-collapsed');
+        if (!first) return;
+        first.classList.remove('is-collapsed');
+        first.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
+    })();
 
     // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)
     // déplie la carte visée, sinon on arrive sur une ligne fermée.
