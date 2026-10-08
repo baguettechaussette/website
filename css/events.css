@@ -662,9 +662,26 @@
     text-align: center;
 }
 
+/* Pilule blanche sobre (09/10/2026), la même en mobile et en desktop : plus
+   de dégradé vert, d'ombre ni de reflet de .btn-primary. */
 .g4p-donor-btn {
-    font-size: 1.05em;
-    padding: 14px 32px;
+    padding: 12px 22px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--text-primary);
+    font-size: 0.95em;
+    box-shadow: none;
+    transition: background var(--transition-base);
+}
+
+.g4p-donor-btn::before { display: none; } /* le reflet au survol de .btn */
+
+.g4p-donor-btn:hover {
+    background: #fff;
+    color: var(--text-primary);
+    transform: none;
+    box-shadow: none;
 }
 
 /* Avant l'event : le bouton est là mais inerte, avec sa note en dessous */
@@ -896,7 +913,6 @@ body.g4p-modal-open .particle {
     .g4p-countdown-value { font-size: 1.7em; }
     .g4p-countdown-sep { margin: 0 7px 0 1px; }
 
-    .g4p-donor-btn { font-size: 0.95em; padding: 13px 24px; }
 
     .g4p-modal { padding: 12px; }
     .g4p-modal__content { padding: 24px 18px; max-height: 88vh; }
@@ -1075,12 +1091,7 @@ body.g4p-modal-open .particle {
     .g4p-donor-btn {
         width: 100%;
         font-size: 0.9em;
-        padding: 12px 18px;
         min-height: 46px;
-        border: 0;
-        background: var(--green); /* vert plat du desktop */
-        color: #fff;
-        box-shadow: none;
     }
     .g4p-donor-note { margin-top: 8px; font-size: 0.85em; }
 

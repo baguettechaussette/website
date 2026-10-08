@@ -365,10 +365,10 @@
 
     /* Gamers4Pets : les chiffres en petites cartes 2 × 2, chiffre au-dessus du libellé */
     .theme-charity .event-stats-strip {
-        flex: 1 1 320px;
-        max-width: 360px;
+        flex: 1 1 340px;
+        max-width: 400px;
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
     }
 
@@ -438,25 +438,18 @@
         font-weight: 700;
     }
 
+    /* Sans texte sous le titre, le bouton suit le titre plutôt que de se
+       caler au fond de la carte */
     .g4p-donor-cta {
-        margin-top: auto;
-        padding-top: 4px;
+        margin-top: 6px;
         text-align: left;
     }
 
     .g4p-donor-btn {
         width: auto;
         min-height: 0;
-        padding: 12px 22px;
-        border: 0;
-        border-radius: 50px;
-        background: var(--green);
-        color: #fff;
-        box-shadow: none;
         font-size: 0.90625rem; /* 14,5 px */
     }
-
-    .g4p-donor-btn:hover { background: var(--green-deep); }
 
     .g4p-donor-btn .fluent-emoji { display: none; } /* pas d'emoji dans le bouton */
 
