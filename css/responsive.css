@@ -2282,9 +2282,9 @@
    676 px de large, sa vignette 378 px de haut).
    ============================================ */
 @media (min-width: 600px) and (max-width: 768px) {
-    .cow-card { flex-basis: 400px; }
+    .cow-card { flex-basis: 340px; }
     .cow-winner,
-    .cow-vote-block[hidden] + .cow-winner { max-width: 560px; margin-left: auto; margin-right: auto; } /* centré */
+    .cow-vote-block[hidden] + .cow-winner { max-width: 480px; margin-left: auto; margin-right: auto; } /* centré */
     .cow-vote-block.is-voted .cow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .cow-vote-block.is-voted .cow-card.is-mine { max-width: 560px; width: 100%; justify-self: center; }
+    .cow-vote-block.is-voted .cow-card.is-mine { max-width: 480px; width: 100%; justify-self: center; }
 }
