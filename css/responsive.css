@@ -2275,3 +2275,16 @@
         border-top: 1px solid rgba(63, 47, 37, 0.08);
     }
 }
+
+/* ============================================
+   TABLETTE (600 à 768 px) : la page clips garde sa mise en page mobile mais
+   les cartes ne s'étirent plus à toute la largeur (une finaliste faisait
+   676 px de large, sa vignette 378 px de haut).
+   ============================================ */
+@media (min-width: 600px) and (max-width: 768px) {
+    .cow-card { flex-basis: 400px; }
+    .cow-winner,
+    .cow-vote-block[hidden] + .cow-winner { max-width: 560px; }
+    .cow-vote-block.is-voted .cow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cow-vote-block.is-voted .cow-card.is-mine { max-width: 560px; }
+}
