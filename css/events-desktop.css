@@ -445,11 +445,7 @@
         text-align: left;
     }
 
-    .g4p-donor-btn {
-        width: auto;
-        min-height: 0;
-        font-size: 0.90625rem; /* 14,5 px */
-    }
+    .g4p-donor-btn { width: auto; } /* à sa largeur, à gauche */
 
     .g4p-donor-btn .fluent-emoji { display: none; } /* pas d'emoji dans le bouton */
 

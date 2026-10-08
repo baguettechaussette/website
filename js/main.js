@@ -490,6 +490,29 @@ document.addEventListener('DOMContentLoaded', () => {
         el.setAttribute('href', 'mailto:' + addr);
         if ('showText' in el.dataset) el.textContent = addr;
     });
+    document.querySelectorAll('.js-email-text').forEach(el => {
+        el.textContent = `${el.dataset.user}@${el.dataset.domain}`;
+    });
+
+    // Bouton e-mail (brief boutons du 09/10/2026) : à la souris, « Copier
+    // l'adresse » copie et affiche « Copié » 1,5 s ; au doigt, « M'écrire »
+    // ouvre le mailto. Sans JS le lien reste un mailto classique.
+    document.querySelectorAll('.contact-email.js-email').forEach(btn => {
+        if (!window.matchMedia('(pointer: fine)').matches || !navigator.clipboard) return;
+        const addr = `${btn.dataset.user}@${btn.dataset.domain}`;
+        const label = "Copier l'adresse";
+        btn.textContent = label;
+        let timer = 0;
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigator.clipboard.writeText(addr).then(() => {
+                btn.textContent = 'Copié';
+                btn.classList.add('is-copied');
+                clearTimeout(timer);
+                timer = setTimeout(() => { btn.textContent = label; btn.classList.remove('is-copied'); }, 1500);
+            }).catch(() => { window.location.href = 'mailto:' + addr; });
+        });
+    });
 
     // Moments forts : top clips de la semaine (data/top-clips.json)
     loadTopClips();

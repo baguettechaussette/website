@@ -693,3 +693,75 @@
         height: 44px;
     }
 }
+
+/* ============================================
+   SYSTÈME DE BOUTONS (brief Claude Design du 09/10/2026)
+   Primaire : vert plein, un seul par carte. Secondaire : pilule blanche
+   translucide, seulement sur une bande de fond. Lien : terracotta + flèche,
+   dans les cartes. 48 px de haut, pas d'emoji, pas de contour coloré.
+   Ces règles viennent après .btn / .btn-primary et les remplacent.
+   ============================================ */
+.btn-primary,
+.btn-secondary,
+.g4p-donor-btn,
+.partner-link-primary,
+.hero-live-cta,
+.contact-email {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 50px;
+    font-size: 0.9375rem; /* 15 px */
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: none;
+    transition: background var(--transition-base), transform var(--transition-base);
+}
+
+.btn-primary,
+.g4p-donor-btn,
+.partner-link-primary,
+.hero-live-cta,
+.contact-email {
+    background: var(--green);
+    color: #fff;
+}
+
+.btn-primary:hover,
+.g4p-donor-btn:hover,
+.partner-link-primary:hover,
+.hero-live-cta:hover,
+.contact-email:hover {
+    background: var(--green-deep);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: #fff;
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+/* Plus de reflet qui balaie le bouton au survol */
+.btn::before,
+.g4p-donor-btn::before { display: none; }
+
+/* L'adresse e-mail en clair sous le bouton */
+.contact-address {
+    margin: 10px 0 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}

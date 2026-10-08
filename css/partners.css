@@ -177,15 +177,22 @@
 
 /* bouton principal */
 
+/* Primaire du système de boutons (components.css), redit ici car cette
+   feuille est chargée après : vert plein, sans dégradé ni ombre */
 .partner-link-primary {
-    background: linear-gradient(135deg,var(--blue),var(--green));
-    color:white;
-    box-shadow: 0 4px 12px rgba(122,158,114,0.25);
+    min-height: 48px;
+    padding: 0 22px;
+    background: var(--green);
+    color: #fff;
+    font-size: 0.9375rem;
+    box-shadow: none;
 }
 
 .partner-link-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(122,158,114,0.4);
+    background: var(--green-deep);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: none;
 }
 
 /* bouton secondaire */
@@ -468,24 +475,11 @@
     .partner-actions { gap: 8px; }
 
     .partner-link {
-        min-height: 46px;
+        min-height: 48px;
         padding: 12px 22px;
         font-size: 0.875rem;
     }
 
-    /* Pilule sobre, comme les autres boutons : contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
-    .partner-link-primary {
-        background: rgba(255, 255, 255, 0.7);
-        border: 2px solid var(--green-deep);
-        color: var(--green-deep);
-        box-shadow: none;
-        transform: none;
-    }
-
-    .partner-link-primary:hover {
-        background: var(--green-deep);
-        color: #fff;
-        box-shadow: none;
-        transform: none;
-    }
+    /* Primaire vert (components.css), étiré en mobile seulement */
+    .partner-link-primary { width: 100%; }
 }

@@ -53,19 +53,19 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=177">
+    <link rel="stylesheet" href="./css/fonts.css?v=179">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=177">
-    <link rel="stylesheet" href="./css/layout.css?v=177">
-    <link rel="stylesheet" href="./css/components.css?v=177">
-    <link rel="stylesheet" href="./css/sections.css?v=177">
-    <link rel="stylesheet" href="./css/responsive.css?v=177">
-    <link rel="stylesheet" href="./css/partners.css?v=177">
+    <link rel="stylesheet" href="./css/base.css?v=179">
+    <link rel="stylesheet" href="./css/layout.css?v=179">
+    <link rel="stylesheet" href="./css/components.css?v=179">
+    <link rel="stylesheet" href="./css/sections.css?v=179">
+    <link rel="stylesheet" href="./css/responsive.css?v=179">
+    <link rel="stylesheet" href="./css/partners.css?v=179">
     <!-- Desktop : habillage commun (fond, barre de navigation, pied de page)
          puis la feuille propre à la page. Tout est en @media (min-width: 769px),
          chargé après responsive.css pour primer sur les réglages communs. -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=177">
-    <link rel="stylesheet" href="./css/desktop.css?v=177">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=179">
+    <link rel="stylesheet" href="./css/desktop.css?v=179">
 
     <script type="application/ld+json">
         {
@@ -298,7 +298,7 @@
                 <p class="hero-live-game" id="heroLiveGame" hidden></p>
                 <div class="hero-live-actions">
                     <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener"
-                       class="hero-live-cta" id="heroLiveCta" data-umami-event="Hero - Suivre la chaine">Suivre la chaîne ♥</a>
+                       class="hero-live-cta" id="heroLiveCta" data-umami-event="Hero - Suivre la chaine">Suivre la chaîne</a>
                 </div>
             </div>
 
@@ -413,7 +413,7 @@
         <p class="clips-teaser-intro">8 clips de la commu sont en finale cette semaine. Regarde-les et vote pour ton préféré, le gagnant est révélé dimanche en live.</p>
         <div class="clips-grid" id="clipsGrid" data-limit="4" data-source="week"></div>
         <div class="clips-more">
-            <a href="/clips#clip-semaine" class="btn btn-primary" data-umami-event="Home - Vote CTA">Voir les finalistes et voter 🥖</a>
+            <a href="/clips#clip-semaine" class="btn btn-primary" data-umami-event="Home - Vote CTA">Voir les finalistes et voter</a>
         </div>
     </div>
 </section>
@@ -457,7 +457,7 @@
     </div>
 
     <div class="clips-more">
-        <a href="/events" class="btn btn-primary" data-umami-event="Home - Events CTA">Voir tous les événements 🌸</a>
+        <a href="/events" class="btn btn-secondary" data-umami-event="Home - Events CTA">Voir tous les événements</a>
     </div>
 </section>
 
@@ -508,11 +508,12 @@
                 <h3 class="contact-title">Email professionnel</h3>
                 <!-- Desktop uniquement (maquette 25a) -->
                 <span class="contact-reply">Réponse sous quelques jours</span>
+                <!-- Un seul bouton : « M'écrire » (mailto) ; au pointeur fin, main.js le
+                     passe en « Copier l'adresse » et copie. L'adresse reste lisible dessous. -->
                 <a href="#" class="contact-email js-email" data-user="baguette.chaussette.contact"
-                   data-domain="gmail.com" data-show-text
-                   data-umami-event="Contact - Email Click">
-                    baguette.chaussette.contact [at] gmail.com
-                </a>
+                   data-domain="gmail.com" data-umami-event="Contact - Email Click">M'écrire</a>
+                <p class="contact-address js-email-text" data-user="baguette.chaussette.contact"
+                   data-domain="gmail.com">baguette.chaussette.contact [at] gmail.com</p>
             </article>
 
             <div class="contact-cards">
@@ -798,9 +799,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=177"></script>
-<script defer src="./js/stream-countdown.js?v=177"></script>
-<script defer src="./js/live-float.js?v=177"></script>
-<script defer src="./js/fluent-emoji.js?v=177"></script>
+<script defer src="./js/main.js?v=179"></script>
+<script defer src="./js/stream-countdown.js?v=179"></script>
+<script defer src="./js/live-float.js?v=179"></script>
+<script defer src="./js/fluent-emoji.js?v=179"></script>
 </body>
 </html>

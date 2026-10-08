@@ -313,25 +313,10 @@
         align-items: center;
     }
 
+    /* Primaire vert (components.css), à sa largeur */
     .hero-live-actions .hero-live-cta {
         flex: none;
-        min-height: 0;
-        padding: 13px 22px;
-        border-radius: 50px;
-        background: #fff;
-        border: 0;
-        color: var(--text-primary);
-        font-size: 0.9375rem; /* 15 px */
-        font-weight: 700;
         white-space: nowrap;
-        text-decoration: none;
-        box-shadow: none;
-        transition: transform var(--transition-base), box-shadow var(--transition-base);
-    }
-
-    .hero-live-actions .hero-live-cta:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(63, 47, 37, 0.12);
     }
 
     /* En direct (bloc 24a) : la carte rougit, le jeu devient le titre, le
@@ -348,7 +333,7 @@
 
     .hero-live-card.is-live .hero-live-label { color: var(--pink-deep); }
     .hero-live-card.is-live .hero-live-countdown { display: none; }
-    .hero-live-card.is-live .hero-live-cta { color: #b83a3a; }
+    .hero-live-card.is-live .hero-live-cta { background: #fff; color: #b83a3a; }
 
     /* ── Trois chiffres, en cartes ── */
 
@@ -641,22 +626,7 @@
         justify-content: flex-start;
     }
 
-    #clips .clips-more .btn {
-        min-height: 0;
-        padding: 13px 28px;
-        border-radius: 50px;
-        background: var(--green);
-        border: 0;
-        color: #fff;
-        font-size: 0.96875rem; /* 15,5 px */
-        font-weight: 700;
-        box-shadow: none;
-    }
-
-    #clips .clips-more .btn:hover {
-        background: var(--green-deep);
-        transform: translateY(-1px);
-    }
+    #clips .clips-more .btn { padding: 0 28px; } /* primaire vert (components.css) */
 
     /* ============================================
        Événements + Me soutenir — deux colonnes
@@ -782,33 +752,7 @@
         justify-content: flex-start;
     }
 
-    #evenements .clips-more .btn {
-        min-height: 0;
-        padding: 4px 2px;
-        border-radius: 0;
-        background: none;
-        border: 0;
-        color: var(--pink-deep);
-        font-size: 0.9375rem; /* 15 px */
-        font-weight: 700;
-        box-shadow: none;
-        text-decoration: none;
-    }
-
-    #evenements .clips-more .btn:hover {
-        transform: none;
-        text-decoration: underline;
-        background: none;
-    }
-
-    /* components.css fait glisser un reflet sur tout .btn au survol : sur un
-       lien texte sans fond, le reflet balayait un rectangle fantôme */
-    #evenements .clips-more .btn::before { display: none; }
-
-    /* Pas d'emoji dans un lien ou un bouton : la fleur du mobile disparaît,
-       la flèche prend sa place */
-    #evenements .clips-more .btn img.fluent-emoji { display: none; }
-    #evenements .clips-more .btn::after { content: '→'; margin-left: 2px; }
+    /* Secondaire (components.css) : pilule blanche sur la bande, à gauche */
 
     /* ── Cartes de soutien : titre, texte, bouton sous le texte ── */
 
@@ -863,11 +807,12 @@
         align-items: center;
         justify-content: center;
         margin: 4px 0 0;
-        padding: 11px 22px;
+        min-height: 48px;
+        padding: 0 22px;
         border-radius: 50px;
         border: 0;
         color: #fff;
-        font-size: 0.90625rem; /* 14,5 px */
+        font-size: 0.9375rem; /* 15 px */
         font-weight: 700;
         white-space: nowrap;
     }
@@ -938,12 +883,15 @@
         grid-template-areas:
             "icon  title"
             "icon  reply"
-            "email email";
+            "email email"
+            "addr  addr";
         align-items: center;
         column-gap: 12px;
         row-gap: 0;
         text-align: left;
     }
+
+    .contact-address { grid-area: addr; margin: 8px 0 0; }
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
 
@@ -985,23 +933,13 @@
         color: rgba(63, 47, 37, 0.72);
     }
 
+    /* Primaire vert (components.css), à sa largeur, à gauche */
     .contact-email {
         grid-area: email;
+        justify-self: start;
         margin: 14px 0 0;
-        padding: 13px 18px;
-        border-radius: 50px;
-        background: rgba(255, 255, 255, 0.7); /* contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
-        border: 2px solid var(--green-deep);
-        color: var(--green-deep);
-        font-size: 0.9375rem; /* 15 px */
-        font-weight: 600;
-        text-align: center;
-        text-decoration: none;
-        word-break: break-word;
-        box-shadow: none;
+        white-space: nowrap;
     }
-
-    .contact-email:hover { background: var(--green-deep); color: #fff; transform: none; box-shadow: none; }
 
     /* Quatre pilules en grille 2 × 2 : les trois cartes et la ligne media kit */
     .contact-cards { display: contents; }
@@ -1161,21 +1099,9 @@
 
     .partner-actions { grid-area: actions; margin: 0; }
 
-    .partner-link-primary {
-        display: block;
-        padding: 12px 20px;
-        border-radius: 50px;
-        background: rgba(255, 255, 255, 0.7); /* contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
-        border: 2px solid var(--green-deep);
-        color: var(--green-deep);
-        font-size: 0.90625rem;
-        font-weight: 700;
-        text-align: center;
-        text-decoration: none;
-        box-shadow: none;
-    }
-
-    .partner-link-primary:hover { background: var(--green-deep); color: #fff; transform: none; box-shadow: none; }
+    /* Primaire vert (components.css), à sa largeur, à gauche */
+    .partner-link-primary { width: auto; }
+    .partner-actions { display: flex; flex-direction: row; align-items: flex-start; }
 
     /* Le bouton replier / déplier, masqué par défaut au-dessus de 768 px */
     .partner-toggle {

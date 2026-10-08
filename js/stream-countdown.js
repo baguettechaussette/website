@@ -260,7 +260,7 @@
             ? (liveMeta && liveMeta.game ? liveMeta.game : "Ça se passe maintenant !")
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
         if (isLive) renderLiveMeta();
-        hero.cta.textContent = isLive ? "Viens te poser 🧦" : "Suivre la chaîne ♥"; // mêmes textes que le CTA du planning desktop
+        hero.cta.textContent = isLive ? "Viens te poser" : "Suivre la chaîne"; // mêmes textes que le CTA du planning desktop, sans emoji (brief boutons)
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
         if (isLive && hero.cd) hero.cd.textContent = "";
     }
@@ -297,7 +297,7 @@
             el.appendChild(cta);
         }
         cta.classList.toggle("live", type === "live");
-        cta.textContent = type === "live" ? "Viens te poser 🧦" : "Suivre la chaîne ♥";
+        cta.textContent = type === "live" ? "Viens te poser" : "Suivre la chaîne";
         cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
     }
 
