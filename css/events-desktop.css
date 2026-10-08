@@ -1,5 +1,5 @@
 /* ============================================================
-   EVENTS DESKTOP — maquette Claude Design 26a
+   EVENTS DESKTOP — maquette Claude Design 27a
    « Deux bandes, des éditions repliables »
 
    Chargée par events.html seulement, après events.css : à spécificité
@@ -13,11 +13,11 @@
    h2 40 px / sous-titre 16,5 px, cartes blanc translucide
    rgba(255,255,255,0.5) + bord 2 px rgba(255,255,255,0.7).
 
-   Adaptation assumée : la maquette montre Gamers4Pets « À venir » dans
-   sa propre bande. L'édition est passée depuis, elle vit donc dans
-   « L'archive », ouverte d'emblée (js/main.js), avec la mise en page en
-   deux colonnes prévue pour elle. Pour un prochain event à venir, la
-   bande .band-upcoming est déjà stylée ici (voir events.html).
+   Une seule colonne dans les cartes : récit, chiffres, photos en grille
+   de quatre, podium centré en pied. Gamers4Pets (passé) ouvre l'archive
+   avec ses deux rangées : récit + chiffres, puis cause + mur. Pour un
+   prochain event à venir, la bande .band-upcoming est déjà stylée ici
+   (voir events.html) ; l'archive repasse alors en beige.
    ============================================================ */
 
 @media (min-width: 769px) {
@@ -61,11 +61,11 @@
 
     .band-upcoming { background: #e9eee2; }
 
+    /* L'archive est verte tant qu'elle suit directement le hero ; le jour
+       où une bande « À venir » se glisse entre les deux, elle repasse en
+       beige pour alterner. */
     .band-archive { background: #f0ebe0; }
 
-    /* Tant qu'il n'y a pas de bande « À venir », l'archive suit directement
-       le hero : elle prend le vert pâle pour garder un bord net sous le
-       dégradé (sinon #f0ebe0 sur #f0ebe0). */
     .page-hero + .band-archive { background: #e9eee2; }
 
     /* En-tête de bande : 28 px avant la première carte (14 + 14 de gap) */
@@ -264,6 +264,13 @@
         transition: transform var(--transition-base);
     }
 
+    .event-toggle:focus { outline: none; }
+
+    .event-toggle:focus-visible {
+        outline: 3px solid var(--pink);
+        outline-offset: 2px;
+    }
+
     /* Ouverte : le « + » tourne en « × » */
     .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
 
@@ -278,43 +285,45 @@
         padding: 0 26px 26px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
-    }
-
-    .event-body-main {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .event-body-aside {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-    }
-
-    /* Récit et podium à gauche, photos ou blocs à droite, à partir de 1 024 px */
-    @media (min-width: 1024px) {
-        .event-body:has(> .event-body-aside) {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 24px;
-            align-items: stretch;
-        }
+        gap: 20px;
     }
 
     .event-body .event-description {
         margin: 0;
-        max-width: none;
+        max-width: 640px;
         font-size: 1rem; /* 16 px */
         line-height: 1.55;
         color: rgba(63, 47, 37, 0.88);
         text-align: left;
     }
 
-    .theme-charity .event-body .event-description { font-size: 1.03125rem; } /* 16,5 px */
+    /* Le récit et ses pilules forment un bloc : 14 px entre eux, pas 20 */
+    .event-body > .event-description { margin-bottom: -6px; }
+
+    .theme-autumn .event-body .event-description { max-width: 720px; }
+
+    /* ── Gamers4Pets : deux rangées ── */
+
+    /* Rangée 1 : récit à gauche, les quatre chiffres en 2 × 2 à droite */
+    .event-body-main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 20px 32px;
+    }
+
+    .event-body-main .event-description {
+        flex: 1 1 420px;
+        min-width: 0;
+    }
+
+    /* Rangée 2 : « La cause » et « Le mur » côte à côte, même hauteur */
+    .event-body-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px;
+        align-items: stretch;
+    }
 
     /* Chiffres clés en pilules : « 10 participants », « 5 manches »… */
     .event-stats-strip,
@@ -351,13 +360,19 @@
 
     .event-stat-number { font-weight: 700; }
 
-    /* Gamers4Pets : les chiffres en petites cartes, chiffre au-dessus du libellé */
-    .theme-charity .event-stats-strip { gap: 10px; }
+    /* Gamers4Pets : les chiffres en petites cartes 2 × 2, chiffre au-dessus du libellé */
+    .theme-charity .event-stats-strip {
+        flex: 1 1 320px;
+        max-width: 360px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
 
     .theme-charity .event-stat-chip {
-        flex: 1 1 110px;
+        display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: 2px;
         padding: 12px 18px;
         border-radius: 18px;
@@ -376,7 +391,7 @@
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* ── Gamers4Pets : « La cause » et « Le mur des donateurs » empilés à droite ── */
+    /* ── Gamers4Pets : « La cause » et « Le mur des donateurs » ── */
 
     .dti-gallery-block,
     .event-block {
@@ -397,8 +412,6 @@
 
     .event-block-highlight { background: rgba(255, 255, 255, 0.65); }
 
-    /* Le dernier bloc remplit la colonne, son bouton se cale en bas */
-    .event-body-aside > .event-block:last-child { flex: 1; }
 
     .event-block-title {
         margin: 0;
@@ -417,6 +430,11 @@
         text-align: left;
     }
 
+    .event-block-text a {
+        color: var(--green-deep);
+        font-weight: 700;
+    }
+
     .g4p-donor-cta {
         margin-top: auto;
         padding-top: 4px;
@@ -426,10 +444,18 @@
     .g4p-donor-btn {
         width: auto;
         min-height: 0;
-        padding: 11px 20px;
+        padding: 12px 22px;
+        border: 0;
         border-radius: 50px;
+        background: var(--green);
+        color: #fff;
+        box-shadow: none;
         font-size: 0.90625rem; /* 14,5 px */
     }
+
+    .g4p-donor-btn:hover { background: var(--green-deep); }
+
+    .g4p-donor-btn .fluent-emoji { display: none; } /* pas d'emoji dans le bouton */
 
     /* Tant que la liste n'est pas là : la pastille grise de la maquette */
     .g4p-donor-btn:disabled {
@@ -445,21 +471,20 @@
         text-align: left;
     }
 
-    /* ── DTI : les photos de groupe en grille 2 colonnes, légende dessous ── */
+    /* ── DTI : toutes les photos de l'édition en grille (4 colonnes à 1 100 px), légende dessous ── */
 
-    .event-body-aside:has(.dti-photo-grid) {
+    .event-photos {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px 12px;
-        align-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px 12px;
         counter-reset: manche;
     }
 
     /* Manches et finale ne font qu'une seule grille */
-    .event-body-aside .dti-gallery-block,
-    .event-body-aside .dti-photo-grid { display: contents; }
+    .event-photos .dti-gallery-block,
+    .event-photos .dti-photo-grid { display: contents; }
 
-    .event-body-aside .dti-section-title { display: none; } /* la légende dit déjà « Finale » */
+    .event-photos .dti-section-title { display: none; } /* la légende dit déjà « Finale » */
 
     .dti-photo-item {
         margin: 0;
@@ -516,20 +541,28 @@
         color: var(--text-primary);
     }
 
-    /* ── Podium : calé en bas de la colonne, sans médailles ── */
+    /* ── Podium : centré en pied de carte, sans médailles ── */
 
-    .event-podium-section { margin: auto 0 0; }
+    .event-podium-section {
+        margin: 0;
+        padding-top: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
 
     .event-podium-title {
-        margin: 0 0 10px;
+        margin: 0;
         font-size: 1rem;
         font-weight: 700;
         color: var(--text-primary);
         letter-spacing: 0;
-        text-align: left;
+        text-align: center;
     }
 
     .event-podium {
+        width: min(520px, 100%);
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
@@ -539,7 +572,7 @@
     .podium-card {
         min-width: 0;
         gap: 2px;
-        padding: 14px 8px;
+        padding: 16px 14px;
         border: 0;
         border-radius: 16px;
         backdrop-filter: none;
@@ -549,7 +582,7 @@
     .podium-card:hover { transform: none; }
 
     .podium-card.rank-1 {
-        padding: 20px 8px;
+        padding: 24px 14px;
         background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.10));
     }
 
@@ -577,11 +610,11 @@
         text-align: center;
     }
 
-    /* ── Baguettectober : cinq cartes emoji en grille de trois ── */
+    /* ── Baguettectober : quatre semaines sur une rangée, le bonus en ligne dessous ── */
 
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 12px;
         max-width: none;
         margin: 0;
@@ -665,6 +698,35 @@
         font-size: 0.875rem; /* 14 px */
         font-weight: 700;
         color: var(--pink-deep);
+    }
+
+    /* Le challenge bonus : une ligne pleine largeur sous les semaines,
+       emoji, « CHALLENGE BONUS » + titre, et l'appel à droite */
+    .gallery-item[data-week="bonus"] {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "icon label cta"
+            "icon title cta";
+        align-items: center;
+        column-gap: 14px;
+        row-gap: 0;
+        padding: 16px 18px;
+    }
+
+    /* Le placeholder s'efface : emoji et libellé deviennent des cases de la ligne */
+    .gallery-item[data-week="bonus"] .gallery-placeholder { display: contents; }
+
+    .gallery-item[data-week="bonus"] .gallery-icon { grid-area: icon; margin: 0; }
+    .gallery-item[data-week="bonus"] .gallery-week-label { grid-area: label; align-self: end; }
+    .gallery-item[data-week="bonus"] .gallery-week { grid-area: title; align-self: start; }
+
+    .gallery-item[data-week="bonus"]::after {
+        grid-area: cta;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
     }
 
     /* ============================================

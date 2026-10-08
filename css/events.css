@@ -1199,7 +1199,8 @@ body.g4p-modal-open .particle {
     }
 
     .event-body-main,
-    .event-body-aside { display: contents; }
+    .event-body-row,
+    .event-photos { display: contents; }
 
     .event-body .event-description {
         order: -2;

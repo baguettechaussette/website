@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements | Baguette Chaussette</title>
-    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
+    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -42,18 +42,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=151">
+    <link rel="stylesheet" href="./css/fonts.css?v=152">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=151">
-    <link rel="stylesheet" href="./css/layout.css?v=151">
-    <link rel="stylesheet" href="./css/components.css?v=151">
-    <link rel="stylesheet" href="./css/sections.css?v=151">
-    <link rel="stylesheet" href="./css/responsive.css?v=151">
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=151">
-    <link rel="stylesheet" href="./css/events.css?v=151">
-    <link rel="stylesheet" href="./css/events-desktop.css?v=151">
-    <link rel="stylesheet" href="./css/lightbox.css?v=151">
+    <link rel="stylesheet" href="./css/base.css?v=152">
+    <link rel="stylesheet" href="./css/layout.css?v=152">
+    <link rel="stylesheet" href="./css/components.css?v=152">
+    <link rel="stylesheet" href="./css/sections.css?v=152">
+    <link rel="stylesheet" href="./css/responsive.css?v=152">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=152">
+    <link rel="stylesheet" href="./css/events.css?v=152">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=152">
+    <link rel="stylesheet" href="./css/lightbox.css?v=152">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -66,7 +66,7 @@
                 "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#gamers4pets-2026",
                 "name": "Gamers4Pets 2026, event gaming caritatif",
-                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. 1 350 € récoltés pour la Confédération Nationale Défense de l'Animal.",
+                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. 1 350 € récoltés pour la Confédération Nationale Défense de l'Animal.",
                 "startDate": "2026-10-02T20:00:00+02:00",
                 "endDate": "2026-10-04T23:59:00+02:00",
                 "eventStatus": "https://schema.org/EventScheduled",
@@ -235,9 +235,9 @@
 ║       d'un appareil à l'autre)                                       ║
 ║                                                                      ║
 ║  2 ter. Garde la structure .event-intro (ligne d'en-tête) puis       ║
-║     .event-body > .event-body-main (récit, chiffres, podium) et      ║
-║     .event-body-aside (photos ou blocs) : c'est elle qui fait les    ║
-║     deux colonnes en desktop et l'ordre d'affichage en mobile.       ║
+║     .event-body : récit, chiffres, photos (dans .event-photos),      ║
+║     podium. Les emballages .event-body-main / .event-body-row de     ║
+║     Gamers4Pets ne servent qu'aux deux rangées du desktop.           ║
 ║                                                                      ║
 ║  3. Colle le bloc AVANT les anciens (ordre : plus récent en haut)    ║
 ║                                                                      ║
@@ -284,12 +284,12 @@
             <p class="event-description">
                 Mon tout premier event caritatif ! Gamers4Pets a tourné du 29 septembre au 4 octobre au profit
                 de Défense de l'Animal, et je l'ai vécu en présentiel du vendredi 2 au dimanche 4 octobre.
-                Grâce à vous, on a récolté 1 350 €, pile tout rond 🧡
+                Grâce à vous, on a récolté 1 350 €, pile tout rond 🧡
             </p>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
-                <span class="event-stat-number">1 350 €</span>
+                <span class="event-stat-number">1 350 €</span>
                 <span class="event-stat-label">récoltés</span>
             </div>
             <div class="event-stat-chip">
@@ -307,7 +307,7 @@
         </div>
         </div>
 
-        <div class="event-body-aside">
+        <div class="event-body-row">
         <div class="event-block event-block-highlight">
             <h3 class="event-block-title">La cause</h3>
             <p class="event-block-text">
@@ -360,7 +360,6 @@
         </div>
 
         <div class="event-body">
-        <div class="event-body-main">
             <p class="event-description">
                 Après le succès de la première édition, Dress To Impress a fait son come-back sur Heartopia ! 10 participant·es se sont affronté·es sur 5 manches à thème, avant une grande finale sur le thème « Pays ». Chaque passage a été noté par le jury composé de moi-même et d'Omiilia, ainsi que par les votes des viewers.
             </p>
@@ -384,31 +383,7 @@
             </div>
         </div>
 
-        <div class="event-podium-section">
-            <h3 class="event-podium-title">Podium final</h3>
-            <div class="event-podium">
-                <div class="podium-card rank-2">
-                    <div class="podium-medal">🥈</div>
-                    <div class="podium-rank">2<sup>ème</sup></div>
-                    <div class="podium-name">flofloria9</div>
-                </div>
-
-                <div class="podium-card rank-1">
-                    <div class="podium-medal">🥇</div>
-                    <div class="podium-rank">1<sup>er</sup></div>
-                    <div class="podium-name">zazapineapple</div>
-                </div>
-
-                <div class="podium-card rank-3">
-                    <div class="podium-medal">🥉</div>
-                    <div class="podium-rank">3<sup>ème</sup></div>
-                    <div class="podium-name">inesk13</div>
-                </div>
-            </div>
-        </div>
-        </div>
-
-        <div class="event-body-aside">
+        <div class="event-photos">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -474,6 +449,29 @@
             </div>
         </div>
         </div>
+
+        <div class="event-podium-section">
+            <h3 class="event-podium-title">Podium final</h3>
+            <div class="event-podium">
+                <div class="podium-card rank-2">
+                    <div class="podium-medal">🥈</div>
+                    <div class="podium-rank">2<sup>ème</sup></div>
+                    <div class="podium-name">flofloria9</div>
+                </div>
+
+                <div class="podium-card rank-1">
+                    <div class="podium-medal">🥇</div>
+                    <div class="podium-rank">1<sup>er</sup></div>
+                    <div class="podium-name">zazapineapple</div>
+                </div>
+
+                <div class="podium-card rank-3">
+                    <div class="podium-medal">🥉</div>
+                    <div class="podium-rank">3<sup>ème</sup></div>
+                    <div class="podium-name">inesk13</div>
+                </div>
+            </div>
+        </div>
         </div>
 
     </div>
@@ -494,7 +492,6 @@
         </div>
 
         <div class="event-body">
-        <div class="event-body-main">
             <p class="event-description">
                 Premier concours Dress To Impress organisé sur Heartopia avec la commu ! <br>
                 Pendant toute la soirée, 10 participant·es se sont affronté·es sur 6 manches à thème. <br>
@@ -520,31 +517,7 @@
             </div>
         </div>
 
-        <div class="event-podium-section">
-            <h3 class="event-podium-title">Podium final</h3>
-            <div class="event-podium">
-                <div class="podium-card rank-2">
-                    <div class="podium-medal">🥈</div>
-                    <div class="podium-rank">2<sup>ème</sup></div>
-                    <div class="podium-name">Natsukyàa</div>
-                </div>
-
-                <div class="podium-card rank-1">
-                    <div class="podium-medal">🥇</div>
-                    <div class="podium-rank">1<sup>er</sup></div>
-                    <div class="podium-name">zazapineapple</div>
-                </div>
-
-                <div class="podium-card rank-3">
-                    <div class="podium-medal">🥉</div>
-                    <div class="podium-rank">3<sup>ème</sup></div>
-                    <div class="podium-name">lakish_loreine</div>
-                </div>
-            </div>
-        </div>
-        </div>
-
-        <div class="event-body-aside">
+        <div class="event-photos">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -610,6 +583,29 @@
             </div>
         </div>
         </div>
+
+        <div class="event-podium-section">
+            <h3 class="event-podium-title">Podium final</h3>
+            <div class="event-podium">
+                <div class="podium-card rank-2">
+                    <div class="podium-medal">🥈</div>
+                    <div class="podium-rank">2<sup>ème</sup></div>
+                    <div class="podium-name">Natsukyàa</div>
+                </div>
+
+                <div class="podium-card rank-1">
+                    <div class="podium-medal">🥇</div>
+                    <div class="podium-rank">1<sup>er</sup></div>
+                    <div class="podium-name">zazapineapple</div>
+                </div>
+
+                <div class="podium-card rank-3">
+                    <div class="podium-medal">🥉</div>
+                    <div class="podium-rank">3<sup>ème</sup></div>
+                    <div class="podium-name">lakish_loreine</div>
+                </div>
+            </div>
+        </div>
         </div>
 
     </div>
@@ -630,7 +626,6 @@
         </div>
 
         <div class="event-body">
-        <div class="event-body-main">
             <p class="event-description">
                 C'est comme Inktober... mais en fait non ! Durant chaque semaine d'octobre, un nouveau défi dessin a été révélé pour exprimer ta créativité.
                 Découvre ici la galerie d'art de la communauté 😊
@@ -646,7 +641,6 @@
                 <span class="event-stat-number">33</span>
                 <span class="event-stat-label">illustrations</span>
             </div>
-        </div>
         </div>
 
         <div class="gallery-grid">
@@ -727,11 +721,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=151"></script>
-<script defer src="./js/live-float.js?v=151"></script>
-<script defer src="./js/gallery.js?v=151"></script>
-<script defer src="./js/gamers4pets.js?v=151"></script>
-<script defer src="./js/fluent-emoji.js?v=151"></script>
+<script defer src="./js/main.js?v=152"></script>
+<script defer src="./js/live-float.js?v=152"></script>
+<script defer src="./js/gallery.js?v=152"></script>
+<script defer src="./js/gamers4pets.js?v=152"></script>
+<script defer src="./js/fluent-emoji.js?v=152"></script>
 
 </body>
 </html>
