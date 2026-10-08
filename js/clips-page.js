@@ -120,8 +120,9 @@ function testFlag(name) {
 }
 
 // Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
-// sizes : largeur CSS de la vignette (finalistes : 2 colonnes en mobile, ~175 px en desktop)
-function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 640px) 45vw, 240px') {
+// sizes : largeur CSS de la vignette (finalistes : carrousel en mobile, 340 px en
+// tablette, ~260 px dans la grille desktop)
+function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 599px) calc(100vw - 46px), (max-width: 768px) 340px, 260px') {
     const thumb = document.createElement('button');
     thumb.type = 'button';
     thumb.className = 'clip-thumb';
@@ -243,7 +244,8 @@ async function loadClipOfWeek() {
             if (revealed) {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
                 const card = makeEl('div', 'cow-winner-card');
-                card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner', '240px'));
+                // Le gagnant est la plus grande vignette de la page
+                card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner', '(max-width: 599px) calc(100vw - 60px), (max-width: 768px) 480px, 506px'));
                 const info = makeEl('div', 'cow-winner-info');
                 info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
                 if (data.winner.creator_name) {

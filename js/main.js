@@ -613,7 +613,11 @@ async function loadTopClips() {
 function setClipThumbSources(img, url, sizes) {
     if (/-480x272\.jpg$/.test(url)) {
         img.sizes = sizes;
-        img.srcset = `${url.replace('-480x272.jpg', '-260x147.jpg')} 260w, ${url} 480w`;
+        // Twitch sert aussi 960x540 et 1280x720 (vérifié le 09/10/2026) : sans
+        // elles, le clip de la semaine en desktop (506 px CSS, écran 2x) était
+        // étiré depuis 480 px et pixelisé.
+        const at = (s) => url.replace('-480x272.jpg', `-${s}.jpg`);
+        img.srcset = `${at('260x147')} 260w, ${url} 480w, ${at('960x540')} 960w, ${at('1280x720')} 1280w`;
     }
     img.width = 480;
     img.height = 272;
