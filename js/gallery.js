@@ -406,8 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger.setAttribute('aria-label', `Ouvrir la galerie ${label} - ${title}`);
                 card.appendChild(trigger);
             }
-            // La note « galerie après le vernissage » de la section n'a plus lieu d'être
-            section?.querySelector('.event-gallery-note')?.remove();
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
 

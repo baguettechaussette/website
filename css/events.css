@@ -1543,28 +1543,8 @@ body.bgal-open { overflow: hidden; }
    ÉDITION EN COURS (Baguettectober 2026) : commun mobile et desktop
    ============================================ */
 
-/* Liste à puces dans un bloc (« Les règles ») */
-.event-list {
-    margin: 0;
-    padding-left: 20px;
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: rgba(63, 47, 37, 0.88);
-}
-
-.event-list li + li { margin-top: 6px; }
-
-/* Bouton Discord en bas du bloc du vernissage */
-.event-cta { margin-top: 12px; }
-
-/* Note « la galerie sera dévoilée après le vernissage » */
-.event-gallery-note {
-    margin: 0;
-    font-size: 0.875rem;
-    font-style: italic;
-    line-height: 1.5;
-    color: var(--text-muted);
-}
+/* Bouton Discord sous les semaines */
+.event-cta { margin-top: 4px; }
 
 /* Visuel 16:9 de l'édition */
 .event-visual {
@@ -1587,7 +1567,7 @@ body.bgal-open { overflow: hidden; }
 .gallery-item.no-gallery,
 .theme-autumn .gallery-item.no-gallery { cursor: default; }
 
-.gallery-item.no-gallery::after { content: 'Galerie après le vernissage'; color: var(--text-muted); }
+.gallery-item.no-gallery::after { content: 'Galerie disponible bientôt'; color: var(--text-muted); }
 
 .gallery-item.is-pending::after { content: 'Vote en live le ' attr(data-vote); color: var(--pink-deep); }
 
