@@ -865,7 +865,7 @@
         gap: 12px;
         margin-top: 14px;
         padding: 16px;
-        background: #e8dbbc; /* ton miel opaque */
+        background: rgba(127, 184, 147, 0.2); /* le même vert qu'en desktop (08/10/2026) */
         border: 2px solid rgba(255, 255, 255, 0.7); /* liseré blanc de la maquette */
         border-radius: 24px;
     }
