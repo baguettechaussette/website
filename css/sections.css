@@ -884,6 +884,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: Arial, sans-serif; /* « + » centré dans sa boîte, donc centré une fois tourné */
     font-size: 1.3em;
     font-weight: 700;
     color: var(--green);

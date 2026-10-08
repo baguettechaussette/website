@@ -1178,6 +1178,7 @@ body.g4p-modal-open .particle {
 
     .event-toggle::before {
         content: '+';
+        font-family: Arial, sans-serif; /* police par défaut des boutons : « + » centré, même tourné */
         font-size: 1.25em;
         font-weight: 700;
         line-height: 1;

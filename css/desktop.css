@@ -1193,14 +1193,14 @@
 
     .partner-toggle::before {
         content: '+';
+        font-family: Arial, sans-serif; /* la police par défaut des boutons : « + » centré, même tourné */
         font-size: 0.9375rem;
         font-weight: 700;
         line-height: 1;
+        transition: transform var(--transition-base);
     }
 
-    /* Ouverte : « × » à la place du « + », sans rotation (le glyphe tourné
-       n'est plus centré) */
-    .partner-card:not(.is-collapsed) .partner-toggle::before { content: '×'; }
+    .partner-card:not(.is-collapsed) .partner-toggle::before { transform: rotate(45deg); }
 
     .partner-card.is-collapsed .partner-description,
     .partner-card.is-collapsed .partner-tags,
@@ -1404,13 +1404,15 @@
         border-radius: 50%;
         background: rgba(127, 184, 147, 0.2);
         color: var(--green-deep);
+        font-family: Arial, sans-serif; /* « + » centré, même tourné (Baloo 2 le décale) */
         font-size: 0.9375rem;
         font-weight: 700;
+        transition: transform var(--transition-base);
     }
 
     .faq-item[open] summary::after {
-        content: '×';
         background: rgba(127, 184, 147, 0.28);
+        transform: rotate(45deg);
     }
 
     .faq-answer {

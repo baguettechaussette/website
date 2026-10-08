@@ -252,15 +252,19 @@
         border-radius: 50%;
         background: rgba(63, 47, 37, 0.08);
         color: var(--text-primary);
-        font: inherit;
         cursor: pointer;
     }
 
     .event-toggle::before {
         content: '+';
+        /* Police par défaut des boutons (comme les partenaires en mobile) : son
+           « + » est centré dans sa boîte, il reste centré une fois tourné en
+           croix. Avec Baloo 2 (font: inherit) il partait de travers. */
+        font-family: Arial, sans-serif;
         font-size: 1.0625rem; /* 17 px */
         font-weight: 700;
         line-height: 1;
+        transition: transform var(--transition-base);
     }
 
     .event-toggle:focus { outline: none; }
@@ -270,9 +274,8 @@
         outline-offset: 2px;
     }
 
-    /* Ouverte : « × » à la place du « + », sans rotation (le glyphe tourné
-       n'était plus centré) */
-    .is-collapsible:not(.is-collapsed) .event-toggle::before { content: '×'; }
+    /* Ouverte : le « + » tourne en croix, comme les partenaires */
+    .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
 
     .theme-charity .event-toggle { background: rgba(127, 184, 147, 0.28); color: var(--green-deep); }
     .theme-summer .event-toggle  { background: rgba(63, 184, 175, 0.2); color: #2a7d76; }

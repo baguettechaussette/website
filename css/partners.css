@@ -437,6 +437,7 @@
     /* « + » replié, tourné en croix une fois déplié (même geste que la FAQ) */
     .partner-toggle::before {
         content: '+';
+        font-family: Arial, sans-serif; /* police par défaut des boutons : « + » centré, même tourné */
         font-size: 1.25em;
         font-weight: 700;
         line-height: 1;
