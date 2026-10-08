@@ -662,25 +662,26 @@
     text-align: center;
 }
 
-/* Pilule sobre (09/10/2026), la même en mobile et en desktop : vert pâle de
-   la charte avec le texte en vert foncé (le blanc se fondait dans la carte),
-   plus de dégradé, d'ombre ni de reflet de .btn-primary. */
+/* Pilule sobre (09/10/2026), la même en mobile et en desktop : contour vert
+   foncé sur fond clair (le blanc se fondait dans la carte, le vert pâle plein
+   se confondait avec les badges), plus de dégradé, d'ombre ni de reflet de
+   .btn-primary. Au survol la pilule se remplit. */
 .g4p-donor-btn {
-    padding: 12px 22px;
-    border: 0;
+    padding: 11px 22px;
+    border: 2px solid var(--green-deep);
     border-radius: 50px;
-    background: rgba(127, 184, 147, 0.28);
+    background: rgba(255, 255, 255, 0.7);
     color: var(--green-deep);
     font-size: 0.95em;
     box-shadow: none;
-    transition: background var(--transition-base);
+    transition: background var(--transition-base), color var(--transition-base);
 }
 
 .g4p-donor-btn::before { display: none; } /* le reflet au survol de .btn */
 
 .g4p-donor-btn:hover {
-    background: rgba(127, 184, 147, 0.42);
-    color: var(--green-deep);
+    background: var(--green-deep);
+    color: #fff;
     transform: none;
     box-shadow: none;
 }

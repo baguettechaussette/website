@@ -990,8 +990,8 @@
         margin: 14px 0 0;
         padding: 13px 18px;
         border-radius: 50px;
-        background: rgba(127, 184, 147, 0.28); /* pilule sobre, comme les autres boutons (09/10/2026) */
-        border: 0;
+        background: rgba(255, 255, 255, 0.7); /* contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
+        border: 2px solid var(--green-deep);
         color: var(--green-deep);
         font-size: 0.9375rem; /* 15 px */
         font-weight: 600;
@@ -1001,7 +1001,7 @@
         box-shadow: none;
     }
 
-    .contact-email:hover { background: rgba(127, 184, 147, 0.42); color: var(--green-deep); transform: none; box-shadow: none; }
+    .contact-email:hover { background: var(--green-deep); color: #fff; transform: none; box-shadow: none; }
 
     /* Quatre pilules en grille 2 × 2 : les trois cartes et la ligne media kit */
     .contact-cards { display: contents; }
@@ -1165,8 +1165,8 @@
         display: block;
         padding: 12px 20px;
         border-radius: 50px;
-        background: rgba(127, 184, 147, 0.28); /* pilule sobre, comme les autres boutons (09/10/2026) */
-        border: 0;
+        background: rgba(255, 255, 255, 0.7); /* contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
+        border: 2px solid var(--green-deep);
         color: var(--green-deep);
         font-size: 0.90625rem;
         font-weight: 700;
@@ -1175,7 +1175,7 @@
         box-shadow: none;
     }
 
-    .partner-link-primary:hover { background: rgba(127, 184, 147, 0.42); color: var(--green-deep); transform: none; box-shadow: none; }
+    .partner-link-primary:hover { background: var(--green-deep); color: #fff; transform: none; box-shadow: none; }
 
     /* Le bouton replier / déplier, masqué par défaut au-dessus de 768 px */
     .partner-toggle {

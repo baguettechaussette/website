@@ -473,14 +473,19 @@
         font-size: 0.875rem;
     }
 
-    /* Pilule sobre, comme les autres boutons (09/10/2026) */
-    .partner-link-primary,
-    .partner-link-primary:hover {
-        background: rgba(127, 184, 147, 0.28);
+    /* Pilule sobre, comme les autres boutons : contour vert foncé sur fond clair (09/10/2026) : le vert pâle plein se confondait avec les badges */
+    .partner-link-primary {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid var(--green-deep);
         color: var(--green-deep);
         box-shadow: none;
         transform: none;
     }
 
-    .partner-link-primary:hover { background: rgba(127, 184, 147, 0.42); }
+    .partner-link-primary:hover {
+        background: var(--green-deep);
+        color: #fff;
+        box-shadow: none;
+        transform: none;
+    }
 }
