@@ -1543,8 +1543,11 @@ body.bgal-open { overflow: hidden; }
    ÉDITION EN COURS (Baguettectober 2026) : commun mobile et desktop
    ============================================ */
 
-/* Bouton Discord sous les semaines */
-.event-cta { margin-top: 4px; }
+/* Bouton Discord sous les semaines, centré (demande du 09/10/2026) */
+.event-cta {
+    margin-top: 4px;
+    text-align: center;
+}
 
 /* Visuel 16:9 de l'édition */
 .event-visual {
