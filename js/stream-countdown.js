@@ -19,6 +19,18 @@
     // du planning et la carte du hero n'ont pas la place de la forme longue.
     const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
 
+    // Libellé des boutons Twitch : « Suivre la chaîne » avec un petit cœur
+    // dessiné en SVG (pas un emoji : fluent-emoji le remplacerait par une
+    // image colorée), « Viens te poser » sans cœur pendant le live.
+    const HEART_SVG = '<svg class="btn-heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+    const heartTpl = document.createElement('template');
+    heartTpl.innerHTML = HEART_SVG;
+    function setCtaLabel(el, isLive) {
+        if (!el) return;
+        el.textContent = isLive ? "Viens te poser" : "Suivre la chaîne";
+        if (!isLive) el.appendChild(heartTpl.content.firstElementChild.cloneNode(true));
+    }
+
     // Carte du prochain live dans le hero (mobile uniquement, voir index.html).
     // Même source que le planning : créneaux + statut live du worker.
     const hero = {
@@ -260,7 +272,7 @@
             ? (liveMeta && liveMeta.game ? liveMeta.game : "Ça se passe maintenant !")
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
         if (isLive) renderLiveMeta();
-        hero.cta.textContent = isLive ? "Viens te poser" : "Suivre la chaîne"; // mêmes textes que le CTA du planning desktop, sans emoji (brief boutons)
+        setCtaLabel(hero.cta, isLive); // mêmes textes que le CTA du planning
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
         if (isLive && hero.cd) hero.cd.textContent = "";
     }
@@ -297,7 +309,7 @@
             el.appendChild(cta);
         }
         cta.classList.toggle("live", type === "live");
-        cta.textContent = type === "live" ? "Viens te poser" : "Suivre la chaîne";
+        setCtaLabel(cta, type === "live");
         cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
     }
 

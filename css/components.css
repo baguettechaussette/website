@@ -855,3 +855,12 @@
     75%  { opacity: 1; transform: translate(-50%, 0); }
     100% { opacity: 0; transform: translate(-50%, -4px); }
 }
+
+/* Petit cœur blanc du bouton « Suivre la chaîne » (SVG, pas un emoji) */
+.btn-heart {
+    width: 0.95em;
+    height: 0.95em;
+    flex: none;
+    margin-left: 7px;
+    fill: currentColor;
+}
