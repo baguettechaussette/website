@@ -793,6 +793,10 @@
         background: none;
     }
 
+    /* components.css fait glisser un reflet sur tout .btn au survol : sur un
+       lien texte sans fond, le reflet balayait un rectangle fantôme */
+    #evenements .clips-more .btn::before { display: none; }
+
     /* Pas d'emoji dans un lien ou un bouton : la fleur du mobile disparaît,
        la flèche prend sa place */
     #evenements .clips-more .btn img.fluent-emoji { display: none; }
@@ -1211,10 +1215,8 @@
         grid-template-areas: "logo badge toggle";
     }
 
-    .partner-card.is-collapsed .partner-badge {
-        justify-self: stretch;
-        text-align: center;
-    }
+    /* Le badge garde sa taille de carte dépliée, le bouton reste au bord droit */
+    .partner-card.is-collapsed .partner-badge { justify-self: start; }
 
     /* ============================================
        Réseaux — en-tête et lien sur une ligne, 3 colonnes
