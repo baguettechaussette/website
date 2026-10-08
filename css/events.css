@@ -1549,6 +1549,11 @@ body.bgal-open { overflow: hidden; }
     text-align: center;
 }
 
+/* En mobile le corps n'a pas de gouttière de 20 px : on la pose ici */
+@media (max-width: 768px) {
+    .event-cta { margin: 20px 0 4px; }
+}
+
 /* Visuel 16:9 de l'édition */
 .event-visual {
     margin: 0;
