@@ -662,14 +662,15 @@
     text-align: center;
 }
 
-/* Pilule blanche sobre (09/10/2026), la même en mobile et en desktop : plus
-   de dégradé vert, d'ombre ni de reflet de .btn-primary. */
+/* Pilule sobre (09/10/2026), la même en mobile et en desktop : vert pâle de
+   la charte avec le texte en vert foncé (le blanc se fondait dans la carte),
+   plus de dégradé, d'ombre ni de reflet de .btn-primary. */
 .g4p-donor-btn {
     padding: 12px 22px;
-    border: 2px solid #fff;
+    border: 0;
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.85);
-    color: var(--text-primary);
+    background: rgba(127, 184, 147, 0.28);
+    color: var(--green-deep);
     font-size: 0.95em;
     box-shadow: none;
     transition: background var(--transition-base);
@@ -678,8 +679,8 @@
 .g4p-donor-btn::before { display: none; } /* le reflet au survol de .btn */
 
 .g4p-donor-btn:hover {
-    background: #fff;
-    color: var(--text-primary);
+    background: rgba(127, 184, 147, 0.42);
+    color: var(--green-deep);
     transform: none;
     box-shadow: none;
 }
