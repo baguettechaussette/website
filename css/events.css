@@ -320,36 +320,6 @@
     z-index: 1;
 }
 
-/* Accès rapide aux événements (puces sous le hero) */
-.event-anchors {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 22px;
-}
-
-.event-anchor {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1.5px solid rgba(140, 191, 159, 0.4);
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 0.9em;
-    text-decoration: none;
-    transition: all 0.25s ease;
-}
-
-.event-anchor:hover {
-    transform: translateY(-2px);
-    border-color: rgba(140, 191, 159, 0.7);
-    background: rgba(255, 255, 255, 0.75);
-}
-
 /* Mosaïque floutée (quand il y a des images) */
 .gallery-mosaic {
     position: relative;
@@ -858,11 +828,14 @@ body.g4p-modal-open .particle {
    RESPONSIVE — Events
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 768px) {
+
+
     .event-container::before { width: 140px; height: 140px; }
     .event-container.theme-winter::after { font-size: 5em; }
 
-    /* Galerie 2 colonnes */
+    /* Galerie 2 colonnes */
+
     /* Overlay toujours visible (pas de hover sur mobile) */
     .has-gallery .gallery-mosaic::after { opacity: 1; }
     .has-gallery .gallery-mosaic-inner { filter: blur(5px) brightness(0.82); }
@@ -885,7 +858,8 @@ body.g4p-modal-open .particle {
 
     /* DTI */
     .dti-gallery-block-highlight,
-    .event-block-highlight { padding: 20px; }}
+    .event-block-highlight { padding: 20px; }
+}
 
 @media (max-width: 640px) {
     /* Podium compact horizontal */
@@ -929,7 +903,12 @@ body.g4p-modal-open .particle {
     .g4p-modal__title { font-size: 1.25em; }
 }
 
-@media (max-width: 480px) {    .gallery-week  { margin-top: 8px; margin-bottom: 4px; }
+@media (max-width: 480px) {
+
+
+
+
+    .gallery-week  { margin-top: 8px; margin-bottom: 4px; }
     .gallery-icon  { font-size: 2.8em; margin-bottom: 6px; }
 }
 
@@ -945,17 +924,14 @@ body.g4p-modal-open .particle {
 
 @media (max-width: 768px) {
     .event-title, .dti-section-title, .event-block-title { font-size: 1.3em; line-height: 1.25; }
-    .event-stat-label { font-size: 0.82rem; } /* rem : le parent fait < 16 px */    .event-anchors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
-    .event-anchor { justify-content: center; text-align: center; padding: 11px 10px; font-size: 0.85em; line-height: 1.3; min-width: 0; }
+    .event-stat-label { font-size: 0.82rem; } /* rem : le parent fait < 16 px */
     .event-stats-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 28px; }
     .event-stats-strip .g4p-countdown { grid-column: 1 / -1; }
-    .event-stat-chip { padding: 14px 12px; min-width: 0; }}
-
-@media (max-width: 480px) {    .event-anchors, .event-stats-strip { gap: 8px; }
+    .event-stat-chip { padding: 14px 12px; min-width: 0; }
 }
 
-@media (max-width: 360px) {
-    .event-anchor { font-size: 0.82em; padding: 11px 8px; }
+@media (max-width: 480px) {
+    .event-stats-strip { gap: 8px; }
 }
 
 /* --- Refonte mobile, passe 2 --- */
@@ -983,8 +959,7 @@ body.g4p-modal-open .particle {
 
 @media (max-width: 768px) {
 
-    /* ---- Hero : titre en vert uni (maquette), plus de puces d'accès rapide ---- */
-    .event-anchors { display: none; }
+    /* ---- Hero : titre en vert uni (maquette) ---- */
     .page-hero { padding-bottom: 12px; }
 
     .page-hero-title {
@@ -1063,7 +1038,7 @@ body.g4p-modal-open .particle {
     /* Blocs « La cause » / « Le mur des donateurs » */
     .dti-gallery-block,
     .event-block {
-        margin-top: 12px;
+        margin: 12px 0 0; /* pas de marges auto : en colonne flex elles resserraient le bloc sur son contenu */
         max-width: none;
     }
 
