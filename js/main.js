@@ -443,6 +443,8 @@ document.addEventListener('DOMContentLoaded', () => {
             first.classList.remove('is-collapsed');
             first.querySelector('.partner-toggle')?.setAttribute('aria-expanded', 'true');
         }
+        // Maquette 25a : la première question de la FAQ est ouverte d'emblée en desktop
+        document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
     }
 
     // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)

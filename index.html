@@ -53,19 +53,19 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=145">
+    <link rel="stylesheet" href="./css/fonts.css?v=148">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=145">
-    <link rel="stylesheet" href="./css/layout.css?v=145">
-    <link rel="stylesheet" href="./css/components.css?v=145">
-    <link rel="stylesheet" href="./css/sections.css?v=145">
-    <link rel="stylesheet" href="./css/responsive.css?v=145">
-    <link rel="stylesheet" href="./css/partners.css?v=145">
+    <link rel="stylesheet" href="./css/base.css?v=148">
+    <link rel="stylesheet" href="./css/layout.css?v=148">
+    <link rel="stylesheet" href="./css/components.css?v=148">
+    <link rel="stylesheet" href="./css/sections.css?v=148">
+    <link rel="stylesheet" href="./css/responsive.css?v=148">
+    <link rel="stylesheet" href="./css/partners.css?v=148">
     <!-- Desktop : habillage commun (fond, barre de navigation, pied de page)
          puis la feuille propre à la page. Tout est en @media (min-width: 769px),
          chargé après responsive.css pour primer sur les réglages communs. -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=145">
-    <link rel="stylesheet" href="./css/desktop.css?v=145">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=148">
+    <link rel="stylesheet" href="./css/desktop.css?v=148">
 
     <script type="application/ld+json">
         {
@@ -274,6 +274,11 @@
 
 <!-- Hero Section -->
 <header class="hero" id="accueil">
+    <!-- Desktop uniquement (maquette 25a) : ronds décoratifs du hero, masqués sous 769 px -->
+    <span class="hero-blob hero-blob-1" aria-hidden="true"></span>
+    <span class="hero-blob hero-blob-2" aria-hidden="true"></span>
+    <span class="hero-blob hero-blob-3" aria-hidden="true"></span>
+    <span class="hero-blob hero-blob-4" aria-hidden="true"></span>
     <div class="hero-content">
         <div class="hero-left">
             <h1 class="hero-title">Baguette Chaussette</h1>
@@ -343,6 +348,14 @@
     </div>
 </header>
 
+<!-- ═══ Bande « Cette semaine » (desktop) : planning et vote côte à côte ═══ -->
+<div class="band band-week">
+<!-- En-tête de bande, desktop uniquement : en mobile chaque section garde son titre -->
+<div class="section-header band-header">
+    <h2 class="section-title">Cette semaine</h2>
+    <p class="section-subtitle">Les trois rendez-vous, et le clip que la commu doit départager.</p>
+</div>
+
 <!-- Planning Section -->
 <section id="planning">
     <div class="section-header">
@@ -404,7 +417,10 @@
         </div>
     </div>
 </section>
+</div>
 
+<!-- ═══ Bande « Événements + Me soutenir » (desktop : deux colonnes) ═══ -->
+<div class="band band-community">
 <!-- Événements Section -->
 <section id="evenements">
     <div class="section-header">
@@ -476,7 +492,10 @@
         </div>
     </div>
 </section>
+</div>
 
+<!-- ═══ Bande « Marques & studios » (desktop : e-mail à gauche, partenaires à droite) ═══ -->
+<div class="band band-pro">
 <!-- Contact Section -->
 <section id="contact">
     <div class="section-header">
@@ -489,6 +508,8 @@
             <article class="contact-info-box">
                 <div class="contact-icon" aria-hidden="true">📧</div>
                 <h3 class="contact-title">Email professionnel</h3>
+                <!-- Desktop uniquement (maquette 25a) -->
+                <span class="contact-reply">Réponse sous quelques jours</span>
                 <a href="#" class="contact-email js-email" data-user="baguette.chaussette.contact"
                    data-domain="gmail.com" data-show-text
                    data-umami-event="Contact - Email Click">
@@ -596,7 +617,10 @@
 
     </div>
 </section>
+</div>
 
+<!-- ═══ Bande « Réseaux + FAQ » (desktop) ═══ -->
+<div class="band band-social">
 <!-- Réseaux sociaux Section -->
 <section id="reseaux">
     <div class="section-header">
@@ -756,6 +780,7 @@
         </details>
     </div>
 </section>
+</div>
 
 </main>
 
@@ -775,9 +800,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=145"></script>
-<script defer src="./js/stream-countdown.js?v=145"></script>
-<script defer src="./js/live-float.js?v=145"></script>
-<script defer src="./js/fluent-emoji.js?v=145"></script>
+<script defer src="./js/main.js?v=148"></script>
+<script defer src="./js/stream-countdown.js?v=148"></script>
+<script defer src="./js/live-float.js?v=148"></script>
+<script defer src="./js/fluent-emoji.js?v=148"></script>
 </body>
 </html>
