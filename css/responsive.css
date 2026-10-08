@@ -1221,6 +1221,33 @@
 
     #evenements .clips-more { margin-top: 16px; }
 
+    /* « Voir tous les événements » : pilule sobre en vert pâle, comme le bouton
+       du mur des donateurs (09/10/2026). Plus de dégradé, d'ombre, de reflet ni
+       d'emoji. */
+    #evenements .clips-more .btn {
+        display: inline-flex;
+        min-height: 46px;
+        padding: 11px 22px;
+        border: 0;
+        border-radius: var(--radius-full);
+        background: rgba(127, 184, 147, 0.28);
+        color: var(--green-deep);
+        font-size: 0.9em;
+        font-weight: 700;
+        box-shadow: none;
+        transition: background var(--transition-base);
+    }
+
+    #evenements .clips-more .btn::before { display: none; }
+    #evenements .clips-more .btn img.fluent-emoji { display: none; }
+    #evenements .clips-more .btn::after { content: '→'; margin-left: 6px; }
+
+    #evenements .clips-more .btn:hover {
+        background: rgba(127, 184, 147, 0.42);
+        transform: none;
+        box-shadow: none;
+    }
+
     /* ---- 5. Me soutenir : titre, texte, bouton visible (plus d'emoji depuis le 08/10/2026) ---- */
     #soutenir .social-grid {
         display: flex;
