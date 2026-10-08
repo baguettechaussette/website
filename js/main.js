@@ -586,7 +586,16 @@ async function loadTopClips() {
                     const play = derniere.querySelector('.clip-play');
                     if (play) play.textContent = '+' + reste;
                     const vignette = derniere.querySelector('.clip-thumb');
-                    if (vignette) vignette.setAttribute('aria-label', `Voir les ${reste} autres finalistes`);
+                    if (vignette) {
+                        vignette.setAttribute('aria-label', `Voir les ${reste} autres finalistes`);
+                        vignette.setAttribute('data-umami-event', 'Home - Vote - Autres finalistes');
+                        // La vignette « +N » mène au vote, elle n'ouvre pas le clip : l'écouteur
+                        // en phase de capture passe avant celui de la modale et l'annule.
+                        vignette.addEventListener('click', (e) => {
+                            e.stopImmediatePropagation();
+                            window.location.href = '/clips#clip-semaine';
+                        }, true);
+                    }
                 }
             }
             section.hidden = false;

@@ -1179,7 +1179,8 @@ body.g4p-modal-open .particle {
     .event-container.is-collapsed .event-intro { margin-bottom: 0; }
 
     /* Chiffres clés en pastilles : « 10 participants », « 5 manches »… */
-    .is-collapsible .event-stats-strip {
+    .is-collapsible .event-stats-strip,
+    .is-live-edition .event-stats-strip {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -1187,7 +1188,8 @@ body.g4p-modal-open .particle {
         margin: 0 0 14px;
     }
 
-    .is-collapsible .event-stat-chip {
+    .is-collapsible .event-stat-chip,
+    .is-live-edition .event-stat-chip {
         display: inline-flex;
         flex-direction: row;
         align-items: baseline;
@@ -1199,14 +1201,17 @@ body.g4p-modal-open .particle {
     }
 
     .is-collapsible .event-stat-number,
-    .is-collapsible .event-stat-label {
+    .is-collapsible .event-stat-label,
+    .is-live-edition .event-stat-number,
+    .is-live-edition .event-stat-label {
         font-size: 0.82rem;
         font-weight: 600;
         color: var(--text-primary);
         line-height: 1.3;
     }
 
-    .is-collapsible .event-stat-number { font-weight: 700; }
+    .is-collapsible .event-stat-number,
+    .is-live-edition .event-stat-number { font-weight: 700; }
 
     /* ---- DTI : une bande de photos qui défile, légendée « Manche N · thème » ---- */
     .dti-gallery-block { margin-top: 14px; }
@@ -1533,3 +1538,65 @@ body.bgal-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
     .bgal-sheet__panel { animation: none; }
 }
+
+/* ============================================
+   ÉDITION EN COURS (Baguettectober 2026) : commun mobile et desktop
+   ============================================ */
+
+/* Liste à puces dans un bloc (« Les règles ») */
+.event-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgba(63, 47, 37, 0.88);
+}
+
+.event-list li + li { margin-top: 6px; }
+
+/* Bouton Discord en bas du bloc du vernissage */
+.event-cta { margin-top: 12px; }
+
+/* Note « la galerie sera dévoilée après le vernissage » */
+.event-gallery-note {
+    margin: 0;
+    font-size: 0.875rem;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Visuel 16:9 de l'édition */
+.event-visual {
+    margin: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: rgba(63, 47, 37, 0.06);
+}
+
+.event-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Cartes des semaines sans galerie : pas cliquables, et leur appel dit
+   où en est la semaine */
+.gallery-item.no-gallery,
+.theme-autumn .gallery-item.no-gallery { cursor: default; }
+
+.gallery-item.no-gallery::after { content: 'Galerie après le vernissage'; color: var(--text-muted); }
+
+.gallery-item.is-pending::after { content: 'Vote en live le ' attr(data-vote); color: var(--pink-deep); }
+
+/* Dans la fenêtre des créations, le pseudo peut renvoyer vers l'Instagram de l'artiste */
+.bgal-sheet__grid figcaption a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(63, 47, 37, 0.3);
+    text-underline-offset: 2px;
+}
+
+.bgal-sheet__grid figcaption a:hover { text-decoration-color: currentColor; }

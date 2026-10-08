@@ -4,12 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------
     // ══════════════════════════════════════════════════════════════
     // POUR AJOUTER UNE NOUVELLE ÉDITION DE BAGUETTECTOBER :
-    //   1. Copie le bloc baguettectober2025 ci-dessous
-    //   2. Renomme la clé → baguettectober2026 (ou l'année voulue)
-    //   3. Mets les chemins d'images dans img/baguettectober-2026/
-    //   4. Ajoute le binding dans initViewer() plus bas
+    //   1. Copie le bloc baguettectober2026 ci-dessous, renomme la clé avec
+    //      l'année (elle doit correspondre à l'id de la section, sans tirets)
+    //   2. Mets les images dans img/baguettectober-[année]/w1/… et leurs
+    //      miniatures carrées dans img/baguettectober-[année]/thumbs/w1/…
+    //   Rien d'autre : les cartes de la section se branchent toutes seules.
+    //
+    // Une création : { src, caption: 'Auteur : Pseudo', url: lien Instagram (facultatif) }
     // ══════════════════════════════════════════════════════════════
     const GALLERIES = {
+        // Baguettectober 2026 — en cours. Les créations sont ajoutées après le
+        // vernissage du 1er novembre, uniquement celles dont l'auteur·ice est
+        // d'accord pour apparaître sur le site. Exemple :
+        //   w1: [{ src: 'img/baguettectober-2026/w1/pseudo.webp', caption: 'Auteur : Pseudo', url: 'https://www.instagram.com/pseudo/' }],
+        baguettectober2026: {
+            w1: [],
+            w2: [],
+            w3: [],
+            w4: [],
+        },
+
         // Baguettectober — Octobre 2025
         baguettectober2025: {
             w1: [
@@ -215,17 +229,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // --- Baguettectober 2025 ---
-        // Un clic sur une semaine ouvre le panneau de la semaine : tous les dessins
-        // avec le pseudo de chaque artiste, et les flèches vers la semaine voisine.
-        // En mobile il monte du bas, en desktop c'est une fenêtre centrée (CSS) ;
-        // un clic sur un dessin ouvre le viewer plein écran par-dessus.
-        const weekCards = Array.from(document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]'))
-            .filter(card => (GALLERIES.baguettectober2025?.[card.getAttribute('data-week')] || []).length);
+        // --- Baguettectober, toutes éditions ---
+        // Un clic sur une semaine ouvre le panneau de la semaine : toutes les créations
+        // avec le pseudo de chaque artiste, et les flèches vers la semaine voisine de
+        // la même édition. En mobile il monte du bas, en desktop c'est une fenêtre
+        // centrée (CSS) ; un clic sur une création ouvre le viewer plein écran.
+        function galleryKey(card) {
+            const section = card.closest('section[id^="baguettectober-"]');
+            return section ? section.id.replaceAll('-', '') : null;
+        }
+        function weekList(card) {
+            return GALLERIES[galleryKey(card)]?.[card.getAttribute('data-week')] || [];
+        }
+        function editionName(card) {
+            return (card.closest('section')?.querySelector('.event-title')?.textContent || 'Baguettectober').trim();
+        }
+        const weekCards = Array.from(document.querySelectorAll('section[id^="baguettectober-"] .gallery-item[data-week]'))
+            .filter(card => weekList(card).length);
 
         weekCards.forEach(card => {
-            const week = card.getAttribute('data-week');
-            const list = GALLERIES.baguettectober2025[week];
             // Le clic vient du <button class="gallery-trigger"> et remonte jusqu'ici ;
             // Entrée/Espace déclenchent un clic natif, pas besoin de keydown maison.
             card.addEventListener('click', () => openSheet(card));
@@ -276,8 +298,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function renderSheet(card) {
             sheetCard = card;
-            const week = card.getAttribute('data-week');
-            const list = GALLERIES.baguettectober2025[week];
+            const list = weekList(card);
+            const edition = editionName(card);
             // fluent-emoji.js a remplacé l'emoji par une image : on relit son alt
             const iconEl = card.querySelector('.gallery-icon');
             const icon = (iconEl?.querySelector('img')?.alt || iconEl?.textContent || '').trim();
@@ -296,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.setAttribute('aria-label', `Voir en grand : ${item.caption || 'dessin'}`);
                 const img = document.createElement('img');
                 img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
-                img.alt = `${(item.caption || '').replace('Auteur : ', 'Dessin de ')} — Baguettectober 2025`;
+                img.alt = `${(item.caption || '').replace('Auteur : ', 'Création de ')} — ${edition}`;
                 img.loading = 'lazy';
                 img.decoding = 'async';
                 img.width = 400;
@@ -305,14 +327,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.appendChild(img);
                 btn.addEventListener('click', () => open(list, i));
                 const cap = document.createElement('figcaption');
-                cap.textContent = (item.caption || '').replace('Auteur : ', '');
+                const name = (item.caption || '').replace('Auteur : ', '');
+                if (item.url) {
+                    // Pseudo cliquable vers l'Instagram de l'artiste (facultatif)
+                    const a = document.createElement('a');
+                    a.href = item.url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = name;
+                    cap.appendChild(a);
+                } else {
+                    cap.textContent = name;
+                }
                 fig.append(btn, cap);
                 grid.appendChild(fig);
             });
             grid.scrollTop = 0;
 
-            const i = weekCards.indexOf(card);
-            const prev = weekCards[i - 1], next = weekCards[i + 1];
+            // Semaine précédente / suivante dans la même édition
+            const siblings = weekCards.filter(c => galleryKey(c) === galleryKey(card));
+            const i = siblings.indexOf(card);
+            const prev = siblings[i - 1], next = siblings[i + 1];
             const btnPrev = sheet.querySelector('.bgal-sheet__prev');
             const btnNext = sheet.querySelector('.bgal-sheet__next');
             btnPrev.hidden = !prev;
@@ -331,8 +366,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function stepSheet(dir) {
-            const i = weekCards.indexOf(sheetCard);
-            const target = weekCards[i + dir];
+            const siblings = weekCards.filter(c => galleryKey(c) === galleryKey(sheetCard));
+            const i = siblings.indexOf(sheetCard);
+            const target = siblings[i + dir];
             if (target) renderSheet(target);
         }
 
@@ -358,6 +394,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const list      = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {
+            // Une semaine qui a des créations devient cliquable : le bouton transparent
+            // qui couvre la carte est posé ici, pas en HTML (les éditions en cours
+            // n'en ont pas tant que leur galerie est vide).
+            if (!card.querySelector('.gallery-trigger')) {
+                const trigger = document.createElement('button');
+                trigger.type = 'button';
+                trigger.className = 'gallery-trigger';
+                const label = card.querySelector('.gallery-week-label')?.textContent.trim() || '';
+                const title = card.querySelector('.gallery-week')?.textContent.trim() || '';
+                trigger.setAttribute('aria-label', `Ouvrir la galerie ${label} - ${title}`);
+                card.appendChild(trigger);
+            }
+            // La note « galerie après le vernissage » de la section n'a plus lieu d'être
+            section?.querySelector('.event-gallery-note')?.remove();
             const mosaic = document.createElement('div');
             mosaic.className = 'gallery-mosaic';
 
@@ -369,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
             list.slice(0, 4).forEach(item => {
                 const img = document.createElement('img');
                 img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
-                img.alt = `${(item.caption || '').replace('Auteur : ', 'Dessin de ')} — Baguettectober 2025`;
+                img.alt = `${(item.caption || '').replace('Auteur : ', 'Création de ')} — ${(section?.querySelector('.event-title')?.textContent || 'Baguettectober').trim()}`;
                 img.loading = 'lazy';
                 img.decoding = 'async';
                 img.width = 400;

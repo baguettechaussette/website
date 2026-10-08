@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements | Baguette Chaussette</title>
-    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
+    <meta name="description" content="Les événements des p'tits pains : Baguettectober 2026 en cours (un défi créatif par semaine, voté en live), Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -42,18 +42,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=184">
+    <link rel="stylesheet" href="./css/fonts.css?v=185">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=184">
-    <link rel="stylesheet" href="./css/layout.css?v=184">
-    <link rel="stylesheet" href="./css/components.css?v=184">
-    <link rel="stylesheet" href="./css/sections.css?v=184">
-    <link rel="stylesheet" href="./css/responsive.css?v=184">
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=184">
-    <link rel="stylesheet" href="./css/events.css?v=184">
-    <link rel="stylesheet" href="./css/events-desktop.css?v=184">
-    <link rel="stylesheet" href="./css/lightbox.css?v=184">
+    <link rel="stylesheet" href="./css/base.css?v=185">
+    <link rel="stylesheet" href="./css/layout.css?v=185">
+    <link rel="stylesheet" href="./css/components.css?v=185">
+    <link rel="stylesheet" href="./css/sections.css?v=185">
+    <link rel="stylesheet" href="./css/responsive.css?v=185">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=185">
+    <link rel="stylesheet" href="./css/events.css?v=185">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=185">
+    <link rel="stylesheet" href="./css/lightbox.css?v=185">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -62,6 +62,28 @@
     {
         "@context": "https://schema.org",
         "@graph": [
+            {
+                "@type": "Event",
+                "@id": "https://baguettechaussette.fr/events#baguettectober-2026",
+                "name": "Baguettectober 2026 — Challenge créatif communautaire",
+                "description": "Challenge créatif d'octobre organisé sur Twitch par Baguette Chaussette : chaque mercredi la communauté vote en live le défi de la semaine, que chacun réalise avec le support de son choix (dessin, pixel art, fimo, création en jeu, photo, texte). Vernissage des créations en live le 1er novembre 2026 à 21h.",
+                "startDate": "2026-09-30",
+                "endDate": "2026-11-01T23:00:00+01:00",
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                "location": {
+                    "@type": "VirtualLocation",
+                    "url": "https://www.twitch.tv/baguettechaussette"
+                },
+                "organizer": {
+                    "@type": "Person",
+                    "name": "Baguette Chaussette",
+                    "url": "https://baguettechaussette.fr",
+                    "sameAs": "https://www.twitch.tv/baguettechaussette"
+                },
+                "url": "https://baguettechaussette.fr/events#baguettectober-2026",
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+            },
             {
                 "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#gamers4pets-2026",
@@ -260,6 +282,133 @@
        en-tête desktop (.band-header, « À venir » / « Le prochain
        rendez-vous, et pour une fois en vrai. »), sans is-collapsible.
      ============================================= -->
+<!-- ═══ Bande « En ce moment » : l'édition en cours, dépliée, sans bouton replier ═══
+     Quand le Baguettectober 2026 sera terminé (après le 1er novembre) : déplacer la
+     section dans la bande « L'archive » ci-dessous, en tête, lui ajouter les classes
+     is-collapsible is-collapsed, le bouton .event-toggle (copier celui de 2025), passer
+     le badge en « Challenge créatif • Octobre 2026 » et supprimer cette bande. -->
+<div class="band band-upcoming">
+<div class="section-header band-header">
+    <h2 class="section-title">En ce moment</h2>
+    <p class="section-subtitle">Le Baguettectober bat son plein jusqu'au 31 octobre, et c'est vous qui décidez.</p>
+</div>
+
+<!-- =============================================
+     BAGUETTECTOBER 2026 — du 30 septembre au 31 octobre 2026 (en cours)
+     ID pattern : baguettectober-[année]
+
+     • Semaines 3 et 4 : retirer la classe is-pending et l'attribut data-vote de
+       la carte, puis remplacer le titre et la description par le défi voté.
+     • Créations : js/gallery.js, bloc GALLERIES.baguettectober2026 (image,
+       pseudo, lien Instagram facultatif). Dès qu'une semaine a des créations,
+       sa carte devient cliquable et la note « après le vernissage » disparaît.
+     • Visuel 16:9 : déposer img/baguettectober-2026/visuel.webp puis
+       décommenter la <figure> ci-dessous.
+     ============================================= -->
+<section id="baguettectober-2026">
+    <div class="event-container theme-autumn is-live-edition">
+        <div class="event-intro">
+            <span class="event-emoji" aria-hidden="true">🎃</span>
+            <div class="event-badge">Challenge créatif • Du 30 septembre au 31 octobre</div>
+            <h2 class="event-title">Baguettectober 2026</h2>
+        </div>
+
+        <div class="event-body">
+            <p class="event-description">
+                Le Baguettectober revient avec une nouvelle formule ! Cette année, notre petite mascotte
+                Baguette prépare Halloween, et c'est la commu qui décide de ce qui lui arrive. Chaque
+                mercredi en live, on vote pour le défi de la semaine, et chacun le réalise avec le support
+                de son choix : dessin, pixel art, fimo, création en jeu, photo, petit texte…
+            </p>
+
+            <div class="event-stats-strip">
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">4</span>
+                    <span class="event-stat-label">défis</span>
+                </div>
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">31 oct.</span>
+                    <span class="event-stat-label">dernier délai</span>
+                </div>
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">1<sup>er</sup> nov.</span>
+                    <span class="event-stat-label">vernissage en live</span>
+                </div>
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">#Baguettectober2026</span>
+                </div>
+            </div>
+
+            <!-- Visuel 16:9 de l'édition, à décommenter quand le fichier est déposé :
+            <figure class="event-visual">
+                <img src="img/baguettectober-2026/visuel.webp" alt="Visuel du Baguettectober 2026 : Baguette prépare Halloween" width="1600" height="900" loading="lazy" decoding="async">
+            </figure>
+            -->
+
+            <div class="gallery-grid">
+                <article class="gallery-item" data-week="w1">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🎭</div>
+                        <p class="gallery-week-label">Semaine 1 · Le Costume</p>
+                    </div>
+                    <h3 class="gallery-week">Baguette se déguise en citrouille</h3>
+                </article>
+
+                <article class="gallery-item" data-week="w2">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🎃</div>
+                        <p class="gallery-week-label">Semaine 2 · La Citrouille</p>
+                    </div>
+                    <h3 class="gallery-week">Baguette sculpte sa citrouille… et elle prend vie</h3>
+                </article>
+
+                <article class="gallery-item is-pending" data-week="w3" data-vote="14 octobre">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🍬</div>
+                        <p class="gallery-week-label">Semaine 3 · Les Bonbons</p>
+                    </div>
+                    <h3 class="gallery-week">Le défi se décide en live</h3>
+                </article>
+
+                <article class="gallery-item is-pending" data-week="w4" data-vote="21 octobre">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🏠</div>
+                        <p class="gallery-week-label">Semaine 4 · La Déco</p>
+                    </div>
+                    <h3 class="gallery-week">Le défi se décide en live</h3>
+                </article>
+            </div>
+
+            <p class="event-gallery-note">La galerie sera dévoilée après le vernissage. Seules les créations de celles et ceux qui le souhaitent y apparaîtront.</p>
+
+            <div class="event-body-row">
+                <div class="event-block event-block-highlight">
+                    <h3 class="event-block-title">Les règles</h3>
+                    <ul class="event-list">
+                        <li>Tous les supports sont acceptés.</li>
+                        <li>Pas besoin d'avoir un niveau de fou.</li>
+                        <li>Seule règle : des créations faites par les participants, pas d'IA.</li>
+                        <li>Rattrapages possibles jusqu'au 31 octobre.</li>
+                    </ul>
+                </div>
+
+                <div class="event-block">
+                    <h3 class="event-block-title">Le vernissage</h3>
+                    <p class="event-block-text">
+                        On découvre toutes les créations ensemble en live, le dimanche 1<sup>er</sup> novembre à 21h.
+                        D'ici là, tout se passe sur le Discord : les votes, les défis et l'entraide.
+                    </p>
+                    <div class="event-cta">
+                        <a href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener noreferrer" class="btn btn-primary"
+                           data-umami-event="Events - Baguettectober 2026 - Discord">Participer sur Discord</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
 <!-- ═══ Bande « L'archive » : en-tête desktop seulement, en mobile les cartes suivent le hero ═══ -->
 <div class="band band-archive">
 <div class="section-header band-header">
@@ -712,11 +861,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=184"></script>
-<script defer src="./js/live-float.js?v=184"></script>
-<script defer src="./js/gallery.js?v=184"></script>
-<script defer src="./js/gamers4pets.js?v=184"></script>
-<script defer src="./js/fluent-emoji.js?v=184"></script>
+<script defer src="./js/main.js?v=185"></script>
+<script defer src="./js/live-float.js?v=185"></script>
+<script defer src="./js/gallery.js?v=185"></script>
+<script defer src="./js/gamers4pets.js?v=185"></script>
+<script defer src="./js/fluent-emoji.js?v=185"></script>
 
 </body>
 </html>
