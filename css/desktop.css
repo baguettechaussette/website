@@ -1196,10 +1196,11 @@
         font-size: 0.9375rem;
         font-weight: 700;
         line-height: 1;
-        transition: transform var(--transition-base);
     }
 
-    .partner-card:not(.is-collapsed) .partner-toggle::before { transform: rotate(45deg); }
+    /* Ouverte : « × » à la place du « + », sans rotation (le glyphe tourné
+       n'est plus centré) */
+    .partner-card:not(.is-collapsed) .partner-toggle::before { content: '×'; }
 
     .partner-card.is-collapsed .partner-description,
     .partner-card.is-collapsed .partner-tags,
@@ -1405,12 +1406,11 @@
         color: var(--green-deep);
         font-size: 0.9375rem;
         font-weight: 700;
-        transition: transform var(--transition-base);
     }
 
     .faq-item[open] summary::after {
+        content: '×';
         background: rgba(127, 184, 147, 0.28);
-        transform: rotate(45deg);
     }
 
     .faq-answer {
