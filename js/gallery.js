@@ -216,10 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // --- Baguettectober 2025 ---
-        // Desktop : le viewer plein écran, dessin par dessin.
-        // Mobile (≤ 768 px) : un panneau qui monte du bas avec tous les dessins de la
-        // semaine et le pseudo de chaque artiste ; un tap sur un dessin ouvre le viewer.
-        const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
+        // Un clic sur une semaine ouvre le panneau de la semaine : tous les dessins
+        // avec le pseudo de chaque artiste, et les flèches vers la semaine voisine.
+        // En mobile il monte du bas, en desktop c'est une fenêtre centrée (CSS) ;
+        // un clic sur un dessin ouvre le viewer plein écran par-dessus.
         const weekCards = Array.from(document.querySelectorAll('#baguettectober-2025 .gallery-item[data-week]'))
             .filter(card => (GALLERIES.baguettectober2025?.[card.getAttribute('data-week')] || []).length);
 
@@ -228,13 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const list = GALLERIES.baguettectober2025[week];
             // Le clic vient du <button class="gallery-trigger"> et remonte jusqu'ici ;
             // Entrée/Espace déclenchent un clic natif, pas besoin de keydown maison.
-            card.addEventListener('click', () => {
-                if (MOBILE_MQ.matches) openSheet(card);
-                else open(list, 0);
-            });
+            card.addEventListener('click', () => openSheet(card));
         });
 
-        // -------- Panneau semaine (mobile) --------
+        // -------- Panneau semaine --------
         let sheet = null, sheetCard = null, sheetLastFocus = null;
 
         function ensureSheet() {

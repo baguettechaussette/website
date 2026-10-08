@@ -1,0 +1,768 @@
+/* ============================================================
+   EVENTS DESKTOP — maquette Claude Design 26a
+   « Deux bandes, des éditions repliables »
+
+   Chargée par events.html seulement, après events.css : à spécificité
+   égale c'est donc cette feuille qui gagne. Tout est enfermé dans
+   min-width: 769px, le mobile (events.css + responsive.css) n'est
+   jamais touché. Les deux colonnes des cartes ne s'installent qu'à
+   partir de 1 024 px.
+
+   Même système que l'accueil (desktop.css) : bandes pleine largeur à
+   bord net, colonne de 1 100 px portée par le padding latéral, en-têtes
+   h2 40 px / sous-titre 16,5 px, cartes blanc translucide
+   rgba(255,255,255,0.5) + bord 2 px rgba(255,255,255,0.7).
+
+   Adaptation assumée : la maquette montre Gamers4Pets « À venir » dans
+   sa propre bande. L'édition est passée depuis, elle vit donc dans
+   « L'archive », ouverte d'emblée (js/main.js), avec la mise en page en
+   deux colonnes prévue pour elle. Pour un prochain event à venir, la
+   bande .band-upcoming est déjà stylée ici (voir events.html).
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* ============================================
+       Fond de page : plat, les bandes font le rythme
+       ============================================ */
+
+    .bg-container,
+    .particles { display: none; }
+
+    body { background: var(--bg-primary); }
+
+    main {
+        display: block;
+        width: auto;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
+       padding: 120px … » : on remet à plat, les bandes portent le rythme. */
+    main > section,
+    .band > section {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ============================================
+       Bandes pleine largeur
+       ============================================ */
+
+    .band {
+        padding: 72px max(40px, calc((100% - 1100px) / 2));
+        display: flex;
+        flex-direction: column;
+        gap: 14px; /* 14 px entre deux éditions */
+    }
+
+    .band-upcoming { background: #e9eee2; }
+
+    .band-archive { background: #f0ebe0; }
+
+    /* Tant qu'il n'y a pas de bande « À venir », l'archive suit directement
+       le hero : elle prend le vert pâle pour garder un bord net sous le
+       dégradé (sinon #f0ebe0 sur #f0ebe0). */
+    .page-hero + .band-archive { background: #e9eee2; }
+
+    /* En-tête de bande : 28 px avant la première carte (14 + 14 de gap) */
+    .band-header {
+        display: block;
+        margin: 0 0 14px;
+    }
+
+    .section-header {
+        margin: 0;
+        text-align: left;
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 2.5rem; /* 40 px */
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--green-deep);
+        -webkit-text-fill-color: currentColor;
+        background: none;
+    }
+
+    .section-title::after { display: none; }
+
+    .section-subtitle {
+        margin: 6px 0 0;
+        max-width: none;
+        font-size: 1.03125rem; /* 16,5 px */
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.75);
+        text-align: left;
+    }
+
+    /* ============================================
+       Hero : titre à gauche, bande dégradée, deux ronds
+       ============================================ */
+
+    .page-hero {
+        position: relative;
+        overflow: hidden;
+        /* 72 px de barre fixe au-dessus, puis les 64 px de la maquette */
+        padding: 136px max(40px, calc((100% - 1100px) / 2)) 56px;
+        background: linear-gradient(135deg, #f0ebe0 0%, #f2e6dc 100%);
+        text-align: left;
+    }
+
+    .page-hero .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .page-hero-content {
+        position: relative;
+        max-width: none;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .page-hero-title {
+        margin: 0;
+        font-size: 3.5rem; /* 56 px */
+        font-weight: 800;
+        line-height: 1.05;
+        color: var(--green-deep);
+        -webkit-text-fill-color: currentColor; /* pas de dégradé de texte */
+        background: none;
+    }
+
+    .page-hero-subtitle {
+        margin: 0;
+        max-width: 640px;
+        font-size: 1.125rem; /* 18 px */
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.75);
+    }
+
+    .hero-blob {
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Positions de la maquette, la première décalée de la barre de 72 px */
+    .hero-blob-1 { width: 72px; height: 72px; top: 100px; left: 48px; background: rgba(127, 184, 147, 0.45); }
+    .hero-blob-2 { width: 56px; height: 56px; bottom: 30px; right: 120px; background: rgba(242, 201, 107, 0.55); }
+
+    /* Sous 1 200 px la marge de gauche tombe à 40 px : le rond mordrait
+       sur le titre, il s'efface */
+    @media (max-width: 1199px) {
+        .hero-blob-1 { display: none; }
+    }
+
+    /* ============================================
+       Cartes d'édition : blanc translucide, plus de dégradés
+       ni d'emoji de fond, la couleur reste dans le bouton rond
+       ============================================ */
+
+    .event-container,
+    .event-container[class*="theme-"] {
+        padding: 0;
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 28px;
+        box-shadow: none;
+        backdrop-filter: none;
+        overflow: hidden;
+    }
+
+    .event-container::before { display: none; }
+
+    .event-container.is-collapsed { border-radius: 22px; }
+
+    /* Repliée : seule la ligne d'en-tête reste */
+    .event-container.is-collapsed > :not(.event-intro) { display: none; }
+
+    /* ── Ligne d'en-tête : emoji, titre + type · date, bouton rond ── */
+
+    .event-intro,
+    .is-collapsible .event-intro {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+            "emoji title toggle"
+            "emoji badge toggle";
+        column-gap: 14px;
+        row-gap: 2px;
+        align-items: center;
+        margin: 0;
+        padding: 20px 26px;
+        text-align: left;
+    }
+
+    /* Toute la ligne replie ou déplie (js/main.js) */
+    .is-collapsible .event-intro { cursor: pointer; }
+
+    .event-emoji {
+        grid-area: emoji;
+        display: block;
+        font-size: 1.875rem; /* 30 px */
+        line-height: 1;
+    }
+
+    .event-title,
+    .is-collapsible .event-title {
+        grid-area: title;
+        align-self: end;
+        margin: 0;
+        font-size: 1.375rem; /* 22 px */
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--text-primary);
+    }
+
+    /* Le badge devient la sous-ligne « Concours DTI • Juin 2026 », en texte simple */
+    .event-container .event-badge {
+        grid-area: badge;
+        align-self: start;
+        justify-self: start;
+        display: block;
+        margin: 0;
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        color: rgba(63, 47, 37, 0.72);
+        font-size: 0.875rem; /* 14 px */
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .event-toggle {
+        grid-area: toggle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(63, 47, 37, 0.08);
+        color: var(--text-primary);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .event-toggle::before {
+        content: '+';
+        font-size: 1.0625rem; /* 17 px */
+        font-weight: 700;
+        line-height: 1;
+        transition: transform var(--transition-base);
+    }
+
+    /* Ouverte : le « + » tourne en « × » */
+    .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
+
+    .theme-charity .event-toggle { background: rgba(127, 184, 147, 0.28); color: var(--green-deep); }
+    .theme-summer .event-toggle  { background: rgba(63, 184, 175, 0.2); color: #2a7d76; }
+    .theme-game .event-toggle    { background: rgba(162, 89, 255, 0.16); color: #6a3fa8; }
+    .theme-autumn .event-toggle  { background: rgba(197, 106, 82, 0.16); color: var(--pink-deep); }
+
+    /* ── Corps déplié ── */
+
+    .event-body {
+        padding: 0 26px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .event-body-main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .event-body-aside {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Récit et podium à gauche, photos ou blocs à droite, à partir de 1 024 px */
+    @media (min-width: 1024px) {
+        .event-body:has(> .event-body-aside) {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+    }
+
+    .event-body .event-description {
+        margin: 0;
+        max-width: none;
+        font-size: 1rem; /* 16 px */
+        line-height: 1.55;
+        color: rgba(63, 47, 37, 0.88);
+        text-align: left;
+    }
+
+    .theme-charity .event-body .event-description { font-size: 1.03125rem; } /* 16,5 px */
+
+    /* Chiffres clés en pilules : « 10 participants », « 5 manches »… */
+    .event-stats-strip,
+    .is-collapsible .event-stats-strip {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 7px;
+        margin: 0;
+    }
+
+    .event-stat-chip {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 4px;
+        min-width: 0;
+        padding: 6px 13px;
+        border: 0;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.75);
+        box-shadow: none;
+    }
+
+    .event-stat-number,
+    .event-stat-label {
+        font-size: 0.84375rem; /* 13,5 px */
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--text-primary);
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .event-stat-number { font-weight: 700; }
+
+    /* Gamers4Pets : les chiffres en petites cartes, chiffre au-dessus du libellé */
+    .theme-charity .event-stats-strip { gap: 10px; }
+
+    .theme-charity .event-stat-chip {
+        flex: 1 1 110px;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 12px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.55);
+    }
+
+    .theme-charity .event-stat-number {
+        font-size: 1.375rem; /* 22 px */
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--green-deep);
+    }
+
+    .theme-charity .event-stat-label {
+        font-weight: 400;
+        color: rgba(63, 47, 37, 0.72);
+    }
+
+    /* ── Gamers4Pets : « La cause » et « Le mur des donateurs » empilés à droite ── */
+
+    .dti-gallery-block,
+    .event-block {
+        margin: 0;
+        max-width: none;
+    }
+
+    .event-block {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px;
+        border: 0;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.45);
+        box-shadow: none;
+    }
+
+    .event-block-highlight { background: rgba(255, 255, 255, 0.65); }
+
+    /* Le dernier bloc remplit la colonne, son bouton se cale en bas */
+    .event-body-aside > .event-block:last-child { flex: 1; }
+
+    .event-block-title {
+        margin: 0;
+        font-size: 1.125rem; /* 18 px */
+        font-weight: 700;
+        color: var(--green-deep);
+        text-align: left;
+    }
+
+    .event-block-text {
+        margin: 0;
+        max-width: none;
+        font-size: 0.9375rem; /* 15 px */
+        line-height: 1.55;
+        color: rgba(63, 47, 37, 0.88);
+        text-align: left;
+    }
+
+    .g4p-donor-cta {
+        margin-top: auto;
+        padding-top: 4px;
+        text-align: left;
+    }
+
+    .g4p-donor-btn {
+        width: auto;
+        min-height: 0;
+        padding: 11px 20px;
+        border-radius: 50px;
+        font-size: 0.90625rem; /* 14,5 px */
+    }
+
+    /* Tant que la liste n'est pas là : la pastille grise de la maquette */
+    .g4p-donor-btn:disabled {
+        opacity: 1;
+        background: rgba(63, 47, 37, 0.08);
+        border-color: transparent;
+        color: rgba(63, 47, 37, 0.6);
+    }
+
+    .g4p-donor-note {
+        margin: 8px 0 0;
+        font-size: 0.85em;
+        text-align: left;
+    }
+
+    /* ── DTI : les photos de groupe en grille 2 colonnes, légende dessous ── */
+
+    .event-body-aside:has(.dti-photo-grid) {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 12px;
+        align-content: start;
+        counter-reset: manche;
+    }
+
+    /* Manches et finale ne font qu'une seule grille */
+    .event-body-aside .dti-gallery-block,
+    .event-body-aside .dti-photo-grid { display: contents; }
+
+    .event-body-aside .dti-section-title { display: none; } /* la légende dit déjà « Finale » */
+
+    .dti-photo-item {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        border-radius: 0;
+        overflow: visible;
+        box-shadow: none;
+        transition: none;
+    }
+
+    .dti-photo-item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .dti-photo-item a {
+        aspect-ratio: 16 / 10;
+        border: 0;
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(63, 47, 37, 0.06);
+    }
+
+    .dti-photo-caption {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 7px;
+        padding: 0;
+        background: none;
+        color: rgba(63, 47, 37, 0.72);
+        font-size: 0.84375rem; /* 13,5 px */
+        font-weight: 400;
+        letter-spacing: 0;
+        text-align: left;
+        pointer-events: auto;
+    }
+
+    .dti-photo-grid:not(.dti-photo-grid-finale) .dti-photo-item { counter-increment: manche; }
+
+    .dti-photo-grid:not(.dti-photo-grid-finale) .dti-photo-caption::before {
+        content: "Manche " counter(manche);
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .dti-photo-grid-finale .dti-photo-caption {
+        font-size: 0.90625rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    /* ── Podium : calé en bas de la colonne, sans médailles ── */
+
+    .event-podium-section { margin: auto 0 0; }
+
+    .event-podium-title {
+        margin: 0 0 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 0;
+        text-align: left;
+    }
+
+    .event-podium {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        align-items: end;
+    }
+
+    .podium-card {
+        min-width: 0;
+        gap: 2px;
+        padding: 14px 8px;
+        border: 0;
+        border-radius: 16px;
+        backdrop-filter: none;
+        transition: none;
+    }
+
+    .podium-card:hover { transform: none; }
+
+    .podium-card.rank-1 {
+        padding: 20px 8px;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.10));
+    }
+
+    .podium-card.rank-2 { background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(150, 150, 150, 0.08)); }
+
+    .podium-card.rank-3 { background: linear-gradient(135deg, rgba(205, 127, 50, 0.18), rgba(180, 100, 30, 0.08)); }
+
+    .podium-medal { display: none; }
+
+    .podium-rank {
+        font-size: 0.8125rem; /* 13 px */
+        font-weight: 700;
+        line-height: 1.2;
+        color: rgba(63, 47, 37, 0.6);
+    }
+
+    .podium-card .podium-name,
+    .podium-card.rank-1 .podium-name,
+    .podium-card.rank-2 .podium-name,
+    .podium-card.rank-3 .podium-name {
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        color: var(--text-primary);
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+
+    /* ── Baguettectober : cinq cartes emoji en grille de trois ── */
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        max-width: none;
+        margin: 0;
+    }
+
+    .gallery-item,
+    .theme-autumn .gallery-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 18px;
+        border: 0;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: none;
+        cursor: pointer;
+        text-align: left;
+        transition: background var(--transition-base);
+    }
+
+    .gallery-item:hover,
+    .theme-autumn .gallery-item:hover {
+        transform: none;
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .gallery-item::before { display: none; }
+
+    /* Pas d'image de dessin dans la carte : les dessins vivent dans la fenêtre */
+    .gallery-mosaic,
+    .gallery-artist { display: none; }
+
+    .gallery-placeholder,
+    .gallery-placeholder.is-replaced,
+    .theme-autumn .gallery-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        aspect-ratio: auto;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .gallery-icon {
+        margin: 0 0 10px;
+        font-size: 1.75rem; /* 28 px */
+        line-height: 1;
+    }
+
+    .gallery-week-label,
+    .theme-autumn .gallery-week-label {
+        margin: 0;
+        font-size: 0.78125rem; /* 12,5 px */
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--pink-deep);
+    }
+
+    .gallery-week {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--text-primary);
+    }
+
+    /* L'appel « Voir les dessins → » est dessiné par la carte, le bouton transparent la couvre */
+    .gallery-item::after {
+        content: 'Voir les dessins →';
+        position: static;
+        margin-top: auto;
+        padding-top: 6px;
+        font-size: 0.875rem; /* 14 px */
+        font-weight: 700;
+        color: var(--pink-deep);
+    }
+
+    /* ============================================
+       La fenêtre des dessins (bloc 20b) : le panneau mobile
+       devient une fenêtre centrée de 960 px, dessins sur 4 colonnes
+       ============================================ */
+
+    .bgal-sheet {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        background: rgba(63, 47, 37, 0.4);
+    }
+
+    .bgal-sheet.is-open { display: flex; }
+
+    .bgal-sheet__panel {
+        position: relative;
+        inset: auto;
+        width: 960px;
+        max-width: 100%;
+        max-height: min(780px, 100%);
+        background: #f3eee4;
+        border-radius: 30px;
+        box-shadow: 0 30px 70px rgba(63, 47, 37, 0.3);
+        animation: bgalFadeIn 0.25s ease;
+    }
+
+    @keyframes bgalFadeIn {
+        from { transform: translateY(12px); opacity: 0; }
+        to   { transform: none; opacity: 1; }
+    }
+
+    .bgal-sheet__handle { display: none; }
+
+    .bgal-sheet__head {
+        align-items: flex-start;
+        gap: 16px;
+        padding: 26px 30px 20px;
+    }
+
+    .bgal-sheet__meta { gap: 2px; }
+
+    .bgal-sheet__label { font-size: 0.8125rem; } /* 13 px */
+
+    .bgal-sheet__title {
+        font-size: 1.875rem; /* 30 px */
+        line-height: 1.15;
+    }
+
+    .bgal-sheet__desc {
+        margin-top: 4px;
+        font-size: 0.96875rem; /* 15,5 px */
+        color: rgba(63, 47, 37, 0.8);
+    }
+
+    .bgal-sheet__close {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        font-size: 1.125rem;
+    }
+
+    .bgal-sheet__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px 14px;
+        padding: 22px 30px;
+    }
+
+    .bgal-sheet__grid figure { gap: 6px; }
+
+    .bgal-sheet__thumb { border-radius: 16px; }
+
+    .bgal-sheet__grid figcaption { font-size: 0.875rem; } /* 14 px */
+
+    .bgal-sheet__nav {
+        gap: 10px;
+        padding: 16px 30px 22px;
+    }
+
+    .bgal-sheet__nav button {
+        flex: none;
+        min-height: 0;
+        padding: 11px 22px;
+        font-size: 0.90625rem; /* 14,5 px */
+    }
+
+    .bgal-sheet__next { margin-left: auto; }
+
+    /* ============================================
+       Pied de page : dernière bande
+       ============================================ */
+
+    footer {
+        padding: 24px;
+        background: #f2e3d8;
+        border: 0;
+        border-top: 1px solid rgba(63, 47, 37, 0.08);
+    }
+}

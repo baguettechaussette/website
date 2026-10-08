@@ -1125,8 +1125,7 @@ body.g4p-modal-open .particle {
         grid-template-columns: auto minmax(0, 1fr) auto;
         grid-template-areas:
             "emoji title toggle"
-            "emoji badge toggle"
-            "desc desc desc";
+            "emoji badge toggle";
         column-gap: 12px;
         row-gap: 4px;
         align-items: center;
@@ -1191,10 +1190,25 @@ body.g4p-modal-open .particle {
 
     .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
 
-    .is-collapsible .event-description {
-        grid-area: desc;
-        margin: 14px 0 0;
+    /* Le corps (.event-body, emballages posés pour le desktop) s'aplatit : les
+       deux colonnes n'existent pas, et l'ordre reste récit, chiffres, photos
+       ou blocs, podium. */
+    .event-body {
+        display: flex;
+        flex-direction: column;
     }
+
+    .event-body-main,
+    .event-body-aside { display: contents; }
+
+    .event-body .event-description {
+        order: -2;
+        margin: 0 0 14px;
+        max-width: none;
+    }
+
+    .event-body .event-stats-strip { order: -1; }
+    .event-body .event-podium-section { order: 1; }
 
     .is-collapsible .event-intro:has(+ *) { margin-bottom: 14px; }
 

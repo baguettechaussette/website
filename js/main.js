@@ -445,6 +445,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Maquette 25a : la première question de la FAQ est ouverte d'emblée en desktop
         document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
+
+        // Maquette 26a (/events) : l'édition la plus récente de l'archive est ouverte
+        // d'emblée, et toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
+        const firstEdition = document.querySelector('.band-archive .event-container.is-collapsible.is-collapsed');
+        if (firstEdition) {
+            firstEdition.classList.remove('is-collapsed');
+            firstEdition.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
+        }
+        document.querySelectorAll('.event-container.is-collapsible > .event-intro').forEach(intro => {
+            intro.addEventListener('click', (e) => {
+                if (e.target.closest('a, .event-toggle')) return;
+                intro.querySelector('.event-toggle')?.click();
+            });
+        });
     }
 
     // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)

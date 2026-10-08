@@ -42,16 +42,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=150">
+    <link rel="stylesheet" href="./css/fonts.css?v=151">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=150">
-    <link rel="stylesheet" href="./css/layout.css?v=150">
-    <link rel="stylesheet" href="./css/components.css?v=150">
-    <link rel="stylesheet" href="./css/sections.css?v=150">
-    <link rel="stylesheet" href="./css/responsive.css?v=150">
-    <link rel="stylesheet" href="./css/events.css?v=150">
-    <link rel="stylesheet" href="./css/lightbox.css?v=150">
+    <link rel="stylesheet" href="./css/base.css?v=151">
+    <link rel="stylesheet" href="./css/layout.css?v=151">
+    <link rel="stylesheet" href="./css/components.css?v=151">
+    <link rel="stylesheet" href="./css/sections.css?v=151">
+    <link rel="stylesheet" href="./css/responsive.css?v=151">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=151">
+    <link rel="stylesheet" href="./css/events.css?v=151">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=151">
+    <link rel="stylesheet" href="./css/lightbox.css?v=151">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -203,18 +205,13 @@
 
 <!-- Page Hero -->
 <header class="page-hero" id="accueil">
+    <!-- Desktop uniquement (maquette 26a) : ronds décoratifs, masqués sous 769 px -->
+    <span class="hero-blob hero-blob-1" aria-hidden="true"></span>
+    <span class="hero-blob hero-blob-2" aria-hidden="true"></span>
     <div class="container">
         <div class="page-hero-content">
             <h1 class="page-hero-title">Les événements des p'tits pains</h1>
-            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors du live</p>
-
-            <!-- Accès rapide aux événements (ajouter une puce par nouvel event) -->
-            <nav class="event-anchors" aria-label="Aller à un événement">
-                <a href="#gamers4pets-2026" class="event-anchor" data-umami-event="Events - Ancre Gamers4Pets">🐾 Gamers4Pets · oct. 2026</a>
-                <a href="#dti-heartopia-juin-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Juin">📸 DTI · juin 2026</a>
-                <a href="#dti-heartopia-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Mars">🧦 DTI · mars 2026</a>
-                <a href="#baguettectober-2025" class="event-anchor" data-umami-event="Events - Ancre Baguettectober">🥖 Baguettectober 2025</a>
-            </nav>
+            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors du live.</p>
         </div>
     </div>
 </header>
@@ -237,6 +234,11 @@
 ║       depuis img/emoji/ : pas de texte, sinon le rendu change        ║
 ║       d'un appareil à l'autre)                                       ║
 ║                                                                      ║
+║  2 ter. Garde la structure .event-intro (ligne d'en-tête) puis       ║
+║     .event-body > .event-body-main (récit, chiffres, podium) et      ║
+║     .event-body-aside (photos ou blocs) : c'est elle qui fait les    ║
+║     deux colonnes en desktop et l'ordre d'affichage en mobile.       ║
+║                                                                      ║
 ║  3. Colle le bloc AVANT les anciens (ordre : plus récent en haut)    ║
 ║                                                                      ║
 ║  4. Ajoute la carte dans index.html                                  ║
@@ -253,10 +255,20 @@
 
      • Mur des donateurs : js/gamers4pets.js lit data/gamers4pets-donors.json
        (37 pseudos), rien à toucher ici.
-     • Prochaine édition « à venir » : recopier ce bloc au-dessus du séparateur
-       « L'archive », avec un séparateur « À venir », sans is-collapsible.
+     • Prochaine édition « à venir » : recopier ce bloc dans une bande
+       <div class="band band-upcoming"> posée avant celle-ci, avec son
+       séparateur mobile « À venir » et son en-tête desktop (.band-header,
+       « À venir » / « Le prochain rendez-vous, et pour une fois en vrai. »),
+       sans is-collapsible.
      ============================================= -->
+<!-- ═══ Bande « L'archive » : en mobile le séparateur, en desktop l'en-tête de bande ═══ -->
+<div class="band band-archive">
 <p class="events-divider" aria-hidden="true">L'archive</p>
+<div class="section-header band-header">
+    <h2 class="section-title">L'archive</h2>
+    <p class="section-subtitle">Tout ce que les p'tits pains ont créé, édition par édition.</p>
+</div>
+
 <section id="gamers4pets-2026">
     <div class="event-container theme-charity is-collapsible is-collapsed">
         <div class="event-intro">
@@ -265,12 +277,15 @@
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Gamers4Pets 2026"></button>
             <div class="event-badge">Caritatif • Octobre 2026 🧡</div>
             <h2 class="event-title">Gamers4Pets 2026</h2>
+        </div>
+
+        <div class="event-body">
+        <div class="event-body-main">
             <p class="event-description">
                 Mon tout premier event caritatif ! Gamers4Pets a tourné du 29 septembre au 4 octobre au profit
                 de Défense de l'Animal, et je l'ai vécu en présentiel du vendredi 2 au dimanche 4 octobre.
                 Grâce à vous, on a récolté 1 350 €, pile tout rond 🧡
             </p>
-        </div>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
@@ -290,7 +305,9 @@
                 <span class="event-stat-label">paliers</span>
             </div>
         </div>
+        </div>
 
+        <div class="event-body-aside">
         <div class="event-block event-block-highlight">
             <h3 class="event-block-title">La cause</h3>
             <p class="event-block-text">
@@ -322,6 +339,8 @@
                 <p class="g4p-donor-note" id="g4pDonorNote">Le mur se charge…</p>
             </div>
         </div>
+        </div>
+        </div>
 
     </div>
 </section>
@@ -338,10 +357,13 @@
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #2"></button>
             <div class="event-badge">Concours DTI • Juin 2026 👗</div>
             <h2 class="event-title">DTI Heartopia #2</h2>
+        </div>
+
+        <div class="event-body">
+        <div class="event-body-main">
             <p class="event-description">
                 Après le succès de la première édition, Dress To Impress a fait son come-back sur Heartopia ! 10 participant·es se sont affronté·es sur 5 manches à thème, avant une grande finale sur le thème « Pays ». Chaque passage a été noté par le jury composé de moi-même et d'Omiilia, ainsi que par les votes des viewers.
             </p>
-        </div>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
@@ -362,6 +384,31 @@
             </div>
         </div>
 
+        <div class="event-podium-section">
+            <h3 class="event-podium-title">Podium final</h3>
+            <div class="event-podium">
+                <div class="podium-card rank-2">
+                    <div class="podium-medal">🥈</div>
+                    <div class="podium-rank">2<sup>ème</sup></div>
+                    <div class="podium-name">flofloria9</div>
+                </div>
+
+                <div class="podium-card rank-1">
+                    <div class="podium-medal">🥇</div>
+                    <div class="podium-rank">1<sup>er</sup></div>
+                    <div class="podium-name">zazapineapple</div>
+                </div>
+
+                <div class="podium-card rank-3">
+                    <div class="podium-medal">🥉</div>
+                    <div class="podium-rank">3<sup>ème</sup></div>
+                    <div class="podium-name">inesk13</div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="event-body-aside">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -426,28 +473,7 @@
                 </figure>
             </div>
         </div>
-
-        <div class="event-podium-section">
-            <h3 class="event-podium-title">Podium final</h3>
-            <div class="event-podium">
-                <div class="podium-card rank-2">
-                    <div class="podium-medal">🥈</div>
-                    <div class="podium-rank">2<sup>ème</sup></div>
-                    <div class="podium-name">flofloria9</div>
-                </div>
-
-                <div class="podium-card rank-1">
-                    <div class="podium-medal">🥇</div>
-                    <div class="podium-rank">1<sup>er</sup></div>
-                    <div class="podium-name">zazapineapple</div>
-                </div>
-
-                <div class="podium-card rank-3">
-                    <div class="podium-medal">🥉</div>
-                    <div class="podium-rank">3<sup>ème</sup></div>
-                    <div class="podium-name">inesk13</div>
-                </div>
-            </div>
+        </div>
         </div>
 
     </div>
@@ -465,12 +491,15 @@
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #1"></button>
             <div class="event-badge">Concours DTI • Mars 2026 🧦</div>
             <h2 class="event-title">DTI Heartopia #1</h2>
+        </div>
+
+        <div class="event-body">
+        <div class="event-body-main">
             <p class="event-description">
                 Premier concours Dress To Impress organisé sur Heartopia avec la commu ! <br>
                 Pendant toute la soirée, 10 participant·es se sont affronté·es sur 6 manches à thème. <br>
                 Chaque passage a été noté par un jury composé de moi-même, d'Omiilia, et des votes des viewers.
             </p>
-        </div>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
@@ -491,6 +520,31 @@
             </div>
         </div>
 
+        <div class="event-podium-section">
+            <h3 class="event-podium-title">Podium final</h3>
+            <div class="event-podium">
+                <div class="podium-card rank-2">
+                    <div class="podium-medal">🥈</div>
+                    <div class="podium-rank">2<sup>ème</sup></div>
+                    <div class="podium-name">Natsukyàa</div>
+                </div>
+
+                <div class="podium-card rank-1">
+                    <div class="podium-medal">🥇</div>
+                    <div class="podium-rank">1<sup>er</sup></div>
+                    <div class="podium-name">zazapineapple</div>
+                </div>
+
+                <div class="podium-card rank-3">
+                    <div class="podium-medal">🥉</div>
+                    <div class="podium-rank">3<sup>ème</sup></div>
+                    <div class="podium-name">lakish_loreine</div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="event-body-aside">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -555,28 +609,7 @@
                 </figure>
             </div>
         </div>
-
-        <div class="event-podium-section">
-            <h3 class="event-podium-title">Podium final</h3>
-            <div class="event-podium">
-                <div class="podium-card rank-2">
-                    <div class="podium-medal">🥈</div>
-                    <div class="podium-rank">2<sup>ème</sup></div>
-                    <div class="podium-name">Natsukyàa</div>
-                </div>
-
-                <div class="podium-card rank-1">
-                    <div class="podium-medal">🥇</div>
-                    <div class="podium-rank">1<sup>er</sup></div>
-                    <div class="podium-name">zazapineapple</div>
-                </div>
-
-                <div class="podium-card rank-3">
-                    <div class="podium-medal">🥉</div>
-                    <div class="podium-rank">3<sup>ème</sup></div>
-                    <div class="podium-name">lakish_loreine</div>
-                </div>
-            </div>
+        </div>
         </div>
 
     </div>
@@ -594,11 +627,14 @@
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Baguettectober 2025"></button>
             <div class="event-badge">🥖 Challenge dessin • Octobre 2025</div>
             <h2 class="event-title">Baguettectober 2025</h2>
+        </div>
+
+        <div class="event-body">
+        <div class="event-body-main">
             <p class="event-description">
                 C'est comme Inktober... mais en fait non ! Durant chaque semaine d'octobre, un nouveau défi dessin a été révélé pour exprimer ta créativité.
                 Découvre ici la galerie d'art de la communauté 😊
             </p>
-        </div>
 
         <!-- Stats -->
         <div class="event-stats-strip">
@@ -610,6 +646,7 @@
                 <span class="event-stat-number">33</span>
                 <span class="event-stat-label">illustrations</span>
             </div>
+        </div>
         </div>
 
         <div class="gallery-grid">
@@ -663,8 +700,10 @@
                 <button type="button" class="gallery-trigger" aria-label="Ouvrir la galerie Challenge bonus - La DERNIÈRE Flamme"></button>
             </article>
         </div>
+        </div>
     </div>
 </section>
+</div>
 
 </main>
 
@@ -688,11 +727,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=150"></script>
-<script defer src="./js/live-float.js?v=150"></script>
-<script defer src="./js/gallery.js?v=150"></script>
-<script defer src="./js/gamers4pets.js?v=150"></script>
-<script defer src="./js/fluent-emoji.js?v=150"></script>
+<script defer src="./js/main.js?v=151"></script>
+<script defer src="./js/live-float.js?v=151"></script>
+<script defer src="./js/gallery.js?v=151"></script>
+<script defer src="./js/gamers4pets.js?v=151"></script>
+<script defer src="./js/fluent-emoji.js?v=151"></script>
 
 </body>
 </html>
