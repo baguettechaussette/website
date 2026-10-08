@@ -53,19 +53,19 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=179">
+    <link rel="stylesheet" href="./css/fonts.css?v=180">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=179">
-    <link rel="stylesheet" href="./css/layout.css?v=179">
-    <link rel="stylesheet" href="./css/components.css?v=179">
-    <link rel="stylesheet" href="./css/sections.css?v=179">
-    <link rel="stylesheet" href="./css/responsive.css?v=179">
-    <link rel="stylesheet" href="./css/partners.css?v=179">
+    <link rel="stylesheet" href="./css/base.css?v=180">
+    <link rel="stylesheet" href="./css/layout.css?v=180">
+    <link rel="stylesheet" href="./css/components.css?v=180">
+    <link rel="stylesheet" href="./css/sections.css?v=180">
+    <link rel="stylesheet" href="./css/responsive.css?v=180">
+    <link rel="stylesheet" href="./css/partners.css?v=180">
     <!-- Desktop : habillage commun (fond, barre de navigation, pied de page)
          puis la feuille propre à la page. Tout est en @media (min-width: 769px),
          chargé après responsive.css pour primer sur les réglages communs. -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=179">
-    <link rel="stylesheet" href="./css/desktop.css?v=179">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=180">
+    <link rel="stylesheet" href="./css/desktop.css?v=180">
 
     <script type="application/ld+json">
         {
@@ -508,12 +508,11 @@
                 <h3 class="contact-title">Email professionnel</h3>
                 <!-- Desktop uniquement (maquette 25a) -->
                 <span class="contact-reply">Réponse sous quelques jours</span>
-                <!-- Un seul bouton : « M'écrire » (mailto) ; au pointeur fin, main.js le
-                     passe en « Copier l'adresse » et copie. L'adresse reste lisible dessous. -->
+                <!-- Un seul bouton dont le libellé est l'adresse : au doigt il ouvre le
+                     mail, à la souris main.js copie l'adresse et affiche « Copié » 1,5 s. -->
                 <a href="#" class="contact-email js-email" data-user="baguette.chaussette.contact"
-                   data-domain="gmail.com" data-umami-event="Contact - Email Click">M'écrire</a>
-                <p class="contact-address js-email-text" data-user="baguette.chaussette.contact"
-                   data-domain="gmail.com">baguette.chaussette.contact [at] gmail.com</p>
+                   data-domain="gmail.com" data-show-text
+                   data-umami-event="Contact - Email Click">baguette.chaussette.contact [at] gmail.com</a>
             </article>
 
             <div class="contact-cards">
@@ -799,9 +798,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=179"></script>
-<script defer src="./js/stream-countdown.js?v=179"></script>
-<script defer src="./js/live-float.js?v=179"></script>
-<script defer src="./js/fluent-emoji.js?v=179"></script>
+<script defer src="./js/main.js?v=180"></script>
+<script defer src="./js/stream-countdown.js?v=180"></script>
+<script defer src="./js/live-float.js?v=180"></script>
+<script defer src="./js/fluent-emoji.js?v=180"></script>
 </body>
 </html>

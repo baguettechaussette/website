@@ -883,15 +883,13 @@
         grid-template-areas:
             "icon  title"
             "icon  reply"
-            "email email"
-            "addr  addr";
+            "email email";
         align-items: center;
         column-gap: 12px;
         row-gap: 0;
         text-align: left;
     }
 
-    .contact-address { grid-area: addr; margin: 8px 0 0; }
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
 

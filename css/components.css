@@ -757,11 +757,3 @@
 /* Plus de reflet qui balaie le bouton au survol */
 .btn::before,
 .g4p-donor-btn::before { display: none; }
-
-/* L'adresse e-mail en clair sous le bouton */
-.contact-address {
-    margin: 10px 0 0;
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    overflow-wrap: anywhere;
-}
