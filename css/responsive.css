@@ -779,8 +779,8 @@
         line-height: 1.15;
         margin-bottom: 6px;
         background: none;
-        -webkit-text-fill-color: var(--green);
-        color: var(--green);
+        -webkit-text-fill-color: var(--green-deep); /* le vert foncé du desktop (08/10/2026) */
+        color: var(--green-deep);
     }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
@@ -1053,8 +1053,8 @@
         font-size: 1.0625em;
         margin: 0;
         background: none;
-        -webkit-text-fill-color: var(--green);
-        color: var(--green);
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
     }
 
     .schedule-time {
@@ -1114,8 +1114,8 @@
 
     .schedule-item.is-live .schedule-day {
         background: none;
-        -webkit-text-fill-color: var(--green);
-        color: var(--green);
+        -webkit-text-fill-color: var(--green-deep);
+        color: var(--green-deep);
     }
 
     .schedule-item.is-live .schedule-countdown::before { display: none; } /* la pastille rouge */
@@ -1228,14 +1228,14 @@
 
     /* La date en jaune de la charte, passé ou à venir */
     .event-archive-card .event-status-badge {
-        background: rgba(242, 201, 107, 0.25);
+        background: rgba(242, 201, 107, 0.28);
         border-color: transparent;
-        color: var(--text-secondary);
+        color: #8a6a1f;
     }
 
     #evenements .clips-more { margin-top: 16px; }
 
-    /* ---- 5. Me soutenir : icône et titre sur une ligne, bouton visible ---- */
+    /* ---- 5. Me soutenir : titre, texte, bouton visible (plus d'emoji depuis le 08/10/2026) ---- */
     #soutenir .social-grid {
         display: flex;
         flex-direction: column;
@@ -1244,12 +1244,11 @@
 
     #soutenir .social-card {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr);
         grid-template-areas:
-            "icon name"
-            "desc desc"
-            "cta cta";
-        column-gap: 11px;
+            "name"
+            "desc"
+            "cta";
         row-gap: 10px;
         align-items: center;
         padding: 18px;
@@ -1258,7 +1257,6 @@
     }
 
     #soutenir .social-card:hover { transform: none; }
-    #soutenir .social-icon { grid-area: icon; font-size: 1.625em; line-height: 1; margin: 0; }
     #soutenir .social-name { grid-area: name; font-size: 1.125em; line-height: 1.2; margin: 0; }
     #soutenir .social-desc { grid-area: desc; font-size: 0.875em; line-height: 1.5; }
     #soutenir .social-desc strong { color: var(--text-primary); }
@@ -1275,11 +1273,11 @@
         line-height: 1.2;
     }
 
-    /* Le violet reste ici : c'est Twitch qui parle de Twitch, sur un fond déjà teinté */
-    #soutenir .social-card.twitch { background: rgba(145, 70, 255, 0.13); border-color: rgba(145, 70, 255, 0.4); }
+    /* Les teintes du desktop */
+    #soutenir .social-card.twitch { background: rgba(145, 70, 255, 0.07); border-color: rgba(145, 70, 255, 0.22); }
     #soutenir .social-card.twitch .social-name { color: var(--twitch-dark); }
     #soutenir .social-card.twitch .social-cta { background: var(--twitch-dark); }
-    #soutenir .social-card.kofi { background: rgba(197, 106, 82, 0.13); border-color: rgba(197, 106, 82, 0.4); }
+    #soutenir .social-card.kofi { background: rgba(197, 106, 82, 0.07); border-color: rgba(197, 106, 82, 0.22); }
     #soutenir .social-card.kofi .social-name { color: var(--pink-deep); }
     #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
 
@@ -1421,13 +1419,12 @@
     #reseaux .social-icon {
         grid-row: 1 / span 2;
         grid-column: 1;
-        font-size: 1.5em;
         line-height: 1;
         margin: 0;
         text-align: center;
     }
 
-    #reseaux .social-name { grid-column: 2; font-size: 1em; line-height: 1.25; margin: 0; }
+    #reseaux .social-name { grid-column: 2; font-size: 1em; line-height: 1.25; margin: 0; color: var(--text-primary); }
     #reseaux .social-desc { grid-column: 2; font-size: 0.82em; line-height: 1.3; }
 
     #reseaux .social-card::after {
@@ -1439,21 +1436,17 @@
         color: rgba(63, 47, 37, 0.45);
     }
 
-    /* Teintes très basses sur le beige, noms dans les variantes accessibles de la charte.
-       Discord adouci comme la maquette (bleu lavande à 10 %, nom ardoise). */
-    #reseaux .social-card.discord { background: rgba(114, 137, 218, 0.18); border-color: rgba(114, 137, 218, 0.45); }
-    #reseaux .social-card.discord .social-name { color: #4a5a94; }
-    /* Teintes remontées (23/09) : à 8 % les lignes paraissaient fades sur le fond éclairci. */
-    #reseaux .social-card.twitch { background: rgba(145, 70, 255, 0.14); border-color: rgba(145, 70, 255, 0.4); }
-    #reseaux .social-card.twitch .social-name { color: var(--twitch-dark); }
-    #reseaux .social-card.youtube { background: rgba(230, 103, 103, 0.14); border-color: rgba(230, 103, 103, 0.4); }
-    #reseaux .social-card.youtube .social-name { color: var(--live-red-deep); }
-    #reseaux .social-card.tiktok { background: rgba(127, 184, 147, 0.18); border-color: rgba(127, 184, 147, 0.5); }
-    #reseaux .social-card.tiktok .social-name { color: var(--green-deep); }
-    #reseaux .social-card.instagram { background: rgba(197, 106, 82, 0.14); border-color: rgba(197, 106, 82, 0.4); }
-    #reseaux .social-card.instagram .social-name { color: var(--pink-deep); }
-    #reseaux .social-card.twitter { background: rgba(63, 47, 37, 0.1); border-color: rgba(63, 47, 37, 0.28); }
-    #reseaux .social-card.twitter .social-name { color: var(--text-primary); }
+    /* Cartes blanches comme en desktop (08/10/2026) : la couleur est portée par le logo */
+    #reseaux .social-card,
+    #reseaux .social-card.discord,
+    #reseaux .social-card.twitch,
+    #reseaux .social-card.youtube,
+    #reseaux .social-card.tiktok,
+    #reseaux .social-card.instagram,
+    #reseaux .social-card.twitter {
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.7);
+    }
 
     .socials-all-link {
         display: block;
@@ -1491,12 +1484,15 @@
         color: var(--green-deep);
     }
 
-    /* Ouvert : même carte blanche, liseré vert doux, pas de dégradé ni d'ombre (maquette) */
+    /* Ouvert : comme en desktop, carte un peu plus blanche, question en vert foncé */
     .faq-item[open] {
-        background: rgba(255, 255, 255, 0.5);
-        border-color: rgba(127, 184, 147, 0.35);
+        background: rgba(255, 255, 255, 0.6);
+        border-color: rgba(255, 255, 255, 0.75);
         box-shadow: none;
     }
+
+    .faq-item[open] summary { color: var(--green-deep); }
+    .faq-item[open] summary::after { background: rgba(127, 184, 147, 0.28); }
 
     .faq-answer {
         padding: 0 16px 16px;
