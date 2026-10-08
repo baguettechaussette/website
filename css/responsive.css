@@ -2094,13 +2094,16 @@
     }
 
     /* Comment clipper */
+    /* En carte, comme en desktop : fond jaune pâle, liseré blanc */
     .clip-howto {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
         margin-top: 14px;
-        padding-top: 14px;
-        border-top: 1px solid rgba(63, 47, 37, 0.1);
+        padding: 18px 16px;
+        background: rgba(242, 201, 107, 0.14);
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 24px;
     }
 
     .clip-howto-title {
@@ -2108,7 +2111,7 @@
         font-size: 1.125em;
         font-weight: 800;
         line-height: 1.2;
-        text-align: center;
+        text-align: left;
         color: var(--text-primary);
     }
 
