@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     injectVideoSchema();
 });
 
-// « Et si le prochain finaliste, c'était ton clip ? » n'existe qu'une fois
+// « Et si le prochain gagnant c'était ton clip ? » n'existe qu'une fois
 // dans le HTML mais ne se range pas au même endroit : à côté du clip gagnant
 // en desktop (maquette 21a), à la fin du Panthéon en mobile. On le déplace
 // plutôt que de le dupliquer, et on suit les changements de largeur.
