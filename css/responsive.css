@@ -881,7 +881,7 @@
         height: 10px;
         flex: none;
         border-radius: 50%;
-        background: #8a6a1f; /* ocre de la maquette, seule couleur hors palette (pastille + libellé) */
+        background: var(--green); /* comme en desktop, depuis que la carte est verte */
     }
 
     .hero-live-label {
@@ -889,14 +889,14 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #8a6a1f;
+        color: var(--green-deep); /* comme en desktop */
     }
 
     .hero-live-countdown {
         margin-left: auto;
         font-size: 0.82em;
         font-weight: 700;
-        color: var(--text-tertiary);
+        color: var(--green-deep); /* comme le libellé, et comme en desktop */
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
     }
