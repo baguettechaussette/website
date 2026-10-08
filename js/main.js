@@ -500,13 +500,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = addr;
         btn.title = "Cliquer pour copier l'adresse";
         let timer = 0;
+        // Le libellé vit dans un <span> : le CSS le fait disparaître et pose la
+        // coche + « Copié » par-dessus, sans que le bouton change de largeur.
+        const text = document.createElement('span');
+        text.className = 'contact-email-text';
+        text.textContent = label;
+        // La bulle « Adresse copiée » au-dessus du bouton (animée par le CSS)
+        const bubble = document.createElement('span');
+        bubble.className = 'contact-email-bubble';
+        bubble.setAttribute('role', 'status');
+        bubble.textContent = 'Adresse copiée';
+        btn.replaceChildren(text, bubble);
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             navigator.clipboard.writeText(addr).then(() => {
-                btn.textContent = 'Copié';
+                btn.classList.remove('is-copied');
+                void btn.offsetWidth; // relance l'animation si on reclique pendant le « Copié »
                 btn.classList.add('is-copied');
                 clearTimeout(timer);
-                timer = setTimeout(() => { btn.textContent = label; btn.classList.remove('is-copied'); }, 1500);
+                timer = setTimeout(() => btn.classList.remove('is-copied'), 1600);
             }).catch(() => { window.location.href = 'mailto:' + addr; });
         });
     });
