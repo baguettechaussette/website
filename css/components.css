@@ -856,8 +856,10 @@
     100% { opacity: 0; transform: translate(-50%, -4px); }
 }
 
-/* Petit cœur blanc du bouton « Suivre la chaîne » (SVG, pas un emoji) */
-.btn-heart {
+/* Petits pictogrammes blancs des boutons (SVG, pas un emoji) : le cœur de
+   « Suivre la chaîne », la coche des boutons de vote */
+.btn-heart,
+.btn-icon {
     width: 0.95em;
     height: 0.95em;
     flex: none;

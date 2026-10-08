@@ -78,6 +78,15 @@ const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
 const DISCORD_URL = 'https://discord.gg/QHNF684bBf';
 
 // ── Petits helpers DOM ──────────────────────────────────────
+// Coche blanche des boutons de vote, en SVG (pas d'emoji dans les boutons)
+const CHECK_SVG = '<svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+const checkTpl = document.createElement('template');
+checkTpl.innerHTML = CHECK_SVG;
+function setBtnLabel(btn, text, withCheck) {
+    btn.textContent = text;
+    if (withCheck) btn.appendChild(checkTpl.content.firstElementChild.cloneNode(true));
+}
+
 function makeEl(tag, cls, text) {
     const e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -376,7 +385,7 @@ function buildFinalistCard(clip, week, votedKey, num, total) {
     btn.type = 'button';
     btn.className = 'cow-vote-btn';
     btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
-    btn.textContent = 'Voter pour ce clip 🥖';
+    setBtnLabel(btn, 'Voter pour ce clip', true);
     btn.addEventListener('click', async () => {
         if (lsGet(votedKey) || btn.disabled) return;
         const status = document.getElementById('cowVoteStatus');
@@ -396,7 +405,7 @@ function buildFinalistCard(clip, week, votedKey, num, total) {
             if (status) status.textContent = 'Vote enregistré, merci !';
         } catch {
             btn.disabled = false;
-            btn.textContent = 'Oups, réessaie 🥖';
+            setBtnLabel(btn, 'Oups, réessaie', false);
             if (status) status.textContent = 'Le vote n\'a pas pu être enregistré, réessaie.';
         }
     });
@@ -463,7 +472,7 @@ function refreshVoteButtons(grid, votedClip) {
         btn.disabled = true;
         if (btn.dataset.clip === votedClip) {
             btn.classList.add('is-voted');
-            btn.textContent = 'Voté, merci ! ✔';
+            setBtnLabel(btn, 'Voté, merci !', true);
         }
     });
     applyVotedLayout(grid, votedClip);

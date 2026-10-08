@@ -1926,7 +1926,9 @@
     .clippers-grid .clipper-card {
         counter-increment: rang;
         display: grid;
-        grid-template-columns: 28px 26px auto minmax(0, 1fr);
+        /* 28 px de rang + 18 d'air, 26 px d'emoji + 12 d'air : les colonnes
+           portent les marges, sinon elles débordaient sur la suivante */
+        grid-template-columns: 46px 38px auto minmax(0, 1fr);
         grid-template-areas:
             "rank badge name  name"
             "rank badge grade suffix"
@@ -1963,7 +1965,7 @@
         flex: none;
         width: 28px;
         height: 28px;
-        margin-right: 12px;
+        margin-right: 18px; /* un peu d'air entre la médaille et l'emoji (09/10/2026) */
         border-radius: 50%;
         background: none;
         color: rgba(63, 47, 37, 0.72);
