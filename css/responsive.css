@@ -784,14 +784,6 @@
     }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
-    /* Les sections restent transparentes sur le dégradé animé. Une seule
-       exception, Marques & studios (contact + partenaires) : --peach à 50 %,
-       qui isole le bloc professionnel du reste de la page. */
-    #contact,
-    #partenaires {
-        background: rgba(242, 227, 216, 0.5);
-    }
-
     /* ---- 1. Hero : avatar 92 px à gauche du nom, carte du prochain live ----
        .hero-left / .hero-right passent en display: contents : leurs enfants deviennent
        les cellules d'une seule grille (et les glissements d'entrée disparaissent avec
@@ -2248,4 +2240,39 @@
    cette règle qui reprend la main sous 768 px. */
 @media (max-width: 768px) {
     .desktop-only { display: none; }
+}
+
+/* ============================================
+   FONDS : les mêmes bandes qu'en desktop (08/10/2026)
+   Sur les pages construites en bandes (accueil, events), le dégradé animé
+   s'efface et chaque bande prend son fond plat, comme dans desktop.css et
+   events-desktop.css : hero dégradé, puis vert pâle / beige / pêche, footer
+   pêche. Les pages sans bandes (clips) gardent le dégradé à 8 %.
+   ============================================ */
+@media (max-width: 768px) {
+    body:has(.band) .bg-container { display: none; }
+
+    body:has(.band) .hero,
+    body:has(.band) .page-hero {
+        background: linear-gradient(135deg, #f0ebe0 0%, #f2e6dc 100%);
+    }
+
+    .band-week,
+    .band-social,
+    .band-upcoming { background: #e9eee2; }
+
+    .band-community,
+    .band-archive { background: #f0ebe0; }
+
+    .band-pro { background: #f2e3d8; }
+
+    /* L'archive est verte tant qu'elle suit directement le hero (pas de bande
+       « À venir »), même logique qu'en desktop */
+    .page-hero + .band-archive { background: #e9eee2; }
+
+    body:has(.band) footer {
+        background: #f2e3d8;
+        border: 0;
+        border-top: 1px solid rgba(63, 47, 37, 0.08);
+    }
 }
