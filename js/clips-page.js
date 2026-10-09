@@ -489,7 +489,7 @@ function renderTurnout(n, after) {
         const s = n > 1 ? 's' : '';
         hero.textContent = '';
         hero.append(
-            makeEl('span', 'meta-mobile', `${n} vote${s}`),
+            makeEl('span', 'meta-mobile', `Déjà ${n} vote${s}`),
             makeEl('span', 'meta-desktop', `Déjà ${n} vote${s} 🗳️`)
         );
         hero.hidden = false;
@@ -541,26 +541,41 @@ async function loadClippers() {
         const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 12);
         if (!clippers.length) return;
 
-        const medals = ['🥇', '🥈', '🥉'];
+        // Maquette 29a : un podium de trois cartes, puis les places 4 à 12 en
+        // liste dans une seule carte. Chaque entrée : rang, pseudo et chiffres,
+        // puis deux pastilles (le grade avec son emoji, la mention).
+        const podium = makeEl('ol', 'pantheon-podium');
+        const liste = makeEl('ol', 'pantheon-list');
+        liste.start = 4;
         clippers.forEach((c, i) => {
             const views = c.total_views || 0;
+            const nbClips = c.clips || 0;
             // (c.clips || 0) : un champ manquant ne doit pas faire échouer le
             // find (undefined >= 0 est faux) et masquer tout le Panthéon.
-            const badge = CLIPPER_BADGES.find(b => (c.clips || 0) >= b.min);
+            const badge = CLIPPER_BADGES.find(b => nbClips >= b.min);
             if (!badge) return;
             const suffix = CLIPPER_SUFFIXES.find(s => views >= s.min);
-            const card = makeEl('div', 'clipper-card' + (i < 3 ? ` clipper-rank-${i + 1}` : ''));
-            card.append(
-                makeEl('div', 'clipper-rank', medals[i] || `#${i + 1}`),
-                makeEl('div', 'clipper-badge', badge.emoji),
-                makeEl('p', 'clipper-name', c.name),
-                makeEl('p', 'clipper-grade', badge.label)
+
+            const item = makeEl('li', i < 3 ? `pantheon-card pantheon-rang-${i + 1}` : 'pantheon-row');
+            const ident = makeEl('div', 'pantheon-ident');
+            ident.append(
+                makeEl('p', 'pantheon-name', c.name),
+                makeEl('p', 'pantheon-stats',
+                    `${nbClips} clip${nbClips > 1 ? 's' : ''} · ${views.toLocaleString('fr-FR')} vues`)
             );
-            if (suffix) card.appendChild(makeEl('p', 'clipper-suffix', suffix.label));
-            card.appendChild(makeEl('p', 'clipper-stats',
-                `${c.clips} clip${c.clips > 1 ? 's' : ''} · ${views.toLocaleString('fr-FR')} vues`));
-            grid.appendChild(card);
+            const tags = makeEl('p', 'pantheon-tags');
+            tags.appendChild(makeEl('span', 'pantheon-tag pantheon-tag-grade', `${badge.emoji} ${badge.label}`));
+            if (suffix) tags.appendChild(makeEl('span', 'pantheon-tag pantheon-tag-mention', suffix.label));
+            item.append(makeEl('span', 'pantheon-rank', String(i + 1)), ident, tags);
+            (i < 3 ? podium : liste).appendChild(item);
         });
+        grid.appendChild(podium);
+        if (liste.children.length) {
+            // Desktop : la liste se lit par colonne (4 à 6, 7 à 9, 10 à 12),
+            // il lui faut son nombre de lignes
+            liste.style.setProperty('--rangs', Math.ceil(liste.children.length / 3));
+            grid.appendChild(liste);
+        }
 
         section.hidden = false;
     } catch { /* silencieux : la section reste cachée */ }

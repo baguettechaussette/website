@@ -540,73 +540,153 @@
     opacity: 1;
 }
 
-/* ── Le Panthéon des clippeurs ── */
+/* ── Le Panthéon des clippeurs (maquette 29a) ──
+   Un podium de trois cartes, puis les places 4 à 12 en liste dans une seule
+   carte : un classement se lit comme une descente, pas comme douze boîtes
+   de même importance. Chaque entrée : rang, pseudo et chiffres, puis deux
+   pastilles de même forme (le grade avec son emoji, la mention).
+   Règles de base = mobile ; clips-desktop.css pose le podium en trois
+   colonnes et la liste en trois colonnes lues de haut en bas. */
 .clippers-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 14px;
+    max-width: none;
+    margin: 0;
+}
+
+.pantheon-podium,
+.pantheon-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pantheon-podium {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Rang à gauche ; pseudo et chiffres sur la première ligne, pastilles dessous */
+.pantheon-card,
+.pantheon-row {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-areas:
+        "rank ident"
+        ".    tags";
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 8px;
+    text-align: left;
+}
+
+/* Podium : une carte par personne, fond à peine teinté, pas de dégradé */
+.pantheon-card {
+    padding: 14px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.pantheon-rang-1 { background: rgba(242, 201, 107, 0.2); }
+.pantheon-rang-2 { background: rgba(170, 170, 178, 0.16); }
+.pantheon-rang-3 { background: rgba(205, 127, 50, 0.14); }
+
+.pantheon-rank {
+    grid-area: rank;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.clippers-grid .clipper-card {
-    flex: 0 1 180px;
-}
-
-.clipper-card {
-    position: relative;
-    padding: 24px 16px 18px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px solid rgba(140, 191, 159, 0.25);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-}
-
-.clipper-rank {
-    position: absolute;
-    top: 10px;
-    left: 12px;
-    font-size: 1.05em;
+    width: 28px;
+    height: 28px;
+    font-size: 0.84375rem; /* 13,5 px */
     font-weight: 800;
-    color: var(--text-tertiary);
-}
-
-.clipper-badge {
-    font-size: 2.4em;
     line-height: 1;
-    margin-bottom: 8px;
+    color: rgba(63, 47, 37, 0.6);
+    font-variant-numeric: tabular-nums;
 }
 
-.clipper-name {
+/* Sur le podium, le numéro devient un disque métallique */
+.pantheon-card .pantheon-rank {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.9375rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 3px rgba(63, 47, 37, 0.18);
+}
+
+.pantheon-rang-1 .pantheon-rank { background: linear-gradient(145deg, #f7dc7a, #d9a93a); color: #5a4210; }
+.pantheon-rang-2 .pantheon-rank { background: linear-gradient(145deg, #eeeeee, #b9b9b9); color: #3f3f3f; }
+.pantheon-rang-3 .pantheon-rank { background: linear-gradient(145deg, #e8b07a, #b87333); color: #4a2a10; }
+
+/* Pseudo puis chiffres, qui passent à la ligne si le pseudo est long */
+.pantheon-ident {
+    grid-area: ident;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+    row-gap: 2px;
+}
+
+.pantheon-name {
+    margin: 0;
+    min-width: 0;
+    font-size: 1rem;
     font-weight: 800;
+    line-height: 1.3;
+    color: var(--text-primary);
     overflow-wrap: anywhere;
 }
 
-.clipper-grade {
-    color: var(--green);
-    font-weight: 700;
-    font-size: 0.85em;
-}
-
-.clipper-suffix {
-    margin-top: 2px;
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 700;
-    color: #c9902e;
-}
-
-.clipper-stats {
-    margin-top: 4px;
+.pantheon-stats {
+    margin: 0;
+    font-size: 0.8125rem; /* 13 px */
+    line-height: 1.3;
     color: var(--text-tertiary);
-    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
-.clipper-rank-1 { border-color: rgba(242, 201, 107, 0.8); }
-.clipper-rank-2 { border-color: rgba(63, 47, 37, 0.3); }
-.clipper-rank-3 { border-color: rgba(197, 106, 82, 0.55); }
+.pantheon-tags {
+    grid-area: tags;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pantheon-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: var(--green-deep); }
+.pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #8a6a1f; }
+
+/* Places 4 à 12 : une seule carte, lignes séparées par un filet */
+.pantheon-list {
+    padding: 4px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.pantheon-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(63, 47, 37, 0.1);
+}
 
 .clips-grid {
     display: grid;
