@@ -1674,14 +1674,18 @@
     .cow-vote-btn.is-voted { background: rgba(63, 107, 79, 0.12); color: var(--green-deep); opacity: 1; }
 
     /* Points de position + indice de glissement */
+    /* Navigation centrée sous le carrousel : les points, puis l'invitation
+       à glisser dessous */
     .cow-dots {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         padding: 0 18px;
+        text-align: center;
     }
 
-    .cow-dots-track { flex: 1; display: flex; gap: 5px; }
+    .cow-dots-track { display: flex; justify-content: center; gap: 5px; }
 
     .cow-dot {
         width: 7px;
