@@ -67,8 +67,8 @@
 
     .bg-container {
         animation: none;
-        /* Fond plus clair en mobile (décision du 23/09/2026) : le dégradé passe de 15 à 8 %,
-           proche du beige plat des maquettes. Opacité seule, jamais de filter (FCP). */
+        /* Fond plus clair en mobile : le dégradé passe de 15 à 8 %. Opacité seule,
+           jamais de filter (coût au premier rendu). */
         opacity: 0.08;
     }
 
@@ -150,7 +150,7 @@
     /* Containers */
     /* Countdown banner */
     .next-stream-banner .countdown-label {
-        font-size: 1.4em;  /* Augmenté de 1.25em */
+        font-size: 1.4em;
         font-weight: 700;
     }
 
@@ -160,7 +160,7 @@
     }
 
     .schedule-countdown {
-        font-size: 1.1em;  /* Augmenté de 1em */
+        font-size: 1.1em;
         padding: 10px 16px;
         font-weight: 600;
     }
@@ -211,12 +211,12 @@
 
     /* Social cards */
     .social-name {
-        font-size: 1.8em;  /* Augmenté de 1.6em */
+        font-size: 1.8em;
         margin-bottom: 12px;
     }
 
     .social-desc {
-        font-size: 1.15em;  /* Augmenté de 1em */
+        font-size: 1.15em;
         line-height: 1.5;
     }
 }
@@ -242,20 +242,20 @@
         font-size: 0.82em;
     }
 
-    /* Hero - Tailles augmentées */
+    /* Hero */
     .hero-title {
-        font-size: 2.3em;  /* Augmenté de 2em */
+        font-size: 2.3em;
         line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 1.25em;  /* Augmenté de 1.1em */
+        font-size: 1.25em;
         line-height: 1.5;
     }
 
     /* Navigation */
     .logo {
-        font-size: 1.4em;  /* Augmenté de 1.3em */
+        font-size: 1.4em;
     }
 
     nav {
@@ -268,7 +268,7 @@
     }
 
     .nav-links a {
-        font-size: 1.1em;  /* Augmenté de 1em */
+        font-size: 1.1em;
     }
 
     /* Hero - Avatar encore plus petit sur très petits écrans */
@@ -313,59 +313,59 @@
         border-radius: var(--radius-md);
     }
 
-    /* Schedule - Tailles augmentées */
+    /* Schedule */
     .schedule-item {
         padding: 28px 22px;  /* Plus d'espace */
         border-radius: var(--radius-md);
     }
 
     .schedule-day {
-        font-size: 1.8em;  /* Augmenté de 1.6em */
+        font-size: 1.8em;
         margin-bottom: 10px;
     }
 
     .schedule-time {
-        font-size: 1.5em;  /* Augmenté de 1.3em */
+        font-size: 1.5em;
         margin-bottom: 12px;
     }
 
     .schedule-countdown {
-        font-size: 1.05em;  /* Augmenté de 0.95em */
+        font-size: 1.05em;
         padding: 10px 14px;
     }
 
-    /* Countdown banner - Tailles augmentées */
+    /* Countdown banner */
     .next-stream-banner {
         padding: 24px 18px;
         border-radius: var(--radius-md);
     }
 
     /* Buttons - Plus grands pour toucher facile */
-    /* Contact - Tailles augmentées */
+    /* Contact */
     .contact-title {
-        font-size: 1.6em;  /* Augmenté de 1.4em */
+        font-size: 1.6em;
     }
 
     .contact-email {
-        font-size: 1em;  /* Augmenté de 0.9em */
+        font-size: 1em;
         padding: 12px 20px;
     }
 
     .contact-text {
-        font-size: 1.05em;  /* Augmenté de 0.95em */
+        font-size: 1.05em;
     }
 
     .contact-card-title {
-        font-size: 1.35em;  /* Augmenté de 1.2em */
+        font-size: 1.35em;
     }
 
     .contact-card-text {
-        font-size: 1.05em;  /* Augmenté de 0.95em */
+        font-size: 1.05em;
     }
 
-    /* Social cards - Tailles augmentées */
+    /* Social cards */
     .social-desc {
-        font-size: 1.05em;  /* Augmenté de 0.95em */
+        font-size: 1.05em;
     }
 
 
@@ -402,15 +402,15 @@
 /* === Very small screens === */
 @media (max-width: 360px) {
     .logo {
-        font-size: 1.35em;  /* Augmenté de 1.3em */
+        font-size: 1.35em;
     }
 
     .schedule-day {
-        font-size: 1.6em;  /* Augmenté de 1.4em */
+        font-size: 1.6em;
     }
 
     .contact-email {
-        font-size: 0.95em;  /* Augmenté de 0.85em */
+        font-size: 0.95em;
         padding: 12px 18px;
     }
 }
@@ -529,7 +529,7 @@
 }
 
 /* ============================================
-   REFONTE MOBILE (22/09/2026, brief Claude Design)
+   MOBILE : échelle et rythme
    Ces règles remplacent les valeurs mobiles plus haut dans le fichier
    (même sélecteur, plus bas dans la cascade). Échelle typographique h1 > h2 > h3, rythme vertical resserré, grilles 2 colonnes.
    ============================================ */
@@ -586,7 +586,7 @@
     .stat-box:nth-child(3) { grid-column: 1 / -1; }
 }
 
-/* --- Refonte mobile, passe 2 (brief Claude Design) --- */
+/* --- Mobile : espacements des en-têtes et grilles --- */
 @media (max-width: 768px) {
     /* layout.css:412 met 80 px sous chaque en-tête de section, jamais surchargé en mobile :
        ~430 px de vide sur l'accueil à lui seul *//* 18 cartes en une colonne (~5 000 px) : deux colonnes, légende réduite */
@@ -603,13 +603,13 @@
 }
 
 /* ============================================
-   ACCUEIL MOBILE (maquette Claude Design du 22/09/2026, handoff « Accueil mobile »)
+   ACCUEIL MOBILE
    Desktop intouché : tout vit sous 768 px. Les éléments neufs du HTML (tagline,
    carte du prochain live, libellés courts des stats, boutons des cartes soutien,
    titre « Marques & studios », pictogramme media kit, lien /links) sont masqués
    au-dessus par la règle de base ci-dessous. Ces règles sont les dernières du
    fichier : elles priment sur les blocs mobiles plus haut (même sélecteur, même
-   media query, plus bas dans la cascade). Une passe de nettoyage reste à faire.
+   media query, plus bas dans la cascade).
    ============================================ */
 
 .logo .logo-avatar, /* .logo img (base.css) le forçait en inline-block sur desktop */
@@ -639,8 +639,8 @@
 
 @media (max-width: 768px) {
 
-    /* ---- 0. Barre de navigation en pilule flottante (maquette 13E) ----
-       Avatar + nom en encre, burger fin. Le panneau (12B) est opaque, posé sous la
+    /* ---- 0. Barre de navigation en pilule flottante ----
+       Avatar + nom en encre, burger fin. Le panneau est opaque, posé sous la
        barre, avec un voile sombre sur la page ; la page courante est en pilule verte. */
     #navbar,
     #navbar.scrolled {
@@ -756,13 +756,13 @@
     /* ---- Rythme commun : 32 px entre sections, 16 px sous un en-tête ---- */
     section { padding: 32px 18px; }
     .section-header { margin-bottom: 16px; }
-    /* Titres en couleur unie comme la maquette (les dégradés de texte restent au desktop) */
+    /* Titres en couleur unie, pas de texte en dégradé */
     .section-title {
         font-size: 1.875em;
         line-height: 1.15;
         margin-bottom: 6px;
         background: none;
-        -webkit-text-fill-color: var(--green-deep); /* le vert foncé du desktop (08/10/2026) */
+        -webkit-text-fill-color: var(--green-deep);
         color: var(--green-deep);
     }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
@@ -824,7 +824,7 @@
         line-height: 1.08;
         text-shadow: none;
         background: none;
-        -webkit-text-fill-color: var(--green-deep); /* maquette 14C : 5,15:1 sur le beige */
+        -webkit-text-fill-color: var(--green-deep); /* contraste 5,15:1 sur le beige */
         color: var(--green-deep);
     }
 
@@ -848,8 +848,8 @@
         gap: 12px;
         margin-top: 14px;
         padding: 16px;
-        background: rgba(127, 184, 147, 0.2); /* le même vert qu'en desktop (08/10/2026) */
-        border: 2px solid rgba(255, 255, 255, 0.7); /* liseré blanc de la maquette */
+        background: rgba(127, 184, 147, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.7);
         border-radius: 24px;
     }
 
@@ -953,7 +953,7 @@
         padding: 10px 4px;
         border-radius: 16px;
         text-align: center;
-        background: rgba(255, 255, 255, 0.5); /* blanches comme la maquette, plus de teinte verte */
+        background: rgba(255, 255, 255, 0.5);
         border-color: rgba(255, 255, 255, 0.6);
     }
 
@@ -1130,7 +1130,7 @@
         font-size: 0.82em;
     }
 
-    /* Légendes alignées à gauche sous les vignettes (maquette) ; le bloc de vote
+    /* Légendes alignées à gauche sous les vignettes ; le bloc de vote
        de /clips garde son centrage, ses cartes portent un bouton. */
     .clips-grid .clip-meta,
     .clips-grid .clip-clipper {
@@ -1157,8 +1157,8 @@
         border-radius: 26px;
     }
 
-    /* Cartes blanches quel que soit le thème, comme la maquette (les dégradés
-       thématiques restent au desktop) */
+    /* Cartes blanches quel que soit le thème (les dégradés thématiques restent
+       au desktop) */
     .events-archive-grid .event-archive-card,
     .events-archive-grid .event-archive-card:hover {
         background: rgba(255, 255, 255, 0.4);
@@ -1185,7 +1185,7 @@
         color: var(--green-deep);
     }
 
-    /* Concours (thème été) en terracotta, comme la maquette */
+    /* Concours (thème été) en terracotta */
     .theme-summer .event-type-badge {
         background: rgba(197, 106, 82, 0.16);
         color: var(--pink-deep);
@@ -1202,7 +1202,7 @@
 
     /* « Voir tous les événements » : secondaire (components.css), posé sur la bande */
 
-    /* ---- 5. Me soutenir : titre, texte, bouton visible (plus d'emoji depuis le 08/10/2026) ---- */
+    /* ---- 5. Me soutenir : titre, texte, bouton visible ---- */
     #soutenir .social-grid {
         display: flex;
         flex-direction: column;
@@ -1264,7 +1264,7 @@
     .contact-container { padding: 0; }
 
     /* La carte, c'est .contact-content : la boîte email s'y fond et les pastilles
-       (cartes + media kit) la rejoignent, comme sur la maquette. */
+       (cartes + media kit) la rejoignent. */
     .contact-content {
         display: flex;
         flex-wrap: wrap;
@@ -1351,7 +1351,7 @@
     .contact-card:hover { transform: none; background: rgba(255, 255, 255, 0.9); }
     .contact-card-icon { font-size: 1.1em; line-height: 1; margin: 0; }
     .contact-card-title { font-size: 1em; font-weight: 600; margin: 0; }
-    .contact-card-text { display: none; } /* les phrases disparaissent : validé dans le brief */
+    .contact-card-text { display: none; }
     .mediakit-icon { display: inline; }
 
     /* ---- 7. Réseaux : six lignes compactes, même motif que les .link-card de /links ---- */
@@ -1399,7 +1399,7 @@
         color: rgba(63, 47, 37, 0.45);
     }
 
-    /* Cartes blanches comme en desktop (08/10/2026) : la couleur est portée par le logo */
+    /* Cartes blanches : la couleur est portée par le logo */
     #reseaux .social-card,
     #reseaux .social-card.discord,
     #reseaux .social-card.twitch,
@@ -1424,7 +1424,7 @@
     /* ---- 8. FAQ : items resserrés ---- */
     .faq-container { gap: 10px; }
 
-    /* Cartes blanches sans bordure visible, comme la maquette (demande explicite) */
+    /* Cartes blanches sans bordure visible */
     .faq-item {
         border-radius: 18px;
         background: rgba(255, 255, 255, 0.5);
@@ -1492,12 +1492,12 @@
 }
 
 /* ============================================
-   CLIPS MOBILE v2, « le défilé » (maquette Claude Design 18a, 23/09/2026)
+   CLIPS MOBILE
    Hero : surtitre + la question du vote. Finalistes en carrousel d'une carte,
    bouton vert plein, points de position. Après le vote : bannière « A voté »,
    le clip choisi en tête, les autres en petit. Bloc gagnant sombre sous le vote.
-   Panthéon en carte blanche (1er en pleine largeur, 2e et 3e côte à côte, la
-   suite en liste) suivi de « comment clipper ». Derniers clips en carrousel.
+   Palmarès et derniers clips en carrousel, Panthéon en podium puis classement,
+   suivi de « comment clipper ».
    Desktop intouché : les éléments neufs sont masqués au-dessus de 768 px.
    ============================================ */
 
@@ -1908,7 +1908,7 @@
     /* main:has(#clip-semaine) > * (bord à bord) bat #clippeurs par sa
        spécificité : on l'écrit au même niveau pour rendre à la section ses
        18 px de marge. Pas de carte commune autour de la section : le podium
-       et la liste portent chacun la leur (sections.css, maquette 29a). */
+       et la liste portent chacun la leur (sections.css). */
     main:has(#clip-semaine) > #clippeurs,
     #clippeurs {
         margin: 30px 18px 0;
@@ -2120,16 +2120,15 @@
    Blocs réservés au desktop
    ============================================ */
 
-/* La section « Vote pour le clip de la semaine » a été retirée de l'accueil
-   mobile le 23/09 ; la maquette 19b la remet en desktop, à côté du planning.
-   L'attribut hidden est levé par main.js quand les finalistes arrivent, d'où
+/* La section « Vote pour le clip de la semaine » n'existe sur l'accueil qu'en
+   desktop, à côté du planning. L'attribut hidden est levé par main.js quand les finalistes arrivent, d'où
    cette règle qui reprend la main sous 768 px. */
 @media (max-width: 768px) {
     .desktop-only { display: none; }
 }
 
 /* ============================================
-   FONDS : les mêmes bandes qu'en desktop (08/10/2026)
+   FONDS : les mêmes bandes qu'en desktop
    Sur les pages construites en bandes (accueil, events), le dégradé animé
    s'efface et chaque bande prend son fond plat, comme dans desktop.css et
    events-desktop.css : hero dégradé, puis vert pâle / beige / pêche, footer

@@ -11,9 +11,8 @@
        Fond de page
        ============================================ */
 
-    /* Même fond qu'en mobile : le dégradé de .bg-container à 8 %, sans
-       animation, et pas de particules. Le dégradé maison que j'avais posé
-       ici sortait de la charte. */
+    /* Le dégradé de .bg-container à 8 %, sans animation, et pas de
+       particules */
     .bg-container {
         animation: none;
         opacity: 0.08;
@@ -72,8 +71,8 @@
         text-decoration: none;
     }
 
-    /* responsive.css masque l'avatar par défaut au-dessus de 768 px : la
-       maquette le garde à gauche du nom, comme en mobile. */
+    /* responsive.css masque l'avatar par défaut au-dessus de 768 px : il
+       reste à gauche du nom, comme en mobile. */
     .logo .logo-avatar {
         display: block;
         width: 36px;

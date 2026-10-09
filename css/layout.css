@@ -20,7 +20,7 @@
     opacity: 0.15;
     /* Pas de filter ici : sur un dégradé plein écran animé, saturate()/contrast()
        obligeait à re-rasteriser tout l'écran et doublait le temps du premier rendu
-       (mesuré 22/09/2026 : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
+       (mesuré : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
        manque, l'ajuster directement dans les couleurs du dégradé. */
 }
 
@@ -434,7 +434,7 @@
 
 /* === Footer === */
 /* Même pied de page partout (accueil, clips, events, mobile et desktop) :
-   la bande pêche des maquettes avec son filet (09/10/2026) */
+   bande pêche avec son filet */
 footer {
     background: #f2e3d8;
     border: 0;

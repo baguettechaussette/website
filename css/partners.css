@@ -321,7 +321,7 @@
 }
 
 /* ============================================
-   REFONTE MOBILE (22/09/2026, brief Claude Design)
+   PARTENAIRES MOBILE : échelle et rythme
    Ces règles remplacent les valeurs mobiles plus haut dans le fichier
    (même sélecteur, plus bas dans la cascade). Placé ici : partners.css est chargée après responsive.css.
    ============================================ */
@@ -329,14 +329,14 @@
 @media (max-width: 768px) {/* « MMO cosy »… étaient à 12,8 px */
 }
 
-/* --- Refonte mobile, passe 2 --- */
+/* --- Mobile : espacements et grilles --- */
 @media (max-width: 768px) {.partner-logo { margin-bottom: 18px; } /* réservait 34 px sous un logo de 64 */
 }
 
 /* Bouton replier/déplier des cartes partenaires : mobile uniquement */
 .partner-toggle { display: none; }
 
-/* --- Accueil mobile (maquette Claude Design du 22/09/2026) : carte partenaire repliable ---
+/* --- Accueil mobile : carte partenaire repliable ---
    Bandeau logo, puis nom + badge + bouton sur une ligne ; description, tags et
    bouton Steam se replient (les deux cartes repliées par défaut). */
 @media (max-width: 768px) {
@@ -398,15 +398,15 @@
         justify-content: center;
         margin: 0;
         padding: 7px 14px;
-        font-size: 0.72rem; /* 11,5 px comme la maquette */
+        font-size: 0.72rem; /* 11,5 px */
         letter-spacing: 0.06em;
         white-space: nowrap;
-        background: rgba(127, 184, 147, 0.2); /* teintes du desktop (08/10/2026) */
+        background: rgba(127, 184, 147, 0.2);
         color: var(--green-deep);
         border-color: transparent;
     }
 
-    /* Ambassadeur en jaune de la charte, comme la maquette ; le bouton + suit la couleur du badge */
+    /* Ambassadeur en jaune de la charte ; le bouton + suit la couleur du badge */
     .partner-badge.ambassador {
         background: rgba(242, 201, 107, 0.3);
         color: #8a6a1f;

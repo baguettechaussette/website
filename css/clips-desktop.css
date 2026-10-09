@@ -1,6 +1,5 @@
 /* ============================================================
-   PAGE CLIPS, DESKTOP — maquette Claude Design 21a
-   « Clips desktop, dans l'esprit de 19b »
+   PAGE CLIPS, DESKTOP
 
    Chargée par clips.html seulement, après desktop-chrome.css.
    Tout est enfermé dans min-width: 769px, le mobile n'est jamais
@@ -24,8 +23,8 @@
         display: flex;
         flex-direction: column;
         /* 22 px de base : c'est l'écart entre l'entête et la grille des
-           finalistes, qui forment un seul bloc dans la maquette. Les trois
-           blocs suivants reprennent 22 px de marge pour retrouver 44. */
+           finalistes, qui forment un seul bloc. Les blocs suivants reprennent
+           22 px de marge pour retrouver 44. */
         gap: 22px;
     }
 
@@ -58,8 +57,8 @@
     #clippeurs    { order: 3; }
     #clips        { order: 4; }
 
-    /* sections.css enferme le vote dans un panneau jaune : la maquette pose
-       les cartes directement sur le fond de page. */
+    /* sections.css enferme le vote dans un panneau jaune : ici les cartes
+       reposent directement sur le fond de page. */
     .clips-container,
     .cow-container {
         max-width: none;
@@ -154,7 +153,7 @@
         white-space: nowrap;
     }
 
-    /* Une seule ligne sous le titre, comme la maquette. Le renvoi vers Twitch
+    /* Une seule ligne sous le titre. Le renvoi vers Twitch
        est déjà sur la ligne des « derniers clips ». */
     .page-hero-subtitle { display: none; }
 
@@ -627,7 +626,7 @@
     .clip-howto-steps { margin-bottom: 26px; }
 
     /* ============================================
-       Le Panthéon des clippeurs (maquette 29a)
+       Le Panthéon des clippeurs
        Pas de grand cadre autour de la section : titre à gauche, podium en
        trois cartes, puis les places 4 à 12 dans une seule carte.
        ============================================ */
@@ -703,8 +702,8 @@
        ============================================ */
 
     /* sections.css pose 56 px de haut sur #clips (identifiant, plus fort que
-       « main > section ») : avec la marge, 78 px de vide sous le Panthéon
-       depuis qu'il n'a plus de cadre. 22 + 22 = 44 px. */
+       « main > section ») : avec la marge, cela ferait 78 px de vide sous
+       le Panthéon. 22 + 22 = 44 px. */
     #clips {
         padding-top: 22px;
         display: flex;

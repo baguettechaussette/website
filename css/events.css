@@ -913,7 +913,7 @@ body.g4p-modal-open .particle {
 }
 
 /* ============================================
-   REFONTE MOBILE (22/09/2026, brief Claude Design)
+   EVENTS MOBILE : échelle et rythme
    Ces règles remplacent les valeurs mobiles plus haut dans le fichier
    (même sélecteur, plus bas dans la cascade). Placé ici et non dans responsive.css : events.css est chargée après et gagnerait sinon.
    ============================================ */
@@ -930,7 +930,7 @@ body.g4p-modal-open .particle {
     .event-stats-strip { gap: 8px; }
 }
 
-/* --- Refonte mobile, passe 2 --- */
+/* --- Mobile : espacements et grilles --- */
 @media (max-width: 768px) {
     .event-podium-title { font-size: 1.3em; line-height: 1.25; }
     /* le texte courant des events était plus gros que le corps du reste du site */
@@ -939,8 +939,8 @@ body.g4p-modal-open .particle {
 }
 
 /* ============================================
-   EVENTS MOBILE v2 (maquette Claude Design du 23/09/2026)
-   Deux temps : « À venir » (Gamers4Pets déplié) puis « L'archive » (éditions
+   EVENTS MOBILE
+   Deux temps : « En ce moment » (l'édition en cours, dépliée) puis « L'archive » (éditions
    passées repliées, une ligne emoji + titre + type · date + bouton). Manches
    des DTI en bande horizontale, semaines du Baguettectober en cartes emoji.
    Desktop intouché : les éléments neufs (séparateurs, emoji, boutons) sont
@@ -955,7 +955,7 @@ body.g4p-modal-open .particle {
 
 @media (max-width: 768px) {
 
-    /* ---- Hero : titre en vert uni (maquette) ---- */
+    /* ---- Hero : titre en vert uni ---- */
     .page-hero { padding-bottom: 12px; }
 
     .page-hero-title {
@@ -968,7 +968,7 @@ body.g4p-modal-open .particle {
     section:has(> .event-container) { padding: 12px 18px; }
 
     /* ---- Carte d'événement : blanche comme en desktop, la couleur reste
-       dans l'emoji et le bouton rond (08/10/2026) ---- */
+       dans l'emoji et le bouton rond ---- */
     .event-container,
     .event-container[class*="theme-"] {
         padding: 16px;
@@ -1543,7 +1543,7 @@ body.bgal-open { overflow: hidden; }
    ÉDITION EN COURS (Baguettectober 2026) : commun mobile et desktop
    ============================================ */
 
-/* Bouton Discord sous les semaines, centré (demande du 09/10/2026) */
+/* Bouton Discord sous les semaines, centré */
 .event-cta {
     margin-top: 4px;
     text-align: center;

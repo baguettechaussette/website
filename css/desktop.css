@@ -1,6 +1,5 @@
 /* ============================================================
-   ACCUEIL DESKTOP — maquette Claude Design 25a
-   « Même contenu, structure retrouvée »
+   ACCUEIL DESKTOP
 
    Chargée par index.html seulement, et après partners.css : à
    spécificité égale c'est donc cette feuille qui gagne.
@@ -12,7 +11,7 @@
    72 px de padding haut et bas : 144 px entre deux contenus.
    Colonne de contenu commune : min(1100px, 100% - 80px).
 
-   Repères repris de la maquette :
+   Repères :
      h2 de section   40 px / 800 / --green-deep, sous-titre 16,5 px
      h3 de carte     22 px / 800 / encre
      cartes          rgba(255,255,255,0.5) + bord 2px rgba(255,255,255,0.7)
@@ -154,11 +153,10 @@
         pointer-events: none;
     }
 
-    /* Positions de la maquette, décalées de la barre de 72 px pour celles
-       qui se calent sur le haut de la bande */
+    /* Positions décalées de la barre de 72 px pour celles qui se calent sur
+       le haut de la bande */
     .hero-blob-1 { width: 72px; height: 72px; top: 100px; left: 48px; background: rgba(127, 184, 147, 0.45); }
-    /* Remonté par rapport à la maquette (120 px sous la bande) : à 192 px il
-       mordait sur le halo de l'avatar */
+    /* Pas plus bas : à 192 px il mordait sur le halo de l'avatar */
     .hero-blob-2 { width: 56px; height: 56px; top: 104px; right: 420px; background: rgba(242, 201, 107, 0.55); }
     .hero-blob-3 { width: 40px; height: 40px; bottom: 28px; left: 760px; background: rgba(127, 184, 147, 0.45); }
     .hero-blob-4 { width: 64px; height: 64px; bottom: 40px; right: 140px; background: rgba(197, 106, 82, 0.42); }
@@ -319,7 +317,7 @@
         white-space: nowrap;
     }
 
-    /* En direct (bloc 24a) : la carte rougit, le jeu devient le titre, le
+    /* En direct : la carte rougit, le jeu devient le titre, le
        bouton reste blanc avec le texte en rouge foncé */
     .hero-live-card.is-live {
         background: rgba(230, 103, 103, 0.16);
@@ -381,8 +379,8 @@
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* Absents de la maquette : la barre d'objectif et les deux boutons du
-       hero, que la carte du live et la barre de navigation couvrent déjà */
+    /* La barre d'objectif et les deux boutons du hero : la carte du live et
+       la barre de navigation les couvrent déjà */
     .hero-buttons,
     .follower-goal { display: none; }
 
@@ -408,8 +406,8 @@
         background: #f6efe4;
         border: 6px solid rgba(255, 255, 255, 0.95);
         box-shadow: 0 20px 50px rgba(63, 47, 37, 0.14);
-        /* Flottement doux dans son halo (demande du 09/10/2026) : plus discret
-           que le floatAvatar d'origine (20 px, 5°). Coupé par le
+        /* Flottement doux dans son halo, plus discret que floatAvatar
+           (20 px, 5°). Coupé par le
            prefers-reduced-motion global de base.css. */
         animation: floatAvatarDesktop 5s ease-in-out infinite;
         overflow: hidden;
@@ -659,7 +657,7 @@
     }
 
     /* Préfixé par #evenements : sections.css colore chaque carte selon son
-       thème avec deux classes. La maquette les veut neutres. */
+       thème avec deux classes ; ici elles restent neutres. */
     #evenements .event-archive-card {
         padding: 18px 20px;
         background: rgba(255, 255, 255, 0.5);
@@ -809,8 +807,8 @@
 
     #soutenir .social-desc strong { color: var(--text-primary); }
 
-    /* Masqué par défaut au-dessus de 768 px par responsive.css : la maquette
-       le met sous le texte, aligné à gauche */
+    /* Masqué par défaut au-dessus de 768 px par responsive.css : ici sous le
+       texte, aligné à gauche */
     #soutenir .social-cta {
         display: inline-flex;
         align-items: center;
@@ -880,7 +878,7 @@
 
     .contact-info-box {
         grid-column: 1 / -1;
-        margin: 0 0 6px; /* 8 + 6 = les 14 px de la maquette */
+        margin: 0 0 6px; /* 8 + 6 = 14 px */
         padding: 0;
         background: none;
         border: 0;
@@ -1203,7 +1201,7 @@
         max-width: none;
     }
 
-    /* Le widget Discord n'est pas dans la maquette : la carte Discord suffit */
+    /* Pas de widget Discord : la carte Discord suffit */
     .socials-right { display: none; }
 
     .socials-left { width: auto; max-width: none; }

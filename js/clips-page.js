@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // « Et si la prochaine couronne était pour toi ? » n'existe qu'une fois
 // dans le HTML mais ne se range pas au même endroit : à côté du clip gagnant
-// en desktop (maquette 21a), à la fin du Panthéon en mobile. On le déplace
+// en desktop, à la fin du Panthéon en mobile. On le déplace
 // plutôt que de le dupliquer, et on suit les changements de largeur.
 // Semaine sans vote ni gagnant (#clip-semaine.is-empty) : en mobile aussi il
 // remonte à la place du vote, juste sous le hero, au lieu d'attendre sous
@@ -79,7 +79,7 @@ async function injectVideoSchema() {
 // et dans la variable de dépôt GitHub VOTE_API_URL (dépouillement auto).
 const VOTE_API = 'https://bc-vote.baguette-chaussette.workers.dev';
 
-// Sous 768 px la page suit la maquette « défilé » : carrousel des finalistes,
+// Sous 769 px : carrousel des finalistes,
 // bloc gagnant sombre, écran « A voté » après le vote. Les éléments construits
 // pour ce mode sont masqués au-dessus de 768 px par le CSS.
 const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
@@ -546,7 +546,7 @@ async function loadClippers() {
         // palmarès lu (sans retarder l'affichage du Panthéon)
         const nomParPseudo = {};
 
-        // Maquette 29a : un podium de trois cartes, puis les places 4 à 12 en
+        // Un podium de trois cartes, puis les places 4 à 12 en
         // liste dans une seule carte. Chaque entrée : rang, pseudo et chiffres,
         // puis deux pastilles (le grade avec son emoji, la mention). Les
         // couronnes gagnées au vote s'accolent au pseudo.

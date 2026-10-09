@@ -1,6 +1,6 @@
 /* ============================================================
-   EVENTS DESKTOP — maquette Claude Design 27a
-   « Deux bandes, des éditions repliables »
+   EVENTS DESKTOP
+   Deux bandes, des éditions repliables.
 
    Chargée par events.html seulement, après events.css : à spécificité
    égale c'est donc cette feuille qui gagne. Tout est enfermé dans
@@ -107,7 +107,7 @@
     .page-hero {
         position: relative;
         overflow: hidden;
-        /* 72 px de barre fixe au-dessus, puis les 64 px de la maquette */
+        /* 72 px de barre fixe au-dessus, puis 64 px */
         padding: 136px max(40px, calc((100% - 1100px) / 2)) 56px;
         background: linear-gradient(135deg, #f0ebe0 0%, #f2e6dc 100%);
         text-align: left;
@@ -152,7 +152,7 @@
         pointer-events: none;
     }
 
-    /* Positions de la maquette, la première décalée de la barre de 72 px */
+    /* La première position est décalée de la barre de 72 px */
     .hero-blob-1 { width: 72px; height: 72px; top: 100px; left: 48px; background: rgba(127, 184, 147, 0.45); }
     .hero-blob-2 { width: 56px; height: 56px; bottom: 30px; right: 120px; background: rgba(242, 201, 107, 0.55); }
 
@@ -449,7 +449,7 @@
 
     .g4p-donor-btn .fluent-emoji { display: none; } /* pas d'emoji dans le bouton */
 
-    /* Tant que la liste n'est pas là : la pastille grise de la maquette */
+    /* Tant que la liste n'est pas là : pastille grise */
     .g4p-donor-btn:disabled {
         opacity: 1;
         background: rgba(63, 47, 37, 0.08);
@@ -722,7 +722,7 @@
     }
 
     /* ============================================
-       La fenêtre des dessins (bloc 20b) : le panneau mobile
+       La fenêtre des dessins : le panneau mobile
        devient une fenêtre centrée de 960 px, dessins sur 4 colonnes
        ============================================ */
 

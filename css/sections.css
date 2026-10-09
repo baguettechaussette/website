@@ -574,7 +574,7 @@
     border-radius: 0;
 }
 
-/* ── Le Panthéon des clippeurs (maquette 29a) ──
+/* ── Le Panthéon des clippeurs ──
    Un podium de trois cartes, puis les places 4 à 12 en liste dans une seule
    carte : un classement se lit comme une descente, pas comme douze boîtes
    de même importance. Chaque entrée : rang, pseudo et chiffres, puis deux
@@ -1129,7 +1129,7 @@
 /* ============================================
    RÉSEAUX : logos SVG (mêmes tracés que /links) à la place des emoji,
    une teinte par réseau prise dans la palette accessible du site.
-   Commun au mobile et au desktop (08/10/2026).
+   Commun au mobile et au desktop.
    ============================================ */
 .social-logo {
     display: block;

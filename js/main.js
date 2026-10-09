@@ -474,20 +474,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Maquette 19b : en desktop la première carte partenaire s'ouvre d'emblée,
+    // En desktop la première carte partenaire s'ouvre d'emblée,
     // sinon la colonne de droite de la bande « Marques & studios » se résume à
-    // deux lignes repliées face à la grande carte e-mail. Les deux restent
-    // repliées en mobile, comme avant.
+    // deux lignes repliées face à la grande carte e-mail. En mobile, les deux
+    // restent repliées.
     if (window.matchMedia('(min-width: 769px)').matches) {
         const first = document.querySelector('.partners-container .partner-card.is-collapsed');
         if (first) {
             first.classList.remove('is-collapsed');
             first.querySelector('.partner-toggle')?.setAttribute('aria-expanded', 'true');
         }
-        // Maquette 25a : la première question de la FAQ est ouverte d'emblée en desktop
+        // La première question de la FAQ est ouverte d'emblée en desktop
         document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
 
-        // Maquette 26a (/events) : toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
+        // /events : toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
         document.querySelectorAll('.event-container.is-collapsible > .event-intro').forEach(intro => {
             intro.addEventListener('click', (e) => {
                 if (e.target.closest('a, .event-toggle')) return;
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // /events : la première édition de l'archive (la plus récente) est ouverte
-    // d'emblée, en mobile comme en desktop (demande du 08/10/2026).
+    // d'emblée, en mobile comme en desktop.
     (function openLatestEdition() {
         const first = document.querySelector('.band-archive .event-container.is-collapsible.is-collapsed');
         if (!first) return;
@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('showText' in el.dataset) el.textContent = addr;
     });
 
-    // Bouton e-mail (brief boutons du 09/10/2026) : son libellé est l'adresse.
+    // Bouton e-mail : son libellé est l'adresse.
     // À la souris (ou au clavier) un clic la copie et affiche « Copié » 1,5 s ;
     // au doigt le mailto s'ouvre. Le type de pointeur est lu sur le clic
     // lui-même plutôt que deviné au chargement.
@@ -656,7 +656,7 @@ async function loadTopClips() {
             if (finalists.length < 2) return;
             const montres = finalists.slice(0, limit);
             montres.forEach(clip => grid.appendChild(buildClipCard(clip)));
-            // Maquette 19b : la dernière vignette porte le nombre de finalistes
+            // La dernière vignette porte le nombre de finalistes
             // qu'on ne montre pas, elle comprise. 8 finalistes, 4 vignettes →
             // 3 clips visibles et « +5 » sur la quatrième.
             if (finalists.length > montres.length) {
@@ -743,7 +743,7 @@ async function loadTopClips() {
 function setClipThumbSources(img, url, sizes) {
     if (/-480x272\.jpg$/.test(url)) {
         img.sizes = sizes;
-        // Twitch sert aussi 960x540 et 1280x720 (vérifié le 09/10/2026) : sans
+        // Twitch sert aussi 960x540 et 1280x720 : sans
         // elles, le clip de la semaine en desktop (506 px CSS, écran 2x) était
         // étiré depuis 480 px et pixelisé.
         const at = (s) => url.replace('-480x272.jpg', `-${s}.jpg`);
