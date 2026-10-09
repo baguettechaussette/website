@@ -2065,34 +2065,60 @@
     }
 
     /* Comment clipper */
-    /* En carte, comme en desktop : fond jaune pâle, liseré blanc */
+    /* En carte, comme en desktop : en-tête emoji + surtitre, étapes en frise
+       à pastilles dorées, bouton pleine largeur en bas */
     .clip-howto {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 0;
         margin-top: 14px;
-        padding: 18px 16px;
-        background: rgba(242, 201, 107, 0.14);
-        border: 2px solid rgba(255, 255, 255, 0.7);
+        padding: 16px 16px 18px;
+        background: linear-gradient(160deg, rgba(242, 201, 107, 0.26) 0%, rgba(255, 250, 238, 0.6) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.8);
         border-radius: 24px;
     }
 
+    .clip-howto-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 12px;
+    }
+
+    .clip-howto-emoji { font-size: 1.5rem; line-height: 1; }
+
+    .clip-howto-head-meta { display: flex; flex-direction: column; }
+
+    .clip-howto-kicker {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #8a6a1f;
+    }
+
+    .clip-howto-when {
+        font-size: 0.78rem;
+        color: var(--text-tertiary);
+    }
+
     .clip-howto-title {
-        margin: 0;
+        margin: 0 0 14px;
         font-size: 1.125em;
         font-weight: 800;
         line-height: 1.2;
         text-align: left;
         color: var(--text-primary);
+        text-wrap: balance;
     }
 
     .clip-howto-steps {
-        margin: 0;
+        margin: 0 0 18px;
         padding: 0;
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
         counter-reset: etape;
     }
 
@@ -2100,29 +2126,44 @@
     .clip-howto-steps li {
         counter-increment: etape;
         position: relative;
-        padding-left: 36px;
-        min-height: 26px;
+        padding-left: 40px;
+        min-height: 28px;
         font-size: 0.9em;
         line-height: 1.45;
         color: var(--text-secondary);
     }
 
+    .clip-howto-steps li strong { color: var(--text-primary); }
+
     .clip-howto-steps li::before {
         content: counter(etape);
         position: absolute;
         left: 0;
-        top: 0;
-        width: 26px;
-        height: 26px;
+        top: -2px;
+        z-index: 1;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
-        background: rgba(242, 201, 107, 0.35);
-        color: #8a6a1f;
+        background: #f2c96b;
+        color: #5a4210;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 3px rgba(63, 47, 37, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.85em;
         font-weight: 800;
     }
+
+    .clip-howto-steps li:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 13px;
+        top: 26px;
+        bottom: -14px;
+        border-left: 2px dashed rgba(201, 144, 46, 0.45);
+    }
+
+    .clip-howto-cta { width: 100%; }
 
     /* ---- Les derniers clips : carrousel de cartes de 260 px ---- */
     main:has(#clip-semaine) #clips { padding: 30px 0 32px; }

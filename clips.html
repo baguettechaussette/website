@@ -46,18 +46,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=194">
+    <link rel="stylesheet" href="./css/fonts.css?v=196">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=194">
-    <link rel="stylesheet" href="./css/layout.css?v=194">
-    <link rel="stylesheet" href="./css/components.css?v=194">
-    <link rel="stylesheet" href="./css/sections.css?v=194">
-    <link rel="stylesheet" href="./css/responsive.css?v=194">
+    <link rel="stylesheet" href="./css/base.css?v=196">
+    <link rel="stylesheet" href="./css/layout.css?v=196">
+    <link rel="stylesheet" href="./css/components.css?v=196">
+    <link rel="stylesheet" href="./css/sections.css?v=196">
+    <link rel="stylesheet" href="./css/responsive.css?v=196">
     <!-- Desktop : habillage commun puis la feuille de la page clips
          (maquette 21a). Tout est en @media (min-width: 769px). -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=194">
-    <link rel="stylesheet" href="./css/clips-desktop.css?v=194">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=196">
+    <link rel="stylesheet" href="./css/clips-desktop.css?v=196">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 </head>
@@ -148,12 +148,21 @@
             <div class="cow-winner" id="cowWinner" hidden></div>
             <!-- Desktop : posé à côté du gagnant (maquette 21a). Mobile : sous le vote. -->
             <div class="clip-howto">
+                <!-- Même en-tête que la carte du gagnant : emoji, surtitre, ligne d'appoint -->
+                <div class="clip-howto-head">
+                    <span class="clip-howto-emoji" aria-hidden="true">🎬</span>
+                    <div class="clip-howto-head-meta">
+                        <span class="clip-howto-kicker">À toi de jouer</span>
+                        <span class="clip-howto-when">3 étapes, en plein live</span>
+                    </div>
+                </div>
                 <p class="clip-howto-title">Et si le prochain gagnant c'était ton clip ?</p>
                 <ol class="clip-howto-steps">
                     <li>Pendant un live, touche le bouton <strong>Clip</strong> sous le lecteur Twitch.</li>
                     <li>Garde le meilleur moment, donne-lui un titre qui fait rire.</li>
-                    <li>Tous les clips des deux dernières semaines sont dans la course : les finalistes sont choisis chaque semaine.</li>
+                    <li>Tous les clips des deux dernières semaines sont dans la course&nbsp;: les finalistes sont choisis chaque semaine.</li>
                 </ol>
+                <a class="btn btn-primary clip-howto-cta" href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener" data-umami-event="Clips - Howto Twitch">Viens clipper en live<svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></a>
             </div>
         </div>
     </div>
@@ -206,10 +215,10 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=194"></script>
-<script defer src="./js/clips-page.js?v=194"></script>
-<script defer src="./js/live-float.js?v=194"></script>
-<script defer src="./js/fluent-emoji.js?v=194"></script>
+<script defer src="./js/main.js?v=196"></script>
+<script defer src="./js/clips-page.js?v=196"></script>
+<script defer src="./js/live-float.js?v=196"></script>
+<script defer src="./js/fluent-emoji.js?v=196"></script>
 
 </body>
 </html>
