@@ -65,8 +65,9 @@
     }
 
     // ── Mur des donateurs ───────────────────────────────────────
-    // La liste peut devenir longue : elle vit dans une modale, la page
-    // n'affiche qu'un bouton et le compte.
+    // La liste peut devenir longue : elle vit dans une modale. La carte montre
+    // le compte, un aperçu de quelques pseudos tirés au hasard (chacun a sa
+    // chance d'apparaître) et le bouton.
     async function loadDonors() {
         const btn = document.getElementById('g4pDonorBtn');
         if (!btn) return;
@@ -100,6 +101,49 @@
         if (note) note.hidden = true;
         btn.disabled = false;
         btn.addEventListener('click', () => openDonorModal(names));
+
+        const count = document.getElementById('g4pDonorCount');
+        if (count) {
+            count.textContent = names.length > 1
+                ? `${names.length} p'tits pains ont donné pour les refuges, un immense merci 🫶`
+                : "Un p'tit pain a donné pour les refuges, un immense merci 🫶";
+            count.hidden = false;
+        }
+        renderPreview(names, btn);
+    }
+
+    // Aperçu : une douzaine de pseudos en pastilles (8 sur mobile), puis une
+    // pastille « +N » qui ouvre la liste complète
+    function renderPreview(names, btn) {
+        const preview = document.getElementById('g4pDonorPreview');
+        if (!preview) return;
+
+        const max = window.matchMedia('(max-width: 768px)').matches ? 8 : 12;
+        const tirage = names.slice();
+        for (let i = tirage.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tirage[i], tirage[j]] = [tirage[j], tirage[i]];
+        }
+        const montres = tirage.length > max ? tirage.slice(0, max) : tirage;
+
+        const frag = document.createDocumentFragment();
+        montres.forEach(name => {
+            const li = makeEl('li', 'g4p-donor-chip', name);
+            li.title = name;
+            frag.appendChild(li);
+        });
+        const reste = names.length - montres.length;
+        if (reste > 0) {
+            const li = makeEl('li', 'g4p-donor-more-item');
+            const more = makeEl('button', 'g4p-donor-more', `+${reste}`);
+            more.type = 'button';
+            more.setAttribute('aria-label', `Voir les ${reste} autres p'tits pains`);
+            more.addEventListener('click', () => btn.click());
+            li.appendChild(more);
+            frag.appendChild(li);
+        }
+        preview.replaceChildren(frag);
+        preview.hidden = false;
     }
 
     // ── Modale ──────────────────────────────────────────────────
@@ -143,7 +187,9 @@
     function openDonorModal(names) {
         const m = ensureModal();
 
-        m.querySelector('.g4p-modal__subtitle').textContent = 'Un immense merci à vous 🫶';
+        m.querySelector('.g4p-modal__subtitle').textContent = names.length > 1
+            ? `${names.length} p'tits pains, un immense merci à vous 🫶`
+            : 'Un immense merci à vous 🫶';
 
         const list = m.querySelector('.g4p-modal__list');
         const frag = document.createDocumentFragment();
@@ -158,11 +204,21 @@
         rainHearts(m);
     }
 
-    // Petite pluie de cœurs derrière la carte, purement décorative.
+    // Pluie de cœurs derrière la carte tant que la modale est ouverte, purement
+    // décorative. Chaque cœur tombe en boucle et repart d'ailleurs à chaque
+    // tour ; le premier passage est étalé pour un flux continu, pas une vague.
     // Les images viennent de img/emoji/ pour être identiques sur tous les appareils.
     const HEART_COUNT = 18;
-    const HEART_LIFE  = 7000;
-    let heartTimer = null;
+
+    // Position, taille, dérive et rotation : retirées à chaque tour. La durée,
+    // elle, reste fixe (la changer en cours d'animation ferait sauter le cœur).
+    function placeHeart(heart) {
+        // 92 % max : un cœur de 26 px tient encore entier sur un écran de 375 px
+        heart.style.left = (Math.random() * 92) + '%';
+        heart.style.width = (14 + Math.random() * 12).toFixed(1) + 'px';
+        heart.style.setProperty('--drift', Math.round(Math.random() * 80 - 40) + 'px');
+        heart.style.setProperty('--spin', Math.round(Math.random() * 540 - 270) + 'deg');
+    }
 
     function rainHearts(overlay) {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -177,22 +233,18 @@
             heart.className = 'g4p-heart';
             heart.src = '/img/emoji/1f9e1.svg';
             heart.alt = '';
-            // 92 % max : un cœur de 26 px tient encore entier sur un écran de 375 px
-            heart.style.left = (Math.random() * 92) + '%';
-            heart.style.width = (14 + Math.random() * 12).toFixed(1) + 'px';
+            placeHeart(heart);
             heart.style.animationDuration = (3.2 + Math.random() * 2.0).toFixed(2) + 's';
-            heart.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
-            heart.style.setProperty('--drift', Math.round(Math.random() * 80 - 40) + 'px');
-            heart.style.setProperty('--spin', Math.round(Math.random() * 540 - 270) + 'deg');
+            heart.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+            heart.style.animationIterationCount = 'infinite';
+            heart.addEventListener('animationiteration', () => placeHeart(heart));
             layer.appendChild(heart);
         }
 
         overlay.appendChild(layer);
-        heartTimer = setTimeout(() => clearHearts(overlay), HEART_LIFE);
     }
 
     function clearHearts(overlay) {
-        clearTimeout(heartTimer);
         overlay.querySelector('.g4p-hearts')?.remove();
     }
 
