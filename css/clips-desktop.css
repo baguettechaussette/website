@@ -432,28 +432,38 @@
         color: #f2c96b;
     }
 
-    /* Gagnant pas encore révélé : le teaser reste sobre sur le fond sombre */
+    /* Gagnant pas encore révélé. La carte s'étire à la hauteur du bloc
+       voisin : la boîte en pointillés prend toute la place libre (là où
+       sera la vignette), 📦 en grand et le texte dessous, au lieu de rester
+       collée en haut au-dessus d'un grand vide. */
     .cow-winner-teaser {
+        flex: 1;
+        min-height: 200px;
         margin: 0 16px;
         padding: 26px;
         border-radius: 18px;
         border: 2px dashed rgba(242, 201, 107, 0.6);
+        background: rgba(240, 235, 224, 0.04);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        gap: 14px;
         color: #f0ebe0;
+        text-align: center;
     }
 
-    .cow-winner-teaser-icon { font-size: 1.75rem; line-height: 1; }
+    .cow-winner-teaser-icon { font-size: 3.5rem; line-height: 1; }
 
     .cow-winner-teaser-text {
-        font-size: 1.0625rem;
+        font-size: 1.25rem;
         font-weight: 700;
         color: #f0ebe0;
     }
 
     .cow-winner .cow-winner-sub { padding: 16px 22px 22px; }
+
+    .cow-winner > .cow-winner-sub { text-align: center; }
 
     /* ── « Et si le prochain gagnant c'était ton clip ? » ──
        Le pendant clair de la carte du gagnant : même en-tête (emoji +
