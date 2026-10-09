@@ -2130,6 +2130,12 @@
 @media (max-width: 768px) {
     body:has(.band) .bg-container { display: none; }
 
+    /* /clips aussi passe au fond plat : avec le dégradé fixe, Chrome ne le
+       peignait que jusqu'au bas du carrousel du vote (zone qui défile), une
+       bande nette apparaissait dessous et les points de navigation restaient
+       hors de la zone teintée. Le fond de body (#f0ebe0) prend le relais. */
+    body:has(#clip-semaine) .bg-container { display: none; }
+
     body:has(.band) .hero,
     body:has(.band) .page-hero {
         background: linear-gradient(135deg, #f0ebe0 0%, #f2e6dc 100%);
