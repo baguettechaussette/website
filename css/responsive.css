@@ -1607,7 +1607,11 @@
         overflow: hidden;
         background: rgba(255, 255, 255, 0.6);
         border: 2px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 12px 30px rgba(63, 47, 37, 0.1);
+        /* Pas d'ombre : le carrousel (zone qui défile) la coupait net à 12 px
+         sous les cartes, ce qui dessinait une bande sombre arrêtée juste
+         au-dessus des points de navigation. Les cartes du Palmarès et des
+         derniers clips n'en ont pas non plus. */
+        box-shadow: none;
     }
 
     .cow-card .clip-thumb { border-radius: 0; box-shadow: none; }
