@@ -170,10 +170,12 @@
         flex-direction: column;
     }
 
+    /* 48 px entre la grille des finalistes et la rangée gagnant + « À toi de
+       jouer », 24 px entre ces deux cartes */
     .cow-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
+        gap: 48px 24px;
         align-items: stretch;
     }
 

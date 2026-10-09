@@ -1801,6 +1801,9 @@
 
     .cow-winner .cow-block-heading { display: none; }
 
+    /* Sous le carrousel du vote : 28 px avant la carte du gagnant */
+    .cow-vote-block:not([hidden]) + .cow-winner { margin-top: 28px; }
+
     /* Squelette du gagnant aux mesures de la carte mobile : en-tête 68 px,
        vignette à 12 px des bords, titre sur deux lignes + clippeur 110 px */
     .cow-winner-skel-head { min-height: 68px; padding: 14px 16px 12px; }
