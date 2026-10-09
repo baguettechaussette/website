@@ -271,7 +271,7 @@ async function loadClipOfWeek() {
                 teaser.append(makeEl('span', 'cow-winner-teaser-icon', '📦'), makeEl('span', 'cow-winner-teaser-text', 'Le gagnant est dans la boîte…'));
                 winnerBox.appendChild(teaser);
                 winnerBox.appendChild(makeEl('p', 'cow-winner-sub',
-                    'Les votes sont dépouillés ! Révélation en live dimanche à 21h, suspense 🥖'));
+                    'Les votes sont dépouillés ! Révélation en live dimanche à 21h..'));
             }
             winnerBox.hidden = false;
         }
