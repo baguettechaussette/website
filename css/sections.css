@@ -399,8 +399,8 @@
 }
 
 .cow-vote-btn:hover:not(:disabled) {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--green-ink);
+    border-color: var(--green-ink);
     color: #fff;
     transform: translateY(-2px);
 }
@@ -411,8 +411,8 @@
 }
 
 .cow-vote-btn.is-voted {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--green-ink);
+    border-color: var(--green-ink);
     color: #fff;
     opacity: 1;
 }
@@ -428,7 +428,7 @@
     gap: 5px;
     padding: 4px 10px;
     border-radius: 50px;
-    background: rgba(63, 47, 37, 0.8);
+    background: rgba(63, 47, 37, 0.85);
     color: #f2c96b;
     font-size: 0.78125rem;
     font-weight: 700;
@@ -495,7 +495,7 @@
     font-size: 0.84375rem;
     font-weight: 800;
     line-height: 1;
-    color: rgba(63, 47, 37, 0.6);
+    color: rgba(63, 47, 37, 0.7);
     font-variant-numeric: tabular-nums;
 }
 
@@ -560,8 +560,8 @@
     white-space: nowrap;
 }
 
-.pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: var(--green-deep); }
-.pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #8a6a1f; }
+.pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: #3a6248; }
+.pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #74591a; }
 
 .pantheon-couronne {
     display: inline-flex;
@@ -703,7 +703,7 @@
     margin-top: 2px;
     text-align: center;
     font-size: 0.82em;
-    color: rgba(63, 47, 37, 0.55);
+    color: rgba(63, 47, 37, 0.7);
 }
 
 /* CTA "Voir tous les clips" de la vitrine home */
@@ -905,7 +905,7 @@
 }
 
 .faq-item summary:hover {
-    color: var(--green);
+    color: var(--green-ink);
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -927,7 +927,7 @@
     font-family: Arial, sans-serif;
     font-size: 1.3em;
     font-weight: 700;
-    color: var(--green);
+    color: var(--green-ink);
     background: rgba(140, 191, 159, 0.18);
     border-radius: 50%;
     transition: transform var(--transition-base), background var(--transition-base);
@@ -954,7 +954,7 @@
 }
 
 .faq-answer a {
-    color: var(--green);
+    color: var(--green-ink);
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 3px;

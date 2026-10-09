@@ -795,7 +795,7 @@
     .event-archive-card .event-status-badge {
         background: rgba(242, 201, 107, 0.28);
         border-color: transparent;
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     #evenements .clips-more { margin-top: 16px; }
@@ -1493,7 +1493,7 @@
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     .clip-howto-when {

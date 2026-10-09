@@ -269,7 +269,7 @@ img.emoji {
     border-radius: var(--radius-full);
     font-size: 0.9em;
     font-weight: 700;
-    color: var(--live-red);
+    color: #b02e2e;
     margin-top: 14px;
 }
 
@@ -308,8 +308,7 @@ img.emoji {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2.5px;
-    color: var(--warm-mid);
-    opacity: 0.55;
+    color: #73675a;
     padding: 0 4px;
     margin-top: 8px;
     margin-bottom: -2px;
@@ -536,12 +535,11 @@ img.emoji {
 
 .link-desc {
     font-size: 0.86em;
-    color: var(--warm-mid);
+    color: #796c5d;
     margin-top: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    opacity: 0.75;
 }
 
 .link-rejoindre {
@@ -794,14 +792,17 @@ button.link-card {
 .page-footer {
     margin-top: 48px;
     text-align: center;
-    color: var(--warm-mid);
+    color: #73675b;
     font-size: 0.87em;
-    opacity: 0.65;
     line-height: 1.9;
 }
 
+.page-footer img {
+    opacity: 0.65;
+}
+
 .page-footer a {
-    color: var(--sage-dark);
+    color: #5d6e54;
     text-decoration: none;
     font-weight: 700;
     transition: color var(--transition-base);

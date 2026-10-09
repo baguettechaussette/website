@@ -447,11 +447,11 @@
 
 .g4p-countdown.is-live .g4p-countdown-value,
 .g4p-countdown.is-live .g4p-countdown-label {
-    color: var(--green);
+    color: var(--green-ink);
 }
 
 .event-block-text a {
-    color: var(--green);
+    color: var(--green-ink);
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 3px;

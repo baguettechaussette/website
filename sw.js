@@ -1,6 +1,6 @@
 // Service Worker
 
-const VERSION = 249;
+const VERSION = 251;
 const CACHE_NAME = `bc-v${VERSION}`;
 
 const PRECACHE_ASSETS = [

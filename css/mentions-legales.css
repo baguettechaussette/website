@@ -24,6 +24,10 @@
     padding-bottom: 5px;
 }
 
+.legal-container a {
+    color: #46705a;
+}
+
 .legal-container p {
     margin-bottom: 15px;
     margin-top: 15px;

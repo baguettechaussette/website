@@ -162,7 +162,7 @@
 .partner-link-primary {
     min-height: 48px;
     padding: 0 22px;
-    background: var(--green);
+    background: var(--green-ink);
     color: #fff;
     font-size: 0.9375rem;
     box-shadow: none;
@@ -267,13 +267,13 @@
 
     .partner-badge.ambassador {
         background: rgba(242, 201, 107, 0.3);
-        color: #8a6a1f;
+        color: #74591a;
         border-color: transparent;
     }
 
     .partner-badge.ambassador ~ .partner-toggle {
         background: rgba(242, 201, 107, 0.35);
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     .partner-content { display: contents; }

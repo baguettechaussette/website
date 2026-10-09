@@ -278,7 +278,7 @@
         box-shadow: 0 0 0 4px rgba(214, 78, 78, 0.22);
     }
 
-    .hero-live-card.is-live .hero-live-label { color: var(--pink-deep); }
+    .hero-live-card.is-live .hero-live-label { color: #934532; }
     .hero-live-card.is-live .hero-live-countdown { display: none; }
     .hero-live-card.is-live .hero-live-cta { background: #fff; color: #b83a3a; }
 
@@ -639,7 +639,7 @@
 
     #evenements .event-status-badge {
         background: rgba(242, 201, 107, 0.28);
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     .event-archive-icon {
@@ -982,7 +982,7 @@
 
     .partner-badge.ambassador {
         background: rgba(242, 201, 107, 0.3);
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     .partner-description {
@@ -1033,7 +1033,7 @@
 
     .partner-badge.ambassador ~ .partner-toggle {
         background: rgba(242, 201, 107, 0.35);
-        color: #8a6a1f;
+        color: #74591a;
     }
 
     .partner-toggle::before {
