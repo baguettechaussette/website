@@ -2156,24 +2156,16 @@
     .band-community,
     .band-archive { background: #f0ebe0; }
 
-    /* « En ce moment » garde son en-tête en mobile (les autres en-têtes de
-       bande restent réservés au desktop) : centré, 18 px de marge comme le
-       reste de la page, titre à la taille des titres de section mobiles */
-    .band-upcoming > .band-header {
-        display: block;
-        margin: 0;
-        padding: 26px 18px 6px;
-        text-align: center;
-    }
-
-    .band-upcoming > .band-header .section-title { font-size: 1.5em; margin: 0 0 4px; }
-    .band-upcoming > .band-header .section-subtitle { font-size: 0.95em; line-height: 1.45; margin: 0; }
-
     .band-pro { background: #f2e3d8; }
 
     /* L'archive est verte tant qu'elle suit directement le hero (pas de bande
        « À venir »), même logique qu'en desktop */
     .page-hero + .band-archive { background: #e9eee2; }
+
+    /* La bande verte respire autour de sa carte : 24 px en haut et en bas
+       (14 + les 10 de la section) au lieu de 10, on voyait à peine le fond */
+    .band-upcoming,
+    .page-hero + .band-archive { padding: 14px 0; }
 }
 
 /* ============================================
