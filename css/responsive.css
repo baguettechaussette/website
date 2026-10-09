@@ -2162,10 +2162,12 @@
        « À venir »), même logique qu'en desktop */
     .page-hero + .band-archive { background: #e9eee2; }
 
-    /* La bande verte respire autour de sa carte : 24 px en haut et en bas
-       (14 + les 10 de la section) au lieu de 10, on voyait à peine le fond */
-    .band-upcoming,
-    .page-hero + .band-archive { padding: 14px 0; }
+    /* Les bandes des events respirent autour de leurs cartes : 24 px en haut
+       (14 + les 10 de la section) au lieu de 10, on voyait à peine le fond.
+       Même chose en bas pour « En ce moment » ; l'archive, dernière bande,
+       garde ses 64 px avant le pied de page (comme la FAQ de l'accueil). */
+    .band-upcoming { padding: 14px 0; }
+    .band-archive { padding-top: 14px; }
 }
 
 /* ============================================
