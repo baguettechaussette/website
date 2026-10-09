@@ -81,9 +81,56 @@ function scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
+// Une section en « display: contents » (en desktop, #contact et #partenaires
+// se fondent dans la grille de leur bande) n'a pas de boîte : sa position
+// vaut 0, le clic ne défilait nulle part et le navigateur ignorait /#contact.
+// On vise alors sa bande, ou à défaut son premier enfant qui a une boîte.
+function anchorBox(target) {
+    if (target.getClientRects().length) return target;
+    const band = target.closest('.band');
+    if (band && band.getClientRects().length) return band;
+    let el = target.firstElementChild;
+    while (el && !el.getClientRects().length) el = el.firstElementChild || el.nextElementSibling;
+    return el || target;
+}
+
+function scrollToAnchor(target, behavior) {
+    const box = anchorBox(target);
+    const navbarHeight = document.getElementById('navbar')?.offsetHeight || 80;
+    const top = box.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+    window.scrollTo({ top, behavior });
+}
+
+// Arrivée depuis une autre page (/#contact) : le navigateur ne sait pas
+// défiler jusqu'à une cible sans boîte, on le fait une fois la page posée.
+window.addEventListener('load', () => {
+    if (!location.hash) return;
+    let target;
+    try { target = document.querySelector(location.hash); } catch { return; }
+    // « instant » et pas « auto » : avec scroll-behavior: smooth dans le CSS,
+    // « auto » lançait une animation que le navigateur coupait aussitôt (il
+    // cherche lui-même l'ancre pendant le chargement). Un court délai laisse
+    // passer cette recherche.
+    if (target && !target.getClientRects().length) {
+        setTimeout(() => scrollToAnchor(target, 'instant'), 50);
+    }
+});
+
 // Smooth scroll pour les liens d'ancres
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Umami intercepte en capture les liens porteurs de data-umami-event et,
+    // une fois la stat partie, refait lui-même la navigation vers le href : ce
+    // saut vers l'ancre coupait notre défilement doux (et ramenait en haut de
+    // page pour une cible sans boîte). On retire l'attribut et on envoie la
+    // stat nous-mêmes.
+    // (Le bouton e-mail part lui aussi de href="#" mais gère sa stat lui-même.)
+    const statUmami = anchor.classList.contains('js-email') ? null : anchor.dataset.umamiEvent;
+    if (statUmami) anchor.removeAttribute('data-umami-event');
+
     anchor.addEventListener('click', (e) => {
+        if (statUmami && window.umami && typeof window.umami.track === 'function') {
+            window.umami.track(statUmami);
+        }
         const href = anchor.getAttribute('href');
 
         // Ignore les liens vides
@@ -114,13 +161,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             }
 
             // Scroll avec offset pour la navbar fixe
-            const navbarHeight = document.getElementById('navbar')?.offsetHeight || 80;
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
-            window.scrollTo({
-                top: targetPosition,
-                behavior: scrollBehavior()
-            });
+            scrollToAnchor(target, scrollBehavior());
         }
     });
 });
