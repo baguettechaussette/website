@@ -53,19 +53,19 @@
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=240">
+    <link rel="stylesheet" href="./css/fonts.css?v=241">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=240">
-    <link rel="stylesheet" href="./css/layout.css?v=240">
-    <link rel="stylesheet" href="./css/components.css?v=240">
-    <link rel="stylesheet" href="./css/sections.css?v=240">
-    <link rel="stylesheet" href="./css/responsive.css?v=240">
-    <link rel="stylesheet" href="./css/partners.css?v=240">
+    <link rel="stylesheet" href="./css/base.css?v=241">
+    <link rel="stylesheet" href="./css/layout.css?v=241">
+    <link rel="stylesheet" href="./css/components.css?v=241">
+    <link rel="stylesheet" href="./css/sections.css?v=241">
+    <link rel="stylesheet" href="./css/responsive.css?v=241">
+    <link rel="stylesheet" href="./css/partners.css?v=241">
     <!-- Desktop : habillage commun (fond, barre de navigation, pied de page)
          puis la feuille propre à la page. Tout est en @media (min-width: 769px),
          chargé après responsive.css pour primer sur les réglages communs. -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=240">
-    <link rel="stylesheet" href="./css/desktop.css?v=240">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=241">
+    <link rel="stylesheet" href="./css/desktop.css?v=241">
 
     <script type="application/ld+json">
         {
@@ -245,6 +245,8 @@
         }
     </script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
+    <!-- Sans JavaScript, la carte « Prochain live » montre son texte de secours, pas ses squelettes -->
+    <noscript><style>.hero-skel { display: none; }</style></noscript>
 </head>
 
 <body>
@@ -299,11 +301,12 @@
                 <div class="hero-live-head">
                     <span class="hero-live-dot" aria-hidden="true"></span>
                     <span class="hero-live-label" id="heroLiveLabel">Prochain live</span>
-                    <span class="hero-live-countdown" id="heroLiveCountdown"></span>
+                    <span class="hero-live-countdown" id="heroLiveCountdown"><span class="hero-skel hero-skel-court" aria-hidden="true"></span></span>
                 </div>
-                <!-- Texte de secours sur une ligne, comme le vrai créneau (« Vendredi 21h00 ») :
-                     sur deux lignes, la carte rétrécissait quand le script le remplaçait. -->
-                <p class="hero-live-value" id="heroLiveValue">Mer., ven. et dim. 21h</p>
+                <!-- Squelettes (décompte ci-dessus, créneau ici) de la taille des vrais textes,
+                     le temps que stream-countdown.js connaisse le créneau et le statut du live :
+                     la carte garde sa hauteur. Sans JavaScript, texte de secours à la place. -->
+                <p class="hero-live-value" id="heroLiveValue"><span class="hero-skel hero-skel-long" aria-hidden="true"></span><noscript>Mer., ven. et dim. 21h</noscript></p>
                 <p class="hero-live-game" id="heroLiveGame" hidden></p>
                 <div class="hero-live-actions">
                     <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener"
@@ -818,9 +821,9 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=240"></script>
-<script defer src="./js/stream-countdown.js?v=240"></script>
-<script defer src="./js/live-float.js?v=240"></script>
-<script defer src="./js/fluent-emoji.js?v=240"></script>
+<script defer src="./js/main.js?v=241"></script>
+<script defer src="./js/stream-countdown.js?v=241"></script>
+<script defer src="./js/live-float.js?v=241"></script>
+<script defer src="./js/fluent-emoji.js?v=241"></script>
 </body>
 </html>
