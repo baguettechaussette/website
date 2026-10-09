@@ -42,18 +42,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=234">
+    <link rel="stylesheet" href="./css/fonts.css?v=235">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=234">
-    <link rel="stylesheet" href="./css/layout.css?v=234">
-    <link rel="stylesheet" href="./css/components.css?v=234">
-    <link rel="stylesheet" href="./css/sections.css?v=234">
-    <link rel="stylesheet" href="./css/responsive.css?v=234">
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=234">
-    <link rel="stylesheet" href="./css/events.css?v=234">
-    <link rel="stylesheet" href="./css/events-desktop.css?v=234">
-    <link rel="stylesheet" href="./css/lightbox.css?v=234">
+    <link rel="stylesheet" href="./css/base.css?v=235">
+    <link rel="stylesheet" href="./css/layout.css?v=235">
+    <link rel="stylesheet" href="./css/components.css?v=235">
+    <link rel="stylesheet" href="./css/sections.css?v=235">
+    <link rel="stylesheet" href="./css/responsive.css?v=235">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=235">
+    <link rel="stylesheet" href="./css/events.css?v=235">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=235">
+    <link rel="stylesheet" href="./css/lightbox.css?v=235">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -282,7 +282,7 @@
     <div class="container">
         <div class="page-hero-content">
             <h1 class="page-hero-title">Les événements des p'tits pains</h1>
-            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors du live.</p>
+            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors des lives.</p>
         </div>
     </div>
 </header>
@@ -489,8 +489,11 @@
 
         <div class="event-block">
             <h3 class="event-block-title">Le mur des donateurs</h3>
-            <!-- js/gamers4pets.js active le bouton dès que data/gamers4pets-donors.json
-                 contient des pseudos. La liste vit dans une modale construite en JS. -->
+            <!-- js/gamers4pets.js remplit le compte et l'aperçu (une douzaine de pseudos
+                 tirés au hasard) dès que data/gamers4pets-donors.json contient des
+                 pseudos, et active le bouton. La liste complète vit dans une modale. -->
+            <p class="event-block-text g4p-donor-count" id="g4pDonorCount" hidden></p>
+            <ul class="g4p-donor-preview" id="g4pDonorPreview" aria-label="Quelques p'tits pains au grand cœur" hidden></ul>
             <div class="g4p-donor-cta">
                 <button type="button" class="btn btn-primary g4p-donor-btn" id="g4pDonorBtn" disabled
                         data-umami-event="Events - Gamers4Pets - Mur des donateurs">
@@ -881,11 +884,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=234"></script>
-<script defer src="./js/live-float.js?v=234"></script>
-<script defer src="./js/gallery.js?v=234"></script>
-<script defer src="./js/gamers4pets.js?v=234"></script>
-<script defer src="./js/fluent-emoji.js?v=234"></script>
+<script defer src="./js/main.js?v=235"></script>
+<script defer src="./js/live-float.js?v=235"></script>
+<script defer src="./js/gallery.js?v=235"></script>
+<script defer src="./js/gamers4pets.js?v=235"></script>
+<script defer src="./js/fluent-emoji.js?v=235"></script>
 
 </body>
 </html>

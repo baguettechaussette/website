@@ -65,8 +65,9 @@
     }
 
     // ── Mur des donateurs ───────────────────────────────────────
-    // La liste peut devenir longue : elle vit dans une modale, la page
-    // n'affiche qu'un bouton et le compte.
+    // La liste peut devenir longue : elle vit dans une modale. La carte montre
+    // le compte, un aperçu de quelques pseudos tirés au hasard (chacun a sa
+    // chance d'apparaître) et le bouton.
     async function loadDonors() {
         const btn = document.getElementById('g4pDonorBtn');
         if (!btn) return;
@@ -100,6 +101,49 @@
         if (note) note.hidden = true;
         btn.disabled = false;
         btn.addEventListener('click', () => openDonorModal(names));
+
+        const count = document.getElementById('g4pDonorCount');
+        if (count) {
+            count.textContent = names.length > 1
+                ? `${names.length} p'tits pains ont donné pour les refuges, un immense merci 🫶`
+                : "Un p'tit pain a donné pour les refuges, un immense merci 🫶";
+            count.hidden = false;
+        }
+        renderPreview(names, btn);
+    }
+
+    // Aperçu : une douzaine de pseudos en pastilles (8 sur mobile), puis une
+    // pastille « +N » qui ouvre la liste complète
+    function renderPreview(names, btn) {
+        const preview = document.getElementById('g4pDonorPreview');
+        if (!preview) return;
+
+        const max = window.matchMedia('(max-width: 768px)').matches ? 8 : 12;
+        const tirage = names.slice();
+        for (let i = tirage.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tirage[i], tirage[j]] = [tirage[j], tirage[i]];
+        }
+        const montres = tirage.length > max ? tirage.slice(0, max) : tirage;
+
+        const frag = document.createDocumentFragment();
+        montres.forEach(name => {
+            const li = makeEl('li', 'g4p-donor-chip', name);
+            li.title = name;
+            frag.appendChild(li);
+        });
+        const reste = names.length - montres.length;
+        if (reste > 0) {
+            const li = makeEl('li', 'g4p-donor-more-item');
+            const more = makeEl('button', 'g4p-donor-more', `+${reste}`);
+            more.type = 'button';
+            more.setAttribute('aria-label', `Voir les ${reste} autres p'tits pains`);
+            more.addEventListener('click', () => btn.click());
+            li.appendChild(more);
+            frag.appendChild(li);
+        }
+        preview.replaceChildren(frag);
+        preview.hidden = false;
     }
 
     // ── Modale ──────────────────────────────────────────────────

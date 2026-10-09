@@ -138,9 +138,16 @@ img {
 }
 
 /* === Selection === */
+/* Sélection au surligneur miel, texte dans sa couleur normale */
 ::selection {
-    background: var(--blue);
-    color: var(--bg-primary);
+    background: rgba(242, 201, 107, 0.55);
+    color: var(--text-primary);
+}
+
+/* Sur la carte sombre du gagnant, le texte sélectionné reste clair */
+.cow-winner ::selection {
+    background: rgba(242, 201, 107, 0.35);
+    color: #fff;
 }
 
 ::-moz-selection {
