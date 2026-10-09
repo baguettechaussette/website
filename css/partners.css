@@ -25,7 +25,6 @@
     box-shadow: var(--shadow-sm);
 }
 
-
 .partner-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
@@ -67,14 +66,6 @@
 .partner-badge.partner{
     background:rgba(92,147,111,0.12);
     color:var(--green-deep);
-}
-
-/* rôle du partenaire */
-
-.partner-role {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 22px;
 }
 
 /* === Partner Logo === */
@@ -122,14 +113,6 @@
     margin-bottom: 26px;
 }
 
-/* contexte du partenariat */
-
-.partner-context {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-}
-
 /* === Partner Tags === */
 
 .partner-tags {
@@ -174,7 +157,6 @@
     overflow: hidden;
 }
 
-
 /* bouton principal */
 
 /* Primaire du système de boutons (components.css), redit ici car cette
@@ -195,129 +177,24 @@
     box-shadow: none;
 }
 
-/* bouton secondaire */
-
-.partner-link-secondary {
-    background: rgba(255,255,255,0.8);
-    color: var(--text-primary);
-    border: 2px solid rgba(122,158,114,0.25);
-}
-
-.partner-link-secondary:hover {
-    background: rgba(255,255,255,0.95);
-    border-color: rgba(122,158,114,0.4);
-    transform: translateY(-2px);
-}
-
-/* === Partners CTA === */
-
-.partners-cta {
-    text-align: center;
-    padding: 50px 30px;
-    background: linear-gradient(
-            135deg,
-            rgba(212,228,208,0.4),
-            rgba(163,191,156,0.3)
-    );
-    border-radius: var(--radius-xl);
-    border: 2px solid rgba(122,158,114,0.25);
-}
-
-.partners-cta-text {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 24px;
-}
-
 /* === Responsive === */
 
 @media (max-width:1024px){
-
     .partners-container{
         grid-template-columns:1fr;
     }
-
 }
 
 @media (max-width:768px){
-
-    .partner-card{
-        padding:32px 26px;
-    }
-
     .partner-name{
         font-size:1.5rem;
     }
-
-    .partner-description{
-        font-size:1rem;
-    }
-
-    .partner-logo img{
-        max-width:160px;
-    }
-
-    .partner-actions{
-        gap:10px;
-    }
-
-    .partner-link{
-        padding:12px 24px;
-        font-size:0.95rem;
-    }
-
-    .partners-cta{
-        padding:40px 22px;
-    }
-
-    .partners-cta-text{
-        font-size:1.15rem;
-    }
-
 }
 
 @media (max-width:480px){
-
-    .partners-container{
-        gap:30px;
-    }
-
-    .partner-card{
-        padding:26px 20px;
-    }
-
-    .partner-badge{
-        font-size:0.85rem;
-        padding:6px 16px;
-    }
-
-    .partner-logo{
-        padding:16px;
-    }
-
-    .partner-logo img{
-        max-width:140px;
-    }
-
     .partner-name{
         font-size:1.35rem;
     }
-
-    .partner-description{
-        font-size:0.95rem;
-    }
-
-    .partner-tag{
-        font-size:0.8rem;
-        padding:5px 12px;
-    }
-
-    .partner-link{
-        padding:11px 20px;
-        font-size:0.9rem;
-    }
-
 }
 
 /* ============================================
@@ -325,16 +202,6 @@
    Ces règles remplacent les valeurs mobiles plus haut dans le fichier
    (même sélecteur, plus bas dans la cascade). Placé ici : partners.css est chargée après responsive.css.
    ============================================ */
-
-@media (max-width: 768px) {/* « MMO cosy »… étaient à 12,8 px */
-}
-
-/* --- Mobile : espacements et grilles --- */
-@media (max-width: 768px) {.partner-logo { margin-bottom: 18px; } /* réservait 34 px sous un logo de 64 */
-}
-
-/* Bouton replier/déplier des cartes partenaires : mobile uniquement */
-.partner-toggle { display: none; }
 
 /* --- Accueil mobile : carte partenaire repliable ---
    Bandeau logo, puis nom + badge + bouton sur une ligne ; description, tags et

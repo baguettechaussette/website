@@ -30,11 +30,4 @@
     font-size: 0.9em;
 }
 
-.back-btn {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: var(--sage-dark);
-    text-decoration: none;
-    font-weight: bold;
-}
 

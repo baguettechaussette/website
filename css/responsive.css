@@ -4,33 +4,11 @@
 
 /* === Large Desktop (1200px+) === */
 @media (max-width: 1200px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: 60px;
-    }
-
     .hero-right {
         order: -1;
     }
     .logo {
         font-size: 1.2em;
-    }
-    .avatar-container {
-        width: 350px;
-        height: 350px;
-    }
-
-    .avatar-main {
-        width: 300px;
-        height: 300px;
-    }
-
-    .hero-title {
-        font-size: 3.5em;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 
     .contact-content {
@@ -54,9 +32,7 @@
 /* === Tablet (768px+) === */
 @media (max-width: 768px) {
     /* Menu mobile : 25 px de padding venaient du desktop, la barre faisait 103 px (11 % de l'écran) */
-    #navbar { padding: 14px 0; }
     #navbar.scrolled { padding: 10px 0; }
-    .hero { padding-top: 90px; }
 
     /* Décor allégé sur mobile : les particules et le gradient animé du fond
        coûtent cher en compositing GPU (scroll saccadé, batterie) pour un effet
@@ -140,45 +116,13 @@
         }
     }
 
-    /* Sections */
     /* Grids */
     .social-grid,
     .schedule-grid {
         grid-template-columns: 1fr;
     }
 
-    /* Containers */
-    /* Countdown banner */
-    .next-stream-banner .countdown-label {
-        font-size: 1.4em;
-        font-weight: 700;
-    }
-
-    /* Schedule */
-    .schedule-day {
-        font-size: 2em;  /* Maintenu à 2em pour bonne visibilité */
-    }
-
-    .schedule-countdown {
-        font-size: 1.1em;
-        padding: 10px 16px;
-        font-weight: 600;
-    }
-
     /* Contact */
-    .contact-title {
-        font-size: 1.6em;
-        margin-bottom: 15px;
-    }
-
-    .contact-text {
-        font-size: 1em;
-        padding: 0 10px;
-    }
-
-    .contact-cards {
-        grid-template-columns: 1fr;
-    }
 
     .contact-card-text {
         font-size: 1em;
@@ -188,89 +132,10 @@
     .socials-right {
         display: none;
     }
-
-    .socials-content {
-        grid-template-columns: 1fr;
-    }
-
-    .social-card.discord {
-        display: block;
-    }
-
-    /* Buttons - Plus grands pour meilleure accessibilité */
-    /* Stats */
-    /* Baguettectober */
-    .baguettectober-badge {
-        font-size: 1.1em;
-        padding: 10px 25px;
-    }
-
-    .baguettectober-desc {
-        font-size: 1.1em;
-    }
-
-    /* Social cards */
-    .social-name {
-        font-size: 1.8em;
-        margin-bottom: 12px;
-    }
-
-    .social-desc {
-        font-size: 1.15em;
-        line-height: 1.5;
-    }
 }
 
 /* === Mobile (480px+) === */
 @media (max-width: 480px) {
-    /* Panneaux de section : le padding desktop (60px) mangeait presque
-       toute la largeur et écrasait les grilles internes (clips, planning…) */
-    /* Clip gagnant : la miniature passe au-dessus du texte, tout est centré */
-    .cow-winner-info,
-    .cow-winner-card .clip-clipper {
-        text-align: center;
-    }
-
-    /* Vote : 2 colonnes plutôt qu'une pile. Avec 8 finalistes, une seule
-       colonne ferait près de 4 écrans de haut avant le reste de la page. */
-    .cow-card {
-        padding: 10px;
-    }
-
-    .cow-vote-btn {
-        padding: 8px 10px;
-        font-size: 0.82em;
-    }
-
-    /* Hero */
-    .hero-title {
-        font-size: 2.3em;
-        line-height: 1.1;
-    }
-
-    .hero-subtitle {
-        font-size: 1.25em;
-        line-height: 1.5;
-    }
-
-    /* Navigation */
-    .logo {
-        font-size: 1.4em;
-    }
-
-    nav {
-        padding: 15px 0;
-    }
-
-    .nav-links {
-        padding: 20px;
-        gap: 15px;
-    }
-
-    .nav-links a {
-        font-size: 1.1em;
-    }
-
     /* Hero - Avatar encore plus petit sur très petits écrans */
     /* Glow : rayons réduits pour 170px, animation seule (pas de flottement) */
     .avatar-glow {
@@ -304,74 +169,10 @@
         }
     }
 
-    /* Sections */
-    .schedule-container,
-    .event-container,
-    .contact-container,
-    .socials-container {
-        padding: 30px 15px;
-        border-radius: var(--radius-md);
-    }
-
-    /* Schedule */
-    .schedule-item {
-        padding: 28px 22px;  /* Plus d'espace */
-        border-radius: var(--radius-md);
-    }
-
-    .schedule-day {
-        font-size: 1.8em;
-        margin-bottom: 10px;
-    }
-
-    .schedule-time {
-        font-size: 1.5em;
-        margin-bottom: 12px;
-    }
-
-    .schedule-countdown {
-        font-size: 1.05em;
-        padding: 10px 14px;
-    }
-
-    /* Countdown banner */
-    .next-stream-banner {
-        padding: 24px 18px;
-        border-radius: var(--radius-md);
-    }
-
-    /* Buttons - Plus grands pour toucher facile */
     /* Contact */
-    .contact-title {
-        font-size: 1.6em;
-    }
-
-    .contact-email {
-        font-size: 1em;
-        padding: 12px 20px;
-    }
-
-    .contact-text {
-        font-size: 1.05em;
-    }
-
-    .contact-card-title {
-        font-size: 1.35em;
-    }
 
     .contact-card-text {
         font-size: 1.05em;
-    }
-
-    /* Social cards */
-    .social-desc {
-        font-size: 1.05em;
-    }
-
-
-    /* Footer */
-    .footer-text {
-        font-size: 1em;
     }
 }
 
@@ -399,91 +200,11 @@
     }
 }
 
-/* === Very small screens === */
-@media (max-width: 360px) {
-    .logo {
-        font-size: 1.35em;
-    }
-
-    .schedule-day {
-        font-size: 1.6em;
-    }
-
-    .contact-email {
-        font-size: 0.95em;
-        padding: 12px 18px;
-    }
-}
-
-/* === Large screens (1600px+) === */
-@media (min-width: 1600px) {
-    .container {
-        max-width: 1600px;
-    }
-
-    section {
-        max-width: 1600px;
-    }
-
-    .hero-content {
-        max-width: 1600px;
-    }
-
-    .hero-title {
-        font-size: 6em;
-    }
-
-    .section-title {
-        font-size: 4em;
-    }
-
-    .avatar-container {
-        width: 600px;
-        height: 600px;
-    }
-
-    .avatar-main {
-        width: 480px;
-        height: 480px;
-    }
-}
-
 /* === Tablet landscape === */
 @media (min-width: 769px) and (max-width: 1024px) {
     /* Navbar : le logo (nowrap) et les 5 liens doivent tenir côte à côte */
     .logo {
         font-size: 1.5em;
-    }
-
-    .nav-links {
-        gap: 22px;
-    }
-
-    .hero-content {
-        gap: 50px;
-    }
-
-    .hero-title {
-        font-size: 3em;
-    }
-
-    .avatar-container {
-        width: 300px;
-        height: 300px;
-    }
-
-    .avatar-main {
-        width: 260px;
-        height: 260px;
-    }
-
-    .socials-content {
-        grid-template-columns: 1fr;
-    }
-
-    .socials-right {
-        position: relative;
-        top: 0;
     }
 }
 
@@ -494,7 +215,6 @@
     nav,
     .menu-toggle,
     .hero-buttons,
-    .countdown-cta,
     footer,
     .social-card,
     .discord-widget-container {
@@ -535,52 +255,25 @@
    ============================================ */
 
 @media (max-width: 768px) {    .page-hero-title { font-size: 2.1em; line-height: 1.15; }.section-subtitle, .page-hero-subtitle { font-size: 1.1em; line-height: 1.55; margin-bottom: 0; } /* l'espace est porté par .section-header */
-    .contact-title, .social-name, .cow-vote-title { font-size: 1.3em; line-height: 1.25; }
     /* rem et non em : ces libellés héritent d'un parent < 16 px, en em ils retombaient à 12,5 px */
     .event-type-badge, .event-status-badge { font-size: 0.82rem; }
-    .clip-clipper { font-size: 0.85em; }    .page-hero { padding: 96px var(--spacing-sm) 28px; }
+    .page-hero { padding: 96px var(--spacing-sm) 28px; }
     .schedule-container, .contact-container, .socials-container { padding: 26px 18px; border-radius: var(--radius-lg); }
-    .social-card { padding: 26px 22px; }
-    .social-icon { font-size: 3em; }
-    .social-grid, .schedule-grid, .contact-cards, .events-archive-grid { gap: 16px; }.contact-card { padding: 20px 18px; }
-    .contact-icon { font-size: 2.8em; margin-bottom: 10px; }
-    .next-stream-banner { padding: 22px 18px; margin-bottom: 18px; }
+    .social-grid, .schedule-grid, .contact-cards, .events-archive-grid { gap: 16px; }
     .hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }    .stat-number { font-size: 1.45em; line-height: 1.1; overflow-wrap: anywhere; }    .hero-buttons { gap: 12px; }
     .btn { padding: 13px 28px; font-size: 1.05em; min-height: 48px; }
-    .countdown-cta { padding: 13px 28px; font-size: 1.05em; min-height: 48px; }
 }
 
 @media (max-width: 480px) {
-    .hero-title { font-size: 2.05em; }
-    .hero-subtitle { font-size: 1.1em; }
     .page-hero-title { font-size: 1.85em; }
-    .section-title { font-size: 1.6em; }
     .section-subtitle, .page-hero-subtitle { font-size: 1.05em; }
-    section { padding: 32px 15px; }
     .section-panel { padding: 24px 16px; }
     .schedule-container, .contact-container, .socials-container { padding: 24px 15px; border-radius: var(--radius-md); }
-    .social-card { padding: 22px 18px; }
-    .social-icon { font-size: 2.8em; }
-    .social-name { font-size: 1.2em; }
-    .schedule-item { padding: 22px 18px; }
-    .contact-info-box { padding: 22px 16px; }
-    .contact-card { padding: 18px 16px; }
-    .next-stream-banner { padding: 20px 16px; }
-    .contact-icon { font-size: 2.6em; }
-    .contact-card-icon { font-size: 2em; }
     .btn { padding: 12px 24px; font-size: 1em; min-height: 48px; }
-    .hero-stats { gap: 8px; }
-    .stat-box { padding: 12px 4px; }
-    .stat-number { font-size: 1.3em; }
-    .stat-label { font-size: 0.82em; }
-    .avatar-container { width: 185px; height: 185px; }
-    .avatar-main { width: 158px; height: 158px; }
     .cow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 }
 
 @media (max-width: 360px) {
-    .hero-title { font-size: 1.8em; }
-    .section-title { font-size: 1.45em; }
     .page-hero-title { font-size: 1.65em; }
     .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stat-box:nth-child(3) { grid-column: 1 / -1; }
@@ -591,16 +284,8 @@
     /* layout.css:412 met 80 px sous chaque en-tête de section, jamais surchargé en mobile :
        ~430 px de vide sur l'accueil à lui seul *//* 18 cartes en une colonne (~5 000 px) : deux colonnes, légende réduite */
     .clips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .clips-grid .clip-meta { font-size: 0.85em; margin-top: 8px; line-height: 1.35; }
     .cow-block-heading { font-size: 1.05em; margin-bottom: 14px; }
-    .cow-winner { margin-top: 22px; padding-top: 18px; }
     /* FAQ : 8 items fermés, ~190 px récupérés */}
-
-@media (max-width: 480px) {
-    .section-header { margin-bottom: 20px; }
-    .clips-grid { gap: 8px; }
-    footer { padding: 28px 15px; }
-}
 
 /* ============================================
    ACCUEIL MOBILE
@@ -638,7 +323,6 @@
 }
 
 @media (max-width: 768px) {
-
     /* ---- 0. Barre de navigation en pilule flottante ----
        Avatar + nom en encre, burger fin. Le panneau est opaque, posé sous la
        barre, avec un voile sombre sur la page ; la page courante est en pilule verte. */
@@ -908,8 +592,6 @@
         white-space: nowrap;
     }
 
-    .hero-live-game[hidden] { display: none; }
-
     .hero-live-actions {
         display: flex;
         gap: 8px;
@@ -1063,8 +745,6 @@
         border-color: rgba(127, 184, 147, 0.38);
     }
 
-    .schedule-item.is-next .schedule-countdown { color: var(--text-tertiary); font-weight: 600; }
-
     /* Un live en cours ne change plus la ligne du planning : la carte du hero
        l'annonce deja, et deux signaux rouges faisaient trop. La ligne reste
        identique aux autres, seul son texte dit « En direct ». */
@@ -1075,22 +755,12 @@
         animation: none;
     }
 
-    .schedule-item.is-live::before { display: none; } /* le bandeau rouge de 5 px */
-
-    .schedule-item.is-live .schedule-day {
-        background: none;
-        -webkit-text-fill-color: var(--green-deep);
-        color: var(--green-deep);
-    }
-
     .schedule-item.is-live .schedule-countdown::before { display: none; } /* la pastille rouge */
 
     .schedule-cta,
     .schedule-live-game { display: none; }
 
     /* ---- 3. Grilles de clips (/clips) : 2 colonnes, légendes à hauteur stable ---- */
-    .clips-grid { gap: 10px; }
-    .clip-thumb { border-radius: 14px; }
 
     /* Meme voile qu'en desktop : la rangee se lit comme un ensemble et le
        bouton violet ressort sur toutes les miniatures. */
@@ -1128,13 +798,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 0.82em;
-    }
-
-    /* Légendes alignées à gauche sous les vignettes ; le bloc de vote
-       de /clips garde son centrage, ses cartes portent un bouton. */
-    .clips-grid .clip-meta,
-    .clips-grid .clip-clipper {
-        text-align: left;
     }
 
     .clips-more { margin-top: 14px; }
@@ -1292,7 +955,6 @@
         text-align: left;
         background: none;
     }
-
 
     /* Toujours affichée : elle dépend d'une animation d'apparition qui ne se déclenchait
        pas sur certains mobiles (carte absente), on ne prend pas le risque. */
@@ -1502,14 +1164,12 @@
    ============================================ */
 
 @media (max-width: 768px) {
-
     /* Ordre de la page : vote, gagnant, Panthéon, derniers clips.
        Les sections ont un margin: 0 auto (base.css) : en colonne flex elles se
        resserreraient sur leur contenu (le carrousel les étirait à 1 100 px),
        d'où des marges latérales explicites pour qu'elles s'étirent à la page. */
     main:has(#clip-semaine) { display: flex; flex-direction: column; }
     main:has(#clip-semaine) > * { margin-left: 0; margin-right: 0; max-width: none; min-width: 0; }
-    main:has(#clip-semaine) .page-hero { order: 0; }
     #clip-semaine { order: 1; }
     #palmares { order: 2; }
     #clippeurs { order: 3; }
@@ -1558,7 +1218,6 @@
 
     .page-hero-meta-votes { font-weight: 700; color: var(--text-primary); }
     .page-hero-meta-votes::before { content: '·'; margin-right: 8px; font-weight: 400; color: rgba(63, 47, 37, 0.45); }
-    .page-hero-meta-votes[hidden] { display: none; }
 
     /* ---- Le vote : plus de panneau doré, le carrousel repose sur la page ---- */
     #clip-semaine { padding: 0 0 30px; }
@@ -1799,8 +1458,6 @@
         box-shadow: 0 14px 34px rgba(63, 47, 37, 0.22);
     }
 
-    .cow-winner .cow-block-heading { display: none; }
-
     /* Sous le carrousel du vote : 28 px avant la carte du gagnant */
     .cow-vote-block:not([hidden]) + .cow-winner { margin-top: 28px; }
 
@@ -2023,8 +1680,6 @@
         bottom: -14px;
         border-left: 2px dashed rgba(201, 144, 46, 0.45);
     }
-
-    .clip-howto-cta { width: 100%; }
 
     /* ---- Les derniers clips : carrousel de cartes de 260 px ---- */
     main:has(#clip-semaine) #clips { padding: 30px 0 32px; }

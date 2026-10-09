@@ -2,7 +2,6 @@
    SECTIONS.CSS - Sections spécifiques
    ============================================ */
 
-
 /* === Panneau givré commun aux sections de contenu de l'accueil ===
    (même look que .schedule-container / .socials-container : toutes les sections
    home présentent leurs cartes dans un panneau, pour un rythme visuel uniforme) */
@@ -119,20 +118,6 @@
     margin: 0 auto;
 }
 
-.page-hero-badge {
-    display: inline-block;
-    background: rgba(127, 184, 147, 0.15);
-    border: 1.5px solid rgba(127, 184, 147, 0.35);
-    color: var(--green);
-    padding: 8px 22px;
-    border-radius: var(--radius-full);
-    font-size: 0.9em;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-
 .page-hero-title {
     font-size: 3.5em;
     font-weight: 800;
@@ -148,16 +133,6 @@
     font-size: 1.2em;
     color: var(--text-secondary);
     line-height: 1.7;
-}
-
-@media (max-width: 768px) {
-    .page-hero {
-        padding: 120px var(--spacing-sm) 60px;
-    }
-
-    .page-hero-title {
-        font-size: 2.4em;
-    }
 }
 
 /* ============================================
@@ -189,30 +164,18 @@
 }
 
 /* Thème automne (Baguettectober) */
-.event-archive-card.theme-autumn {
-    background: linear-gradient(135deg, rgba(242, 193, 107, 0.10), rgba(197, 106, 82, 0.07));
-    border-color: rgba(197, 106, 82, 0.22);
-}
 .event-archive-card.theme-autumn:hover {
     border-color: rgba(197, 106, 82, 0.45);
     background: linear-gradient(135deg, rgba(242, 193, 107, 0.16), rgba(197, 106, 82, 0.11));
 }
 
 /* Thème été (DTI Heartopia #2 — juin) */
-.event-archive-card.theme-summer {
-    background: linear-gradient(135deg, rgba(63, 184, 175, 0.10), rgba(242, 193, 107, 0.07));
-    border-color: rgba(63, 184, 175, 0.22);
-}
 .event-archive-card.theme-summer:hover {
     border-color: rgba(63, 184, 175, 0.45);
     background: linear-gradient(135deg, rgba(63, 184, 175, 0.16), rgba(242, 193, 107, 0.11));
 }
 
 /* Thème caritatif (Gamers4Pets) */
-.event-archive-card.theme-charity {
-    background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(242, 201, 107, 0.07));
-    border-color: rgba(92, 147, 111, 0.24);
-}
 .event-archive-card.theme-charity:hover {
     border-color: rgba(92, 147, 111, 0.48);
     background: linear-gradient(135deg, rgba(127, 184, 147, 0.18), rgba(242, 201, 107, 0.11));
@@ -288,14 +251,6 @@
     line-height: 1.2;
 }
 
-.event-archive-date {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin: 0;
-    letter-spacing: 0.3px;
-}
-
 .event-archive-desc {
     font-size: 1em;
     color: var(--text-secondary);
@@ -320,12 +275,6 @@
     .events-archive-grid {
         grid-template-columns: 1fr;
     }
-    .event-archive-card {
-        padding: 28px 24px;
-    }
-    .event-archive-title {
-        font-size: 1.35em;
-    }
 }
 
 /* ============================================
@@ -338,16 +287,11 @@
 }
 
 /* Variantes des cartes soutien (même pattern que les réseaux) */
-.social-card.kofi {
-    background: rgba(255, 94, 91, 0.08);
-    border-color: rgba(255, 94, 91, 0.25);
-}
 .social-card.kofi:hover {
     background: rgba(255, 94, 91, 0.14);
     border-color: rgba(255, 94, 91, 0.5);
     transform: translateY(-6px);
 }
-.social-card.kofi .social-name { color: #d94542; }
 
 /* ============================================
    SECTION MOMENTS FORTS (clips)
@@ -358,41 +302,17 @@
 }
 
 /* Rythme vertical de la page clips : les sections s'enchaînent sans creuser de trous */
-#clip-semaine {
-    padding-top: 24px;
-    padding-bottom: 0;
-}
-
-#clips-pinned {
-    padding-top: 56px;
-    padding-bottom: 0;
-}
 
 #clips {
     padding-top: 56px;
     padding-bottom: 56px;
 }
 
-#clippeurs {
-    padding-top: 0;
-}
-
 /* Les en-têtes de section de la page clips sont plus compacts que sur l'accueil */
 #clip-semaine .section-header,
-#clips-pinned .section-header,
 #clips .section-header,
 #clippeurs .section-header {
     margin-bottom: 34px;
-}
-
-/* ── Le Clip de la Semaine : un seul encadré doré, façon compétition ── */
-.cow-container {
-    background: rgba(242, 201, 107, 0.09);
-    border: 2px solid rgba(242, 201, 107, 0.35);
-    border-radius: var(--radius-xl);
-    padding: clamp(20px, 4vw, 40px);
-    /* Même verre givré que les panneaux de l'accueil (.section-panel) */
-    backdrop-filter: blur(20px);
 }
 
 /* Mini-titres des deux blocs (vote / palmarès) */
@@ -404,8 +324,6 @@
     margin-bottom: 20px;
 }
 
-.cow-vote-block[hidden] { display: none; }
-
 /* Participation (total de votants, sans le détail) sous le titre du vote */
 .cow-turnout {
     text-align: center;
@@ -415,21 +333,7 @@
     margin: -12px 0 18px;
 }
 
-/* Palmarès : le clip élu la semaine dernière, séparé du vote par un liseré */
-.cow-winner {
-    margin-top: 36px;
-    padding-top: 30px;
-    border-top: 2px dashed rgba(242, 201, 107, 0.6);
-}
-
 .cow-winner[hidden] { display: none; }
-
-/* Pas de vote affiché (semaine creuse) : le palmarès n'a rien à séparer */
-.cow-vote-block[hidden] + .cow-winner {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-}
 
 .cow-winner-card {
     display: flex;
@@ -459,14 +363,6 @@
     text-align: left;
 }
 
-.cow-winner-title {
-    font-size: 1.08em;
-    font-weight: 700;
-    line-height: 1.35;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-}
-
 /* Le clippeur est la star de la carte gagnant : plus gros et doré */
 .cow-winner-card .clip-clipper {
     margin: 0;
@@ -474,11 +370,6 @@
     font-size: 1em;
     font-weight: 700;
     color: #c9902e;
-}
-
-.cow-winner-sub {
-    font-size: 0.85em;
-    color: var(--text-secondary);
 }
 
 /* Teaser d'avant-révélation (enfant direct du bloc, sans carte) : centré,
@@ -587,13 +478,6 @@
     gap: 14px;
     max-width: none;
     margin: 0;
-}
-
-.pantheon-podium,
-.pantheon-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
 }
 
 .pantheon-podium {
@@ -743,13 +627,6 @@
 
 /* Pas de filet sous la dernière ligne */
 .pantheon-row:last-child { border-bottom: 0; }
-
-.clips-grid {
-    display: grid;
-    /* min(300px, 100%) : sur petit écran la colonne ne peut pas déborder du panneau */
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-    gap: 30px;
-}
 
 /* Squelettes affichés pendant le fetch de data/top-clips.json */
 .clip-skeleton {
@@ -1109,13 +986,6 @@
     background: rgba(140, 191, 159, 0.32);
 }
 
-.faq-answer {
-    padding: 0 24px 22px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    font-size: 1.05em;
-}
-
 .faq-item[open] .faq-answer {
     animation: faqReveal 0.3s ease backwards;
 }
@@ -1172,4 +1042,3 @@
 #reseaux .social-card.tiktok .social-icon    { color: var(--green-deep); }
 #reseaux .social-card.instagram .social-icon { color: var(--pink-deep); }
 #reseaux .social-card.discord .social-icon   { color: #4a5a94; }
-#reseaux .social-card.twitter .social-icon   { color: var(--text-primary); }

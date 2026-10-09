@@ -18,29 +18,13 @@
      boutons         border-radius 50px
    ============================================================ */
 
-/* Éléments réservés au desktop (le mobile les masque dans responsive.css) */
-.hero-blob,
-.band-header,
-.contact-reply { display: none; }
-
 @media (min-width: 769px) {
-
     /* ============================================
        Fond de page : plat, les bandes font le rythme
        ============================================ */
 
     .bg-container,
     .particles { display: none; }
-
-    body { background: var(--bg-primary); }
-
-    main {
-        display: block;
-        width: auto;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-    }
 
     /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
        padding: 120px … » : on remet à plat, les bandes portent le rythme. */
@@ -273,7 +257,6 @@
 
     .hero-live-countdown { font-variant-numeric: tabular-nums; }
     .hero-live-countdown::before { content: '· '; }
-    .hero-live-countdown:empty { display: none; }
 
     .hero-live-value {
         grid-column: 1;
@@ -300,8 +283,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
-    .hero-live-game[hidden] { display: none; }
 
     .hero-live-actions {
         grid-column: 2;
@@ -417,8 +398,6 @@
         0%, 100% { transform: translateY(0) rotate(0deg); }
         50%      { transform: translateY(-12px) rotate(3deg); }
     }
-
-    .avatar-main img { width: 100%; height: 100%; object-fit: cover; }
 
     .avatar-glow { display: none; }
 
@@ -579,8 +558,6 @@
         overflow: visible;
     }
 
-    #clips .clip-card { width: auto; margin: 0; }
-
     #clips .clip-thumb {
         position: relative;
         aspect-ratio: 16 / 9;
@@ -591,8 +568,6 @@
     }
 
     #clips .clip-thumb:hover { transform: none; }
-
-    #clips .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
     #clips .clip-play {
         width: 30px;
@@ -855,8 +830,6 @@
 
     .title-desktop { display: none; }
     .title-mobile { display: inline; }
-    .subtitle-desktop { display: none; }
-    .subtitle-mobile { display: inline; }
 
     .contact-container { grid-column: 1; margin: 0; padding: 0; max-width: none; }
 
@@ -896,7 +869,6 @@
         row-gap: 0;
         text-align: left;
     }
-
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
 
@@ -1104,7 +1076,6 @@
     .partner-actions { grid-area: actions; margin: 0; }
 
     /* Primaire vert (components.css), à sa largeur, à gauche */
-    .partner-link-primary { width: auto; }
     .partner-actions { display: flex; flex-direction: row; align-items: flex-start; }
 
     /* Le bouton replier / déplier, masqué par défaut au-dessus de 768 px */
@@ -1154,9 +1125,6 @@
         grid-template-areas: "logo badge toggle";
     }
 
-    /* Le badge garde sa taille de carte dépliée, le bouton reste au bord droit */
-    .partner-card.is-collapsed .partner-badge { justify-self: start; }
-
     /* ============================================
        Réseaux — en-tête et lien sur une ligne, 3 colonnes
        ============================================ */
@@ -1203,8 +1171,6 @@
 
     /* Pas de widget Discord : la carte Discord suffit */
     .socials-right { display: none; }
-
-    .socials-left { width: auto; max-width: none; }
 
     #reseaux .social-grid {
         display: grid;
@@ -1362,14 +1328,11 @@
         color: rgba(63, 47, 37, 0.88);
     }
 
-    .faq-answer p { margin: 0; }
     .faq-answer p + p { margin-top: 8px; }
 
     /* ============================================
        Pied de page : dernière bande
        ============================================ */
-
-    footer { padding: 24px; } /* fond et filet : layout.css */
 
     /* ============================================
        Entre 769 et 1 023 px : une seule colonne, le hero empile
@@ -1392,6 +1355,5 @@
         }
 
         #contact .section-header { margin: 0; }
-
     }
 }

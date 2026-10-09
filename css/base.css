@@ -156,11 +156,6 @@ img {
     color: #fff;
 }
 
-::-moz-selection {
-    background: var(--blue);
-    color: var(--bg-primary);
-}
-
 /* === Scrollbar === */
 ::-webkit-scrollbar {
     width: 10px;
@@ -293,7 +288,6 @@ section {
     pointer-events: none;
 }
 
-
 /* === Icônes SVG globales === */
 .icon,
 .logo img,
@@ -312,7 +306,6 @@ section {
     width: 2.5em;
     height: 2.5em;
 }
-
 
 /* Fluent Emoji Styles */
 .fluent-emoji,
@@ -349,17 +342,6 @@ img.emoji {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
     }
 }
 

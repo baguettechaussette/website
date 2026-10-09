@@ -21,23 +21,12 @@
    ============================================================ */
 
 @media (min-width: 769px) {
-
     /* ============================================
        Fond de page : plat, les bandes font le rythme
        ============================================ */
 
     .bg-container,
     .particles { display: none; }
-
-    body { background: var(--bg-primary); }
-
-    main {
-        display: block;
-        width: auto;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-    }
 
     /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
        padding: 120px … » : on remet à plat, les bandes portent le rythme. */
@@ -415,7 +404,6 @@
 
     .event-block-highlight { background: rgba(255, 255, 255, 0.65); }
 
-
     .event-block-title {
         margin: 0;
         font-size: 1.125rem; /* 18 px */
@@ -444,8 +432,6 @@
         padding-top: 12px;
         text-align: left;
     }
-
-    .g4p-donor-btn { width: auto; } /* à sa largeur, à gauche */
 
     .g4p-donor-btn .fluent-emoji { display: none; } /* pas d'emoji dans le bouton */
 
@@ -812,6 +798,4 @@
     /* ============================================
        Pied de page : dernière bande
        ============================================ */
-
-    footer { padding: 24px; } /* fond et filet : layout.css */
 }

@@ -11,7 +11,6 @@
    ============================================================ */
 
 @media (min-width: 769px) {
-
     /* ============================================
        Gabarit : une colonne de 1 100 px
        ============================================ */
@@ -233,8 +232,6 @@
 
     /* ── Grille des finalistes : 4 × 2, plus de carrousel ── */
 
-    .cow-vote-block { margin: 0; }
-
     .cow-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -246,9 +243,6 @@
         overflow: visible;
         scroll-snap-type: none;
     }
-
-    /* Les points du carrousel n'ont plus d'objet */
-    .cow-dots { display: none; }
 
     .cow-card {
         width: auto;
@@ -272,8 +266,6 @@
         border-radius: 0;
         overflow: hidden;
     }
-
-    .cow-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
     /* Le numéro du finaliste, masqué par défaut au-dessus de 768 px */
     .cow-num {
@@ -416,8 +408,6 @@
         text-align: left;
     }
 
-    .cow-winner-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
     .cow-winner-info {
         padding: 16px 22px 22px;
         display: flex;
@@ -481,8 +471,6 @@
     }
 
     .cow-winner .cow-winner-sub { padding: 16px 22px 22px; }
-
-    .cow-winner > .cow-winner-sub { text-align: center; }
 
     /* ── Semaine sans vote ni gagnant (clips-page.js pose .is-empty) ──
        La section reste affichée en desktop (« display: flex » l'emporte sur
@@ -780,9 +768,6 @@
         border-radius: 0;
         overflow: hidden;
     }
-
-    #clips .clip-thumb img,
-    #palmares .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
     #clips .clip-meta,
     #palmares .clip-meta {

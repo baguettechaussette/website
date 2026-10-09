@@ -36,12 +36,6 @@
     left: 100%;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--blue), var(--green));
-    color: white;
-    box-shadow: 0 10px 40px rgba(127, 184, 147, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-}
 
 .btn-primary:hover {
     transform: translateY(-6px) scale(1.02);
@@ -129,9 +123,6 @@
     color: var(--text-secondary);
 }
 
-.follower-goal.is-reached .follower-goal-fill {
-    background: linear-gradient(90deg, var(--purple), var(--pink));
-}
 
 /* === Schedule Cards === */
 .schedule-container {
@@ -243,18 +234,6 @@
     }
 }
 
-.schedule-item.is-next {
-    background: rgba(127, 184, 147, 0.14);
-    border-color: rgba(92, 147, 111, 0.55);
-    box-shadow: 0 8px 30px rgba(127, 184, 147, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.schedule-item.is-next .schedule-day {
-    background: linear-gradient(135deg, #3d7a56, var(--blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
 
 .schedule-day {
     font-size: 2em;
@@ -272,11 +251,6 @@
     margin-bottom: 10px;
 }
 
-.schedule-game {
-    font-size: 1.1em;
-    color: var(--text-muted);
-    font-style: italic;
-}
 
 .schedule-countdown {
     margin-top: 16px;
@@ -326,12 +300,6 @@
     50%      { opacity: 0.4; transform: scale(0.75); }
 }
 
-.schedule-item.is-next .schedule-countdown {
-    color: #5c936f;
-    background: rgba(127, 184, 147, 0.15);
-    border-color: rgba(127, 184, 147, 0.35);
-    font-weight: 700;
-}
 
 /* CTA ajouté par stream-countdown.js sur la carte du prochain live (ou du live en cours) */
 .schedule-cta {
@@ -444,80 +412,47 @@
 }
 
 /* Social card variants — fond teinté + bordure couleur plateforme */
-.social-card.twitch {
-    background: rgba(145, 70, 255, 0.08);
-    border-color: rgba(145, 70, 255, 0.25);
-}
 .social-card.twitch:hover {
     background: rgba(145, 70, 255, 0.14);
     border-color: rgba(145, 70, 255, 0.5);
     box-shadow: 0 14px 40px rgba(145, 70, 255, 0.14);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.twitch .social-name { color: #7b3dd8; }
 
-.social-card.youtube {
-    background: rgba(210, 40, 40, 0.07);
-    border-color: rgba(210, 40, 40, 0.22);
-}
 .social-card.youtube:hover {
     background: rgba(210, 40, 40, 0.12);
     border-color: rgba(210, 40, 40, 0.48);
     box-shadow: 0 14px 40px rgba(210, 40, 40, 0.12);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.youtube .social-name { color: #c42b2b; }
 
-.social-card.tiktok {
-    background: rgba(0, 165, 160, 0.07);
-    border-color: rgba(0, 165, 160, 0.22);
-}
 .social-card.tiktok:hover {
     background: rgba(0, 165, 160, 0.13);
     border-color: rgba(0, 165, 160, 0.48);
     box-shadow: 0 14px 40px rgba(0, 165, 160, 0.12);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.tiktok .social-name { color: #008c87; }
 
-.social-card.instagram {
-    background: rgba(193, 53, 132, 0.07);
-    border-color: rgba(193, 53, 132, 0.22);
-}
 .social-card.instagram:hover {
     background: rgba(193, 53, 132, 0.13);
     border-color: rgba(193, 53, 132, 0.48);
     box-shadow: 0 14px 40px rgba(193, 53, 132, 0.12);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.instagram .social-name { color: #b02860; }
 
-.social-card.discord {
-    display: none;
-}
-.social-card.discord {
-    background: rgba(88, 101, 242, 0.1);
-    border-color: rgba(88, 101, 242, 0.3);
-}
 .social-card.discord:hover {
     background: rgba(88, 101, 242, 0.1);
     border-color: rgba(88, 101, 242, 0.5);
     box-shadow: 0 20px 60px rgba(88, 101, 242, 0.3);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.discord .social-name { color: #5865f2; }
 
-.social-card.twitter {
-    background: rgba(26, 140, 216, 0.07);
-    border-color: rgba(26, 140, 216, 0.22);
-}
 .social-card.twitter:hover {
     background: rgba(26, 140, 216, 0.13);
     border-color: rgba(26, 140, 216, 0.48);
     box-shadow: 0 14px 40px rgba(26, 140, 216, 0.12);
     transform: translateY(-10px) scale(1.03);
 }
-.social-card.twitter .social-name { color: #1479b8; }
 
 /* === Contact Cards === */
 .contact-container {
@@ -526,10 +461,6 @@
     margin: 0 auto;
 }
 
-.contact-content {
-    display: grid;
-    gap: 40px;
-}
 
 .contact-info-box {
     background: rgba(255, 255, 255, 0.55);
@@ -547,20 +478,6 @@
     box-shadow: 0 20px 60px rgba(140, 191, 159, 0.3);
 }
 
-.contact-icon {
-    font-size: 5em;
-    margin-bottom: 20px;
-}
-
-.contact-title {
-    font-size: 2em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--blue), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
 
 .contact-email {
     display: inline-block;
@@ -583,24 +500,6 @@
     box-shadow: 0 15px 40px rgba(127, 184, 147, 0.5);
 }
 
-.contact-text {
-    font-size: 1.2em;
-    color: var(--text-secondary);
-    line-height: 1.8;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.contact-mediakit {
-    font-size: 0.92em;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 10px 22px;
-    border-radius: var(--radius-full);
-    border: 1px dashed rgba(63, 47, 37, 0.18);
-    width: fit-content;
-    margin: -16px auto 0;
-}
 
 .contact-cards {
     display: grid;
@@ -626,17 +525,6 @@
     box-shadow: 0 14px 36px rgba(63, 47, 37, 0.10);
 }
 
-.contact-card-icon {
-    font-size: 3em;
-    margin-bottom: 15px;
-}
-
-.contact-card-title {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 10px;
-}
 
 .contact-card-text {
     font-size: 1.1em;
@@ -685,14 +573,6 @@
     flex-shrink: 0;
 }
 
-@media (max-width: 480px) {
-    .back-to-top {
-        bottom: 20px;
-        right: 20px;
-        width: 44px;
-        height: 44px;
-    }
-}
 
 /* ============================================
    SYSTÈME DE BOUTONS

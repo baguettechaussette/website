@@ -196,11 +196,6 @@
     50%      { opacity: 0.35; }
 }
 
-.nav-links {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-}
 
 .nav-links a {
     text-decoration: none;
@@ -249,13 +244,6 @@
     position: relative;
 }
 
-.hero-content {
-    max-width: 1400px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-}
 
 .hero-left {
     animation: slideInLeft 1s ease;
@@ -293,11 +281,6 @@
     font-weight: 700;
 }
 
-.hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 50px;
-}
 
 .hero-buttons {
     display: flex;
@@ -448,11 +431,6 @@ footer {
     margin: 0 auto;
 }
 
-.footer-text {
-    font-size: 1.2em;
-    color: var(--text-tertiary);
-    margin-bottom: 20px;
-}
 
 .footer-link {
     color: var(--blue);
