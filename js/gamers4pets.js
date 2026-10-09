@@ -187,7 +187,9 @@
     function openDonorModal(names) {
         const m = ensureModal();
 
-        m.querySelector('.g4p-modal__subtitle').textContent = 'Un immense merci à vous 🫶';
+        m.querySelector('.g4p-modal__subtitle').textContent = names.length > 1
+            ? `${names.length} p'tits pains, un immense merci à vous 🫶`
+            : 'Un immense merci à vous 🫶';
 
         const list = m.querySelector('.g4p-modal__list');
         const frag = document.createDocumentFragment();
