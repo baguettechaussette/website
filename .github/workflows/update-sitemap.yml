@@ -2,16 +2,15 @@ name: Update sitemap.xml (weekly)
 
 on:
   schedule:
-    - cron: "0 6 * * 1"   # chaque lundi à 6h UTC (filet de sécurité)
+    - cron: "0 6 * * 1"
   push:
     branches: [main]
-    paths: ['*.html']     # lastmod fiables : régénéré dès qu'une page change
+    paths: ['*.html']
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
 concurrency:
   group: data-commits
   cancel-in-progress: false
@@ -23,14 +22,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # historique complet → vraies dates de modif par page
+          fetch-depth: 0
 
       - name: Generate sitemap.xml
         run: |
           DOMAIN="https://baguettechaussette.fr"
 
-          # lastmod = date du dernier commit qui a touché la page
-          # → le sitemap ne change que si une page a réellement changé
           lastmod() {
             git log -1 --format=%cI -- "$1"
           }

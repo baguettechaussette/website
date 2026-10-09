@@ -1,4 +1,3 @@
-// Modal management (sémantique dialog + focus géré, même pattern que gallery.js)
 let modalLastFocus = null;
 
 function openModal(id) {
@@ -31,8 +30,6 @@ function closeAllModals() {
     }
 }
 
-// Ouverture/fermeture par délégation : les attributs data-modal-open / data-modal-close
-// remplacent les onclick inline (incompatibles avec la Content-Security-Policy)
 document.addEventListener('click', (e) => {
     const opener = e.target.closest('[data-modal-open]');
     if (opener) {
@@ -50,7 +47,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Escape ferme la modale (avec retour du focus), Tab reste piégé à l'intérieur
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeAllModals();
@@ -76,7 +72,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Rôles ARIA posés au chargement (évite de dupliquer les attributs dans les 5 modales)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.modal-overlay').forEach((overlay, i) => {
         const content = overlay.querySelector('.modal-content');
@@ -91,17 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Live status check (poll toutes les 30s, comme sur l'accueil).
-// Source : le worker Cloudflare, qui interroge Twitch en direct.
 const LIVE_API = 'https://bc-vote.baguette-chaussette.workers.dev/live';
 
-// Test local uniquement : ?live=1 force l'état « en live », ?live=0 le retire, et le
-// choix est gardé pour la session (sessionStorage) d'une page à l'autre. Hors
-// localhost la fonction renvoie null et le worker fait foi, comme d'habitude.
 function forcedLiveForTests() {
     if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
     const p = new URLSearchParams(location.search).get('live');
-    if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live'); // ?live= : retour au vrai statut
+    if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live');
     else if (p !== null) sessionStorage.setItem('bc_force_live', p);
     const v = sessionStorage.getItem('bc_force_live');
     if (v === null) return null;
@@ -109,12 +99,10 @@ function forcedLiveForTests() {
         ? { is_live: true, game: 'Jeu de test', title: 'Live de test', started_at: new Date(Date.now() - 42 * 60000).toISOString() }
         : { is_live: false, game: null, title: null, started_at: null };
 }
-let liveFails = 0; // 3 échecs d'affilée avant de masquer (tolère un blip réseau)
+let liveFails = 0;
 
 async function checkLiveStatus() {
     const badge = document.getElementById('liveBadge');
-    // Pages sans badge (mentions légales, 404) : rien à afficher, on ne
-    // consulte pas le worker (évite aussi le bruit CSP sur ces pages).
     if (!badge) return;
     try {
         let data = forcedLiveForTests();
@@ -132,7 +120,6 @@ async function checkLiveStatus() {
             badge.classList.toggle('visible', !!data.is_live);
         }
     } catch (error) {
-        // Statut inconnu : on masque plutôt que de laisser un badge périmé.
         if (++liveFails >= 3 && badge) badge.classList.remove('visible');
         console.debug('Live status check failed:', error.message);
     }
@@ -148,14 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Emails assemblés côté client (anti-bots spam)
+    // Emails assemblés côté client
     document.querySelectorAll('.js-email').forEach(el => {
         const addr = `${el.dataset.user}@${el.dataset.domain}`;
         el.setAttribute('href', 'mailto:' + addr);
         if ('showText' in el.dataset) el.textContent = addr;
     });
 
-    // Bouton « Copier » sur les codes de parrainage (sélection pénible sur mobile)
     document.querySelectorAll('.code-block').forEach(block => {
         const code = block.textContent.trim();
         const btn = document.createElement('button');
@@ -169,13 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.textContent = 'Copié ✓';
                 btn.classList.add('is-copied');
                 setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('is-copied'); }, 1800);
-            } catch { /* presse-papier indisponible : on ne casse rien */ }
+            } catch {}
         });
         block.appendChild(btn);
     });
 });
 
-// ── Service Worker (aussi sur /links et /mentions-legales, pas seulement l'accueil) ──
+// Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(err => console.warn('SW:', err));

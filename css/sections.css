@@ -2,9 +2,7 @@
    SECTIONS.CSS - Sections spécifiques
    ============================================ */
 
-/* === Panneau givré commun aux sections de contenu de l'accueil ===
-   (même look que .schedule-container / .socials-container : toutes les sections
-   home présentent leurs cartes dans un panneau, pour un rythme visuel uniforme) */
+/* Panneau givré commun aux sections de contenu de l'accueil */
 .section-panel {
     max-width: 900px;
     margin: 0 auto;
@@ -21,9 +19,8 @@
     margin: 0;
 }
 
-/* === Socials Section === */
+/* Socials Section */
 .socials-container {
-    /* Plus de panneau givré : les cartes se posent directement sur la page */
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -136,10 +133,10 @@
 }
 
 /* ============================================
-   EVENTS ARCHIVE — Portfolio page /events
+   EVENTS ARCHIVE
    ============================================ */
 
-/* --- Grille des cartes d'aperçu --- */
+/* Grille des cartes d'aperçu */
 .events-archive-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -163,25 +160,25 @@
     overflow: hidden;
 }
 
-/* Thème automne (Baguettectober) */
+/* Thème automne */
 .event-archive-card.theme-autumn:hover {
     border-color: rgba(197, 106, 82, 0.45);
     background: linear-gradient(135deg, rgba(242, 193, 107, 0.16), rgba(197, 106, 82, 0.11));
 }
 
-/* Thème été (DTI Heartopia #2 — juin) */
+/* Thème été */
 .event-archive-card.theme-summer:hover {
     border-color: rgba(63, 184, 175, 0.45);
     background: linear-gradient(135deg, rgba(63, 184, 175, 0.16), rgba(242, 193, 107, 0.11));
 }
 
-/* Thème caritatif (Gamers4Pets) */
+/* Thème caritatif */
 .event-archive-card.theme-charity:hover {
     border-color: rgba(92, 147, 111, 0.48);
     background: linear-gradient(135deg, rgba(127, 184, 147, 0.18), rgba(242, 201, 107, 0.11));
 }
 
-/* Thème jeu (DTI Heartopia) */
+/* Thème jeu */
 .event-archive-card.theme-game {
     background: linear-gradient(135deg, rgba(162, 89, 255, 0.10), rgba(218, 100, 220, 0.07));
     border-color: rgba(162, 89, 255, 0.22);
@@ -196,7 +193,7 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Badges meta (type + statut) */
+/* Badges meta */
 .event-archive-meta {
     display: flex;
     gap: 8px;
@@ -281,12 +278,10 @@
    SECTION SOUTENIR
    ============================================ */
 .support-container {
-    /* Plus de panneau givré : les cartes se posent directement sur la page */
     max-width: 1100px;
     margin: 0 auto;
 }
 
-/* Variantes des cartes soutien (même pattern que les réseaux) */
 .social-card.kofi:hover {
     background: rgba(255, 94, 91, 0.14);
     border-color: rgba(255, 94, 91, 0.5);
@@ -294,28 +289,25 @@
 }
 
 /* ============================================
-   SECTION MOMENTS FORTS (clips)
+   SECTION MOMENTS FORTS
    ============================================ */
 .clips-container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Rythme vertical de la page clips : les sections s'enchaînent sans creuser de trous */
-
 #clips {
     padding-top: 56px;
     padding-bottom: 56px;
 }
 
-/* Les en-têtes de section de la page clips sont plus compacts que sur l'accueil */
 #clip-semaine .section-header,
 #clips .section-header,
 #clippeurs .section-header {
     margin-bottom: 34px;
 }
 
-/* Mini-titres des deux blocs (vote / palmarès) */
+/* Mini-titres des deux blocs */
 .cow-block-heading {
     text-align: center;
     font-size: 1.08em;
@@ -324,7 +316,6 @@
     margin-bottom: 20px;
 }
 
-/* Participation (total de votants, sans le détail) sous le titre du vote */
 .cow-turnout {
     text-align: center;
     font-size: 0.9em;
@@ -363,7 +354,6 @@
     text-align: left;
 }
 
-/* Le clippeur est la star de la carte gagnant : plus gros et doré */
 .cow-winner-card .clip-clipper {
     margin: 0;
     text-align: left;
@@ -372,8 +362,6 @@
     color: #c9902e;
 }
 
-/* Teaser d'avant-révélation (enfant direct du bloc, sans carte) : centré,
-   contrairement au même texte dans la carte gagnant (aligné à gauche) */
 .cow-winner > .cow-winner-sub {
     text-align: center;
 }
@@ -394,10 +382,6 @@
     background: rgba(255, 255, 255, 0.55);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    /* Pas de verre givré : dans le carrousel mobile (zone qui défile), le
-       flou faisait peindre à Chrome une bande de fond derrière tout le
-       carrousel, les points de navigation restant en dehors. Sur un fond
-       presque uni, il n'apportait rien. */
 }
 
 .cow-vote-btn {
@@ -433,7 +417,7 @@
     opacity: 1;
 }
 
-/* ── Le Palmarès : date du sacre en pastille sur la vignette ── */
+/* Le Palmarès */
 .palmares-date {
     position: absolute;
     top: 10px;
@@ -446,15 +430,12 @@
     border-radius: 50px;
     background: rgba(63, 47, 37, 0.8);
     color: #f2c96b;
-    font-size: 0.78125rem; /* 12,5 px */
+    font-size: 0.78125rem;
     font-weight: 700;
     line-height: 1.3;
     pointer-events: none;
 }
 
-/* Les règles de la miniature (« .clip-thumb img » : absolue, pleine taille)
-   attrapaient aussi l'image de l'emoji 👑 et la posaient sur toute la
-   vignette : elle reprend sa taille d'emoji, dans le flux de la pastille. */
 #palmares .clip-thumb .palmares-date img {
     position: static;
     inset: auto;
@@ -465,13 +446,7 @@
     border-radius: 0;
 }
 
-/* ── Le Panthéon des clippeurs ──
-   Un podium de trois cartes, puis les places 4 à 12 en liste dans une seule
-   carte : un classement se lit comme une descente, pas comme douze boîtes
-   de même importance. Chaque entrée : rang, pseudo et chiffres, puis deux
-   pastilles de même forme (le grade avec son emoji, la mention).
-   Règles de base = mobile ; clips-desktop.css pose le podium en trois
-   colonnes et la liste en trois colonnes lues de haut en bas. */
+/* Le Panthéon des clippeurs */
 .clippers-grid {
     display: flex;
     flex-direction: column;
@@ -486,7 +461,6 @@
     gap: 10px;
 }
 
-/* Rang à gauche ; pseudo et chiffres sur la première ligne, pastilles dessous */
 .pantheon-card,
 .pantheon-row {
     display: grid;
@@ -500,7 +474,6 @@
     text-align: left;
 }
 
-/* Podium : une carte par personne, fond à peine teinté, pas de dégradé */
 .pantheon-card {
     padding: 14px 16px;
     border: 2px solid rgba(255, 255, 255, 0.75);
@@ -519,14 +492,13 @@
     justify-content: center;
     width: 28px;
     height: 28px;
-    font-size: 0.84375rem; /* 13,5 px */
+    font-size: 0.84375rem;
     font-weight: 800;
     line-height: 1;
     color: rgba(63, 47, 37, 0.6);
     font-variant-numeric: tabular-nums;
 }
 
-/* Sur le podium, le numéro devient un disque métallique */
 .pantheon-card .pantheon-rank {
     width: 34px;
     height: 34px;
@@ -539,7 +511,6 @@
 .pantheon-rang-2 .pantheon-rank { background: linear-gradient(145deg, #eeeeee, #b9b9b9); color: #3f3f3f; }
 .pantheon-rang-3 .pantheon-rank { background: linear-gradient(145deg, #e8b07a, #b87333); color: #4a2a10; }
 
-/* Pseudo puis chiffres, qui passent à la ligne si le pseudo est long */
 .pantheon-ident {
     grid-area: ident;
     min-width: 0;
@@ -562,7 +533,7 @@
 
 .pantheon-stats {
     margin: 0;
-    font-size: 0.8125rem; /* 13 px */
+    font-size: 0.8125rem;
     line-height: 1.3;
     color: var(--text-tertiary);
     font-variant-numeric: tabular-nums;
@@ -592,9 +563,6 @@
 .pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: var(--green-deep); }
 .pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #8a6a1f; }
 
-/* Couronnes gagnées au Clip de la Semaine, accolées au pseudo : brun et or,
-   comme la carte du gagnant et la pastille de date du Palmarès. Dans la
-   rangée des pastilles, elles passaient à la ligne et décalaient la liste. */
 .pantheon-couronne {
     display: inline-flex;
     align-items: center;
@@ -604,14 +572,13 @@
     border-radius: 50px;
     background: var(--text-primary);
     color: #f2c96b;
-    font-size: 0.71875rem; /* 11,5 px */
+    font-size: 0.71875rem;
     font-weight: 700;
     line-height: 1.3;
     white-space: nowrap;
     vertical-align: 0.1em;
 }
 
-/* Places 4 à 12 : une seule carte, lignes séparées par un filet */
 .pantheon-list {
     padding: 4px 16px;
     border: 2px solid rgba(255, 255, 255, 0.75);
@@ -628,7 +595,6 @@
 /* Pas de filet sous la dernière ligne */
 .pantheon-row:last-child { border-bottom: 0; }
 
-/* Squelettes affichés pendant le fetch de data/top-clips.json */
 .clip-skeleton {
     aspect-ratio: 16 / 9;
     border-radius: var(--radius-md);
@@ -640,10 +606,6 @@
     animation: clipShimmer 1.2s linear infinite;
 }
 
-/* Squelettes de l'accueil : carte « Prochain live » (décompte et créneau) et
-   compteur de followers,
-   alignés sur la ligne de texte qu'ils remplacent : la carte ne change pas de
-   hauteur quand stream-countdown.js les remplit. Masqués sans JavaScript. */
 .hero-skel {
     display: inline-block;
     height: 0.5em;
@@ -661,8 +623,6 @@
 .hero-skel-long { width: 6em; }
 .hero-skel-nombre { width: 2em; }
 
-/* Squelette du Clip de la Semaine : même structure qu'une .cow-card (vignette,
-   titre, clippeur, bouton) pour réserver la hauteur réelle du bloc de vote. */
 .cow-skeleton .cow-card { pointer-events: none; }
 
 .cow-skel-line {
@@ -673,13 +633,8 @@
 
 .cow-skel-line.short { width: 60%; }
 
-/* Squelette du gagnant, posé dans la carte sombre (#cowWinner) : en-tête
-   couronne + deux lignes, vignette 16/9, titre et clippeur. Tons clairs
-   translucides, la carte étant brun foncé en mobile comme en desktop. */
 .cow-winner-skel { pointer-events: none; }
 
-/* Hauteurs calées sur la vraie carte (en-tête 76 px, titre + clippeur
-   97 px en desktop) : rien ne saute quand le gagnant remplace le squelette */
 .cow-winner-skel-head {
     display: flex;
     align-items: center;
@@ -748,7 +703,7 @@
     margin-top: 2px;
     text-align: center;
     font-size: 0.82em;
-    color: rgba(63, 47, 37, 0.55); /* ancien --text-muted, garde volontairement plus discret */
+    color: rgba(63, 47, 37, 0.55);
 }
 
 /* CTA "Voir tous les clips" de la vitrine home */
@@ -757,7 +712,6 @@
     margin-top: 32px;
 }
 
-/* Miniature cliquable (le player s'ouvre en modale) */
 .clip-thumb {
     position: relative;
     display: block;
@@ -799,7 +753,6 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    /* Entre le #9146ff de Twitch, trop criard, et un violet trop sage */
     background: #8149d4;
     color: #fff;
     display: flex;
@@ -850,7 +803,6 @@
     box-shadow: var(--shadow-lg);
 }
 
-/* Spinner visible tant que le player Twitch n'a pas peint */
 .clip-modal__player::before {
     content: '';
     position: absolute;
@@ -972,7 +924,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Arial, sans-serif; /* « + » centré dans sa boîte, donc centré une fois tourné */
+    font-family: Arial, sans-serif;
     font-size: 1.3em;
     font-weight: 700;
     color: var(--green);
@@ -1018,9 +970,7 @@
 }
 
 /* ============================================
-   RÉSEAUX : logos SVG (mêmes tracés que /links) à la place des emoji,
-   une teinte par réseau prise dans la palette accessible du site.
-   Commun au mobile et au desktop.
+   RÉSEAUX
    ============================================ */
 .social-logo {
     display: block;
@@ -1033,7 +983,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.375rem; /* 22 px */
+    font-size: 1.375rem;
     line-height: 1;
 }
 

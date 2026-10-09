@@ -8,7 +8,6 @@ on:
 permissions:
   contents: write
 
-# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
 concurrency:
   group: data-commits
   cancel-in-progress: false
@@ -17,7 +16,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
     env:
-      # Centralisation des secrets
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
       TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}

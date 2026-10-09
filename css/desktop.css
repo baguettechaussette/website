@@ -1,33 +1,15 @@
-/* ============================================================
+/* ============================================
    ACCUEIL DESKTOP
-
-   Chargée par index.html seulement, et après partners.css : à
-   spécificité égale c'est donc cette feuille qui gagne.
-   Tout est enfermé dans min-width: 769px, le mobile n'est jamais
-   touché. Les deux colonnes ne s'installent qu'à partir de 1 024 px.
-
-   La page est une suite de bandes pleine largeur à bord net (.band,
-   emballages posés dans index.html), chacune avec son fond uni et
-   72 px de padding haut et bas : 144 px entre deux contenus.
-   Colonne de contenu commune : min(1100px, 100% - 80px).
-
-   Repères :
-     h2 de section   40 px / 800 / --green-deep, sous-titre 16,5 px
-     h3 de carte     22 px / 800 / encre
-     cartes          rgba(255,255,255,0.5) + bord 2px rgba(255,255,255,0.7)
-     boutons         border-radius 50px
-   ============================================================ */
+   ============================================ */
 
 @media (min-width: 769px) {
     /* ============================================
-       Fond de page : plat, les bandes font le rythme
+       Fond de page
        ============================================ */
 
     .bg-container,
     .particles { display: none; }
 
-    /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
-       padding: 120px … » : on remet à plat, les bandes portent le rythme. */
     main > section,
     .band > section {
         max-width: none;
@@ -37,8 +19,6 @@
 
     /* ============================================
        Bandes pleine largeur
-       La colonne de 1 100 px est portée par le padding latéral :
-       le fond file jusqu'aux bords, le contenu reste centré.
        ============================================ */
 
     .band {
@@ -55,7 +35,7 @@
 
     .band-pro { background: #f2e3d8; }
 
-    .band-social { gap: 72px; } /* 72 px entre Réseaux et FAQ */
+    .band-social { gap: 72px; }
 
     @media (min-width: 1024px) {
         .band-week,
@@ -72,7 +52,7 @@
     }
 
     /* ============================================
-       En-têtes de section : un seul modèle, à gauche
+       En-têtes de section
        ============================================ */
 
     .section-header,
@@ -89,7 +69,7 @@
 
     .section-title {
         margin: 0;
-        font-size: 2.5rem; /* 40 px */
+        font-size: 2.5rem;
         font-weight: 800;
         line-height: 1.1;
         color: var(--green-deep);
@@ -102,14 +82,12 @@
     .section-subtitle {
         margin: 6px 0 0;
         max-width: none;
-        font-size: 1.03125rem; /* 16,5 px */
+        font-size: 1.03125rem;
         line-height: 1.5;
         color: rgba(63, 47, 37, 0.75);
         text-align: left;
     }
 
-    /* L'en-tête de bande « Cette semaine » : 28 px avant les cartes
-       (24 de gouttière + 4) */
     .band-header {
         display: block;
         grid-column: 1 / -1;
@@ -117,7 +95,7 @@
     }
 
     /* ============================================
-       Hero — deux colonnes, bande dégradée, ronds décoratifs
+       Hero
        ============================================ */
 
     main > .hero {
@@ -125,7 +103,6 @@
         overflow: hidden;
         min-height: 0;
         display: block;
-        /* 72 px de barre fixe au-dessus, puis les 72 px de la bande */
         padding: 144px max(40px, calc((100% - 1100px) / 2)) 80px;
         background: linear-gradient(135deg, #f0ebe0 0%, #f2e6dc 100%);
     }
@@ -137,16 +114,11 @@
         pointer-events: none;
     }
 
-    /* Positions décalées de la barre de 72 px pour celles qui se calent sur
-       le haut de la bande */
     .hero-blob-1 { width: 72px; height: 72px; top: 100px; left: 48px; background: rgba(127, 184, 147, 0.45); }
-    /* Pas plus bas : à 192 px il mordait sur le halo de l'avatar */
     .hero-blob-2 { width: 56px; height: 56px; top: 104px; right: 420px; background: rgba(242, 201, 107, 0.55); }
     .hero-blob-3 { width: 40px; height: 40px; bottom: 28px; left: 760px; background: rgba(127, 184, 147, 0.45); }
     .hero-blob-4 { width: 64px; height: 64px; bottom: 40px; right: 140px; background: rgba(197, 106, 82, 0.42); }
 
-    /* Sous 1 200 px la marge de gauche tombe à 40 px : le premier rond
-       mordait sur le titre, il s'efface */
     @media (max-width: 1199px) {
         .hero-blob-1 { display: none; }
     }
@@ -183,11 +155,11 @@
 
     .hero-title {
         margin: 0;
-        font-size: 4rem; /* 64 px */
+        font-size: 4rem;
         font-weight: 800;
         line-height: 1.02;
         color: var(--green-deep);
-        -webkit-text-fill-color: currentColor; /* pas de dégradé de texte */
+        -webkit-text-fill-color: currentColor;
         background: none;
         text-shadow: none;
         opacity: 1;
@@ -197,7 +169,7 @@
     .hero-subtitle {
         margin: 0;
         max-width: 460px;
-        font-size: 1.1875rem; /* 19 px */
+        font-size: 1.1875rem;
         font-weight: 600;
         line-height: 1.45;
         color: rgba(63, 47, 37, 0.88);
@@ -205,7 +177,7 @@
         animation: none;
     }
 
-    /* ── Carte du prochain live : texte à gauche, bouton à droite ── */
+    /* Carte du prochain live */
 
     .hero-live-card {
         width: 100%;
@@ -219,8 +191,6 @@
         text-align: left;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        /* Trois rangées déclarées pour que « grid-row: 1 / -1 » du bouton
-           tombe bien sur la dernière ligne et le centre verticalement. */
         grid-template-rows: auto auto auto;
         align-items: center;
         column-gap: 16px;
@@ -247,7 +217,7 @@
 
     .hero-live-label,
     .hero-live-countdown {
-        font-size: 0.8125rem; /* 13 px */
+        font-size: 0.8125rem;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -262,7 +232,7 @@
         grid-column: 1;
         grid-row: 2;
         margin: 2px 0 0;
-        font-size: 1.5rem; /* 24 px */
+        font-size: 1.5rem;
         font-weight: 800;
         line-height: 1.2;
         color: var(--text-primary);
@@ -292,14 +262,12 @@
         align-items: center;
     }
 
-    /* Primaire vert (components.css), à sa largeur */
+    /* Primaire vert */
     .hero-live-actions .hero-live-cta {
         flex: none;
         white-space: nowrap;
     }
 
-    /* En direct : la carte rougit, le jeu devient le titre, le
-       bouton reste blanc avec le texte en rouge foncé */
     .hero-live-card.is-live {
         background: rgba(230, 103, 103, 0.16);
         border-color: rgba(214, 78, 78, 0.55);
@@ -314,7 +282,7 @@
     .hero-live-card.is-live .hero-live-countdown { display: none; }
     .hero-live-card.is-live .hero-live-cta { background: #fff; color: #b83a3a; }
 
-    /* ── Trois chiffres, en cartes ── */
+    /* Trois chiffres, en cartes */
 
     .hero-stats {
         display: flex;
@@ -341,7 +309,7 @@
 
     .stat-number {
         display: block;
-        font-size: 1.25rem; /* 20 px */
+        font-size: 1.25rem;
         font-weight: 800;
         line-height: 1.2;
         background: none;
@@ -352,7 +320,7 @@
     .stat-label {
         display: block;
         margin: 0;
-        font-size: 0.84375rem; /* 13,5 px */
+        font-size: 0.84375rem;
         font-weight: 400;
         line-height: 1.3;
         letter-spacing: 0;
@@ -360,12 +328,10 @@
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* La barre d'objectif et les deux boutons du hero : la carte du live et
-       la barre de navigation les couvrent déjà */
     .hero-buttons,
     .follower-goal { display: none; }
 
-    /* ── Avatar 260 px dans un halo de 420 px ── */
+    /* Avatar 260 px dans un halo de 420 px */
 
     .avatar-container {
         width: 420px;
@@ -387,9 +353,6 @@
         background: #f6efe4;
         border: 6px solid rgba(255, 255, 255, 0.95);
         box-shadow: 0 20px 50px rgba(63, 47, 37, 0.14);
-        /* Flottement doux dans son halo, plus discret que floatAvatar
-           (20 px, 5°). Coupé par le
-           prefers-reduced-motion global de base.css. */
         animation: floatAvatarDesktop 5s ease-in-out infinite;
         overflow: hidden;
     }
@@ -402,7 +365,7 @@
     .avatar-glow { display: none; }
 
     /* ============================================
-       Cette semaine — deux cartes égales
+       Cette semaine
        ============================================ */
 
     #planning,
@@ -416,10 +379,9 @@
         gap: 14px;
     }
 
-    /* Deux niveaux : la bande à 40 px en vert, la carte à 22 px en encre */
     #planning .section-title,
     #clips .section-title {
-        font-size: 1.375rem; /* 22 px */
+        font-size: 1.375rem;
         line-height: 1.2;
         color: var(--text-primary);
         -webkit-text-fill-color: currentColor;
@@ -428,7 +390,7 @@
     #planning .section-subtitle,
     #clips .section-subtitle { display: none; }
 
-    /* ── Planning : trois lignes jour | heure | décompte ── */
+    /* Planning */
 
     .schedule-container { margin: 0; padding: 0; background: none; border: 0; }
 
@@ -445,8 +407,6 @@
         border: 2px solid transparent;
         border-radius: 18px;
         display: grid;
-        /* Colonne des jours figée à la largeur du plus large (« Dimanche ») :
-           l'heure tombe au même endroit sur les trois lignes. */
         grid-template-columns: 4.75rem auto minmax(0, 1fr);
         align-items: baseline;
         gap: 10px;
@@ -469,7 +429,7 @@
     .schedule-item.is-live .schedule-day {
         margin: 0;
         background: none;
-        font-size: 1.0625rem; /* 17 px */
+        font-size: 1.0625rem;
         font-weight: 700;
         color: var(--green-deep);
         -webkit-text-fill-color: var(--green-deep);
@@ -495,13 +455,11 @@
         border: 0;
         border-radius: 0;
         backdrop-filter: none;
-        font-size: 0.84375rem; /* 13,5 px */
+        font-size: 0.84375rem;
         font-weight: 400;
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* Pas de mise en avant appuyée : la carte du hero annonce déjà le
-       prochain live et le direct. */
     .schedule-item.is-next,
     .schedule-item.is-live {
         background: rgba(255, 255, 255, 0.65);
@@ -510,12 +468,8 @@
         animation: none;
     }
 
-    /* Le prochain créneau garde juste un liseré vert discret… */
     .schedule-item.is-next { border-color: rgba(92, 147, 111, 0.3); }
 
-    /* …et le même survol que les autres lignes, que la règle ci-dessus
-       annulait (bordure verte qui apparaît en fondu). Un cran plus marqué
-       sur le prochain, puisqu'il part déjà d'un liseré. */
     .schedule-item.is-live:hover { border-color: rgba(127, 184, 147, 0.38); }
     .schedule-item.is-next:hover { border-color: rgba(92, 147, 111, 0.6); }
 
@@ -525,7 +479,7 @@
     .schedule-cta,
     .schedule-live-game { display: none; }
 
-    /* ── Vote : phrase, quatre vignettes, bouton ── */
+    /* Vote */
 
     #clips .section-panel {
         flex: 1;
@@ -543,13 +497,11 @@
 
     .clips-teaser-intro {
         margin: 0;
-        font-size: 0.9375rem; /* 15 px */
+        font-size: 0.9375rem;
         line-height: 1.5;
         color: rgba(63, 47, 37, 0.8);
     }
 
-    /* Vignettes et bouton collés en bas : les deux cartes de la rangée
-       se terminent à la même hauteur */
     #clips .clips-grid {
         margin-top: auto;
         display: grid;
@@ -574,11 +526,10 @@
         height: 30px;
         padding-left: 2px;
         background: #9146ff;
-        font-size: 0.6875rem; /* 11 px */
+        font-size: 0.6875rem;
         z-index: 1;
     }
 
-    /* La quatrième annonce le reste des finalistes : voile et « +N » en texte */
     #clips .clip-card-more .clip-thumb::after {
         content: '';
         position: absolute;
@@ -593,7 +544,7 @@
         padding: 0;
         background: none;
         box-shadow: none;
-        font-size: 1.25rem; /* 20 px */
+        font-size: 1.25rem;
         font-weight: 800;
         color: #f0ebe0;
         z-index: 2;
@@ -608,10 +559,10 @@
         justify-content: flex-start;
     }
 
-    #clips .clips-more .btn { padding: 0 28px; } /* primaire vert (components.css) */
+    #clips .clips-more .btn { padding: 0 28px; }
 
     /* ============================================
-       Événements + Me soutenir — deux colonnes
+       Événements + Me soutenir
        ============================================ */
 
     #evenements,
@@ -621,7 +572,7 @@
         gap: 28px;
     }
 
-    /* ── Cartes d'événement, neutres ── */
+    /* Cartes d'événement, neutres */
 
     .events-archive-grid {
         display: flex;
@@ -631,8 +582,6 @@
         max-width: none;
     }
 
-    /* Préfixé par #evenements : sections.css colore chaque carte selon son
-       thème avec deux classes ; ici elles restent neutres. */
     #evenements .event-archive-card {
         padding: 18px 20px;
         background: rgba(255, 255, 255, 0.5);
@@ -671,7 +620,7 @@
         padding: 4px 11px;
         border-radius: 50px;
         border: 1px solid transparent;
-        font-size: 0.75rem; /* 12 px */
+        font-size: 0.75rem;
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
@@ -696,14 +645,14 @@
     .event-archive-icon {
         grid-area: icone;
         margin: 0;
-        font-size: 1.375rem; /* 22 px */
+        font-size: 1.375rem;
         line-height: 1;
     }
 
     .event-archive-title {
         grid-area: titre;
         margin: 0;
-        font-size: 1.125rem; /* 18 px */
+        font-size: 1.125rem;
         font-weight: 700;
         line-height: 1.25;
         color: var(--text-primary);
@@ -712,7 +661,7 @@
     .event-archive-desc {
         grid-area: desc;
         margin: 0;
-        font-size: 0.90625rem; /* 14,5 px */
+        font-size: 0.90625rem;
         line-height: 1.5;
         color: rgba(63, 47, 37, 0.8);
     }
@@ -726,7 +675,7 @@
         color: var(--pink-deep);
     }
 
-    /* ── « Voir tous les événements → » : un lien texte, plus de pilule ── */
+    /* « Voir tous les événements → » */
 
     #evenements .clips-more {
         margin: 0;
@@ -734,9 +683,7 @@
         justify-content: flex-start;
     }
 
-    /* Secondaire (components.css) : pilule blanche sur la bande, à gauche */
-
-    /* ── Cartes de soutien : titre, texte, bouton sous le texte ── */
+    /* Cartes de soutien */
 
     .support-container { margin: 0; max-width: none; }
 
@@ -764,11 +711,11 @@
     #soutenir .social-card:hover { transform: translateY(-2px); }
 
     #soutenir .social-card::before,
-    #soutenir .social-icon { display: none; } /* pas d'emoji dans le titre */
+    #soutenir .social-icon { display: none; }
 
     #soutenir .social-name {
         margin: 0;
-        font-size: 1.25rem; /* 20 px */
+        font-size: 1.25rem;
         font-weight: 800;
         line-height: 1.2;
     }
@@ -782,8 +729,6 @@
 
     #soutenir .social-desc strong { color: var(--text-primary); }
 
-    /* Masqué par défaut au-dessus de 768 px par responsive.css : ici sous le
-       texte, aligné à gauche */
     #soutenir .social-cta {
         display: inline-flex;
         align-items: center;
@@ -794,7 +739,7 @@
         border-radius: 50px;
         border: 0;
         color: #fff;
-        font-size: 0.9375rem; /* 15 px */
+        font-size: 0.9375rem;
         font-weight: 700;
         white-space: nowrap;
     }
@@ -816,11 +761,9 @@
     #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
 
     /* ============================================
-       Marques & studios — e-mail à gauche, partenaires à droite
+       Marques & studios
        ============================================ */
 
-    /* Les deux sections se dissolvent dans la grille de la bande : l'en-tête
-       de #contact s'étale sur les deux colonnes, #partenaires perd le sien */
     #contact,
     #partenaires { display: contents; }
 
@@ -835,7 +778,7 @@
 
     .partners-container { grid-column: 2; }
 
-    /* ── Carte e-mail ── */
+    /* Carte e-mail */
 
     .contact-content {
         padding: 22px;
@@ -851,7 +794,7 @@
 
     .contact-info-box {
         grid-column: 1 / -1;
-        margin: 0 0 6px; /* 8 + 6 = 14 px */
+        margin: 0 0 6px;
         padding: 0;
         background: none;
         border: 0;
@@ -872,7 +815,6 @@
 
     .contact-info-box:hover { transform: none; box-shadow: none; }
 
-    /* L'icône seule, sans pastille derrière, dans une zone de 44 px */
     .contact-icon {
         grid-area: icon;
         width: 44px;
@@ -883,7 +825,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.75rem; /* 28 px : sans le carré, l'emoji occupe la place */
+        font-size: 1.75rem;
         line-height: 1;
     }
 
@@ -891,7 +833,7 @@
         grid-area: title;
         align-self: end;
         margin: 0;
-        font-size: 1.125rem; /* 18 px */
+        font-size: 1.125rem;
         font-weight: 700;
         line-height: 1.25;
         background: none;
@@ -904,12 +846,11 @@
         grid-area: reply;
         align-self: start;
         display: block;
-        font-size: 0.84375rem; /* 13,5 px */
+        font-size: 0.84375rem;
         line-height: 1.3;
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* Primaire vert (components.css), à sa largeur, à gauche */
     .contact-email {
         grid-area: email;
         justify-self: start;
@@ -917,7 +858,6 @@
         white-space: nowrap;
     }
 
-    /* Quatre pilules en grille 2 × 2 : les trois cartes et la ligne media kit */
     .contact-cards { display: contents; }
 
     .contact-card,
@@ -935,7 +875,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.875rem; /* 14 px */
+        font-size: 0.875rem;
         font-weight: 600;
         line-height: 1.2;
         color: var(--text-primary);
@@ -961,7 +901,7 @@
 
     .contact-card-text { display: none; }
 
-    /* ── Cartes partenaires : Loftia dépliée, Inkonbini sur une ligne ── */
+    /* Cartes partenaires */
 
     .partners-container {
         display: flex;
@@ -1008,7 +948,6 @@
         max-width: 100%;
     }
 
-    /* Logo Loftia 150 × 40 au plus ; pas de bandeau blanc autour */
     .partner-logo img {
         height: 40px;
         width: auto;
@@ -1018,13 +957,12 @@
         transform: none;
     }
 
-    /* inKONBINI : 104 × 28. Le badge précède le logo dans le HTML. */
     .partner-badge.ambassador ~ .partner-logo img {
         height: 28px;
         max-width: 104px;
     }
 
-    .partner-name { display: none; } /* porté par le logo, via son alt */
+    .partner-name { display: none; }
 
     .partner-badge {
         grid-area: badge;
@@ -1035,7 +973,7 @@
         border: 0;
         background: rgba(127, 184, 147, 0.2);
         color: var(--green-deep);
-        font-size: 0.75rem; /* 12 px */
+        font-size: 0.75rem;
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -1068,17 +1006,15 @@
         border-radius: 50px;
         background: rgba(255, 255, 255, 0.85);
         border: 0;
-        font-size: 0.8125rem; /* 13 px */
+        font-size: 0.8125rem;
         font-weight: 600;
         color: var(--text-primary);
     }
 
     .partner-actions { grid-area: actions; margin: 0; }
 
-    /* Primaire vert (components.css), à sa largeur, à gauche */
     .partner-actions { display: flex; flex-direction: row; align-items: flex-start; }
 
-    /* Le bouton replier / déplier, masqué par défaut au-dessus de 768 px */
     .partner-toggle {
         grid-area: toggle;
         justify-self: end;
@@ -1102,7 +1038,7 @@
 
     .partner-toggle::before {
         content: '+';
-        font-family: Arial, sans-serif; /* la police par défaut des boutons : « + » centré, même tourné */
+        font-family: Arial, sans-serif;
         font-size: 0.9375rem;
         font-weight: 700;
         line-height: 1;
@@ -1115,7 +1051,6 @@
     .partner-card.is-collapsed .partner-tags,
     .partner-card.is-collapsed .partner-actions { display: none; }
 
-    /* Repliée : une seule ligne, le badge centré entre le logo et le bouton */
     .partner-card.is-collapsed {
         padding: 14px 16px;
         border-radius: 22px;
@@ -1126,7 +1061,7 @@
     }
 
     /* ============================================
-       Réseaux — en-tête et lien sur une ligne, 3 colonnes
+       Réseaux
        ============================================ */
 
     #reseaux {
@@ -1141,7 +1076,6 @@
 
     .socials-container { display: contents; }
 
-    /* Masqué par défaut au-dessus de 768 px par responsive.css */
     .socials-all-link {
         display: block;
         grid-column: 2;
@@ -1152,7 +1086,7 @@
         padding: 0 0 3px;
         background: none;
         border: 0;
-        font-size: 0.9375rem; /* 15 px */
+        font-size: 0.9375rem;
         font-weight: 700;
         color: var(--pink-deep);
         text-decoration: none;
@@ -1169,7 +1103,6 @@
         max-width: none;
     }
 
-    /* Pas de widget Discord : la carte Discord suffit */
     .socials-right { display: none; }
 
     #reseaux .social-grid {
@@ -1227,7 +1160,7 @@
         grid-column: 2;
         grid-row: 2;
         margin: 0;
-        font-size: 0.84375rem; /* 13,5 px */
+        font-size: 0.84375rem;
         line-height: 1.3;
         color: rgba(63, 47, 37, 0.72);
     }
@@ -1243,7 +1176,7 @@
     }
 
     /* ============================================
-       FAQ — intitulé en haut, questions en dessous
+       FAQ
        ============================================ */
 
     #faq {
@@ -1252,8 +1185,6 @@
         gap: 24px;
     }
 
-    /* Pleine largeur, les réponses feraient des lignes de 140 signes :
-       la liste s'arrête à 820 px, calée à gauche sous le titre. */
     .faq-container {
         width: 100%;
         margin: 0;
@@ -1284,7 +1215,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        justify-content: space-between; /* le « + » au bord droit de la carte */
+        justify-content: space-between;
         cursor: pointer;
         font-size: 1rem;
         font-weight: 700;
@@ -1309,7 +1240,7 @@
         border-radius: 50%;
         background: rgba(127, 184, 147, 0.2);
         color: var(--green-deep);
-        font-family: Arial, sans-serif; /* « + » centré, même tourné (Baloo 2 le décale) */
+        font-family: Arial, sans-serif;
         font-size: 0.9375rem;
         font-weight: 700;
         transition: transform var(--transition-base);
@@ -1323,7 +1254,7 @@
     .faq-answer {
         padding: 0;
         margin: 10px 0 0;
-        font-size: 0.9375rem; /* 15 px */
+        font-size: 0.9375rem;
         line-height: 1.6;
         color: rgba(63, 47, 37, 0.88);
     }
@@ -1331,12 +1262,11 @@
     .faq-answer p + p { margin-top: 8px; }
 
     /* ============================================
-       Pied de page : dernière bande
+       Pied de page
        ============================================ */
 
     /* ============================================
-       Entre 769 et 1 023 px : une seule colonne, le hero empile
-       l'avatar au-dessus du texte
+       Entre 769 et 1 023 px
        ============================================ */
 
     @media (max-width: 1023px) {

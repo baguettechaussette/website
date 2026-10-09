@@ -1,18 +1,12 @@
-/* ============================================================
+/* ============================================
    HABILLAGE DESKTOP COMMUN
-   Fond de page, barre de navigation et pied de page, partages
-   par toutes les pages qui ont une version desktop refondue.
-   A charger AVANT la feuille propre a la page.
-   ============================================================ */
+   ============================================ */
 
 @media (min-width: 769px) {
-
     /* ============================================
        Fond de page
        ============================================ */
 
-    /* Le dégradé de .bg-container à 8 %, sans animation, et pas de
-       particules */
     .bg-container {
         animation: none;
         opacity: 0.08;
@@ -21,7 +15,7 @@
     .particles { display: none; }
 
     /* ============================================
-       Barre de navigation — 72 px, liens en pastilles
+       Barre de navigation
        ============================================ */
 
     #navbar {
@@ -33,9 +27,6 @@
         backdrop-filter: none;
     }
 
-    /* layout.css repose « padding: 15px 0 » sur la barre scrollée, plus
-       spécifique que mon « #navbar { padding: 0 } » : la barre gagnait 30 px
-       et son contenu débordait. */
     #navbar.scrolled {
         height: 72px;
         padding: 0;
@@ -63,16 +54,14 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        font-size: 1.125rem; /* 18 px */
+        font-size: 1.125rem;
         font-weight: 800;
         background: none;
         color: var(--text-secondary);
-        -webkit-text-fill-color: var(--text-secondary); /* pas le dégradé du mobile */
+        -webkit-text-fill-color: var(--text-secondary);
         text-decoration: none;
     }
 
-    /* responsive.css masque l'avatar par défaut au-dessus de 768 px : il
-       reste à gauche du nom, comme en mobile. */
     .logo .logo-avatar {
         display: block;
         width: 36px;
@@ -95,14 +84,14 @@
         display: block;
         padding: 8px 16px;
         border-radius: 50px;
-        font-size: 0.97rem; /* 15,5 px */
+        font-size: 0.97rem;
         font-weight: 700;
         color: var(--text-secondary);
         text-decoration: none;
         transition: background var(--transition-base), color var(--transition-base);
     }
 
-    .nav-links a::after { display: none; } /* le soulignement laisse place à la pastille */
+    .nav-links a::after { display: none; }
 
     .nav-links a:hover { background: rgba(127, 184, 147, 0.12); }
 
@@ -111,7 +100,6 @@
         color: var(--green-deep);
     }
 
-    /* Le 5e lien devient « Tous mes liens ↗ », en terracotta */
     .nav-links > li:nth-child(5) { display: none; }
 
     .nav-links-footer { display: list-item; }
@@ -120,12 +108,11 @@
 
     .nav-links-footer a:hover { background: rgba(154, 74, 54, 0.1); }
 
-
     /* ============================================
        Pied de page
        ============================================ */
 
-    footer { padding: 24px; } /* fond et filet : layout.css */
+    footer { padding: 24px; }
 
     .footer-content {
         max-width: none;

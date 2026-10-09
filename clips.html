@@ -6,17 +6,12 @@
     <meta name="color-scheme" content="only light">
     <meta name="darkreader-lock">
     <meta name="theme-color" content="#9146ff">
-    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
-         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
-    <!-- preconnect : le worker est appelé en fetch() CORS (crossorigin requis), les vignettes
-         Twitch sont des <img> sans CORS (une connexion crossorigin ne leur servirait pas) -->
     <link rel="preconnect" href="https://bc-vote.baguette-chaussette.workers.dev" crossorigin>
     <title>Clips | Baguette Chaussette</title>
     <meta name="description" content="Les meilleurs moments des lives de Baguette Chaussette, clippés par les viewers. Clip de la semaine, coups de cœur et derniers clips en date.">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:url" content="https://baguettechaussette.fr/clips">
@@ -28,7 +23,6 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Baguette Chaussette, streamer Twitch FR — les meilleurs clips des lives.">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Clips | Baguette Chaussette">
     <meta name="twitter:description" content="Le meilleur des lives, clippé par les viewers.">
@@ -37,27 +31,22 @@
     <meta name="twitter:site" content="@BaguetteCho7">
 
     <link rel="canonical" href="https://baguettechaussette.fr/clips">
-    <!-- Les miniatures des clips viennent du CDN Twitch -->
     <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=247">
+    <link rel="stylesheet" href="./css/fonts.css?v=248">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=247">
-    <link rel="stylesheet" href="./css/layout.css?v=247">
-    <link rel="stylesheet" href="./css/components.css?v=247">
-    <link rel="stylesheet" href="./css/sections.css?v=247">
-    <link rel="stylesheet" href="./css/responsive.css?v=247">
-    <!-- Desktop : habillage commun puis la feuille de la page clips.
-         Tout est en @media (min-width: 769px). -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=247">
-    <link rel="stylesheet" href="./css/clips-desktop.css?v=247">
+    <link rel="stylesheet" href="./css/base.css?v=248">
+    <link rel="stylesheet" href="./css/layout.css?v=248">
+    <link rel="stylesheet" href="./css/components.css?v=248">
+    <link rel="stylesheet" href="./css/sections.css?v=248">
+    <link rel="stylesheet" href="./css/responsive.css?v=248">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=248">
+    <link rel="stylesheet" href="./css/clips-desktop.css?v=248">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 </head>
@@ -65,7 +54,6 @@
 <body>
 <a class="skip-link" href="#main">Aller au contenu</a>
 
-<!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
 <div class="particles" aria-hidden="true">
     <div class="particle"></div>
@@ -75,7 +63,6 @@
     <div class="particle"></div>
 </div>
 
-<!-- Navigation -->
 <nav id="navbar">
     <div class="container">
         <div class="logo">
@@ -90,20 +77,16 @@
             <li><a href="/events" data-umami-event="Clips Nav - Evenements">Événements</a></li>
             <li><a href="/#contact" data-umami-event="Clips Nav - Contact">Contact</a></li>
             <li><a href="/#reseaux" data-umami-event="Clips Nav - Reseaux">Réseaux</a></li>
-            <!-- Mobile uniquement : pied du panneau (masqué au-dessus de 768 px) -->
             <li class="nav-links-footer"><a href="/links" data-umami-event="Nav - Tous mes liens">Tous mes liens <span aria-hidden="true">↗</span></a></li>
         </ul>
     </div>
 </nav>
 
-<!-- Contenu principal -->
 <main id="main">
 
-<!-- Page Hero -->
 <header class="page-hero" id="accueil">
     <div class="container">
         <div class="page-hero-content">
-            <!-- Mobile : surtitre + la question du vote en h1 (« Clips » reste dans le title et le surtitre) -->
             <p class="page-hero-kicker">Clips · vote de la semaine</p>
             <h1 class="page-hero-title"><span class="title-desktop">Clips</span><span class="title-mobile" id="clipsHeroTitle">Quel clip mérite la couronne ?</span></h1>
             <p class="page-hero-meta" id="clipsHeroMeta"><span class="meta-mobile">Résultat dimanche 21h en live</span><span class="meta-desktop" id="clipsHeroLine">Le résultat tombe dimanche à 21h en live, puis sur Discord.</span><span class="page-hero-meta-votes" id="cowHeroTurnout" hidden></span></p>
@@ -117,7 +100,6 @@
     </div>
 </header>
 
-<!-- Le Clip de la Semaine (alimenté par data/clip-of-week.json, vote dépouillé le dimanche) -->
 <section id="clip-semaine">
     <div class="clips-container">
         <div class="cow-container">
@@ -125,9 +107,6 @@
                 <h2 class="section-title">Le Clip de la Semaine</h2>
                 <p class="section-subtitle">Vote pour ton préféré, je révèle le gagnant au live du dimanche !</p>
             </div>
-            <!-- Squelette affiché dès le premier rendu : la section n'est pas cachée en attendant
-                 le JSON, sinon tout ce qui suit saute vers le bas au chargement (CLS 0,7 mesuré).
-                 js/clips-page.js le retire quand les vraies cartes arrivent. -->
             <div class="cow-skeleton" id="cowSkeleton" aria-hidden="true">
                 <div class="cow-skel-line cow-skel-heading"></div>
                 <div class="cow-grid">
@@ -145,9 +124,6 @@
                 <h3 class="cow-block-heading" id="cowVoteHeading">🗳️ Les finalistes de la semaine</h3>
                 <div class="cow-grid" id="cowGrid"></div>
             </div>
-            <!-- Visible dès le premier rendu avec un squelette de la carte du gagnant,
-                 comme les finalistes : js/clips-page.js le remplace par le gagnant (ou le
-                 teaser) une fois la révélation vérifiée, ou masque le bloc s'il n'y a rien. -->
             <div class="cow-winner" id="cowWinner">
                 <div class="cow-winner-skel" aria-hidden="true">
                     <div class="cow-winner-skel-head">
@@ -158,9 +134,7 @@
                     <div class="cow-winner-skel-info"><div class="cow-skel-line"></div><div class="cow-skel-line short"></div></div>
                 </div>
             </div>
-            <!-- Desktop : posé à côté du gagnant. Mobile : à la fin du Panthéon (clips-page.js). -->
             <div class="clip-howto">
-                <!-- Même en-tête que la carte du gagnant : emoji, surtitre, ligne d'appoint -->
                 <div class="clip-howto-head">
                     <span class="clip-howto-emoji" aria-hidden="true">🎬</span>
                     <div class="clip-howto-head-meta">
@@ -180,7 +154,6 @@
     </div>
 </section>
 
-<!-- Clips Section (alimentée par data/top-clips.json) -->
 <section id="clips">
     <div class="section-header">
         <h2 class="section-title">Les derniers clips</h2>
@@ -192,8 +165,6 @@
     </div>
 </section>
 
-<!-- Le Palmarès : les clips couronnés, du plus récent au plus ancien
-     (alimenté par data/hall-of-fame.json, js/clips-page.js) -->
 <section id="palmares" hidden>
     <div class="section-header">
         <h2 class="section-title">Le Palmarès</h2>
@@ -204,7 +175,6 @@
     </div>
 </section>
 
-<!-- Le Panthéon des clippeurs (alimenté par data/clippers.json) -->
 <section id="clippeurs" hidden>
     <div class="section-header">
         <h2 class="section-title">Le Panthéon des clippeurs</h2>
@@ -218,14 +188,12 @@
 
 </main>
 
-<!-- Bouton retour en haut -->
 <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 19V5M5 12l7-7 7 7"/>
     </svg>
 </button>
 
-<!-- Footer -->
 <footer>
     <div class="footer-content">
         <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
@@ -238,11 +206,10 @@
     </div>
 </footer>
 
-<!-- Scripts -->
-<script defer src="./js/main.js?v=247"></script>
-<script defer src="./js/clips-page.js?v=247"></script>
-<script defer src="./js/live-float.js?v=247"></script>
-<script defer src="./js/fluent-emoji.js?v=247"></script>
+<script defer src="./js/main.js?v=248"></script>
+<script defer src="./js/clips-page.js?v=248"></script>
+<script defer src="./js/live-float.js?v=248"></script>
+<script defer src="./js/fluent-emoji.js?v=248"></script>
 
 </body>
 </html>

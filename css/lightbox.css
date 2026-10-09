@@ -1,6 +1,6 @@
 
 /* ============================================
-   DTI VIEWER — visualiseur simple (sans galerie)
+   DTI VIEWER
    ============================================ */
 .dti-viewer {
     position: fixed;
@@ -20,7 +20,7 @@
     display: flex;
 }
 
-/* Barre titre : caption + boutons expand/close */
+/* Barre titre */
 .dti-viewer__toolbar {
     display: flex;
     align-items: center;
@@ -42,7 +42,6 @@
     pointer-events: none;
 }
 
-/* Stage : wraps l'image + flèches pour un centrage précis */
 .dti-viewer__stage {
     position: relative;
     display: flex;
@@ -61,7 +60,7 @@
     box-shadow: 0 8px 60px rgba(0, 0, 0, 0.55);
     transition: max-width 0.35s ease, max-height 0.35s ease, opacity 0.25s ease;
     user-select: none;
-    pointer-events: auto; /* double-clic/tap pour agrandir */
+    pointer-events: auto;
     display: block;
 }
 
@@ -76,7 +75,6 @@
     border-radius: 8px;
 }
 
-
 /* Icônes blanches */
 .dti-viewer__close img,
 .dti-viewer__nav img,
@@ -87,13 +85,13 @@
     display: block;
 }
 
-/* Boutons fermer + agrandir (dans la toolbar) */
+/* Boutons fermer + agrandir */
 .dti-viewer__close,
 .dti-viewer__expand {
     flex-shrink: 0;
     background: rgba(255, 255, 255, 0.15);
     border: 1.5px solid rgba(255, 255, 255, 0.25);
-    width: 44px;  /* taille tactile minimale */
+    width: 44px;
     height: 44px;
     border-radius: 50%;
     cursor: pointer;
@@ -107,7 +105,7 @@
     background: rgba(255, 255, 255, 0.28);
 }
 
-/* Boutons navigation (relatifs au stage) */
+/* Boutons navigation */
 .dti-viewer__nav {
     position: absolute;
     top: 50%;
@@ -167,7 +165,6 @@
         height: 44px;
     }
 
-    /* Sur mobile les flèches sont à l'intérieur du stage */
     .dti-viewer__prev { left: 0.25rem; }
     .dti-viewer__next { right: 0.25rem; }
 

@@ -1,20 +1,9 @@
-// ============================================================
-//  Service Worker — Baguette Chaussette
-//  Stratégie :
-//    • HTML  → Network First (toujours frais, cache en secours)
-//    • Assets (CSS/JS/img/fonts) → Cache First (rapide)
-//
-//  VERSION est le seul numéro à faire bouger : il nomme le cache ET suffixe
-//  les URLs CSS/JS (?v=N) dans les pages, pour qu'un nouveau HTML ne soit
-//  jamais servi avec une ancienne feuille en cache.
-//  → `node tools/bump-assets.mjs` avant tout commit qui touche css/ ou js/.
-// ============================================================
+// Service Worker
 
-const VERSION = 247;
+const VERSION = 248;
 const CACHE_NAME = `bc-v${VERSION}`;
 
 const PRECACHE_ASSETS = [
-    // Une seule forme d'URL par page : celle utilisée par les liens internes
     '/',
     '/events',
     '/clips',
@@ -57,10 +46,7 @@ const PRECACHE_ASSETS = [
     '/favicons/apple-touch-icon.png',
 ];
 
-// ── Install : précache des assets principaux ──────────────
-// allSettled : un fichier renommé/supprimé ne bloque pas toute l'installation
-// (cache.addAll échouerait en tout-ou-rien et figerait le SW sur l'ancienne version)
-// Les CSS/JS sont précachés sous leur URL versionnée, celle que les pages demandent
+// Install
 const versioned = a => /\.(css|js)$/.test(a) ? `${a}?v=${VERSION}` : a;
 
 self.addEventListener('install', event => {
@@ -71,7 +57,7 @@ self.addEventListener('install', event => {
     );
 });
 
-// ── Activate : purge des anciens caches ───────────────────
+// Activate
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys()
@@ -82,24 +68,18 @@ self.addEventListener('activate', event => {
     );
 });
 
-// ── Fetch ─────────────────────────────────────────────────
+// Fetch
 self.addEventListener('fetch', event => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Ignore les requêtes non-GET et cross-origin (Umami, Google Fonts, etc.)
     if (request.method !== 'GET' || url.origin !== location.origin) return;
 
-    // Ignore le suivi analytics et les données temps-réel
     if (url.pathname.startsWith('/data/')) return;
 
     const isHTML = request.headers.get('accept')?.includes('text/html');
 
     if (isHTML) {
-        // Network First pour le HTML → contenu toujours à jour.
-        // Seules les réponses saines sont mises en cache (jamais une 404/500 transitoire),
-        // et hors-ligne une page inconnue retombe sur la 404 maison plutôt que sur
-        // la page d'erreur du navigateur.
         event.respondWith(
             fetch(request)
                 .then(res => {
@@ -114,8 +94,6 @@ self.addEventListener('fetch', event => {
                 )
         );
     } else {
-        // Stale While Revalidate pour les assets statiques
-        // → sert le cache immédiatement, met à jour en arrière-plan
         event.respondWith(
             caches.open(CACHE_NAME).then(cache =>
                 cache.match(request).then(cached => {
@@ -124,7 +102,7 @@ self.addEventListener('fetch', event => {
                             if (res.ok) cache.put(request, res.clone());
                             return res;
                         })
-                        .catch(() => cached); // offline : pas de rejet non géré dans la console
+                        .catch(() => cached);
                     return cached || fetchPromise;
                 })
             )

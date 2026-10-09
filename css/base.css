@@ -2,7 +2,7 @@
    BASE.CSS - Variables & Reset
    ============================================ */
 
-/* === Variables CSS === */
+/* Variables CSS */
 :root {
     color-scheme: only light;
     /* Couleurs principales */
@@ -18,9 +18,9 @@
     --live-red: #ff0000;
     --live-red-pastel: #ff9b9b;
     --live-red-dark: #e66767;
-    --live-red-deep: #d64e4e; /* variante accessible : blanc >=4:1 dessus */
-    --green-deep: #3f6b4f;    /* variante accessible : petits textes verts sur fond clair */
-    --pink-deep: #9a4a36;     /* variante accessible : petits textes terracotta sur fond clair (>=5:1) */
+    --live-red-deep: #d64e4e;
+    --green-deep: #3f6b4f;
+    --pink-deep: #9a4a36;
 
     /* Background */
     --bg-primary: #f0ebe0;
@@ -31,7 +31,7 @@
     --text-primary: #3f2f25;
     --text-secondary: rgba(63, 47, 37, 0.88);
     --text-tertiary: rgba(63, 47, 37, 0.72);
-    --text-muted: rgba(63, 47, 37, 0.72); /* 0.55 donnait ~3:1 sur le beige, trop faible sous 18 px */
+    --text-muted: rgba(63, 47, 37, 0.72);
 
     /* Spacing */
     --spacing-xs: 10px;
@@ -66,7 +66,7 @@
     --z-toast: 10000;
 }
 
-/* === Reset CSS === */
+/* Reset CSS */
 * {
     margin: 0;
     padding: 0;
@@ -77,16 +77,8 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Cibles d'ancre : la barre de navigation est fixe (72 px, pilule flottante
-   en mobile). Quand le navigateur défile lui-même (arrivée sur /#contact,
-   /events#…), la cible s'arrête sous la barre avec un peu d'air au lieu de
-   passer dessous. */
 [id] { scroll-margin-top: 88px; }
 
-/* clip et pas hidden, sur html ET body : les animations d'entrée du hero glissent
-   de 100 px hors écran pendant une seconde, et Safari iOS ignore un overflow-x
-   posé sur body seul (défilement latéral possible). clip n'ouvre pas de conteneur
-   de défilement, contrairement à hidden. */
 html, body {
     overflow-x: clip;
 }
@@ -111,7 +103,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* === Typography base === */
+/* Typography base */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
@@ -143,20 +135,18 @@ img {
     display: block;
 }
 
-/* === Selection === */
-/* Sélection au surligneur miel, texte dans sa couleur normale */
+/* Selection */
 ::selection {
     background: rgba(242, 201, 107, 0.55);
     color: var(--text-primary);
 }
 
-/* Sur la carte sombre du gagnant, le texte sélectionné reste clair */
 .cow-winner ::selection {
     background: rgba(242, 201, 107, 0.35);
     color: #fff;
 }
 
-/* === Scrollbar === */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -175,7 +165,7 @@ img {
     background: var(--green);
 }
 
-/* === Focus visible === */
+/* Focus visible */
 *:focus {
     outline: none;
 }
@@ -191,7 +181,7 @@ a:focus-visible {
     outline-color: var(--pink);
 }
 
-/* === Skip link (navigation clavier) === */
+/* Skip link */
 .skip-link {
     position: absolute;
     top: -100px;
@@ -211,15 +201,13 @@ a:focus-visible {
 }
 
 /* ============================================
-   VIEW TRANSITIONS — Navigation entre pages
+   VIEW TRANSITIONS
    ============================================ */
 
-/* Active les transitions cross-document (Chrome 126+, Edge 126+) */
 @view-transition {
     navigation: auto;
 }
 
-/* Slide doux : sortie vers le haut, entrée depuis le bas */
 ::view-transition-old(root) {
     animation: vt-out 0.22s ease-in both;
 }
@@ -236,7 +224,6 @@ a:focus-visible {
     from { opacity: 0; transform: translateY(8px); }
 }
 
-/* La navbar reste fixe et ne participe pas à la transition de page */
 #navbar {
     view-transition-name: navbar;
 }
@@ -254,7 +241,7 @@ a:focus-visible {
     }
 }
 
-/* === Utilities === */
+/* Utilities */
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -267,14 +254,14 @@ a:focus-visible {
     border-width: 0;
 }
 
-/* === Container === */
+/* Container */
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
 }
 
-/* === Section base === */
+/* Section base */
 section {
     max-width: 1400px;
     margin: 0 auto;
@@ -282,13 +269,13 @@ section {
     position: relative;
 }
 
-/* === Préchargement / Loading states === */
+/* Préchargement / Loading states */
 [data-loading="true"] {
     opacity: 0.7;
     pointer-events: none;
 }
 
-/* === Icônes SVG globales === */
+/* Icônes SVG globales */
 .icon,
 .logo img,
 .menu-toggle img,
@@ -300,7 +287,6 @@ section {
     display: inline-block;
 }
 
-/* Icônes plus grandes dans la galerie et les réseaux */
 .gallery-icon img,
 .social-icon img {
     width: 2.5em;
@@ -324,7 +310,7 @@ img.emoji {
     width: 1.2em;
 }
 
-/* === Animations globales === */
+/* Animations globales */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -345,7 +331,7 @@ img.emoji {
     }
 }
 
-/* === Scroll reveal === */
+/* Scroll reveal */
 .scroll-reveal {
     opacity: 0;
     transform: translateY(22px);
@@ -358,7 +344,7 @@ img.emoji {
     transform: translateY(0);
 }
 
-/* === Reduced motion === */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -370,7 +356,7 @@ img.emoji {
     }
 }
 
-/* === Print === */
+/* Print */
 @media print {
     body {
         background: white;

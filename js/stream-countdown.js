@@ -1,27 +1,15 @@
-// Countdown des streams
-// Architecture séparée :
-//   - tick()         → s'exécute toutes les 1s, met à jour UNIQUEMENT les textes countdown
-//   - pollLive()     → s'exécute toutes les 30s, fetch live-status.json
-//   - updateUI()     → re-render complet du DOM, appelé seulement si l'état change (diff)
 (function initStreamCountdown() {
-    const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000; // 3h30
+    const STREAM_DURATION_MS = (3 * 60 + 30) * 60 * 1000;
     const TWITCH_URL         = "https://www.twitch.tv/baguettechaussette";
-    // Statut demandé au worker Cloudflare (Twitch en direct) : le cron GitHub
-    // est bridé et peut avoir plusieurs heures de retard.
     const LIVE_STATUS_URL    = "https://bc-vote.baguette-chaussette.workers.dev/live";
 
-    // ─── Cache d'état : on compare avant de toucher au DOM ───────────────────
-    let cachedIsLive  = null; // null = jamais initialisé
-    let cachedNextKey = null; // "day-hour-minute" du prochain créneau
+    // Cache d'état
+    let cachedIsLive  = null;
+    let cachedNextKey = null;
     let liveOverride  = false;
 
-    // Sous 768 px les décomptes passent en forme courte (« dans 1 j 3 h ») : les lignes
-    // du planning et la carte du hero n'ont pas la place de la forme longue.
     const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
 
-    // Libellé des boutons Twitch : « Suivre la chaîne » avec un petit cœur
-    // dessiné en SVG (pas un emoji : fluent-emoji le remplacerait par une
-    // image colorée), « Viens te poser » sans cœur pendant le live.
     const HEART_SVG = '<svg class="btn-heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
     const heartTpl = document.createElement('template');
     heartTpl.innerHTML = HEART_SVG;
@@ -31,8 +19,6 @@
         if (!isLive) el.appendChild(heartTpl.content.firstElementChild.cloneNode(true));
     }
 
-    // Carte du prochain live dans le hero (mobile uniquement, voir index.html).
-    // Même source que le planning : créneaux + statut live du worker.
     const hero = {
         card:  document.getElementById("heroLive"),
         label: document.getElementById("heroLiveLabel"),
@@ -42,7 +28,7 @@
         cta:   document.getElementById("heroLiveCta"),
     };
 
-    // ─── Helpers (identiques à ta version originale) ─────────────────────────
+    // Helpers
 
     function getScheduleFromDOM() {
         return Array.from(document.querySelectorAll(".schedule-item")).map((el) => ({
@@ -53,12 +39,10 @@
         }));
     }
 
-    // ─── Fuseau horaire : le planning est en heure de Paris, pas celle du visiteur ──
-    // Un p'tit pain à Montréal doit voir un décompte vers 21h de Paris (15h chez lui).
+    // Fuseau horaire
 
     const SCHEDULE_TZ = "Europe/Paris";
 
-    // Formatters créés une seule fois (tick tourne chaque seconde)
     const TZ_OFFSET_DTF = new Intl.DateTimeFormat("en-US", {
         timeZone: SCHEDULE_TZ, hour12: false,
         year: "numeric", month: "2-digit", day: "2-digit",
@@ -70,7 +54,6 @@
     });
     const WEEKDAYS = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
-    // Décalage (ms) entre l'heure murale de Paris et l'UTC à un instant donné
     function tzOffsetMs(date) {
         const p = {};
         for (const { type, value } of TZ_OFFSET_DTF.formatToParts(date)) p[type] = value;
@@ -78,15 +61,12 @@
         return wallAsUTC - date.getTime();
     }
 
-    // Date calendaire et jour de semaine actuels côté Paris
     function parisParts(now) {
         const p = {};
         for (const { type, value } of TZ_PARTS_DTF.formatToParts(now)) p[type] = value;
         return { y: +p.year, m: +p.month, d: +p.day, weekday: WEEKDAYS[p.weekday] };
     }
 
-    // Prochaine occurrence réelle (UTC) d'un créneau "jour J à HH:MM heure de Paris".
-    // Double passe sur l'offset pour absorber les changements d'heure été/hiver.
     function nextOccurrenceOf({ day, hour, minute }, now = new Date()) {
         const p = parisParts(now);
         let daysUntil = day - p.weekday;
@@ -104,9 +84,6 @@
         return new Date(utc);
     }
 
-    // Dernière occurrence passée du créneau (pour détecter une fenêtre live en cours).
-    // Approximation -7j : à cheval sur un changement d'heure elle glisse d'1h, sans
-    // conséquence réelle (le statut live affiché vient de live-status.json).
     function lastOccurrenceOf(slot, now = new Date()) {
         return new Date(nextOccurrenceOf(slot, now).getTime() - 7 * 86400000);
     }
@@ -143,8 +120,6 @@
         const minutes = Math.floor((total % 3600) / 60);
         const seconds = total % 60;
 
-        // Deux unités au plus, on laisse tomber la plus petite : des jours
-        // n'affichent pas les minutes, des heures n'affichent pas les secondes.
         if (days > 1)    return hours > 0 ? `${days} jours ${hours}h` : `${days} jours`;
         if (days === 1)  return hours > 0 ? `1 jour ${hours}h` : `1 jour`;
         if (hours > 0)   return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`;
@@ -152,7 +127,6 @@
         return `${seconds}s`;
     }
 
-    // Forme courte, deux unités au plus : « 1 j 3 h », « 3 h 12 min », « 12 min »
     function formatCountdownShort(ms) {
         const total   = Math.max(0, Math.floor(ms / 1000));
         const days    = Math.floor(total / 86400);
@@ -165,8 +139,6 @@
         return "moins d'une minute";
     }
 
-    // Duree d'antenne, forme « 1 h 12 » (heures puis minutes sur deux chiffres),
-    // ou « 42 min » sous l'heure. Sert a la ligne « sur Twitch, depuis ... ».
     function formatUptime(ms) {
         const total   = Math.max(0, Math.floor(ms / 1000));
         const hours   = Math.floor(total / 3600);
@@ -176,8 +148,6 @@
         return "quelques instants";
     }
 
-    // Sous-titre de la carte quand un live tourne : la plateforme et le temps
-    // d'antenne. Sans started_at exploitable, on s'en tient a la plateforme.
     function liveSinceText() {
         const started = liveMeta && liveMeta.started_at ? Date.parse(liveMeta.started_at) : NaN;
         if (!Number.isFinite(started)) return "sur Twitch";
@@ -190,19 +160,16 @@
     const getDayName = (d) =>
         ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"][d];
 
-    // ─── Fetch live-status.json (30s) ─────────────────────────────────────────
+    // Fetch live-status.json
 
-    let liveMeta = null; // {game, title, started_at} si le workflow enrichi a tourné
+    let liveMeta = null;
 
-    let liveFails = 0; // 3 échecs d'affilée avant de considérer le live terminé
+    let liveFails = 0;
 
-// Test local uniquement : ?live=1 force l'état « en live », ?live=0 le retire, et le
-    // choix est gardé pour la session (sessionStorage) d'une page à l'autre. Hors
-    // localhost la fonction renvoie null et le worker fait foi, comme d'habitude.
     function forcedLiveForTests() {
         if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
         const p = new URLSearchParams(location.search).get('live');
-        if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live'); // ?live= : retour au vrai statut
+        if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live');
         else if (p !== null) sessionStorage.setItem('bc_force_live', p);
         const v = sessionStorage.getItem('bc_force_live');
         if (v === null) return null;
@@ -224,13 +191,11 @@
             liveMeta      = newLive ? json : null;
             if (newLive !== liveOverride) {
                 liveOverride  = newLive;
-                cachedIsLive  = null; // invalide le cache → force re-render au prochain tick
+                cachedIsLive  = null;
             } else if (newLive) {
-                renderLiveMeta(); // le jeu peut changer en cours de stream
+                renderLiveMeta();
             }
         } catch {
-            // Statut inconnu : on retombe sur "hors live" plutôt que de figer un
-            // état périmé (l'horaire prévu prend alors le relais).
             if (++liveFails >= 3 && liveOverride) {
                 liveOverride = false;
                 liveMeta     = null;
@@ -239,10 +204,6 @@
         }
     }
 
-    // Ligne du jeu en cours, sur la carte live du planning et sur celle du hero.
-    // Sans emoji : game_name est la catégorie Twitch, pas toujours un jeu
-    // (« Just Chatting », « Art »…), un 🎮 devant sonnait faux.
-    // textContent : pas d'injection HTML.
     function renderLiveMeta() {
         const text = liveMeta && liveMeta.game ? liveMeta.game : "";
         const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
@@ -250,8 +211,6 @@
             el.textContent = text;
             el.hidden = !text;
         }
-        // Carte du hero : le jeu devient le titre de la carte, et la ligne du
-        // dessous dit la plateforme et depuis combien de temps.
         if (hero.value && liveMeta) {
             const titre = text || "Ça se passe maintenant !";
             if (hero.value.textContent !== titre) hero.value.textContent = titre;
@@ -263,10 +222,6 @@
         }
     }
 
-    // Pendant un créneau du planning, la carte passera en « En direct » sur
-    // deux lignes (le jeu, puis « sur Twitch, depuis… ») : le squelette réserve
-    // la deuxième ligne d'emblée, la carte ne grandit pas une fois le statut
-    // connu. Hors créneau, une seule ligne, comme le prochain live.
     function reserveLiveLine() {
         if (!hero.game) return;
         const prevu = getCurrentOrNext(getScheduleFromDOM());
@@ -278,10 +233,8 @@
         hero.game.hidden = false;
     }
 
-    // Carte du hero : libellé, valeur et CTA suivent l'état
     function renderHero(isLive, info) {
         if (!hero.card) return;
-        // Hors live, pas de ligne « depuis… » (ni le squelette réservé)
         if (!isLive && hero.game) {
             hero.game.textContent = "";
             hero.game.hidden = true;
@@ -292,12 +245,11 @@
             ? (liveMeta && liveMeta.game ? liveMeta.game : "Ça se passe maintenant !")
             : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
         if (isLive) renderLiveMeta();
-        setCtaLabel(hero.cta, isLive); // mêmes textes que le CTA du planning
+        setCtaLabel(hero.cta, isLive);
         hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
         if (isLive && hero.cd) hero.cd.textContent = "";
     }
 
-    // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
     function setCardCta(el, type) {
         let cta  = el.querySelector(".schedule-cta");
         let game = el.querySelector(".schedule-live-game");
@@ -308,7 +260,6 @@
             return;
         }
 
-        // La ligne jeu (live uniquement) se place avant le CTA
         if (type === "live") {
             if (!game) {
                 game = document.createElement("p");
@@ -333,9 +284,7 @@
         cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
     }
 
-    // ─── Re-render (appelé seulement si l'état change) ───────────────────────
-    // Plus de bannière séparée : la carte du créneau concerné porte l'état.
-    // info = créneau courant (si live) ou prochain créneau (sinon).
+    // Re-render
 
     function updateUI(isLive, info) {
         getScheduleFromDOM().forEach(({ day, hour, minute, el }) => {
@@ -356,7 +305,7 @@
         renderLiveMeta();
     }
 
-    // ─── Ticker 1s : textes uniquement, zéro innerHTML ───────────────────────
+    // Ticker 1s
 
     function tick() {
         const schedule = getScheduleFromDOM();
@@ -368,14 +317,12 @@
         const isLive = liveOverride || info.isLive;
         const key    = `${info.day}-${info.hour}-${info.minute}`;
 
-        // Changement d'état → re-render complet (rare), puis les textes ci-dessous
         if (cachedIsLive !== isLive || cachedNextKey !== key) {
             cachedIsLive  = isLive;
             cachedNextKey = key;
             updateUI(isLive, info);
         }
 
-        // Textes countdown (1s), forme courte sous 768 px
         const now     = new Date();
         const compact = MOBILE_MQ.matches;
 
@@ -383,8 +330,6 @@
             const cdEl = el.querySelector(".schedule-countdown");
             if (!cdEl) return;
 
-            // La carte live (classe posée par updateUI) affiche "En direct",
-            // les autres leur décompte.
             if (el.classList.contains("is-live")) {
                 if (cdEl.textContent !== "En direct") cdEl.textContent = "En direct";
             } else {
@@ -396,18 +341,15 @@
             }
         });
 
-        // Décompte de la carte du hero (masqué en live par le CSS, vidé par renderHero)
         if (hero.cd && !isLive && info.date) {
             const t = `dans ${formatCountdownShort(info.date - now)}`;
             if (hero.cd.textContent !== t) hero.cd.textContent = t;
         } else if (isLive) {
-            renderLiveMeta(); // garde « depuis ... » a l'heure
+            renderLiveMeta();
         }
     }
 
-    // ─── Grille du planning depuis data/schedule.json ────────────────────────
-    // Source de vérité unique : la grille HTML statique sert de fallback no-JS,
-    // mais dès que le JSON est chargé, c'est lui qui fait foi.
+    // Grille du planning depuis data/schedule.json
 
     async function renderSchedule() {
         const grid = document.querySelector(".schedule-grid");
@@ -425,16 +367,16 @@
                     <div class="schedule-time">${formatTime(+s.hour, +s.minute || 0)}</div>
                     <div class="schedule-countdown"></div>
                 </article>`).join("");
-        } catch { /* silencieux : la grille HTML statique reste affichée */ }
+        } catch {}
     }
 
-    // ─── Init ─────────────────────────────────────────────────────────────────
+    // Init
 
     async function init() {
-        reserveLiveLine();             // avant d'attendre le réseau
-        await renderSchedule();        // grille depuis data/schedule.json
-        await pollLive();              // fetch live-status avant le premier rendu
-        tick();                        // rendu immédiat
+        reserveLiveLine();
+        await renderSchedule();
+        await pollLive();
+        tick();
 
         let tickInterval = setInterval(tick,     1_000);
         let pollInterval = setInterval(pollLive, 30_000);

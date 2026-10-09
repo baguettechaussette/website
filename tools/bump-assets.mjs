@@ -1,17 +1,4 @@
 #!/usr/bin/env node
-// Incrémente la version des assets (CSS/JS) partout où elle apparaît :
-//   - `const VERSION = N;` dans sw.js (qui en dérive CACHE_NAME)
-//   - les `?v=N` des <link rel="stylesheet"> et <script src> locaux des pages HTML
-//
-// Pourquoi : le service worker sert le HTML depuis le réseau mais le CSS/JS depuis
-// son cache. Sans version dans l'URL, un déploiement qui change les deux affiche
-// un nouveau HTML avec l'ancien CSS le temps d'un chargement (galerie cassée).
-// Avec ?v=N, le nouveau HTML pointe vers des URLs inconnues du
-// cache, donc fraîches.
-//
-// À lancer avant chaque commit qui touche css/ ou js/ :
-//   node tools/bump-assets.mjs          → N + 1
-//   node tools/bump-assets.mjs --set 42 → N = 42
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 
 const root = new URL('..', import.meta.url);
@@ -28,7 +15,6 @@ if (!Number.isInteger(next) || next < 1) { console.error('version invalide'); pr
 
 write('sw.js', sw.replace(/const VERSION = \d+;/, `const VERSION = ${next};`));
 
-// Balises locales uniquement : href/src commençant par "/", "./" ou "css/" / "js/"
 const TAG = /((?:href|src)=")(\.?\/?(?:css|js)\/[^"?]+\.(?:css|js))(?:\?v=\d+)?(")/g;
 let tags = 0;
 for (const f of readdirSync(root).filter(n => n.endsWith('.html'))) {

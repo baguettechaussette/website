@@ -1,5 +1,3 @@
-// Page /clips : Le Clip de la Semaine (vote), le Palmarès et le Panthéon des clippeurs.
-// Chargé après main.js (réutilise openClipModal et clipDisplayTitle).
 document.addEventListener('DOMContentLoaded', () => {
     placerCommentClipper();
     loadClipOfWeek();
@@ -8,13 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     injectVideoSchema();
 });
 
-// « Et si la prochaine couronne était pour toi ? » n'existe qu'une fois
-// dans le HTML mais ne se range pas au même endroit : à côté du clip gagnant
-// en desktop, à la fin du Panthéon en mobile. On le déplace
-// plutôt que de le dupliquer, et on suit les changements de largeur.
-// Semaine sans vote ni gagnant (#clip-semaine.is-empty) : en mobile aussi il
-// remonte à la place du vote, juste sous le hero, au lieu d'attendre sous
-// les douze cartes du Panthéon.
 function placerCommentClipper() {
     const bloc = document.querySelector('.clip-howto');
     const pantheon = document.getElementById('clippeurs');
@@ -30,13 +21,9 @@ function placerCommentClipper() {
     };
     placer();
     desktop.addEventListener('change', placer);
-    // loadClipOfWeek prévient une fois l'état de la semaine connu
     if (section) section.addEventListener('cow-etat', placer);
 }
 
-// Données structurées VideoObject pour les clips (onglet Vidéos de Google).
-// Injecté côté client depuis data/top-clips.json : Google rend le JS pour le
-// balisage, avec un délai — acceptable pour ce contenu communautaire.
 async function injectVideoSchema() {
     try {
         const r = await fetch('/data/top-clips.json');
@@ -71,22 +58,15 @@ async function injectVideoSchema() {
         script.type = 'application/ld+json';
         script.textContent = JSON.stringify(ld);
         document.head.appendChild(script);
-    } catch { /* silencieux : le balisage est un bonus, pas un bloquant */ }
+    } catch {}
 }
 
-// Compteur de votes (Cloudflare Worker, voir cloudflare/README.md).
-// L'URL doit aussi figurer dans le connect-src de la CSP de clips.html,
-// et dans la variable de dépôt GitHub VOTE_API_URL (dépouillement auto).
 const VOTE_API = 'https://bc-vote.baguette-chaussette.workers.dev';
 
-// Sous 769 px : carrousel des finalistes,
-// bloc gagnant sombre, écran « A voté » après le vote. Les éléments construits
-// pour ce mode sont masqués au-dessus de 768 px par le CSS.
 const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
 const DISCORD_URL = 'https://discord.gg/QHNF684bBf';
 
-// ── Petits helpers DOM ──────────────────────────────────────
-// Coche blanche des boutons de vote, en SVG (pas d'emoji dans les boutons)
+// Petits helpers DOM
 const CHECK_SVG = '<svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
 const checkTpl = document.createElement('template');
 checkTpl.innerHTML = CHECK_SVG;
@@ -102,29 +82,17 @@ function makeEl(tag, cls, text) {
     return e;
 }
 
-// localStorage peut être interdit (navigation privée stricte) : dans ce cas
-// on vote quand même, c'est le worker qui déduplique par IP.
 function lsGet(key) {
     try { return localStorage.getItem(key); } catch { return null; }
 }
 function lsSet(key, value) {
-    try { localStorage.setItem(key, value); } catch { /* privé strict : tant pis */ }
+    try { localStorage.setItem(key, value); } catch {}
 }
 function lsRemove(key) {
-    try { localStorage.removeItem(key); } catch { /* privé strict : tant pis */ }
+    try { localStorage.removeItem(key); } catch {}
 }
 
-// ── Interrupteurs de test, sur localhost uniquement ─────────
-// ?cow=<état> rejoue les états du Clip de la Semaine sans toucher aux données :
-//   vote   → vote ouvert, personne n'a voté (efface le vote enregistré)
-//   voted  → comme si on avait voté pour le premier finaliste
-//   winner → le gagnant est révélé (sa carte)
-//   teaser → le gagnant attend la révélation en live (📦)
-//   empty  → ni finalistes ni gagnant : la section se replie
-//   ?cow=  → rend la main aux vraies données
-// ?turnout=<n> force le nombre de votants (le worker n'est plus consulté).
-// Le choix est gardé pour la session, d'une page à l'autre. Hors localhost
-// et 127.0.0.1, ces fonctions renvoient null et rien ne change.
+// Interrupteurs de test, sur localhost uniquement
 function testFlag(name) {
     if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
     const key = `bc_test_${name}`;
@@ -136,9 +104,6 @@ function testFlag(name) {
     } catch { return p; }
 }
 
-// Miniature cliquable qui ouvre la modale de lecture (même pattern que loadTopClips)
-// sizes : largeur CSS de la vignette (finalistes : carrousel en mobile, 340 px en
-// tablette, ~260 px dans la grille desktop)
 function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 599px) calc(100vw - 46px), (max-width: 768px) 340px, 260px') {
     const thumb = document.createElement('button');
     thumb.type = 'button';
@@ -150,8 +115,6 @@ function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 599px) calc(100vw 
         img.alt = '';
         img.loading = 'lazy';
         setClipThumbSources(img, clip.thumbnail_url, sizes);
-        // Vignette morte = clip supprimé de Twitch entre deux purges du
-        // workflow : on masque la carte (ses votes sont ignorés au dépouillement).
         img.addEventListener('error', () => {
             const dead = thumb.closest('.cow-card, .cow-winner');
             if (dead) dead.hidden = true;
@@ -165,8 +128,7 @@ function makeClipThumb(clip, umamiEvent, sizes = '(max-width: 599px) calc(100vw 
     return thumb;
 }
 
-// ── Le Clip de la Semaine ───────────────────────────────────
-// "2026-W28" → lundi de cette semaine ISO (UTC)
+// Le Clip de la Semaine
 function isoWeekMonday(week) {
     const m = /^(\d{4})-W(\d{2})$/.exec(week || '');
     if (!m) return null;
@@ -176,16 +138,12 @@ function isoWeekMonday(week) {
     return monday;
 }
 
-// Les finalistes viennent de la fenêtre de 14 jours (deux dimanches avant la
-// semaine de vote → le dimanche qui la précède), calée sur le dépouillement :
-// voir update-clip-vote.yml. Le -15 reflète STARTED_AT côté workflow.
 function finalistWeekRange(week) {
     const voteMonday = isoWeekMonday(week);
     if (!voteMonday) return null;
     const start = new Date(voteMonday); start.setUTCDate(start.getUTCDate() - 15);
     const end = new Date(voteMonday); end.setUTCDate(end.getUTCDate() - 1);
     const fmt = d => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
-    // Meme mois : on ne le repete pas (« du 7 au 21 septembre »)
     if (start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear()) {
         return `${start.getUTCDate()} au ${fmt(end)}`;
     }
@@ -200,17 +158,11 @@ async function loadClipOfWeek() {
     const grid = document.getElementById('cowGrid');
     if (!section || !voteBlock || !winnerBox || !grid) return;
 
-    // La section est visible dès le premier rendu (titre + squelette) pour ne pas
-    // faire sauter la page : ici on remplace le squelette, on ne révèle plus.
     const skeleton = document.getElementById('cowSkeleton');
-    // Squelette du gagnant : il reste jusqu'à la réponse du worker (révélé ou
-    // non), qui arrive après le JSON.
     const winnerSkel = winnerBox.querySelector('.cow-winner-skel');
     const collapse = () => { skeleton?.remove(); winnerSkel?.remove(); section.hidden = true; };
 
     try {
-        // no-store : après la rotation du dimanche, pas de finalistes périmés
-        // servis par le cache HTTP (même politique que followers.json)
         const r = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
         if (!r.ok) { collapse(); return; }
         const data = await r.json();
@@ -220,17 +172,13 @@ async function loadClipOfWeek() {
 
         const cowTest = testFlag('cow');
         if (cowTest === 'empty') { finalists = []; data.winner = null; }
-        // winner / teaser sans gagnant dans le JSON : on en emprunte un pour la démo
         if ((cowTest === 'winner' || cowTest === 'teaser') && !(data.winner && data.winner.id) && finalists[0]) {
             data.winner = finalists[0];
         }
 
-        // Le vote d'abord : c'est l'action principale de la section
         if (week && finalists.length >= 2) {
             const range = finalistWeekRange(week);
             if (range && voteHeading) voteHeading.textContent = `🗳️ Les finalistes du ${range}`;
-            // Ligne de l'entete, version desktop : le compte, la fenetre de
-            // selection et le rendez-vous, en une phrase.
             const heroLine = document.getElementById('clipsHeroLine');
             if (heroLine && range) {
                 heroLine.textContent =
@@ -244,7 +192,6 @@ async function loadClipOfWeek() {
                 grid.appendChild(buildFinalistCard(clip, week, votedKey, i + 1, finalists.length));
             });
             buildDots(voteBlock, grid, finalists.length);
-            // Confirmation de vote annoncée aux lecteurs d'écran
             const status = makeEl('p', 'visually-hidden');
             status.id = 'cowVoteStatus';
             status.setAttribute('aria-live', 'polite');
@@ -254,10 +201,6 @@ async function loadClipOfWeek() {
             showTurnout(week, voteHeading);
         }
 
-        // Puis le palmarès : le clip élu la semaine dernière — mais seulement
-        // une fois la révélation faite (clic sur le board pendant le live du
-        // dimanche, ou filet du lundi). Avant : un teaser, pour que personne
-        // ne voie le gagnant sur le site avant la cérémonie de 21h.
         if (data.winner && data.winner.id) {
             const revealed = await isWinnerRevealed(week);
             winnerSkel?.remove();
@@ -265,12 +208,10 @@ async function loadClipOfWeek() {
             if (revealed) {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
                 const card = makeEl('div', 'cow-winner-card');
-                // Le gagnant est la plus grande vignette de la page
                 card.appendChild(makeClipThumb(data.winner, 'Clips - Play Winner', '(max-width: 599px) calc(100vw - 60px), (max-width: 768px) 480px, 506px'));
                 const info = makeEl('div', 'cow-winner-info');
                 info.appendChild(makeEl('p', 'cow-winner-title', `« ${clipDisplayTitle(data.winner)} »`));
                 if (data.winner.creator_name) {
-                    // Le nom dans un <strong> : il porte sa propre couleur
                     const par = makeEl('p', 'clip-clipper');
                     par.append('clippé par ', makeEl('strong', '', data.winner.creator_name));
                     info.appendChild(par);
@@ -291,14 +232,10 @@ async function loadClipOfWeek() {
             winnerBox.hidden = true;
         }
 
-        // Ni vote ni gagnant : la section ne garde que « À toi de jouer »
-        // (en bannière pleine largeur en desktop, via .is-empty)
         const vide = voteBlock.hidden && winnerBox.hidden;
         section.classList.toggle('is-empty', vide);
         section.dispatchEvent(new Event('cow-etat'));
 
-        // Sans vote en cours, le hero ne pose plus la question et n'annonce
-        // plus de résultat dimanche
         if (voteBlock.hidden) {
             const t = document.getElementById('clipsHeroTitle');
             const m = document.getElementById('clipsHeroMeta');
@@ -315,12 +252,9 @@ async function loadClipOfWeek() {
             }
         }
 
-        // Ni vote ni gagnant : la section reste, réduite à « À toi de jouer »
-        // (.is-empty), seul appel à l'action de la page cette semaine-là.
-    } catch { collapse(); /* silencieux : sans données, pas de section */ }
+    } catch { collapse(); }
 }
 
-// En-tête du bloc gagnant (mobile) : 👑, « Clip de la semaine », date du dimanche du couronnement
 function buildWinnerHead(week, revealed) {
     const head = makeEl('div', 'cow-winner-head');
     const meta = makeEl('div', 'cow-winner-head-meta');
@@ -339,7 +273,6 @@ function buildWinnerHead(week, revealed) {
     return head;
 }
 
-// Points de position sous le carrousel (mobile) + « Glisse pour voir les 7 autres → »
 function buildDots(voteBlock, grid, count) {
     if (count < 2) return;
     const wrap = makeEl('div', 'cow-dots');
@@ -364,7 +297,6 @@ function buildDots(voteBlock, grid, count) {
     }, { passive: true });
 }
 
-// Après le vote (mobile) : bannière « A voté ! », le clip choisi en tête, les autres en petit
 function applyVotedLayout(grid, votedClip) {
     if (!MOBILE_MQ.matches || !grid || !votedClip) return;
     const voteBlock = grid.closest('.cow-vote-block');
@@ -415,22 +347,18 @@ function buildFinalistCard(clip, week, votedKey, num, total) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'cow-vote-btn';
-    btn.dataset.clip = clip.id;              // le vote est lié à l'identité du clip
+    btn.dataset.clip = clip.id;
     setBtnLabel(btn, 'Voter pour ce clip', true);
     btn.addEventListener('click', async () => {
         if (lsGet(votedKey) || btn.disabled) return;
         const status = document.getElementById('cowVoteStatus');
-        // Compteur principal : le Worker Cloudflare (1 vote par IP et par semaine).
-        // On ATTEND sa réponse avant de confirmer : un vote perdu (réseau coupé,
-        // worker muet) doit laisser le bouton actif, jamais afficher un faux merci.
         btn.disabled = true;
         btn.textContent = 'Envoi…';
         try {
             const r = await fetch(`${VOTE_API}/vote/${week}/${encodeURIComponent(clip.id)}`, { method: 'POST' });
             const d = await r.json().catch(() => null);
             if (!r.ok || !d || d.ok !== true) throw new Error();
-            // Umami seulement sur les votes réellement enregistrés
-            try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch { /* adblock : tant pis */ }
+            try { window.umami?.track(`vote-${week}`, { clip: clip.id }); } catch {}
             lsSet(votedKey, clip.id);
             refreshVoteButtons(card.parentElement, clip.id);
             if (status) status.textContent = 'Vote enregistré, merci !';
@@ -444,10 +372,6 @@ function buildFinalistCard(clip, week, votedKey, num, total) {
     return card;
 }
 
-// Le bloc gagnant n'apparaît qu'après la révélation en live (marqueur posé
-// par le worker au clic d'annonce du board). Fail-closed volontaire : si le
-// worker est muet, on ne révèle PAS (le teaser reste) — un spoiler raté est
-// pire qu'un affichage retardé.
 async function isWinnerRevealed(week) {
     const forced = testFlag('cow');
     if (forced === 'winner') return true;
@@ -461,9 +385,6 @@ async function isWinnerRevealed(week) {
     } catch { return false; }
 }
 
-// Participation affichée sous le titre du vote : uniquement le TOTAL de
-// votants (le worker ne révèle jamais qui mène : le suspense reste entier).
-// Masqué sous 4 voix : "2 p'tits pains ont voté" ferait plus vide qu'incitatif.
 async function showTurnout(week, after) {
     if (!after) return;
     const forcedTurnout = testFlag('turnout');
@@ -474,18 +395,14 @@ async function showTurnout(week, after) {
         if (!r.ok) return;
         const { count } = await r.json();
         renderTurnout(Number(count) || 0, after);
-    } catch { /* silencieux : simple bonus d'ambiance */ }
+    } catch {}
 }
 
-// Masqué sous 4 voix : « 2 p'tits pains ont voté » ferait plus vide qu'incitatif.
 function renderTurnout(n, after) {
     if (n <= 3) return;
     after.insertAdjacentElement('afterend',
         makeEl('p', 'cow-turnout', `${n} p'tits pains ont déjà voté !`));
-    // Hero mobile : « Résultat dimanche 21h en live · 23 votes »
     const hero = document.getElementById('cowHeroTurnout');
-    // Deux libelles : la pastille du desktop est plus bavarde que la mention
-    // en fin de ligne du mobile, qui suit deja un point separateur.
     if (hero) {
         const s = n > 1 ? 's' : '';
         hero.textContent = '';
@@ -509,10 +426,7 @@ function refreshVoteButtons(grid, votedClip) {
     applyVotedLayout(grid, votedClip);
 }
 
-// ── Le Panthéon des clippeurs ───────────────────────────────
-// Rang combiné : le pain + le métal selon le nombre de clips…
-// Seuils larges et espacés : les hauts paliers se méritent sur la durée
-// (clips et vues sont cumulés all-time), pas débloqués dès le début.
+// Le Panthéon des clippeurs
 const CLIPPER_BADGES = [
     { min: 100, emoji: '👨‍🍳', label: 'Maître boulanger' },
     { min: 60,  emoji: '🍞', label: 'Miche d\'or' },
@@ -521,8 +435,6 @@ const CLIPPER_BADGES = [
     { min: 5,   emoji: '🥨', label: 'Bretzel de bronze' },
     { min: 0,   emoji: '🌾', label: 'P\'tit épi' },
 ];
-// … et un suffixe selon les vues totales (somme des vues de tous ses clips :
-// ça grimpe vite, donc le haut est très espacé pour rester un vrai Graal).
 const CLIPPER_SUFFIXES = [
     { min: 2000, label: 'légende du fournil' },
     { min: 500,  label: 'qui cartonne' },
@@ -542,22 +454,14 @@ async function loadClippers() {
         const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 12);
         if (!clippers.length) return;
 
-        // Pseudo de chaque entrée, pour y accoler les couronnes une fois le
-        // palmarès lu (sans retarder l'affichage du Panthéon)
         const nomParPseudo = {};
 
-        // Un podium de trois cartes, puis les places 4 à 12 en
-        // liste dans une seule carte. Chaque entrée : rang, pseudo et chiffres,
-        // puis deux pastilles (le grade avec son emoji, la mention). Les
-        // couronnes gagnées au vote s'accolent au pseudo.
         const podium = makeEl('ol', 'pantheon-podium');
         const liste = makeEl('ol', 'pantheon-list');
         liste.start = 4;
         clippers.forEach((c, i) => {
             const views = c.total_views || 0;
             const nbClips = c.clips || 0;
-            // (c.clips || 0) : un champ manquant ne doit pas faire échouer le
-            // find (undefined >= 0 est faux) et masquer tout le Panthéon.
             const badge = CLIPPER_BADGES.find(b => nbClips >= b.min);
             if (!badge) return;
             const suffix = CLIPPER_SUFFIXES.find(s => views >= s.min);
@@ -579,12 +483,8 @@ async function loadClippers() {
         });
         grid.appendChild(podium);
         if (liste.children.length) {
-            // Desktop : la liste se lit par colonne (4 à 6, 7 à 9, 10 à 12),
-            // il lui faut son nombre de lignes
             const rangs = Math.ceil(liste.children.length / 3);
             liste.style.setProperty('--rangs', rangs);
-            // Bas de chaque colonne : pas de filet dessous (le CSS ne peut pas
-            // le trouver seul, nth-child n'accepte pas de variable)
             [...liste.children].forEach((li, j) => {
                 if ((j + 1) % rangs === 0) li.classList.add('pantheon-bas-colonne');
             });
@@ -593,9 +493,6 @@ async function loadClippers() {
 
         section.hidden = false;
 
-        // Couronnes gagnées au vote du Clip de la Semaine, comptées par pseudo
-        // sans tenir compte de la casse (Twitch et le palmarès ne l'écrivent
-        // pas toujours pareil)
         const couronnes = {};
         (await chargerPalmares()).forEach(w => {
             const nom = String(w.creator_name || '').toLowerCase();
@@ -610,17 +507,10 @@ async function loadClippers() {
             couronne.setAttribute('aria-label', libelle);
             cible.appendChild(couronne);
         });
-    } catch { /* silencieux : la section reste cachée */ }
+    } catch {}
 }
 
-// ── Le Palmarès ─────────────────────────────────────────────
-// Les clips couronnés (data/hall-of-fame.json, complété par le workflow à
-// chaque sacre), du plus récent au plus ancien, en cartes identiques aux
-// derniers clips avec la date du sacre sur la vignette. Le dernier couronné
-// reste caché tant que sa révélation en live n'a pas eu lieu : même verrou,
-// fail-closed, que la carte du gagnant.
-// Gagnants affichables, lus une seule fois pour le Palmarès et le compteur
-// de couronnes du Panthéon : un sacre pas encore révélé n'apparaît nulle part.
+// Le Palmarès
 let palmaresCharge = null;
 function chargerPalmares() {
     if (!palmaresCharge) {
@@ -668,5 +558,5 @@ async function loadPalmares() {
             grid.appendChild(card);
         });
         section.hidden = false;
-    } catch { /* silencieux : la section reste cachée */ }
+    } catch {}
 }

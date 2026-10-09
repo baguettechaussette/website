@@ -58,17 +58,12 @@
         '🥨': '1f968',
         '🌾': '1f33e',
         '📌': '1f4cc'
-        // 🎮 (1f3ae) : absent du paquet @lobehub/fluent-emoji-modern
-        // (la liste saute de 1f3ad a 1f3af), il reste donc en emoji systeme.
     };
 
-    // https://registry.npmmirror.com/@lobehub/fluent-emoji-modern/latest/files/assets
     const CDN_BASE = '/img/emoji';
     const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE']);
     let observer = null;
 
-    // Motif de découpe construit une seule fois : les emojis les plus longs d'abord
-    // (les séquences avec variation selector, ex. ❤️, doivent matcher avant leurs préfixes)
     const EMOJI_PATTERN = new RegExp(
         '(' + Object.keys(EMOJI_MAP)
             .sort((a, b) => b.length - a.length)
@@ -106,8 +101,6 @@
         }
 
         nodesToReplace.forEach(node => {
-            // Reconstruction en noeuds DOM purs, jamais via innerHTML : le texte peut
-            // venir de contenus externes (titres de clips Twitch écrits par les viewers).
             const span = document.createElement('span');
             span.setAttribute('data-fluent-emoji-processed', '');
 
@@ -117,8 +110,6 @@
                 if (code) {
                     const img = document.createElement('img');
                     img.className = 'fluent-emoji';
-                    // Différé : sur l'accueil mobile, 12 Ko d'emojis sont visibles au premier
-                    // écran sur 266 Ko au total. loading doit être posé avant src pour compter.
                     img.loading = 'lazy';
                     img.decoding = 'async';
                     img.src = `${CDN_BASE}/${code}.svg`;

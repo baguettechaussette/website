@@ -2,13 +2,12 @@ name: Update top clips (monthly window)
 
 on:
   schedule:
-    - cron: "23 5 */2 * *"   # rafraîchi tous les 2 jours à 5h23 UTC (fenêtre glissante de 30 jours)
+    - cron: "23 5 */2 * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Sérialise les workflows qui committent (évite les pushs concurrents perdants)
 concurrency:
   group: data-commits
   cancel-in-progress: false
@@ -17,7 +16,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
     env:
-      # Mêmes secrets que update-followers.yml
       TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
       TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
       TWITCH_BROADCASTER_ID: ${{ secrets.TWITCH_BROADCASTER_ID }}
@@ -68,11 +66,6 @@ jobs:
           STARTED_AT=$(date -u -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
           ENDED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-          # L'API trie par vues décroissantes sur la période : pour obtenir les
-          # plus RÉCENTS il faut ratisser TOUT (pagination, plafond 3 pages =
-          # 300 clips) puis retrier par date. Avec une seule page de 100, un
-          # clip récent peu vu disparaîtrait dès que le mois dépasse 100 clips
-          # (le canal en est déjà à ~90).
           ALL='[]'
           CURSOR=""
           for i in 1 2 3; do
@@ -103,13 +96,11 @@ jobs:
 
           COUNT=$(echo "$RESP" | jq '.data | length')
 
-          # Si aucun clip ce mois-ci, on garde les clips précédents
           if [ "$COUNT" -eq 0 ]; then
             echo "ℹ️ No clips this month — keeping previous data."
             exit 0
           fi
 
-          # Table de correspondance game_id -> nom du jeu (1 appel batch)
           GAME_QS=$(echo "$RESP" | jq -r '[.data[].game_id | select(. != null and . != "")] | unique | map("id=" + .) | join("&")')
           GAMES='{}'
           if [ -n "$GAME_QS" ]; then
@@ -120,8 +111,6 @@ jobs:
             GAMES=$(echo "$GRESP" | jq -c '[(.data // [])[] | {(.id): .name}] | add // {}')
           fi
 
-          # Les clips épinglés à la main (pinned) sont préservés (titre maison prioritaire),
-          # enrichis via l'API, et RETIRÉS s'ils ont été supprimés de Twitch (embed cassé sinon).
           PINNED=$(jq -c '.pinned // []' data/top-clips.json 2>/dev/null || echo '[]')
           PCOUNT=$(echo "$PINNED" | jq 'length')
           if [ "$PCOUNT" -gt 0 ]; then
@@ -130,10 +119,6 @@ jobs:
               -H "Client-Id: $TWITCH_CLIENT_ID" \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
               "https://api.twitch.tv/helix/clips?$QS" || echo '')
-            # Réponse invalide (panne réseau, 401, HTML d'erreur) : surtout ne pas
-            # confondre avec "clips supprimés" : les épinglés seraient effacés
-            # définitivement (ils n'existent que dans ce fichier). On saute
-            # l'enrichissement et on garde les épinglés tels quels.
             if ! echo "$PRESP" | jq -e '.data' >/dev/null 2>&1; then
               echo "::notice title=Enrichissement sauté::API muette, épinglés conservés tels quels."
               PRESP='{"data": null}'
@@ -165,11 +150,6 @@ jobs:
                    })')
           fi
 
-          # clean_title : les titres capturés par le bot (WzBot = titre du stream, pas du clip)
-          # sont vidés — le site affiche alors "Clip du JJ mois" à la place.
-          # Tri par date décroissante puis 30 premiers : la section montre les
-          # derniers clips, pas les plus vus (un clip récent n'a pas encore eu le
-          # temps d'accumuler des vues, il serait invisible sinon).
           echo "$RESP" | jq --argjson pinned "$PINNED" --argjson games "$GAMES" --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             'def clean_title: if (. // "") | startswith("WzBot CLIP") then "" else . end;
              def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;
@@ -188,8 +168,6 @@ jobs:
 
       - name: Build clippers leaderboard (all-time)
         run: |
-          # Parcourt tout l'historique de clips (pages de 100, plafond 10 pages)
-          # pour agréger le Panthéon des clippeurs dans data/clippers.json.
           : > /tmp/all-clips.jsonl
           CURSOR=""
           PARTIAL=""
@@ -200,8 +178,6 @@ jobs:
               -H "Client-Id: $TWITCH_CLIENT_ID" \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
               "$URL" || echo '')
-            # Page en échec : on n'écrase pas le Panthéon avec un historique
-            # tronqué (compteurs faussés à la baisse) ; on garde le fichier actuel.
             if ! echo "$PAGE" | jq -e '.data' >/dev/null 2>&1; then
               echo "::warning title=Pagination interrompue::Page $i en échec, Panthéon conservé tel quel."
               PARTIAL=1
@@ -218,7 +194,6 @@ jobs:
             echo "::warning title=Panthéon tronqué::Plus de 1000 clips all-time : les plus anciens ne sont plus comptés (augmenter le plafond de pages)."
           fi
 
-          # En cas d'échec (total ou partiel) on ne touche pas au fichier existant
           if [ "$TOTAL" -gt 0 ] && [ -z "$PARTIAL" ]; then
             jq -s --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               'def clipper: (.title // "") as $t | (if ($t | test("[(]by [^)]+[)]"; "i")) then ($t | capture("[(]by (?<c>[^)]+)[)]"; "i").c) else .creator_name end) | if type=="string" then gsub("^ +| +$";"") else . end;

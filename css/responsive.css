@@ -2,7 +2,7 @@
    RESPONSIVE.CSS - Media Queries
    ============================================ */
 
-/* === Large Desktop (1200px+) === */
+/* Large Desktop */
 @media (max-width: 1200px) {
     .hero-right {
         order: -1;
@@ -29,36 +29,27 @@
     }
 }
 
-/* === Tablet (768px+) === */
+/* Tablet */
 @media (max-width: 768px) {
-    /* Menu mobile : 25 px de padding venaient du desktop, la barre faisait 103 px (11 % de l'écran) */
     #navbar.scrolled { padding: 10px 0; }
 
-    /* Décor allégé sur mobile : les particules et le gradient animé du fond
-       coûtent cher en compositing GPU (scroll saccadé, batterie) pour un effet
-       à peine perceptible sur petit écran. On coupe l'animation, pas le décor. */
     .particles {
         display: none;
     }
 
     .bg-container {
         animation: none;
-        /* Fond plus clair en mobile : le dégradé passe de 15 à 8 %. Opacité seule,
-           jamais de filter (coût au premier rendu). */
         opacity: 0.08;
     }
 
     /* Navigation mobile */
     .nav-links {
         display: none;
-        /* Accroché au bas de la barre (#navbar est fixed) : suit sa hauteur, 66 px en haut
-           de page, 58 px une fois scrollé. L'ancien top: 80px fixe laissait un trou. */
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--bg-overlay); /* même fond que #navbar (90 %) : le panneau prolonge la barre */
-        /* Même verre que la barre : sans flou, le contenu se lisait à travers les liens */
+        background: var(--bg-overlay);
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
         flex-direction: column;
@@ -68,12 +59,10 @@
     }
 
     .menu-toggle {
-        display: flex; /* flex + line-height 1 : sans ça le bouton (font-size 2em) fait 51 px pour une icône de 32 */
+        display: flex;
         align-items: center;
         justify-content: center;
         line-height: 1;
-        /* Cible tactile : l'icône fait 26 px, le padding la porte à 44 px, et la
-           marge négative annule l'encombrement pour que rien ne bouge autour. */
         padding: 9px;
         margin: -9px;
     }
@@ -83,8 +72,6 @@
         flex-direction: column;
     }
 
-    /* Avatar - Réduit et animation simplifiée sur mobile */
-    /* Glow : rayons réduits pour 240px (60% de 400px) */
     .avatar-glow {
         animation: sunPulseMd 4s ease-in-out infinite;
     }
@@ -134,10 +121,8 @@
     }
 }
 
-/* === Mobile (480px+) === */
+/* Mobile */
 @media (max-width: 480px) {
-    /* Hero - Avatar encore plus petit sur très petits écrans */
-    /* Glow : rayons réduits pour 170px, animation seule (pas de flottement) */
     .avatar-glow {
         animation: sunPulseSm 4s ease-in-out infinite;
     }
@@ -176,7 +161,7 @@
     }
 }
 
-/* === Landscape mobile === */
+/* Landscape mobile */
 @media (max-width: 768px) and (orientation: landscape) {
     .hero {
         min-height: auto;
@@ -200,15 +185,14 @@
     }
 }
 
-/* === Tablet landscape === */
+/* Tablet landscape */
 @media (min-width: 769px) and (max-width: 1024px) {
-    /* Navbar : le logo (nowrap) et les 5 liens doivent tenir côte à côte */
     .logo {
         font-size: 1.5em;
     }
 }
 
-/* === Print styles === */
+/* Print styles */
 @media print {
     .particles,
     .bg-container,
@@ -249,13 +233,10 @@
 }
 
 /* ============================================
-   MOBILE : échelle et rythme
-   Ces règles remplacent les valeurs mobiles plus haut dans le fichier
-   (même sélecteur, plus bas dans la cascade). Échelle typographique h1 > h2 > h3, rythme vertical resserré, grilles 2 colonnes.
+   MOBILE
    ============================================ */
 
-@media (max-width: 768px) {    .page-hero-title { font-size: 2.1em; line-height: 1.15; }.section-subtitle, .page-hero-subtitle { font-size: 1.1em; line-height: 1.55; margin-bottom: 0; } /* l'espace est porté par .section-header */
-    /* rem et non em : ces libellés héritent d'un parent < 16 px, en em ils retombaient à 12,5 px */
+@media (max-width: 768px) {    .page-hero-title { font-size: 2.1em; line-height: 1.15; }.section-subtitle, .page-hero-subtitle { font-size: 1.1em; line-height: 1.55; margin-bottom: 0; }
     .event-type-badge, .event-status-badge { font-size: 0.82rem; }
     .page-hero { padding: 96px var(--spacing-sm) 28px; }
     .schedule-container, .contact-container, .socials-container { padding: 26px 18px; border-radius: var(--radius-lg); }
@@ -279,25 +260,17 @@
     .stat-box:nth-child(3) { grid-column: 1 / -1; }
 }
 
-/* --- Mobile : espacements des en-têtes et grilles --- */
+/* Mobile */
 @media (max-width: 768px) {
-    /* layout.css:412 met 80 px sous chaque en-tête de section, jamais surchargé en mobile :
-       ~430 px de vide sur l'accueil à lui seul *//* 18 cartes en une colonne (~5 000 px) : deux colonnes, légende réduite */
     .clips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .cow-block-heading { font-size: 1.05em; margin-bottom: 14px; }
-    /* FAQ : 8 items fermés, ~190 px récupérés */}
+    }
 
 /* ============================================
    ACCUEIL MOBILE
-   Desktop intouché : tout vit sous 768 px. Les éléments neufs du HTML (tagline,
-   carte du prochain live, libellés courts des stats, boutons des cartes soutien,
-   titre « Marques & studios », pictogramme media kit, lien /links) sont masqués
-   au-dessus par la règle de base ci-dessous. Ces règles sont les dernières du
-   fichier : elles priment sur les blocs mobiles plus haut (même sélecteur, même
-   media query, plus bas dans la cascade).
    ============================================ */
 
-.logo .logo-avatar, /* .logo img (base.css) le forçait en inline-block sur desktop */
+.logo .logo-avatar,
 .nav-links-footer,
 .page-hero-kicker,
 .page-hero-meta,
@@ -323,9 +296,6 @@
 }
 
 @media (max-width: 768px) {
-    /* ---- 0. Barre de navigation en pilule flottante ----
-       Avatar + nom en encre, burger fin. Le panneau est opaque, posé sous la
-       barre, avec un voile sombre sur la page ; la page courante est en pilule verte. */
     #navbar,
     #navbar.scrolled {
         padding: 8px 12px;
@@ -357,7 +327,7 @@
         gap: 10px;
     }
 
-    .logo .logo-avatar { /* base.css cale les img de la barre à 1em : on passe au-dessus */
+    .logo .logo-avatar {
         display: block;
         width: 36px;
         height: 36px;
@@ -372,8 +342,6 @@
         height: 26px;
     }
 
-    /* Panneau : fixé sous la barre (la pilule reste au-dessus grâce au z-index négatif
-       dans le contexte d'empilement de #navbar), fond opaque, lignes de 53 px */
     .nav-links {
         display: none;
         position: fixed;
@@ -387,7 +355,6 @@
         border: 2px solid rgba(255, 255, 255, 0.7);
         background: var(--bg-primary);
         backdrop-filter: none;
-        /* Le second calque est le voile sombre sur toute la page (un tap dessus ferme le menu) */
         box-shadow: 0 24px 60px rgba(63, 47, 37, 0.28), 0 0 0 100vmax rgba(63, 47, 37, 0.35);
     }
 
@@ -437,10 +404,9 @@
         color: var(--pink-deep);
     }
 
-    /* ---- Rythme commun : 32 px entre sections, 16 px sous un en-tête ---- */
+    /* Rythme commun */
     section { padding: 32px 18px; }
     .section-header { margin-bottom: 16px; }
-    /* Titres en couleur unie, pas de texte en dégradé */
     .section-title {
         font-size: 1.875em;
         line-height: 1.15;
@@ -451,14 +417,10 @@
     }
     .section-subtitle { font-size: 0.94em; line-height: 1.5; }
 
-    /* ---- 1. Hero : avatar 92 px à gauche du nom, carte du prochain live ----
-       .hero-left / .hero-right passent en display: contents : leurs enfants deviennent
-       les cellules d'une seule grille (et les glissements d'entrée disparaissent avec
-       leur boîte). Aucun changement de structure HTML pour le desktop. */
     .hero {
         min-height: 0;
         display: block;
-        padding: 88px 18px 26px; /* barre de 66 px + 22 px */
+        padding: 88px 18px 26px;
     }
 
     .hero-left,
@@ -504,11 +466,11 @@
         grid-area: title;
         align-self: center;
         margin: 0;
-        font-size: 1.7em; /* 27 px */
+        font-size: 1.7em;
         line-height: 1.08;
         text-shadow: none;
         background: none;
-        -webkit-text-fill-color: var(--green-deep); /* contraste 5,15:1 sur le beige */
+        -webkit-text-fill-color: var(--green-deep);
         color: var(--green-deep);
     }
 
@@ -520,11 +482,8 @@
         line-height: 1.45;
     }
 
-    /* Les deux boutons du hero (Me contacter / Me suivre) sont remplacés par la carte du live :
-       Contact reste dans le menu et en section dédiée, Suivre est le CTA de la carte. */
     .hero-buttons { display: none; }
 
-    /* Carte du prochain live (alimentée par js/stream-countdown.js) */
     .hero-live-card {
         grid-area: live;
         display: flex;
@@ -548,7 +507,7 @@
         height: 10px;
         flex: none;
         border-radius: 50%;
-        background: var(--green); /* comme en desktop, depuis que la carte est verte */
+        background: var(--green);
     }
 
     .hero-live-label {
@@ -556,14 +515,14 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--green-deep); /* comme en desktop */
+        color: var(--green-deep);
     }
 
     .hero-live-countdown {
         margin-left: auto;
         font-size: 0.82em;
         font-weight: 700;
-        color: var(--green-deep); /* comme le libellé, et comme en desktop */
+        color: var(--green-deep);
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
     }
@@ -576,8 +535,6 @@
         color: var(--text-primary);
     }
 
-    /* Ligne « sur Twitch, depuis 1 h 12 » : du texte sous le titre, plus une
-       pastille. Le jeu en cours est devenu le titre de la carte. */
     .hero-live-game {
         margin: -6px 0 0;
         align-self: flex-start;
@@ -597,11 +554,10 @@
         gap: 8px;
     }
 
-    .hero-live-cta { flex: 1; } /* primaire vert (components.css), pleine largeur de la carte */
+    .hero-live-cta { flex: 1; }
 
-    /* État en live : la carte rougit, le décompte disparaît, le jeu en cours apparaît */
     .hero-live-card.is-live {
-        background: #f8e6e1; /* couleur pleine, plus de fond transparent */
+        background: #f8e6e1;
         border: 2px solid #e3a09a;
     }
 
@@ -624,7 +580,7 @@
     .hero-stats {
         grid-area: stats;
         display: flex;
-        flex-direction: row; /* le bloc 768 plus haut les empilait en colonne */
+        flex-direction: row;
         gap: 7px;
         margin: 14px 0 0;
     }
@@ -643,7 +599,7 @@
         font-size: 1.125em;
         line-height: 1.15;
         background: none;
-        -webkit-text-fill-color: var(--green-deep); /* dégradé illisible à 18 px : couleur unie accessible */
+        -webkit-text-fill-color: var(--green-deep);
         color: var(--green-deep);
     }
 
@@ -661,9 +617,6 @@
 
     .follower-goal-label { font-size: 0.85em; }
 
-    /* ---- 2. Planning : trois lignes égales dans un panneau ----
-       Le prochain live est annoncé dans le hero : la carte du jour ne le redit pas en gros,
-       et son CTA / sa ligne jeu (posés par le JS) sont masqués ici. */
     .schedule-container {
         padding: 18px 14px;
         background: rgba(255, 255, 255, 0.35);
@@ -677,8 +630,6 @@
         gap: 10px;
     }
 
-    /* Trois colonnes : jour | heure | décompte. Les colonnes extérieures sont égales,
-       l'heure tombe donc au même endroit sur chaque ligne quel que soit le jour. */
     .schedule-item {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -722,7 +673,7 @@
         font-weight: 600;
         background: none;
         border: 0;
-        backdrop-filter: none; /* du texte, pas une carte : le flou dessinait une pastille claire */
+        backdrop-filter: none;
         color: var(--text-tertiary);
     }
 
@@ -732,8 +683,6 @@
         color: var(--text-tertiary);
     }
 
-    /* Le prochain live n'est pas mis en avant ici : la carte du hero le fait déjà.
-       La ligne redevient une ligne comme les autres. */
     .schedule-item.is-next {
         background: rgba(255, 255, 255, 0.55);
         border-color: rgba(255, 255, 255, 0.4);
@@ -745,9 +694,6 @@
         border-color: rgba(127, 184, 147, 0.38);
     }
 
-    /* Un live en cours ne change plus la ligne du planning : la carte du hero
-       l'annonce deja, et deux signaux rouges faisaient trop. La ligne reste
-       identique aux autres, seul son texte dit « En direct ». */
     .schedule-item.is-live {
         background: rgba(255, 255, 255, 0.55);
         border-color: rgba(255, 255, 255, 0.4);
@@ -755,15 +701,11 @@
         animation: none;
     }
 
-    .schedule-item.is-live .schedule-countdown::before { display: none; } /* la pastille rouge */
+    .schedule-item.is-live .schedule-countdown::before { display: none; }
 
     .schedule-cta,
     .schedule-live-game { display: none; }
 
-    /* ---- 3. Grilles de clips (/clips) : 2 colonnes, légendes à hauteur stable ---- */
-
-    /* Meme voile qu'en desktop : la rangee se lit comme un ensemble et le
-       bouton violet ressort sur toutes les miniatures. */
     .clip-thumb::after {
         content: '';
         position: absolute;
@@ -777,10 +719,9 @@
         height: 34px;
         font-size: 0.85em;
         padding-left: 3px;
-        z-index: 1; /* au-dessus du voile */
+        z-index: 1;
     }
 
-    /* Sans ces limites, un titre de 3 lignes à côté d'un titre d'une ligne décale la rangée */
     .clips-grid .clip-meta,
     .cow-grid .clip-meta {
         display: -webkit-box;
@@ -802,7 +743,6 @@
 
     .clips-more { margin-top: 14px; }
 
-    /* ---- 4. Événements : icône et titre sur une ligne, puis badges, texte, lien ---- */
     .events-archive-grid { gap: 10px; }
 
     .event-archive-card {
@@ -820,8 +760,6 @@
         border-radius: 26px;
     }
 
-    /* Cartes blanches quel que soit le thème (les dégradés thématiques restent
-       au desktop) */
     .events-archive-grid .event-archive-card,
     .events-archive-grid .event-archive-card:hover {
         background: rgba(255, 255, 255, 0.4);
@@ -848,13 +786,12 @@
         color: var(--green-deep);
     }
 
-    /* Concours (thème été) en terracotta */
+    /* Concours */
     .theme-summer .event-type-badge {
         background: rgba(197, 106, 82, 0.16);
         color: var(--pink-deep);
     }
 
-    /* La date en jaune de la charte, passé ou à venir */
     .event-archive-card .event-status-badge {
         background: rgba(242, 201, 107, 0.28);
         border-color: transparent;
@@ -863,9 +800,6 @@
 
     #evenements .clips-more { margin-top: 16px; }
 
-    /* « Voir tous les événements » : secondaire (components.css), posé sur la bande */
-
-    /* ---- 5. Me soutenir : titre, texte, bouton visible ---- */
     #soutenir .social-grid {
         display: flex;
         flex-direction: column;
@@ -913,10 +847,6 @@
     #soutenir .social-card.kofi .social-name { color: var(--pink-deep); }
     #soutenir .social-card.kofi .social-cta { background: var(--pink-deep); }
 
-    /* ---- 6. Marques & studios : Contact et Partenariats fusionnent ----
-       Même fond que le reste de la page (pas de teinte), l'email d'abord (la porte),
-       les cartes partenaires ensuite (la preuve). Les trois cartes de contact
-       deviennent des pastilles. */
     #contact { padding-bottom: 8px; }
     #partenaires { padding-top: 8px; }
     #partenaires .section-header { display: none; }
@@ -926,8 +856,6 @@
 
     .contact-container { padding: 0; }
 
-    /* La carte, c'est .contact-content : la boîte email s'y fond et les pastilles
-       (cartes + media kit) la rejoignent. */
     .contact-content {
         display: flex;
         flex-wrap: wrap;
@@ -956,8 +884,6 @@
         background: none;
     }
 
-    /* Toujours affichée : elle dépend d'une animation d'apparition qui ne se déclenchait
-       pas sur certains mobiles (carte absente), on ne prend pas le risque. */
     .contact-info-box.scroll-reveal {
         opacity: 1;
         transform: none;
@@ -982,14 +908,13 @@
 
     .contact-email {
         grid-area: email;
-        width: 100%; /* étiré en mobile seulement */
+        width: 100%;
         margin: 0;
         padding: 0 12px;
-        font-size: 0.82em; /* l'adresse tient sur une ligne à 375 px */
+        font-size: 0.82em;
         overflow-wrap: anywhere;
     }
 
-    /* Les pastilles : les 3 cartes rejoignent la ligne du media kit */
     .contact-cards { display: contents; }
 
     .contact-card,
@@ -1016,7 +941,6 @@
     .contact-card-text { display: none; }
     .mediakit-icon { display: inline; }
 
-    /* ---- 7. Réseaux : six lignes compactes, même motif que les .link-card de /links ---- */
     #reseaux .socials-container { padding: 0; }
 
     #reseaux .social-grid {
@@ -1061,7 +985,6 @@
         color: rgba(63, 47, 37, 0.45);
     }
 
-    /* Cartes blanches : la couleur est portée par le logo */
     #reseaux .social-card,
     #reseaux .social-card.discord,
     #reseaux .social-card.twitch,
@@ -1083,7 +1006,6 @@
         text-decoration: none;
     }
 
-    /* ---- 8. FAQ : items resserrés ---- */
     .faq-container { gap: 10px; }
 
     /* Cartes blanches sans bordure visible */
@@ -1109,7 +1031,6 @@
         color: var(--green-deep);
     }
 
-    /* Ouvert : comme en desktop, carte un peu plus blanche, question en vert foncé */
     .faq-item[open] {
         background: rgba(255, 255, 255, 0.6);
         border-color: rgba(255, 255, 255, 0.75);
@@ -1126,9 +1047,9 @@
         color: var(--text-secondary);
     }
 
-    .faq-answer a { color: var(--green-deep); } /* lisible à 14 px, le vert clair passait sous 4,5:1 */
+    .faq-answer a { color: var(--green-deep); }
 
-    /* ---- Bouton de remontée : il recouvrait le dernier élément cliquable de chaque page ---- */
+    /* Bouton de remontée */
     .back-to-top {
         bottom: 16px;
         right: 14px;
@@ -1139,7 +1060,7 @@
     main > section:last-of-type,
     main > .band:last-of-type > section:last-of-type { padding-bottom: 64px; }
 
-    /* ---- Pied de page : deux lignes courtes, garde basse pour le bouton de remontée ---- */
+    /* Pied de page */
     footer { padding: 22px 18px 72px; }
 
     footer p {
@@ -1155,19 +1076,9 @@
 
 /* ============================================
    CLIPS MOBILE
-   Hero : surtitre + la question du vote. Finalistes en carrousel d'une carte,
-   bouton vert plein, points de position. Après le vote : bannière « A voté »,
-   le clip choisi en tête, les autres en petit. Bloc gagnant sombre sous le vote.
-   Palmarès et derniers clips en carrousel, Panthéon en podium puis classement,
-   suivi de « comment clipper ».
-   Desktop intouché : les éléments neufs sont masqués au-dessus de 768 px.
    ============================================ */
 
 @media (max-width: 768px) {
-    /* Ordre de la page : vote, gagnant, Panthéon, derniers clips.
-       Les sections ont un margin: 0 auto (base.css) : en colonne flex elles se
-       resserreraient sur leur contenu (le carrousel les étirait à 1 100 px),
-       d'où des marges latérales explicites pour qu'elles s'étirent à la page. */
     main:has(#clip-semaine) { display: flex; flex-direction: column; }
     main:has(#clip-semaine) > * { margin-left: 0; margin-right: 0; max-width: none; min-width: 0; }
     #clip-semaine { order: 1; }
@@ -1175,11 +1086,9 @@
     #clippeurs { order: 3; }
     main:has(#clip-semaine) #clips { order: 4; }
 
-    /* ---- Hero ---- */
+    /* Hero */
     main:has(#clip-semaine) .page-hero { padding: 84px 18px 14px; }
 
-    /* .container ajoute 40 px de chaque cote en plus des 18 du hero : le texte
-       commencait a 58 px alors que tout le reste de la page est a 18. */
     main:has(#clip-semaine) .page-hero .container { padding: 0; }
 
     main:has(#clip-semaine) .page-hero-content { text-align: left; }
@@ -1219,11 +1128,9 @@
     .page-hero-meta-votes { font-weight: 700; color: var(--text-primary); }
     .page-hero-meta-votes::before { content: '·'; margin-right: 8px; font-weight: 400; color: rgba(63, 47, 37, 0.45); }
 
-    /* ---- Le vote : plus de panneau doré, le carrousel repose sur la page ---- */
+    /* Le vote */
     #clip-semaine { padding: 0 0 30px; }
 
-    /* Semaine sans vote ni gagnant : la section ne porte plus que « À toi de
-       jouer », remonté sous le hero (clips-page.js) */
     #clip-semaine.is-empty { padding: 0; }
     #clip-semaine.is-empty .clip-howto { margin: 6px 18px 0; }
 
@@ -1237,7 +1144,7 @@
 
     .cow-container .section-header,
     .cow-block-heading,
-    .cow-turnout { display: none; } /* le hero porte le titre et la participation */
+    .cow-turnout { display: none; }
 
     .cow-grid {
         display: flex;
@@ -1258,7 +1165,7 @@
 
     .cow-card {
         position: relative;
-        flex: 0 0 calc(100% - 46px); /* la carte suivante dépasse au bord */
+        flex: 0 0 calc(100% - 46px);
         scroll-snap-align: start;
         gap: 0;
         padding: 0;
@@ -1266,10 +1173,6 @@
         overflow: hidden;
         background: rgba(255, 255, 255, 0.6);
         border: 2px solid rgba(255, 255, 255, 0.8);
-        /* Pas d'ombre : le carrousel (zone qui défile) la coupait net à 12 px
-         sous les cartes, ce qui dessinait une bande sombre arrêtée juste
-         au-dessus des points de navigation. Les cartes du Palmarès et des
-         derniers clips n'en ont pas non plus. */
         box-shadow: none;
     }
 
@@ -1277,8 +1180,6 @@
     .cow-card .clip-thumb:hover { transform: none; }
     .cow-card .clip-play { width: 60px; height: 60px; font-size: 1.4em; padding-left: 5px; }
 
-    /* Le gagnant porte la plus grande vignette de la page : sans cette ligne
-       il heritait des 34 px de base, plus petit que les finalistes. */
     .cow-winner-card .clip-play { width: 60px; height: 60px; font-size: 1.4em; padding-left: 5px; }
 
     .cow-num {
@@ -1288,8 +1189,6 @@
         left: 12px;
         padding: 5px 12px;
         border-radius: var(--radius-full);
-        /* Creme sur texte fonce, comme en desktop : plus lisible sur une
-           vignette voilee. */
         background: var(--bg-primary);
         color: var(--text-primary);
         font-size: 0.875em;
@@ -1323,7 +1222,7 @@
         min-height: 50px;
         padding: 12px 18px;
         border: 0;
-        background: var(--green-deep); /* la seule action de la page : elle se voit (blanc dessus 6,1:1) */
+        background: var(--green-deep);
         color: #fff;
         font-size: 1em;
         transform: none;
@@ -1332,9 +1231,6 @@
     .cow-vote-btn:disabled { opacity: 0.45; }
     .cow-vote-btn.is-voted { background: rgba(63, 107, 79, 0.12); color: var(--green-deep); opacity: 1; }
 
-    /* Points de position + indice de glissement */
-    /* Navigation centrée sous le carrousel : les points, puis l'invitation
-       à glisser dessous */
     .cow-dots {
         display: flex;
         flex-direction: column;
@@ -1358,7 +1254,7 @@
 
     .cow-dots-hint { font-size: 0.85em; font-weight: 700; color: var(--text-tertiary); white-space: nowrap; }
 
-    /* ---- Après le vote : bannière, le clip choisi en tête, les autres en petit ---- */
+    /* Après le vote */
     .cow-vote-block.is-voted .cow-dots { display: none; }
 
     .cow-voted-banner {
@@ -1445,7 +1341,7 @@
 
     .cow-vote-block.is-voted .cow-card.is-other .clip-meta::before { content: attr(data-num) '. '; }
 
-    /* ---- Le bloc gagnant : la seule carte sombre de la page ---- */
+    /* Le bloc gagnant */
     .cow-winner,
     .cow-vote-block[hidden] + .cow-winner {
         margin: 14px 18px 0;
@@ -1458,11 +1354,8 @@
         box-shadow: 0 14px 34px rgba(63, 47, 37, 0.22);
     }
 
-    /* Sous le carrousel du vote : 28 px avant la carte du gagnant */
     .cow-vote-block:not([hidden]) + .cow-winner { margin-top: 28px; }
 
-    /* Squelette du gagnant aux mesures de la carte mobile : en-tête 68 px,
-       vignette à 12 px des bords, titre sur deux lignes + clippeur 110 px */
     .cow-winner-skel-head { min-height: 68px; padding: 14px 16px 12px; }
     .cow-winner-skel .clip-skeleton { margin: 0 12px; }
     .cow-winner-skel-info { min-height: 110px; padding: 14px 16px 18px; }
@@ -1501,7 +1394,7 @@
 
     .cow-winner-card .clip-thumb {
         display: block;
-        width: calc(100% - 24px); /* un <button> en width: auto ne s'étire pas : la vignette disparaissait */
+        width: calc(100% - 24px);
         flex: none;
         margin: 0 12px;
         border-radius: 16px;
@@ -1535,11 +1428,6 @@
         color: #f2c96b;
     }
 
-    /* Teaser du dimanche : boîte en pointillés miel, texte clair */
-    /* Pas d'aspect-ratio 16/9 ici : réserver la place de la future vignette
-       donnait une boîte de 177 px presque vide (39 % de l'écran pour une icône
-       et une ligne). Le gagnant s'affiche au chargement suivant, il n'y a pas
-       de saut de mise en page à éviter. Icône et texte sur une ligne. */
     .cow-winner-teaser {
         display: flex;
         flex-direction: row;
@@ -1564,11 +1452,7 @@
         color: rgba(240, 235, 224, 0.85);
     }
 
-    /* ---- Le Panthéon des clippeurs ---- */
-    /* main:has(#clip-semaine) > * (bord à bord) bat #clippeurs par sa
-       spécificité : on l'écrit au même niveau pour rendre à la section ses
-       18 px de marge. Pas de carte commune autour de la section : le podium
-       et la liste portent chacun la leur (sections.css). */
+    /* Le Panthéon des clippeurs */
     main:has(#clip-semaine) > #clippeurs,
     #clippeurs {
         margin: 30px 18px 0;
@@ -1582,9 +1466,6 @@
     #clippeurs .section-title { font-size: 1.5em; margin-bottom: 3px; }
     #clippeurs .section-subtitle { font-size: 0.9em; line-height: 1.45; }
 
-    /* Comment clipper */
-    /* En carte, comme en desktop : en-tête emoji + surtitre, étapes en frise
-       à pastilles dorées, bouton pleine largeur en bas */
     .clip-howto {
         display: flex;
         flex-direction: column;
@@ -1640,7 +1521,6 @@
         counter-reset: etape;
     }
 
-    /* Pas de flex sur le <li> : le <strong> devenait une cellule à part et cassait la phrase */
     .clip-howto-steps li {
         counter-increment: etape;
         position: relative;
@@ -1681,11 +1561,9 @@
         border-left: 2px dashed rgba(201, 144, 46, 0.45);
     }
 
-    /* ---- Les derniers clips : carrousel de cartes de 260 px ---- */
+    /* Les derniers clips */
     main:has(#clip-semaine) #clips { padding: 30px 0 32px; }
 
-    /* Le Palmarès, même carrousel que les derniers clips, juste au-dessus
-       du Panthéon (qui garde ses 30 px de marge) */
     main:has(#clip-semaine) #palmares { padding: 30px 0 0; }
 
     #clips .section-header,
@@ -1778,27 +1656,16 @@
    Blocs réservés au desktop
    ============================================ */
 
-/* La section « Vote pour le clip de la semaine » n'existe sur l'accueil qu'en
-   desktop, à côté du planning. L'attribut hidden est levé par main.js quand les finalistes arrivent, d'où
-   cette règle qui reprend la main sous 768 px. */
 @media (max-width: 768px) {
     .desktop-only { display: none; }
 }
 
 /* ============================================
-   FONDS : les mêmes bandes qu'en desktop
-   Sur les pages construites en bandes (accueil, events), le dégradé animé
-   s'efface et chaque bande prend son fond plat, comme dans desktop.css et
-   events-desktop.css : hero dégradé, puis vert pâle / beige / pêche, footer
-   pêche. Les pages sans bandes (clips) gardent le dégradé à 8 %.
+   FONDS
    ============================================ */
 @media (max-width: 768px) {
     body:has(.band) .bg-container { display: none; }
 
-    /* /clips aussi passe au fond plat : avec le dégradé fixe, Chrome ne le
-       peignait que jusqu'au bas du carrousel du vote (zone qui défile), une
-       bande nette apparaissait dessous et les points de navigation restaient
-       hors de la zone teintée. Le fond de body (#f0ebe0) prend le relais. */
     body:has(#clip-semaine) .bg-container { display: none; }
 
     body:has(.band) .hero,
@@ -1815,27 +1682,19 @@
 
     .band-pro { background: #f2e3d8; }
 
-    /* L'archive est verte tant qu'elle suit directement le hero (pas de bande
-       « À venir »), même logique qu'en desktop */
     .page-hero + .band-archive { background: #e9eee2; }
 
-    /* Les bandes des events respirent autour de leurs cartes : 24 px en haut
-       (14 + les 10 de la section) au lieu de 10, on voyait à peine le fond.
-       Même chose en bas pour « En ce moment » ; l'archive, dernière bande,
-       garde ses 64 px avant le pied de page (comme la FAQ de l'accueil). */
     .band-upcoming { padding: 14px 0; }
     .band-archive { padding-top: 14px; }
 }
 
 /* ============================================
-   TABLETTE (600 à 768 px) : la page clips garde sa mise en page mobile mais
-   les cartes ne s'étirent plus à toute la largeur (une finaliste faisait
-   676 px de large, sa vignette 378 px de haut).
+   TABLETTE
    ============================================ */
 @media (min-width: 600px) and (max-width: 768px) {
     .cow-card { flex-basis: 340px; }
     .cow-winner,
-    .cow-vote-block[hidden] + .cow-winner { max-width: 480px; margin-left: auto; margin-right: auto; } /* centré */
+    .cow-vote-block[hidden] + .cow-winner { max-width: 480px; margin-left: auto; margin-right: auto; }
     .cow-vote-block.is-voted .cow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .cow-vote-block.is-voted .cow-card.is-mine { max-width: 480px; width: 100%; justify-self: center; }
 }

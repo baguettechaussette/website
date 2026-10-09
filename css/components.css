@@ -2,7 +2,7 @@
    COMPONENTS.CSS - Buttons, Cards, Stats
    ============================================ */
 
-/* === Buttons === */
+/* Buttons */
 .btn {
     padding: 18px 45px;
     border-radius: var(--radius-full);
@@ -36,7 +36,6 @@
     left: 100%;
 }
 
-
 .btn-primary:hover {
     transform: translateY(-6px) scale(1.02);
     box-shadow: 0 15px 50px rgba(127, 184, 147, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -65,7 +64,7 @@
     transform: translateY(-3px) scale(1.01);
 }
 
-/* === Stat Boxes === */
+/* Stat Boxes */
 .stat-box {
     background: rgba(140, 191, 159, 0.1);
     border: 2px solid rgba(140, 191, 159, 0.3);
@@ -94,7 +93,7 @@
     margin-top: 5px;
 }
 
-/* === Barre de progression vers l'objectif de followers === */
+/* Barre de progression vers l'objectif de followers */
 .follower-goal {
     margin: 22px 0 28px;
     max-width: 430px;
@@ -123,10 +122,8 @@
     color: var(--text-secondary);
 }
 
-
-/* === Schedule Cards === */
+/* Schedule Cards */
 .schedule-container {
-    /* Plus de panneau givré : les cartes se posent directement sur la page */
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -149,7 +146,6 @@
     overflow: hidden;
     backdrop-filter: blur(8px);
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.06);
-    /* Hauteur égale même quand une carte porte un CTA (la carte du prochain live) */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -157,7 +153,6 @@
     justify-content: center;
 }
 
-/* Les décors en pseudo-éléments ne doivent jamais intercepter le clic du CTA */
 .schedule-item::before,
 .schedule-item::after {
     pointer-events: none;
@@ -234,7 +229,6 @@
     }
 }
 
-
 .schedule-day {
     font-size: 2em;
     font-weight: 700;
@@ -250,7 +244,6 @@
     color: var(--text-secondary);
     margin-bottom: 10px;
 }
-
 
 .schedule-countdown {
     margin-top: 16px;
@@ -273,8 +266,6 @@
     color: var(--text-primary);
 }
 
-/* Live : badge léger "🔴 En direct" (le bouton rouge en dessous est le seul
-   élément plein — on évite deux pilules rouges empilées) */
 .schedule-item.is-live .schedule-countdown {
     display: inline-flex;
     align-items: center;
@@ -300,8 +291,6 @@
     50%      { opacity: 0.4; transform: scale(0.75); }
 }
 
-
-/* CTA ajouté par stream-countdown.js sur la carte du prochain live (ou du live en cours) */
 .schedule-cta {
     display: block;
     width: fit-content;
@@ -339,7 +328,7 @@
 
 .schedule-live-game[hidden] { display: none; }
 
-/* === Social Cards === */
+/* Social Cards */
 .social-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
@@ -347,7 +336,6 @@
 }
 
 .social-card {
-    /* Tuile givrée autonome (comme les cartes événements) : plus de panneau derrière */
     background: rgba(255, 255, 255, 0.45);
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-lg);
@@ -386,7 +374,6 @@
 }
 
 .social-card:hover {
-    /* Le transform est géré par chaque variante plateforme */
 }
 
 .social-icon {
@@ -411,7 +398,6 @@
     z-index: 1;
 }
 
-/* Social card variants — fond teinté + bordure couleur plateforme */
 .social-card.twitch:hover {
     background: rgba(145, 70, 255, 0.14);
     border-color: rgba(145, 70, 255, 0.5);
@@ -454,13 +440,12 @@
     transform: translateY(-10px) scale(1.03);
 }
 
-/* === Contact Cards === */
+/* Contact Cards */
 .contact-container {
     /* Plus de panneau givré */
     max-width: 1200px;
     margin: 0 auto;
 }
-
 
 .contact-info-box {
     background: rgba(255, 255, 255, 0.55);
@@ -477,7 +462,6 @@
     border-color: var(--blue);
     box-shadow: 0 20px 60px rgba(140, 191, 159, 0.3);
 }
-
 
 .contact-email {
     display: inline-block;
@@ -499,7 +483,6 @@
     transform: translateY(-3px);
     box-shadow: 0 15px 40px rgba(127, 184, 147, 0.5);
 }
-
 
 .contact-cards {
     display: grid;
@@ -525,15 +508,13 @@
     box-shadow: 0 14px 36px rgba(63, 47, 37, 0.10);
 }
 
-
 .contact-card-text {
     font-size: 1.1em;
     color: var(--text-tertiary);
     line-height: 1.6;
 }
 
-
-/* === Back to top button === */
+/* Back to top button */
 .back-to-top {
     position: fixed;
     bottom: 32px;
@@ -573,13 +554,8 @@
     flex-shrink: 0;
 }
 
-
 /* ============================================
    SYSTÈME DE BOUTONS
-   Primaire : vert plein, un seul par carte. Secondaire : pilule blanche
-   translucide, seulement sur une bande de fond. Lien : terracotta + flèche,
-   dans les cartes. 48 px de haut, pas d'emoji, pas de contour coloré.
-   Ces règles viennent après .btn / .btn-primary et les remplacent.
    ============================================ */
 .btn-primary,
 .btn-secondary,
@@ -594,7 +570,7 @@
     padding: 0 22px;
     border: 0;
     border-radius: 50px;
-    font-size: 0.9375rem; /* 15 px */
+    font-size: 0.9375rem;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;
@@ -639,10 +615,7 @@
 .g4p-donor-btn::before { display: none; }
 
 /* ============================================
-   Bouton e-mail : retour « Copié » (main.js pose .is-copied 1,6 s)
-   Le libellé s'efface, une coche se dessine et « Copié » apparaît au
-   centre, le bouton fonce et marque un petit rebond, une bulle « Adresse
-   copiée » monte au-dessus. Le bouton garde sa largeur.
+   Bouton e-mail
    ============================================ */
 .contact-email { position: relative; }
 
@@ -655,7 +628,6 @@
 
 .contact-email.is-copied .contact-email-text { opacity: 0; }
 
-/* La coche, dessinée en CSS, qui se trace de gauche à droite */
 .contact-email.is-copied::before {
     content: '';
     position: absolute;
@@ -670,7 +642,6 @@
     animation: copiedCheck 0.4s ease-out both;
 }
 
-/* « Copié » au centre, et la bulle qui monte au-dessus */
 .contact-email.is-copied::after {
     content: 'Copié';
     position: absolute;
@@ -736,8 +707,6 @@
     100% { opacity: 0; transform: translate(-50%, -4px); }
 }
 
-/* Petits pictogrammes blancs des boutons (SVG, pas un emoji) : le cœur de
-   « Suivre la chaîne », la coche des boutons de vote */
 .btn-heart,
 .btn-icon {
     width: 0.95em;
@@ -750,5 +719,5 @@
 .btn-icon {
     width: 1.3em;
     height: 1.3em;
-    margin: -0.15em 0 -0.15em 8px; /* plus gros que le texte sans grandir le bouton */
+    margin: -0.15em 0 -0.15em 8px;
 }

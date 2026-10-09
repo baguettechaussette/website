@@ -1,35 +1,15 @@
-// ============================================================
-//  Compteur de votes "Clip de la Semaine" — Cloudflare Worker
-//  Déploiement : voir cloudflare/README.md (5 minutes)
-//
-//  Endpoints publics :
-//    POST /vote/<semaine>/<clipId>   vote pour un clip (1 seul par IP/semaine)
-//    GET  /turnout/<semaine>         -> {"count": N} (total seul)
-//    GET  /live                      -> {is_live, game, title, started_at}
-//    GET  /revealed/<semaine>        -> {"revealed": bool} (gagnant révélé ?)
-//  Endpoints à clé (404 sans) : /results, /board, /announce, /remind.
-//
-//  Le vote est enregistré par IDENTITÉ de clip (pas par position) : la liste
-//  des finalistes peut donc changer sans jamais fausser les votes déjà exprimés.
-//
-//  Binding requis : un KV namespace attaché sous le nom VOTES.
-//  Secrets (wrangler secret put, jamais dans le repo) : SALT, BOARD_KEY,
-//  DISCORD_WEBHOOK, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET.
-// ============================================================
+// Compteur de votes "Clip de la Semaine"
 
 const ALLOWED_ORIGINS = [
     "https://baguettechaussette.fr",
-    "http://localhost:8123",  // tests locaux
-    "http://127.0.0.1:8123",  // tests locaux (alias)
+    "http://localhost:8123",
+    "http://127.0.0.1:8123",
 ];
 
-// Pseudo Twitch de la chaîne : public (il est déjà partout sur le site), donc
-// pas besoin d'un secret pour l'ID numérique du diffuseur.
 const TWITCH_LOGIN = "baguettechaussette";
 
 const WEEK_RE = /^\d{4}-W\d{2}$/;
 
-// Semaine ISO (UTC) d'une date, au format "YYYY-Www".
 function isoWeekStr(d) {
     const dt = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
     const day = dt.getUTCDay() || 7;
@@ -39,15 +19,12 @@ function isoWeekStr(d) {
     return `${dt.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
-// Les routes publiques n'acceptent que la semaine courante et ses voisines :
-// des semaines arbitraires permettraient d'épuiser les quotas KV gratuits
-// (1000 écritures et 1000 lists par jour) avec un simple script.
 function weekAllowed(week) {
     const now = Date.now();
     return [now - 7 * 86400000, now, now + 7 * 86400000]
         .some(t => isoWeekStr(new Date(t)) === week);
 }
-const CLIP_RE = /^[A-Za-z0-9_-]{1,120}$/; // slug de clip Twitch
+const CLIP_RE = /^[A-Za-z0-9_-]{1,120}$/;
 
 function corsHeaders(request) {
     const origin = request.headers.get("Origin") || "";
@@ -65,32 +42,21 @@ function json(data, cors, status = 200) {
     });
 }
 
-// En IPv6, un abonné dispose de tout un préfixe /64 : hasher l'adresse
-// complète permettrait de voter des milliards de fois. On ne garde donc
-// que les 4 premiers hextets (le préfixe réseau = le foyer).
 function normalizeIp(ip) {
-    if (!ip.includes(":")) return ip; // IPv4 : telle quelle
-    // Expanse les "::" pour obtenir les 8 hextets, puis garde les 4 premiers
+    if (!ip.includes(":")) return ip;
     const [head, tail = ""] = ip.split("::");
     const h = head ? head.split(":") : [];
     const t = tail ? tail.split(":") : [];
     const full = [...h, ...Array(Math.max(0, 8 - h.length - t.length)).fill("0"), ...t];
-    // Hextets canonisés (0db8 → db8) : une même box = un même hash
     return full.slice(0, 4).map(x => (parseInt(x || "0", 16) || 0).toString(16)).join(":");
 }
 
-// Hash SHA-256 : on ne stocke jamais l'IP en clair (cohérent avec la
-// politique "aucune donnée personnelle" du site). Le sel + la semaine
-// rendent le hash inutilisable en dehors de ce compteur.
 async function ipHash(ip, week, salt) {
     const data = new TextEncoder().encode(`${normalizeIp(ip)}|${week}|${salt}`);
     const digest = await crypto.subtle.digest("SHA-256", data);
     return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// Agrège les votes d'une semaine par clip (le clipId est dans les
-// métadonnées des clés KV : zéro lecture supplémentaire). Partagé par
-// /results et /board.
 async function tallyWeek(env, week) {
     const out = {};
     let cursor;
@@ -105,11 +71,6 @@ async function tallyWeek(env, week) {
     return out;
 }
 
-// Lit l'état du vote publié par le site (finalistes + gagnant).
-// Deux sources en parallèle : GitHub Pages (cache CDN ~10 min, qui IGNORE
-// les cache-busters) et raw.githubusercontent (~5 min). On garde la plus
-// fraîche (updated_at) pour réduire la fenêtre où un couronnement tout
-// juste commité n'est pas encore visible. null si aucune ne répond.
 async function fetchClipOfWeek() {
     const sources = [
         "https://baguettechaussette.fr/data/clip-of-week.json",
@@ -129,15 +90,12 @@ async function fetchClipOfWeek() {
     return best;
 }
 
-// Échappement HTML : les titres de clips sont écrits par les viewers.
 function esc(s) {
     return String(s ?? "").replace(/[&<>"']/g, c => (
         { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]
     ));
 }
 
-// Page HTML du tableau de suivi (rafraîchie toute seule chaque minute).
-// announced : true si l'annonce Discord du gagnant courant est déjà partie.
 function boardHtml(data, votes, announced) {
     const week = (data && data.week) || "?";
     const finalists = (data && Array.isArray(data.finalists)) ? data.finalists : [];
@@ -164,8 +122,6 @@ function boardHtml(data, votes, announced) {
             </li>`;
         }).join("");
 
-    // Bloc gagnant + bouton d'annonce Discord (déclenchement manuel).
-    // Le bouton se verrouille une fois l'annonce partie.
     let winner = "";
     if (data && data.winner && data.winner.id) {
         const btn = announced
@@ -194,8 +150,6 @@ function boardHtml(data, votes, announced) {
           </div>`;
     }
 
-    // Horodatage de l'état lu (les caches CDN peuvent retarder de quelques
-    // minutes) : la fraîcheur des données est visible d'un coup d'œil.
     let asOf = "";
     if (data && data.updated_at) {
         try {
@@ -203,7 +157,7 @@ function boardHtml(data, votes, announced) {
                 timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit",
                 day: "2-digit", month: "2-digit",
             }).format(new Date(data.updated_at)) + " (heure de Paris).";
-        } catch { /* horodatage illisible : on n'affiche rien */ }
+        } catch {}
     }
 
     return `<!doctype html>
@@ -242,8 +196,6 @@ function boardHtml(data, votes, announced) {
 </main></body></html>`;
 }
 
-// Jeton d'application Twitch, mis en cache dans le KV : il vaut plusieurs
-// semaines, inutile d'en redemander un à chaque visite du site.
 async function twitchToken(env, forceNew = false) {
     if (!forceNew) {
         const cached = await env.VOTES.get("twitch:token");
@@ -258,13 +210,11 @@ async function twitchToken(env, forceNew = false) {
     if (!r.ok) return null;
     const d = await r.json();
     if (!d.access_token) return null;
-    // On l'oublie une heure avant son expiration réelle (marge de sécurité).
     const ttl = Math.max(600, (Number(d.expires_in) || 3600) - 3600);
-    try { await env.VOTES.put("twitch:token", d.access_token, { expirationTtl: ttl }); } catch { /* cache best-effort */ }
+    try { await env.VOTES.put("twitch:token", d.access_token, { expirationTtl: ttl }); } catch {}
     return d.access_token;
 }
 
-// Interroge Helix, avec une seule reprise si le jeton en cache a été révoqué.
 async function twitchStreams(env) {
     const call = async (token) => fetch(
         `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(TWITCH_LOGIN)}`,
@@ -288,10 +238,7 @@ export default {
 
         const url = new URL(request.url);
 
-        // ── POST /vote/<semaine>/<clipId> ───────────────────────
-        // Une clé par IP hashée : un re-vote (accidentel ou malveillant) ne fait
-        // qu'écraser la même clé. Impossible de compter double, par construction
-        // (le KV est à cohérence différée : un compteur incrémental serait truquable).
+        // POST /vote/<semaine>/<clipId>
         let m = url.pathname.match(/^\/vote\/([^/]+)\/([^/]+)$/);
         if (request.method === "POST" && m) {
             const week = m[1];
@@ -303,8 +250,6 @@ export default {
             const hash = await ipHash(ip, week, env.SALT || "petit-pain");
 
             await env.VOTES.put(`vote:${week}:${hash}`, clipId, {
-                // 16 jours : un vote posé le lundi reste lisible même si le
-                // dépouillement glisse jusqu'au dimanche suivant (crons en échec)
                 expirationTtl: 60 * 60 * 24 * 16,
                 metadata: { clip: clipId },
             });
@@ -312,8 +257,7 @@ export default {
             return json({ ok: true }, cors);
         }
 
-        // ── GET /results/<semaine>?key=… ────────────────────────
-        // Le décompte détaillé n'est pas public : clé requise, 404 muet sans.
+        // GET /results/<semaine>?key=…
         m = url.pathname.match(/^\/results\/([^/]+)$/);
         if (request.method === "GET" && m) {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
@@ -324,9 +268,7 @@ export default {
             return json(await tallyWeek(env, week), cors);
         }
 
-        // ── GET /board?key=… : tableau de suivi privé ───────────
-        // Répond 404 (et non 403) sur mauvaise clé : ne confirme même pas
-        // que la route existe. La clé n'est jamais loguée.
+        // GET /board?key=…
         if (request.method === "GET" && url.pathname === "/board") {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
                 return json({ error: "not found" }, cors, 404);
@@ -334,9 +276,6 @@ export default {
             const data = await fetchClipOfWeek();
             const votes = (data && data.week) ? await tallyWeek(env, data.week) : {};
             const wid = data && data.winner && data.winner.id;
-            // Marqueur par semaine + clip : un même clip peut regagner plus
-            // tard (repli "semaine creuse" du workflow), sa nouvelle annonce
-            // ne doit pas être bloquée par celle de sa première victoire.
             const announced = wid ? Boolean(await env.VOTES.get(`announced:${data.week}:${wid}`)) : false;
             return new Response(boardHtml(data, votes, announced), {
                 status: 200,
@@ -351,9 +290,7 @@ export default {
             });
         }
 
-        // ── POST /announce?key=… : annonce Discord du gagnant ───
-        // Un marqueur KV par gagnant empêche le double envoi (?force=1 pour
-        // outrepasser).
+        // POST /announce?key=…
         if (request.method === "POST" && url.pathname === "/announce") {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
                 return json({ error: "not found" }, cors, 404);
@@ -366,20 +303,15 @@ export default {
             if (!w || !w.id) {
                 return json({ ok: false, error: "pas de gagnant couronné pour le moment" }, cors, 409);
             }
-            // L'id vient du JSON du site, mais on revalide avant de le mettre
-            // dans une URL (fichier corrompu = lien cassé + texte injecté).
             if (!CLIP_RE.test(w.id)) {
                 return json({ ok: false, error: "id de clip invalide dans le fichier du site" }, cors, 500);
             }
             const marker = `announced:${data.week}:${w.id}`;
             const revealMarker = `revealed:${data.week}`;
             if (url.searchParams.get("force") !== "1" && await env.VOTES.get(marker)) {
-                // L'annonce est déjà partie mais le clic vaut révélation : le
-                // site peut afficher le gagnant (cas : filet du lundi passé
-                // avant le clic, ou re-clic après rechargement du board).
                 try {
                     await env.VOTES.put(revealMarker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
-                } catch { /* best-effort */ }
+                } catch {}
                 return json({ ok: false, error: "annonce déjà envoyée pour ce gagnant" }, cors, 409);
             }
 
@@ -391,31 +323,19 @@ export default {
             const res = await fetch(env.DISCORD_WEBHOOK, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // allowed_mentions vide : le nom du clippeur vient du TITRE du
-                // clip (écrit par les viewers) — un "(by @everyone)" ne doit
-                // jamais pinger le serveur.
                 body: JSON.stringify({ content, allowed_mentions: { parse: [] } }),
             });
             if (res.status !== 204 && res.status !== 200) {
                 return json({ ok: false, error: `Discord a répondu HTTP ${res.status}` }, cors, 502);
             }
-            // 30 jours : couvre largement la semaine d'affichage du gagnant.
-            // L'annonce est PARTIE : si la pose du marqueur échoue, on répond
-            // quand même ok (le bouton se verrouille côté board) plutôt que de
-            // laisser croire à un échec et provoquer un re-clic en double.
             try {
                 await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
-                // Révélation : le site cesse d'afficher le teaser et montre le
-                // gagnant (clips-page.js interroge GET /revealed/<semaine>).
                 await env.VOTES.put(revealMarker, "1", { expirationTtl: 60 * 60 * 24 * 30 });
-            } catch { /* le marqueur manque : le prochain filet enverra un 2e message, rare et bénin */ }
+            } catch {}
             return json({ ok: true }, cors);
         }
 
-        // ── GET /revealed/<semaine> : la révélation a-t-elle eu lieu ? ──
-        // Public : le site n'affiche la carte du gagnant qu'après le clic
-        // d'annonce (ou le filet du lundi). Avant : teaser, zéro spoiler.
-        // Cache edge 60 s, CORS appliqué par requête (jamais figé en cache).
+        // GET /revealed/<semaine>
         m = url.pathname.match(/^\/revealed\/([^/]+)$/);
         if (request.method === "GET" && m) {
             const week = m[1];
@@ -431,17 +351,11 @@ export default {
             return new Response(payload, { headers: { ...baseHeaders, ...cors } });
         }
 
-        // ── GET /turnout/<semaine> : participation SANS le détail ──
-        // Public (affiché sur la page clips) : uniquement le TOTAL de votants.
-        // Mis en cache 5 min au edge : chaque visite du site ne coûte pas une
-        // opération list KV (quota gratuit : 1000 lists/jour).
+        // GET /turnout/<semaine>
         m = url.pathname.match(/^\/turnout\/([^/]+)$/);
         if (request.method === "GET" && m) {
             const week = m[1];
             if (!WEEK_RE.test(week) || !weekAllowed(week)) return json({ error: "bad week" }, cors, 400);
-            // Le cache stocke la réponse SANS en-têtes CORS : ils dépendent de
-            // l'Origin de chaque requête (sinon le premier appelant fige son
-            // origine dans le cache et bloque les autres).
             const cache = caches.default;
             const cacheKey = new Request(url.origin + url.pathname);
             const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" };
@@ -456,9 +370,7 @@ export default {
             return new Response(payload, { headers: { ...baseHeaders, ...cors } });
         }
 
-        // ── POST /remind?key=… : rappel de vote de mi-semaine ──────
-        // Déclenché par le cron du mercredi. Un marqueur par semaine évite le
-        // spam en cas de re-run. Ne dit JAMAIS qui mène, juste le total.
+        // POST /remind?key=…
         if (request.method === "POST" && url.pathname === "/remind") {
             if (!env.BOARD_KEY || url.searchParams.get("key") !== env.BOARD_KEY) {
                 return json({ error: "not found" }, cors, 404);
@@ -494,16 +406,11 @@ export default {
             }
             try {
                 await env.VOTES.put(marker, "1", { expirationTtl: 60 * 60 * 24 * 10 });
-            } catch { /* re-run possible : rare et bénin */ }
+            } catch {}
             return json({ ok: true }, cors);
         }
 
-        // ── GET /live : statut du live, demandé à Twitch en direct ──
-        // L'ordonnanceur de GitHub bride fortement les crons fréquents (plusieurs
-        // heures de retard constatées) : le site interroge donc Twitch par ici.
-        // Cache 60 s au edge = au plus un appel Twitch par minute, quel que soit
-        // le trafic. Une panne renvoie une erreur : le site masque le badge
-        // plutôt que d'afficher un état périmé.
+        // GET /live
         if (request.method === "GET" && url.pathname === "/live") {
             const baseHeaders = { "Content-Type": "application/json", "Cache-Control": "public, max-age=60" };
             const cache = caches.default;

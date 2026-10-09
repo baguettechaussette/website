@@ -1,5 +1,3 @@
-// Toggle mobile menu avec gestion améliorée
-// Le burger devient une croix quand le panneau est ouvert
 function syncMenuIcon(isOpen) {
     const icon = document.querySelector('.menu-toggle img');
     if (!icon) return;
@@ -7,7 +5,6 @@ function syncMenuIcon(isOpen) {
     icon.alt = isOpen ? 'Fermer' : 'Menu hamburger';
 }
 
-// Ferme le panneau et remet la barre dans son état fermé (icône, aria, scroll du body)
 function closeMenu() {
     const navLinks = document.getElementById('navLinks');
     const menuToggle = document.querySelector('.menu-toggle');
@@ -35,7 +32,6 @@ function toggleMenu() {
             menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
         }
 
-        // Empêche le scroll du body quand le menu est ouvert sur mobile
         if (window.innerWidth <= 768) {
             document.body.style.overflow = isOpen ? 'hidden' : '';
         }
@@ -48,7 +44,6 @@ document.addEventListener('click', (e) => {
     const menuToggle = document.querySelector('.menu-toggle');
     const navbar = document.getElementById('navbar');
 
-    // En dehors de la barre, ou sur le voile du panneau (le <ul> lui-même, pas un lien)
     if (navLinks && navLinks.classList.contains('active') &&
         (!navbar.contains(e.target) || e.target === navLinks)) {
         navLinks.classList.remove('active');
@@ -60,7 +55,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Échap ferme le menu mobile et rend le focus au bouton hamburger
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     const navLinks = document.getElementById('navLinks');
@@ -75,16 +69,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Les défilements animés en JS doivent respecter prefers-reduced-motion
-// (le paramètre behavior a priorité sur la règle CSS scroll-behavior)
 function scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
-// Une section en « display: contents » (en desktop, #contact et #partenaires
-// se fondent dans la grille de leur bande) n'a pas de boîte : sa position
-// vaut 0, le clic ne défilait nulle part et le navigateur ignorait /#contact.
-// On vise alors sa bande, ou à défaut son premier enfant qui a une boîte.
 function anchorBox(target) {
     if (target.getClientRects().length) return target;
     const band = target.closest('.band');
@@ -94,8 +82,6 @@ function anchorBox(target) {
     return el || target;
 }
 
-// Arrêt sous le bas réel de la barre (pilule flottante en mobile), avec 16 px
-// d'air pour que le titre ne la touche pas
 function scrollToAnchor(target, behavior) {
     const box = anchorBox(target);
     const navbar = document.getElementById('navbar');
@@ -104,29 +90,15 @@ function scrollToAnchor(target, behavior) {
     window.scrollTo({ top: Math.max(0, top), behavior });
 }
 
-// Arrivée depuis une autre page (/#contact, /events#…) : le navigateur ne sait
-// pas défiler jusqu'à une cible sans boîte, et les blocs chargés après coup
-// (finalistes, clips…) peuvent repousser la cible. On réaligne une fois la
-// page posée.
 window.addEventListener('load', () => {
     if (!location.hash) return;
     let target;
     try { target = document.querySelector(location.hash); } catch { return; }
-    // « instant » et pas « auto » : avec scroll-behavior: smooth dans le CSS,
-    // « auto » lançait une animation que le navigateur coupait aussitôt (il
-    // cherche lui-même l'ancre pendant le chargement). Un court délai laisse
-    // passer cette recherche.
     if (target) setTimeout(() => scrollToAnchor(target, 'instant'), 50);
 });
 
 // Smooth scroll pour les liens d'ancres
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    // Umami intercepte en capture les liens porteurs de data-umami-event et,
-    // une fois la stat partie, refait lui-même la navigation vers le href : ce
-    // saut vers l'ancre coupait notre défilement doux (et ramenait en haut de
-    // page pour une cible sans boîte). On retire l'attribut et on envoie la
-    // stat nous-mêmes.
-    // (Le bouton e-mail part lui aussi de href="#" mais gère sa stat lui-même.)
     const statUmami = anchor.classList.contains('js-email') ? null : anchor.dataset.umamiEvent;
     if (statUmami) anchor.removeAttribute('data-umami-event');
 
@@ -142,9 +114,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             return;
         }
 
-        // Le lien e-mail part de href="#" puis js-email le reecrit en
-        // « mailto: ... » : l'ecouteur pose au chargement reste accroche et
-        // querySelector levait une SyntaxError a chaque clic.
         if (!href || href.charAt(0) !== '#') return;
 
         const target = document.querySelector(href);
@@ -152,8 +121,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) {
             e.preventDefault();
 
-            // Ferme le menu mobile si ouvert (icône et aria compris) et marque la section
-            // visée comme page courante dans le menu (pilule verte)
             const navLinks = document.getElementById('navLinks');
             if (navLinks) {
                 closeMenu();
@@ -182,11 +149,8 @@ window.addEventListener('scroll', () => {
     }, 10);
 }, { passive: true });
 
-// Animation du compteur (pour les stats)
+// Animation du compteur
 
-// Milliers separes par une espace fine insecable (U+202F), quel que soit le
-// separateur que le navigateur choisit pour fr-FR (espace insecable ordinaire
-// sur d'anciennes versions, fine sur les recentes).
 function milliers(n) {
     return n.toLocaleString('fr-FR').replace(/\s/g, String.fromCharCode(8239));
 }
@@ -196,8 +160,6 @@ function animateCounter(element, start, end, duration, suffix = '', prefix = '')
 
     function update(currentTime) {
         const elapsed = currentTime - startTime;
-        // Bornée à 0 : l'horodatage de la première image peut précéder
-        // startTime, et une progression négative affichait « -46 » un instant
         const progress = Math.max(0, Math.min(elapsed / duration, 1));
 
         // Easing: easeOutQuad
@@ -216,13 +178,9 @@ function animateCounter(element, start, end, duration, suffix = '', prefix = '')
     requestAnimationFrame(update);
 }
 
-// Injection du nombre de followers avec retry et gestion d'erreurs
 async function loadFollowersCount(retries = 3) {
     const el = document.getElementById('followersCount');
     if (!el) return;
-
-    // Pendant le chargement, le squelette posé dans le HTML reste affiché :
-    // animateCounter le remplace par le nombre.
 
     for (let i = 0; i < retries; i++) {
         try {
@@ -247,8 +205,6 @@ async function loadFollowersCount(retries = 3) {
                 // Animation du compteur
                 animateCounter(el, 0, data.followers, 1500);
                 updateFollowerGoal(data.followers);
-                // Annonce unique pour les lecteurs d'écran, après l'animation
-                // (le compteur animé change ~90 fois : jamais d'aria-live dessus)
                 setTimeout(() => {
                     const announce = document.getElementById('followersAnnounce');
                     if (announce) announce.textContent = `${data.followers.toLocaleString('fr-FR')} followers Twitch`;
@@ -265,29 +221,21 @@ async function loadFollowersCount(retries = 3) {
             }
 
             if (i === retries - 1) {
-                // Dernière tentative : valeur approchée, au même format que les
-                // autres cartes (« +3 870 »)
                 el.title = 'Données temporairement indisponibles';
                 animateCounter(el, 0, 2200, 1200, '', '+');
             } else {
-                // Attendre avant de réessayer (backoff exponentiel)
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
             }
         }
     }
 }
 
-// ── Barre de progression vers l'objectif de followers ──
-// Le palier monte tout seul : prochain multiple de 500 (puis de 1000 au-delà
-// de 5000) strictement au-dessus du nombre actuel de followers.
+// Barre de progression vers l'objectif de followers
 function nextFollowerGoal(followers) {
     const step = followers < 5000 ? 500 : 1000;
     return Math.floor(followers / step) * step + step;
 }
 
-// La barre ne s'affiche que dans la dernière ligne droite d'un palier : toujours
-// motivante (proche du but), jamais une barre morte qui stagne à 5 % pendant des
-// semaines. Au-delà, elle reste masquée jusqu'à l'approche du palier suivant.
 const FOLLOWER_GOAL_THRESHOLD = 100;
 
 function updateFollowerGoal(followers) {
@@ -299,7 +247,6 @@ function updateFollowerGoal(followers) {
     const goal = nextFollowerGoal(followers);
     const reste = goal - followers;
 
-    // Trop loin du palier → on n'affiche pas la barre
     if (reste > FOLLOWER_GOAL_THRESHOLD) {
         wrap.hidden = true;
         return;
@@ -311,7 +258,6 @@ function updateFollowerGoal(followers) {
     label.textContent = `Objectif ${goal.toLocaleString('fr-FR')} p'tits pains : plus que ${reste.toLocaleString('fr-FR')} !`;
 
     wrap.hidden = false;
-    // La largeur est posée après le premier rendu pour déclencher la transition CSS
     requestAnimationFrame(() => { fill.style.width = pct + '%'; });
 }
 
@@ -331,12 +277,9 @@ window.addEventListener('resize', () => {
     }, 250);
 }, { passive: true });
 
-// Cliquer-glisser à la souris sur une bande horizontale (voir l'appel dans DOMContentLoaded)
 function initDragScroll(strip) {
     let down = false, moved = false, startX = 0, startLeft = 0, pending = 0, raf = 0, settle = 0;
 
-    // Fin du glissement : la bande se pose en douceur sur la carte la plus proche,
-    // puis on rend la main à l'accroche CSS.
     const end = () => {
         if (!down) return;
         down = false;
@@ -370,8 +313,6 @@ function initDragScroll(strip) {
         const dx = e.clientX - startX;
         if (!moved && Math.abs(dx) > 4) {
             moved = true;
-            // Capturé seulement une fois le glissement engagé : capturer dès l'appui
-            // détournait le clic et rien ne s'ouvrait plus.
             strip.setPointerCapture(e.pointerId);
         }
         if (!moved) return;
@@ -389,7 +330,6 @@ function initDragScroll(strip) {
     }, true);
 }
 
-// Animations au défilement (Intersection Observer)
 function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
 
@@ -402,7 +342,7 @@ function initScrollReveal() {
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-    // Éléments simples (fade-up sans stagger)
+    // Éléments simples
     [
         // index.html
         '.section-header',
@@ -420,7 +360,7 @@ function initScrollReveal() {
         });
     });
 
-    // Éléments avec stagger (par groupe parent)
+    // Éléments avec stagger
     [
         // index.html
         { parent: '.schedule-grid',        child: '.schedule-item',       delay: 0.10 },
@@ -451,8 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateStaticCounters();
     initScrollReveal();
 
-    // Ajoute les attributs ARIA manquants + le clic du hamburger
-    // (l'onclick inline a été retiré du HTML : incompatible avec la CSP)
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
         menuToggle.setAttribute('aria-expanded', 'false');
@@ -464,8 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Cartes repliables (mobile : les boutons sont masqués au-dessus de 768 px) :
-    // partenaires sur l'accueil, éditions passées sur /events
     document.querySelectorAll('.partner-toggle, .event-toggle').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -476,20 +412,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // En desktop la première carte partenaire s'ouvre d'emblée,
-    // sinon la colonne de droite de la bande « Marques & studios » se résume à
-    // deux lignes repliées face à la grande carte e-mail. En mobile, les deux
-    // restent repliées.
     if (window.matchMedia('(min-width: 769px)').matches) {
         const first = document.querySelector('.partners-container .partner-card.is-collapsed');
         if (first) {
             first.classList.remove('is-collapsed');
             first.querySelector('.partner-toggle')?.setAttribute('aria-expanded', 'true');
         }
-        // La première question de la FAQ est ouverte d'emblée en desktop
         document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
 
-        // /events : toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
         document.querySelectorAll('.event-container.is-collapsible > .event-intro').forEach(intro => {
             intro.addEventListener('click', (e) => {
                 if (e.target.closest('a, .event-toggle')) return;
@@ -498,8 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // /events : la première édition de l'archive (la plus récente) est ouverte
-    // d'emblée, en mobile comme en desktop.
     (function openLatestEdition() {
         const first = document.querySelector('.band-archive .event-container.is-collapsible.is-collapsed');
         if (!first) return;
@@ -507,8 +435,6 @@ document.addEventListener('DOMContentLoaded', () => {
         first.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
     })();
 
-    // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)
-    // déplie la carte visée, sinon on arrive sur une ligne fermée.
     function expandHashTarget() {
         if (!location.hash) return;
         let target;
@@ -521,31 +447,19 @@ document.addEventListener('DOMContentLoaded', () => {
     expandHashTarget();
     window.addEventListener('hashchange', expandHashTarget);
 
-    // Bandes qui défilent à l'horizontale en mobile (manches DTI, finalistes, derniers clips) :
-    // au doigt elles défilent nativement ; à la souris (fenêtre étroite, pas de tactile) un bloc
-    // sans barre visible ne bouge pas, on traduit le cliquer-glisser en défilement et on avale
-    // le clic qui suivrait pour ne pas ouvrir la lightbox ou voter par accident.
     document.querySelectorAll('.dti-photo-grid, .cow-grid, .clips-grid').forEach(initDragScroll);
 
-    // Emails assemblés côté client (anti-bots spam)
+    // Emails assemblés côté client
     document.querySelectorAll('.js-email').forEach(el => {
         const addr = `${el.dataset.user}@${el.dataset.domain}`;
         el.setAttribute('href', 'mailto:' + addr);
         if ('showText' in el.dataset) el.textContent = addr;
     });
 
-    // Bouton e-mail : son libellé est l'adresse.
-    // À la souris (ou au clavier) un clic la copie et affiche « Copié » 1,5 s ;
-    // au doigt le mailto s'ouvre. Le type de pointeur est lu sur le clic
-    // lui-même plutôt que deviné au chargement.
     document.querySelectorAll('.contact-email.js-email').forEach(btn => {
         const addr = `${btn.dataset.user}@${btn.dataset.domain}`;
         btn.title = "Cliquer pour copier l'adresse";
         let timer = 0;
-        // Umami intercepte en capture tout lien porteur de data-umami-event :
-        // il annule le clic, envoie la stat puis navigue lui-même vers le href,
-        // donc vers le mailto, même après notre copie. On retire l'attribut et
-        // on envoie la stat nous-mêmes.
         const statUmami = btn.dataset.umamiEvent;
         btn.removeAttribute('data-umami-event');
         const stat = (mode) => {
@@ -553,12 +467,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.umami.track(statUmami, { mode });
             }
         };
-        // Le libellé vit dans un <span> : le CSS le fait disparaître et pose la
-        // coche + « Copié » par-dessus, sans que le bouton change de largeur.
         const text = document.createElement('span');
         text.className = 'contact-email-text';
         text.textContent = addr;
-        // La bulle « Adresse copiée » au-dessus du bouton (animée par le CSS)
         const bubble = document.createElement('span');
         bubble.className = 'contact-email-bubble';
         bubble.setAttribute('role', 'status');
@@ -567,13 +478,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const montrerCopie = () => {
             btn.classList.remove('is-copied');
-            void btn.offsetWidth; // relance l'animation si on reclique pendant le « Copié »
+            void btn.offsetWidth;
             btn.classList.add('is-copied');
             clearTimeout(timer);
             timer = setTimeout(() => btn.classList.remove('is-copied'), 1600);
         };
-        // Copie de secours quand l'API Clipboard manque ou refuse (page hors
-        // HTTPS, permission refusée) : l'ancien execCommand marche encore partout.
         const copieDeSecours = () => {
             const zone = document.createElement('textarea');
             zone.value = addr;
@@ -590,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             const pointeur = e.pointerType
                 || (window.matchMedia('(pointer: coarse)').matches ? 'touch' : 'mouse');
-            if (pointeur === 'touch' || pointeur === 'pen') { stat('mailto'); return; } // au doigt : le mailto
+            if (pointeur === 'touch' || pointeur === 'pen') { stat('mailto'); return; }
             e.preventDefault();
             stat('copie');
             const ouvrirMail = () => { window.location.href = 'mailto:' + addr; };
@@ -606,12 +515,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Moments forts : top clips de la semaine (data/top-clips.json)
     loadTopClips();
 });
 
-// Titre d'affichage d'un clip : le titre s'il existe, sinon la date
-// (le workflow vide les titres capturés par le bot, qui sont ceux du stream).
 function clipDisplayTitle(clip) {
     if (clip.title) return clip.title;
     if (clip.created_at) {
@@ -621,22 +527,14 @@ function clipDisplayTitle(clip) {
     return 'Clip mystère';
 }
 
-// Charge les derniers clips (data/top-clips.json, déjà trié du plus récent au
-// plus ancien par le workflow) et affiche la section si on en a.
-// Les clips "pinned" (épinglés à la main dans data/top-clips.json) passent
-// en premier et ne sont jamais touchés par le workflow automatique.
-// Le nombre de cartes est réglable via data-limit sur la grille (vitrine home : 3).
 async function loadTopClips() {
     const section = document.getElementById('clips');
     const grid = document.getElementById('clipsGrid');
     if (!section || !grid) return;
 
     const limit = parseInt(grid.dataset.limit, 10) || 16;
-    const source = grid.dataset.source; // "week" = teaser de vote (accueil)
+    const source = grid.dataset.source;
 
-    // Skeletons le temps du chargement (le fichier change tous les 2 jours,
-    // le cache HTTP par défaut de GitHub Pages — 10 min — suffit largement)
-    // Autant de squelettes que de cartes attendues : la grille a sa taille finale dès le départ
     const skeletons = Array.from({ length: source === 'week' ? Math.min(limit, 4) : limit }, () => {
         const s = document.createElement('div');
         s.className = 'clip-skeleton';
@@ -646,21 +544,14 @@ async function loadTopClips() {
     });
 
     try {
-        // Accueil : teaser du vote → on montre les finalistes de la semaine.
-        // Tant qu'aucun vote n'est lancé (finalistes vides), la section reste masquée.
         if (source === 'week') {
             const rw = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
             if (!rw.ok) return;
             const cow = await rw.json();
             const finalists = (Array.isArray(cow.finalists) ? cow.finalists : []).filter(c => c && c.id);
-            // Même seuil que la page clips (2 finalistes minimum pour un vote) :
-            // sinon le CTA "Voter maintenant" mènerait vers un bloc masqué.
             if (finalists.length < 2) return;
             const montres = finalists.slice(0, limit);
             montres.forEach(clip => grid.appendChild(buildClipCard(clip)));
-            // La dernière vignette porte le nombre de finalistes
-            // qu'on ne montre pas, elle comprise. 8 finalistes, 4 vignettes →
-            // 3 clips visibles et « +5 » sur la quatrième.
             if (finalists.length > montres.length) {
                 const reste = finalists.length - montres.length + 1;
                 const derniere = grid.lastElementChild;
@@ -672,8 +563,6 @@ async function loadTopClips() {
                     if (vignette) {
                         vignette.setAttribute('aria-label', `Voir les ${reste} autres finalistes`);
                         vignette.setAttribute('data-umami-event', 'Home - Vote - Autres finalistes');
-                        // La vignette « +N » mène au vote, elle n'ouvre pas le clip : l'écouteur
-                        // en phase de capture passe avant celui de la modale et l'annule.
                         vignette.addEventListener('click', (e) => {
                             e.stopImmediatePropagation();
                             window.location.href = '/clips#clip-semaine';
@@ -685,9 +574,6 @@ async function loadTopClips() {
             return;
         }
 
-        // Sur la page clips, les finalistes, le couronné du Clip de la Semaine et
-        // les clips du Palmarès sont déjà affichés au-dessus : on les retire des
-        // derniers clips (doublons).
         const exclude = new Set();
         if (document.getElementById('cowGrid')) {
             try {
@@ -704,7 +590,7 @@ async function loadTopClips() {
                     const hof = await rHof.json();
                     (Array.isArray(hof.winners) ? hof.winners : []).forEach(w => w?.id && exclude.add(w.id));
                 }
-            } catch { /* pas grave : au pire des doublons */ }
+            } catch {}
         }
 
         const response = await fetch('/data/top-clips.json');
@@ -724,9 +610,6 @@ async function loadTopClips() {
             });
         };
 
-        // La section "Mes petits préférés" a été retirée : on n'affiche que les
-        // derniers clips (les épinglés restent maintenus dans top-clips.json,
-        // ce qui permet de rétablir la section sans rien reconstruire).
         const clips = keep(autos).slice(0, limit);
         clips.forEach(clip => grid.appendChild(buildClipCard(clip)));
         if (grid.children.length) section.hidden = false;
@@ -737,17 +620,9 @@ async function loadTopClips() {
     }
 }
 
-// Vignette Twitch : la même image existe en 260x147 et 480x272 (vérifié sur
-// static-cdn.jtvnw.net : 14 Ko contre 37 Ko). On propose les deux et le navigateur
-// choisit selon la largeur affichée et la densité d'écran. sizes décrit la largeur
-// CSS de la vignette dans son contexte. Ordre important : srcset/sizes avant src,
-// sinon certains navigateurs déclenchent deux requêtes.
 function setClipThumbSources(img, url, sizes) {
     if (/-480x272\.jpg$/.test(url)) {
         img.sizes = sizes;
-        // Twitch sert aussi 960x540 et 1280x720 : sans
-        // elles, le clip de la semaine en desktop (506 px CSS, écran 2x) était
-        // étiré depuis 480 px et pixelisé.
         const at = (s) => url.replace('-480x272.jpg', `-${s}.jpg`);
         img.srcset = `${at('260x147')} 260w, ${url} 480w, ${at('960x540')} 960w, ${at('1280x720')} 1280w`;
     }
@@ -756,12 +631,10 @@ function setClipThumbSources(img, url, sizes) {
     img.src = url;
 }
 
-// Carte de clip (miniature cliquable + titre + clippeur), commune à toutes les grilles
 function buildClipCard(clip) {
     const card = document.createElement('div');
     card.className = 'clip-card';
 
-    // Miniature cliquable → le clip s'ouvre dans une modale centrée
     const displayTitle = clipDisplayTitle(clip);
 
     const thumb = document.createElement('button');
@@ -774,7 +647,6 @@ function buildClipCard(clip) {
         const img = document.createElement('img');
         img.alt = '';
         img.loading = 'lazy';
-        // Grilles : 2 colonnes sous 768 px (~46 vw par vignette), 300 à 600 px au-dessus
         setClipThumbSources(img, clip.thumbnail_url, '(max-width: 768px) 46vw, 400px');
         thumb.appendChild(img);
     }
@@ -788,8 +660,6 @@ function buildClipCard(clip) {
     thumb.addEventListener('click', () => openClipModal(clip));
     card.appendChild(thumb);
 
-    // Épinglés : badge 📌 + titre maison. Clips auto : titre écrit par
-    // les viewers, affiché entre guillemets pour marquer la citation.
     const meta = document.createElement('p');
     meta.className = 'clip-meta';
     if (clip.pinned) {
@@ -803,7 +673,6 @@ function buildClipCard(clip) {
     }
     card.appendChild(meta);
 
-    // Le p'tit pain qui a clippé (fourni par le workflow enrichi)
     if (clip.creator_name) {
         const by = document.createElement('p');
         by.className = 'clip-clipper';
@@ -814,7 +683,7 @@ function buildClipCard(clip) {
     return card;
 }
 
-// ── Modale de lecture des clips (créée à la première ouverture) ──
+// Modale de lecture des clips
 let clipModalLastFocus = null;
 
 function ensureClipModal() {
@@ -864,33 +733,28 @@ function closeClipModal() {
     const overlay = document.getElementById('clipModal');
     if (!overlay) return;
     overlay.classList.remove('is-open');
-    // Vide le player → stoppe la lecture immédiatement
     overlay.querySelector('.clip-modal__player').replaceChildren();
     document.body.style.overflow = '';
     clipModalLastFocus?.focus({ preventScroll: true });
 }
 
-// Gestion des erreurs globales (pour debug)
+// Gestion des erreurs globales
 window.addEventListener('error', (event) => {
-    // Ne log que les erreurs importantes, pas les warnings
     if (event.message && !event.message.includes('ResizeObserver')) {
         console.error('Erreur:', event.message, 'Fichier:', event.filename, 'Ligne:', event.lineno);
     }
 });
 
-
 // Animation des autres compteurs statiques
 function animateStaticCounters() {
     [
-        '.stat-box:nth-child(2) .stat-number', // TikTok
-        '.stat-box:nth-child(3) .stat-number', // Heures de stream
+        '.stat-box:nth-child(2) .stat-number',
+        '.stat-box:nth-child(3) .stat-number',
     ].forEach(selector => {
         const el = document.querySelector(selector);
         if (!el) return;
         const texte = el.textContent.trim();
         const target = parseInt(texte.replace(/\D/g, '')) || 0;
-        // Ce qui entoure le nombre reste tel quel : « + » devant, « h » derrière
-        // pour les heures (« +1 100 h »). Le compteur ne réécrit que le chiffre.
         const m = texte.match(/^(\D*)[\d\s]*\d(.*)$/);
         const avant = m ? m[1] : '';
         const apres = m ? m[2] : '';
@@ -899,7 +763,6 @@ function animateStaticCounters() {
         animateCounter(el, 0, target, 1200, apres, avant);
     });
 }
-
 
 // Back to top button
 (function () {
@@ -921,14 +784,13 @@ function animateStaticCounters() {
     });
 })();
 
-// Expose les fonctions pour usage externe si nécessaire
 window.BaguetteChaussette = {
     toggleMenu,
     loadFollowersCount,
     animateCounter
 };
 
-// ── Service Worker ────────────────────────────────────────
+// Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

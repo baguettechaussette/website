@@ -2,7 +2,7 @@
    LAYOUT.CSS - Navigation, Hero, Footer
    ============================================ */
 
-/* === Background animé === */
+/* Background animé */
 .bg-container {
     position: fixed;
     width: 100%;
@@ -18,10 +18,6 @@
     background-size: 300% 300%;
     animation: gradientWave 15s ease infinite;
     opacity: 0.15;
-    /* Pas de filter ici : sur un dégradé plein écran animé, saturate()/contrast()
-       obligeait à re-rasteriser tout l'écran et doublait le temps du premier rendu
-       (mesuré : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
-       manque, l'ajuster directement dans les couleurs du dégradé. */
 }
 
 @keyframes gradientWave {
@@ -30,7 +26,7 @@
     100% { background-position: 0% 50%; }
 }
 
-/* === Particules === */
+/* Particules */
 .particles {
     position: fixed;
     width: 100%;
@@ -105,9 +101,7 @@
     }
 }
 
-/* === Navigation === */
-/* #navbar (et non le sélecteur générique "nav" : il attrapait aussi les autres
-   <nav> de la page, comme la barre d'ancres des événements) */
+/* Navigation */
 #navbar {
     position: fixed;
     top: 0;
@@ -134,7 +128,7 @@
 .logo {
     font-size: 2em;
     font-weight: 800;
-    white-space: nowrap; /* le nom ne passe jamais sur deux lignes */
+    white-space: nowrap;
     background: linear-gradient(135deg, #a8641f, #b06f26);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -147,7 +141,7 @@
     transform: scale(1.05);
 }
 
-/* === Pastille flottante EN LIVE (injectée par js/live-float.js) === */
+/* Pastille flottante EN LIVE */
 .live-float {
     position: fixed;
     top: 45%;
@@ -196,7 +190,6 @@
     50%      { opacity: 0.35; }
 }
 
-
 .nav-links a {
     text-decoration: none;
     color: var(--text-primary);
@@ -234,7 +227,7 @@
     cursor: pointer;
 }
 
-/* === Hero Section === */
+/* Hero Section */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -244,14 +237,13 @@
     position: relative;
 }
 
-
 .hero-left {
     animation: slideInLeft 1s ease;
 }
 
 @keyframes slideInLeft {
     from {
-        opacity: 0.5; /* pas 0 : un élément invisible n'est pas candidat LCP tant que le thread principal est occupé */
+        opacity: 0.5;
         transform: translateX(-100px);
     }
     to {
@@ -281,7 +273,6 @@
     font-weight: 700;
 }
 
-
 .hero-buttons {
     display: flex;
     gap: 20px;
@@ -294,7 +285,7 @@
 
 @keyframes slideInRight {
     from {
-        opacity: 0.5; /* pas 0 : un élément invisible n'est pas candidat LCP tant que le thread principal est occupé */
+        opacity: 0.5;
         transform: translateX(100px);
     }
     to {
@@ -310,7 +301,6 @@
     margin: 0 auto;
 }
 
-/* .avatar-glow — enfant de avatar-main, suit floatAvatar automatiquement */
 .avatar-glow {
     position: absolute;
     inset: 0;
@@ -359,11 +349,10 @@
     justify-content: center;
     box-shadow: 0 20px 60px rgba(63, 47, 37, 0.18);
     animation: floatAvatar 4s ease-in-out infinite;
-    overflow: visible; /* le glow doit déborder */
+    overflow: visible;
     z-index: 1;
 }
 
-/* picture contient et clippe l'image dans le cercle */
 .avatar-main picture {
     position: relative;
     z-index: 1;
@@ -391,7 +380,7 @@
     }
 }
 
-/* === Section headers === */
+/* Section headers */
 .section-header {
     text-align: center;
     margin-bottom: 80px;
@@ -415,9 +404,7 @@
     color: var(--text-tertiary);
 }
 
-/* === Footer === */
-/* Même pied de page partout (accueil, clips, events, mobile et desktop) :
-   bande pêche avec son filet */
+/* Footer */
 footer {
     background: #f2e3d8;
     border: 0;
@@ -430,7 +417,6 @@ footer {
     max-width: 1400px;
     margin: 0 auto;
 }
-
 
 .footer-link {
     color: var(--blue);

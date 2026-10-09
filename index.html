@@ -6,17 +6,12 @@
     <meta name="color-scheme" content="only light">
     <meta name="darkreader-lock">
     <meta name="theme-color" content="#9146ff">
-    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
-         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
-    <!-- preconnect : le worker est appelé en fetch() CORS (crossorigin requis), les vignettes
-         Twitch sont des <img> sans CORS (une connexion crossorigin ne leur servirait pas) -->
     <link rel="preconnect" href="https://bc-vote.baguette-chaussette.workers.dev" crossorigin>
     <link rel="preconnect" href="https://static-cdn.jtvnw.net">
     <title>Baguette Chaussette | Streamer Twitch FR Gaming</title>
     <meta name="description" content="Baguette Chaussette, streamer Twitch français : gaming cosy et humour douteux. Rejoins une communauté bienveillante ! Lives mercredi, vendredi et dimanche à 21h.">
-    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:url" content="https://baguettechaussette.fr/">
@@ -38,34 +33,26 @@
 
     <link rel="canonical" href="https://baguettechaussette.fr/">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Baguette chaussette" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Preload : image hero + font critique -->
-    <!-- Même choix de variante que le <img> (imagesrcset/imagesizes), sinon le preload télécharge une image pour rien -->
     <link rel="preload" as="image" fetchpriority="high"
           imagesrcset="/img/baguette-chaussette-logo-480.webp 480w, /img/baguette-chaussette-logo-800.webp 800w, /img/baguette-chaussette-logo.webp 1078w"
           imagesizes="(max-width: 768px) 92px, (max-width: 1200px) 300px, 400px">
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- Fonts (auto-hébergées) -->
-    <link rel="stylesheet" href="./css/fonts.css?v=247">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=247">
-    <link rel="stylesheet" href="./css/layout.css?v=247">
-    <link rel="stylesheet" href="./css/components.css?v=247">
-    <link rel="stylesheet" href="./css/sections.css?v=247">
-    <link rel="stylesheet" href="./css/responsive.css?v=247">
-    <link rel="stylesheet" href="./css/partners.css?v=247">
-    <!-- Desktop : habillage commun (fond, barre de navigation, pied de page)
-         puis la feuille propre à la page. Tout est en @media (min-width: 769px),
-         chargé après responsive.css pour primer sur les réglages communs. -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=247">
-    <link rel="stylesheet" href="./css/desktop.css?v=247">
+    <link rel="stylesheet" href="./css/fonts.css?v=248">
+    <link rel="stylesheet" href="./css/base.css?v=248">
+    <link rel="stylesheet" href="./css/layout.css?v=248">
+    <link rel="stylesheet" href="./css/components.css?v=248">
+    <link rel="stylesheet" href="./css/sections.css?v=248">
+    <link rel="stylesheet" href="./css/responsive.css?v=248">
+    <link rel="stylesheet" href="./css/partners.css?v=248">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=248">
+    <link rel="stylesheet" href="./css/desktop.css?v=248">
 
     <script type="application/ld+json">
         {
@@ -115,7 +102,6 @@
         }
     </script>
 
-    <!-- Schema.org — Lives récurrents + FAQ -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -245,13 +231,11 @@
         }
     </script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
-    <!-- Sans JavaScript, la carte « Prochain live » et le compteur de followers montrent leur texte de secours, pas leurs squelettes -->
     <noscript><style>.hero-skel { display: none; }</style></noscript>
 </head>
 
 <body>
 <a class="skip-link" href="#main">Aller au contenu</a>
-<!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
 <div class="particles" aria-hidden="true">
     <div class="particle"></div>
@@ -261,7 +245,6 @@
     <div class="particle"></div>
 </div>
 
-<!-- Navigation -->
 <nav id="navbar">
     <div class="container">
         <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette"><img class="logo-avatar" src="/img/baguette-chaussette-logo-480.webp" alt="" width="36" height="36" decoding="async">Baguette Chaussette</a></div>
@@ -272,18 +255,14 @@
             <li><a href="/events" data-umami-event="Nav - Evenements">Événements</a></li>
             <li><a href="#contact" data-umami-event="Nav - Contact">Contact</a></li>
             <li><a href="#reseaux" data-umami-event="Nav - Reseaux">Réseaux</a></li>
-            <!-- Mobile uniquement : pied du panneau (masqué au-dessus de 768 px) -->
             <li class="nav-links-footer"><a href="/links" data-umami-event="Nav - Tous mes liens">Tous mes liens <span aria-hidden="true">↗</span></a></li>
         </ul>
     </div>
 </nav>
 
-<!-- Contenu principal -->
 <main id="main">
 
-<!-- Hero Section -->
 <header class="hero" id="accueil">
-    <!-- Desktop uniquement : ronds décoratifs du hero, masqués sous 769 px -->
     <span class="hero-blob hero-blob-1" aria-hidden="true"></span>
     <span class="hero-blob hero-blob-2" aria-hidden="true"></span>
     <span class="hero-blob hero-blob-3" aria-hidden="true"></span>
@@ -295,17 +274,12 @@
                 Du gaming cosy, un humour douteux et une communauté fidèle au poste 🥖
             </p>
 
-            <!-- Carte du prochain live : mobile uniquement, alimentée par js/stream-countdown.js
-                 (même source que le planning : créneaux + statut live du worker). -->
             <div class="hero-live-card" id="heroLive">
                 <div class="hero-live-head">
                     <span class="hero-live-dot" aria-hidden="true"></span>
                     <span class="hero-live-label" id="heroLiveLabel">Prochain live</span>
                     <span class="hero-live-countdown" id="heroLiveCountdown"><span class="hero-skel hero-skel-court" aria-hidden="true"></span></span>
                 </div>
-                <!-- Squelettes (décompte ci-dessus, créneau ici) de la taille des vrais textes,
-                     le temps que stream-countdown.js connaisse le créneau et le statut du live :
-                     la carte garde sa hauteur. Sans JavaScript, texte de secours à la place. -->
                 <p class="hero-live-value" id="heroLiveValue"><span class="hero-skel hero-skel-long" aria-hidden="true"></span><noscript>Mer., ven. et dim. 21h</noscript></p>
                 <p class="hero-live-game" id="heroLiveGame" hidden></p>
                 <div class="hero-live-actions">
@@ -330,7 +304,6 @@
                 </div>
             </div>
 
-            <!-- Barre de progression vers l'objectif de followers (remplie par main.js) -->
             <div id="followerGoal" class="follower-goal" hidden>
                 <div class="follower-goal-track">
                     <div id="followerGoalFill" class="follower-goal-fill" role="progressbar"
@@ -360,15 +333,12 @@
     </div>
 </header>
 
-<!-- ═══ Bande « Cette semaine » (desktop) : planning et vote côte à côte ═══ -->
 <div class="band band-week">
-<!-- En-tête de bande, desktop uniquement : en mobile chaque section garde son titre -->
 <div class="section-header band-header">
     <h2 class="section-title">Cette semaine</h2>
     <p class="section-subtitle">Les trois rendez-vous, et le clip que la commu doit départager.</p>
 </div>
 
-<!-- Planning Section -->
 <section id="planning">
     <div class="section-header">
         <h2 class="section-title">Planning des streams</h2>
@@ -376,11 +346,6 @@
     </div>
 
     <div class="schedule-container">
-        <!-- Grille des horaires — fallback no-JS.
-             La vraie source de vérité est data/schedule.json :
-             modifie le JSON, la grille et le countdown suivent.
-             La carte du prochain live (ou du live en cours) reçoit un CTA,
-             ajouté par js/stream-countdown.js. -->
         <div class="schedule-grid">
 
             <article class="schedule-item" data-day="3" data-hour="21" data-minute="0">
@@ -404,17 +369,6 @@
     </div>
 </section>
 
-
-<!-- ══════════════════════════════════════════════════════════════════
-     ÉVÉNEMENTS — Cards aperçu (homepage)
-     Pour ajouter un nouvel event :
-       1. Copie une .event-archive-card ci-dessous
-       2. Colle-la EN PREMIER dans la grille (ordre : plus récent d'abord)
-       3. Change : href="/events#[slug]-[année]" + textes + theme-*
-       4. Ajoute la section détaillée dans events.html (voir le guide là-bas)
-     ══════════════════════════════════════════════════════════════════ -->
-<!-- Vote de la semaine : teaser vers /clips (finalistes chargés par main.js).
-     Desktop uniquement, à côté du planning : masqué sous 769 px. -->
 <section id="clips" class="desktop-only" hidden>
     <div class="section-header">
         <h2 class="section-title">Vote pour le clip de la semaine</h2>
@@ -430,9 +384,7 @@
 </section>
 </div>
 
-<!-- ═══ Bande « Événements + Me soutenir » (desktop : deux colonnes) ═══ -->
 <div class="band band-community">
-<!-- Événements Section -->
 <section id="evenements">
     <div class="section-header">
         <h2 class="section-title">Événements</h2>
@@ -441,7 +393,6 @@
 
     <div class="events-archive-grid">
 
-        <!-- ─── Baguettectober 2026 (en cours jusqu'au 31 octobre) ─── -->
         <a href="/events#baguettectober-2026" class="event-archive-card theme-autumn" data-umami-event="Home - Events - Baguettectober 2026">
             <div class="event-archive-meta">
                 <span class="event-type-badge">Challenge créatif</span>
@@ -453,7 +404,6 @@
             <span class="event-archive-cta">Participer →</span>
         </a>
 
-        <!-- ─── Gamers4Pets 2026 (Octobre 2026), édition passée ─── -->
         <a href="/events#gamers4pets-2026" class="event-archive-card theme-charity" data-umami-event="Home - Events - Gamers4Pets">
             <div class="event-archive-meta">
                 <span class="event-type-badge">Caritatif</span>
@@ -465,7 +415,6 @@
             <span class="event-archive-cta">Voir le recap →</span>
         </a>
 
-        <!-- ─── DTI Heartopia #2 (Juin 2026) ─── -->
         <a href="/events#dti-heartopia-juin-2026" class="event-archive-card theme-summer" data-umami-event="Home - Events - DTI Juin">
             <div class="event-archive-meta">
                 <span class="event-type-badge">Concours</span>
@@ -484,7 +433,6 @@
     </div>
 </section>
 
-<!-- Soutenir Section -->
 <section id="soutenir">
     <div class="section-header">
         <h2 class="section-title">Me soutenir</h2>
@@ -515,9 +463,7 @@
 </section>
 </div>
 
-<!-- ═══ Bande « Marques & studios » (desktop : e-mail à gauche, partenaires à droite) ═══ -->
 <div class="band band-pro">
-<!-- Contact Section -->
 <section id="contact">
     <div class="section-header">
         <h2 class="section-title"><span class="title-desktop">Me contacter</span><span class="title-mobile">Marques &amp; studios</span></h2>
@@ -529,10 +475,7 @@
             <article class="contact-info-box">
                 <div class="contact-icon" aria-hidden="true">📧</div>
                 <h3 class="contact-title">Email professionnel</h3>
-                <!-- Desktop uniquement -->
                 <span class="contact-reply">Réponse sous quelques jours</span>
-                <!-- Un seul bouton dont le libellé est l'adresse : au doigt il ouvre le
-                     mail, à la souris main.js copie l'adresse et affiche « Copié » 1,5 s. -->
                 <a href="#" class="contact-email js-email" data-user="baguette.chaussette.contact"
                    data-domain="gmail.com" data-show-text
                    data-umami-event="Contact - Email Click">baguette.chaussette.contact [at] gmail.com</a>
@@ -563,7 +506,6 @@
     </div>
 </section>
 
-<!-- Partners Section -->
 <section id="partenaires">
     <div class="section-header">
         <h2 class="section-title">Partenariats & Collaborations</h2>
@@ -573,10 +515,8 @@
 
     <div class="partners-container">
 
-        <!-- Loftia - Partenaire Officiel -->
         <article class="partner-card partner-featured is-collapsed" data-umami-event="Partner - Loftia Card Click">
             <div class="partner-badge partner">Partenaire Officiel</div>
-            <!-- Mobile uniquement : replie / déplie la carte (masqué au-dessus de 768 px) -->
             <button type="button" class="partner-toggle" aria-expanded="false" aria-label="Replier ou déplier la carte Loftia"></button>
             <div class="partner-logo">
                 <img src="img/partners/loftia-badge-partner.webp" alt="Logo de Loftia, MMO cosy solarpunk" width="440" height="175" loading="lazy" />
@@ -605,7 +545,6 @@
                 </div>
             </div>
         </article>
-        <!-- Inkonbini - Ambassadeur -->
         <article class="partner-card partner-featured is-collapsed" data-umami-event="Partner - inKONBINI Card Click">
             <div class="partner-badge ambassador">Ambassadeur</div>
             <button type="button" class="partner-toggle" aria-expanded="false" aria-label="Replier ou déplier la carte Inkonbini"></button>
@@ -640,9 +579,7 @@
 </section>
 </div>
 
-<!-- ═══ Bande « Réseaux + FAQ » (desktop) ═══ -->
 <div class="band band-social">
-<!-- Réseaux sociaux Section -->
 <section id="reseaux">
     <div class="section-header">
         <h2 class="section-title">Retrouve-moi sur les réseaux</h2>
@@ -651,7 +588,6 @@
 
     <div class="socials-container">
         <div class="socials-content">
-            <!-- Colonne gauche : réseaux -->
             <div class="socials-left">
                 <div class="social-grid" aria-label="Réseaux sociaux">
                     <a href="https://www.twitch.tv/baguettechaussette" target="_blank" rel="noopener noreferrer me" class="social-card twitch" data-umami-event="Social - Twitch">
@@ -692,7 +628,6 @@
                 </div>
             </div>
 
-            <!-- Colonne droite : widget Discord -->
             <aside class="socials-right">
                 <div class="discord-widget-container">
                     <h3 class="discord-widget-title">Rejoins le Discord !</h3>
@@ -717,7 +652,6 @@
     </div>
 </section>
 
-<!-- FAQ Section -->
 <section id="faq">
     <div class="section-header">
         <h2 class="section-title">FAQ</h2>
@@ -805,14 +739,12 @@
 
 </main>
 
-<!-- Bouton retour en haut -->
 <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 19V5M5 12l7-7 7 7"/>
     </svg>
 </button>
 
-<!-- Footer -->
 <footer>
     <div class="footer-content">
         <p>Baguette Chaussette © 2025 - <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
@@ -820,10 +752,9 @@
     </div>
 </footer>
 
-<!-- Scripts -->
-<script defer src="./js/main.js?v=247"></script>
-<script defer src="./js/stream-countdown.js?v=247"></script>
-<script defer src="./js/live-float.js?v=247"></script>
-<script defer src="./js/fluent-emoji.js?v=247"></script>
+<script defer src="./js/main.js?v=248"></script>
+<script defer src="./js/stream-countdown.js?v=248"></script>
+<script defer src="./js/live-float.js?v=248"></script>
+<script defer src="./js/fluent-emoji.js?v=248"></script>
 </body>
 </html>
