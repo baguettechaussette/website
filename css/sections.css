@@ -503,8 +503,10 @@
     background: rgba(255, 255, 255, 0.55);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    /* Verre givré, comme les cartes de l'accueil (.stat-box) */
-    backdrop-filter: blur(10px);
+    /* Pas de verre givré : dans le carrousel mobile (zone qui défile), le
+       flou faisait peindre à Chrome une bande de fond derrière tout le
+       carrousel, les points de navigation restant en dehors. Sur un fond
+       presque uni, il n'apportait rien. */
 }
 
 .cow-vote-btn {
