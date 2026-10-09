@@ -187,7 +187,7 @@ window.addEventListener('scroll', () => {
 function milliers(n) {
     return n.toLocaleString('fr-FR').replace(/\s/g, String.fromCharCode(8239));
 }
-function animateCounter(element, start, end, duration, suffix = '') {
+function animateCounter(element, start, end, duration, suffix = '', prefix = '') {
     const startTime = performance.now();
     const range = end - start;
 
@@ -199,12 +199,12 @@ function animateCounter(element, start, end, duration, suffix = '') {
         const easeProgress = 1 - Math.pow(1 - progress, 2);
         const current = Math.floor(start + range * easeProgress);
 
-        element.textContent = milliers(current) + suffix;
+        element.textContent = prefix + milliers(current) + suffix;
 
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = milliers(end) + suffix;
+            element.textContent = prefix + milliers(end) + suffix;
         }
     }
 
@@ -879,12 +879,14 @@ function animateStaticCounters() {
         if (!el) return;
         const texte = el.textContent.trim();
         const target = parseInt(texte.replace(/\D/g, '')) || 0;
-        // Ce qui suit le nombre reste tel quel : « + » pour TikTok, « + h » pour
-        // les heures (le compteur réécrivait « 1 100+ h » en « 1 100+ »).
-        const suite = texte.replace(/^[\d\s]+/, '') || '+';
-        el.textContent = '0';
+        // Ce qui entoure le nombre reste tel quel : « + » devant, « h » derrière
+        // pour les heures (« +1 100 h »). Le compteur ne réécrit que le chiffre.
+        const m = texte.match(/^(\D*)[\d\s]*\d(.*)$/);
+        const avant = m ? m[1] : '';
+        const apres = m ? m[2] : '';
+        el.textContent = avant + '0' + apres;
         el.style.opacity = '1';
-        animateCounter(el, 0, target, 1200, suite);
+        animateCounter(el, 0, target, 1200, apres, avant);
     });
 }
 
