@@ -204,11 +204,21 @@
         rainHearts(m);
     }
 
-    // Petite pluie de cœurs derrière la carte, purement décorative.
+    // Pluie de cœurs derrière la carte tant que la modale est ouverte, purement
+    // décorative. Chaque cœur tombe en boucle et repart d'ailleurs à chaque
+    // tour ; le premier passage est étalé pour un flux continu, pas une vague.
     // Les images viennent de img/emoji/ pour être identiques sur tous les appareils.
     const HEART_COUNT = 18;
-    const HEART_LIFE  = 7000;
-    let heartTimer = null;
+
+    // Position, taille, dérive et rotation : retirées à chaque tour. La durée,
+    // elle, reste fixe (la changer en cours d'animation ferait sauter le cœur).
+    function placeHeart(heart) {
+        // 92 % max : un cœur de 26 px tient encore entier sur un écran de 375 px
+        heart.style.left = (Math.random() * 92) + '%';
+        heart.style.width = (14 + Math.random() * 12).toFixed(1) + 'px';
+        heart.style.setProperty('--drift', Math.round(Math.random() * 80 - 40) + 'px');
+        heart.style.setProperty('--spin', Math.round(Math.random() * 540 - 270) + 'deg');
+    }
 
     function rainHearts(overlay) {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -223,22 +233,18 @@
             heart.className = 'g4p-heart';
             heart.src = '/img/emoji/1f9e1.svg';
             heart.alt = '';
-            // 92 % max : un cœur de 26 px tient encore entier sur un écran de 375 px
-            heart.style.left = (Math.random() * 92) + '%';
-            heart.style.width = (14 + Math.random() * 12).toFixed(1) + 'px';
+            placeHeart(heart);
             heart.style.animationDuration = (3.2 + Math.random() * 2.0).toFixed(2) + 's';
-            heart.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
-            heart.style.setProperty('--drift', Math.round(Math.random() * 80 - 40) + 'px');
-            heart.style.setProperty('--spin', Math.round(Math.random() * 540 - 270) + 'deg');
+            heart.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+            heart.style.animationIterationCount = 'infinite';
+            heart.addEventListener('animationiteration', () => placeHeart(heart));
             layer.appendChild(heart);
         }
 
         overlay.appendChild(layer);
-        heartTimer = setTimeout(() => clearHearts(overlay), HEART_LIFE);
     }
 
     function clearHearts(overlay) {
-        clearTimeout(heartTimer);
         overlay.querySelector('.g4p-hearts')?.remove();
     }
 
