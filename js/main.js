@@ -683,16 +683,24 @@ async function loadTopClips() {
             return;
         }
 
-        // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
-        // sont déjà affichés au-dessus : on les retire des derniers clips (doublons).
+        // Sur la page clips, les finalistes, le couronné du Clip de la Semaine et
+        // les clips du Palmarès sont déjà affichés au-dessus : on les retire des
+        // derniers clips (doublons).
         const exclude = new Set();
         if (document.getElementById('cowGrid')) {
             try {
-                const rCow = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
+                const [rCow, rHof] = await Promise.all([
+                    fetch('/data/clip-of-week.json', { cache: 'no-store' }),
+                    fetch('/data/hall-of-fame.json', { cache: 'no-store' }),
+                ]);
                 if (rCow.ok) {
                     const cow = await rCow.json();
                     (Array.isArray(cow.finalists) ? cow.finalists : []).forEach(f => f?.id && exclude.add(f.id));
                     if (cow.winner?.id) exclude.add(cow.winner.id);
+                }
+                if (rHof.ok) {
+                    const hof = await rHof.json();
+                    (Array.isArray(hof.winners) ? hof.winners : []).forEach(w => w?.id && exclude.add(w.id));
                 }
             } catch { /* pas grave : au pire des doublons */ }
         }
