@@ -1,13 +1,6 @@
-// Page /events, section Gamers4Pets 2026 : compte à rebours + mur des donateurs.
-//
-// Les pseudos vivent dans data/gamers4pets-donors.json — éditer ce fichier suffit,
-// aucune retouche HTML nécessaire. Une fois l'event passé, le compte à rebours
-// disparaît tout seul et la section devient un simple recap comme les autres.
 (function () {
     'use strict';
 
-    // Heure de Paris écrite en dur : l'event a des dates fixes, pas besoin de
-    // recalculer un offset été/hiver comme dans stream-countdown.js.
     const START = new Date('2026-10-02T20:00:00+02:00').getTime();
     const END   = new Date('2026-10-04T23:59:00+02:00').getTime();
 
@@ -16,11 +9,11 @@
         loadDonors();
     });
 
-    // ── Compte à rebours ────────────────────────────────────────
+    // Compte à rebours
     function initCountdown() {
         const root = document.getElementById('g4pCountdown');
         if (!root) return;
-        if (Date.now() >= END) return; // event terminé : le bloc reste masqué
+        if (Date.now() >= END) return;
 
         const value = root.querySelector('.g4p-countdown-value');
         const label = root.querySelector('.g4p-countdown-label');
@@ -31,7 +24,6 @@
         };
         if (!value || !label || !units.days || !units.hours || !units.mins) return;
 
-        // Renvoie false quand il n'y a plus rien à afficher (event terminé).
         function render() {
             const now = Date.now();
 
@@ -40,8 +32,6 @@
                 return false;
             }
 
-            // Une fois passé en live on n'en ressort plus : écraser le contenu de la
-            // carte (et donc les <span data-unit>) est sans risque.
             if (now >= START) {
                 root.classList.add('is-live');
                 value.textContent = 'En live';
@@ -64,10 +54,7 @@
         }, 30000);
     }
 
-    // ── Mur des donateurs ───────────────────────────────────────
-    // La liste peut devenir longue : elle vit dans une modale. La carte montre
-    // le compte, un aperçu de quelques pseudos tirés au hasard (chacun a sa
-    // chance d'apparaître) et le bouton.
+    // Mur des donateurs
     async function loadDonors() {
         const btn = document.getElementById('g4pDonorBtn');
         if (!btn) return;
@@ -81,18 +68,15 @@
             const data = await r.json();
             raw = Array.isArray(data.donors) ? data.donors : [];
         } catch {
-            return; // silencieux : le message d'attente du HTML reste en place
+            return;
         }
 
-        // Accepte "pseudo" ou { "name": "pseudo" }, pour pouvoir ajouter d'autres
-        // champs plus tard sans casser le fichier existant.
         const names = raw
             .map(d => (typeof d === 'string' ? d : (d && d.name)))
             .filter(n => typeof n === 'string' && n.trim())
             .map(n => n.trim())
             .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
 
-        // Liste vide : le bouton reste désactivé, la note dit pourquoi.
         if (!names.length) {
             if (note) note.textContent = "Le mur s'ouvrira très bientôt.";
             return;
@@ -112,8 +96,6 @@
         renderPreview(names, btn);
     }
 
-    // Aperçu : une douzaine de pseudos en pastilles (8 sur mobile), puis une
-    // pastille « +N » qui ouvre la liste complète
     function renderPreview(names, btn) {
         const preview = document.getElementById('g4pDonorPreview');
         if (!preview) return;
@@ -146,7 +128,7 @@
         preview.hidden = false;
     }
 
-    // ── Modale ──────────────────────────────────────────────────
+    // Modale
     let modal = null;
     let lastFocus = null;
 
@@ -157,8 +139,6 @@
         modal.className = 'g4p-modal';
         modal.id = 'g4pDonorModal';
 
-        // Construction en nœuds DOM purs, jamais via innerHTML : les pseudos sont
-        // saisis à la main mais viennent du chat, autant rester prudent.
         const content = makeEl('div', 'g4p-modal__content');
         content.setAttribute('role', 'dialog');
         content.setAttribute('aria-modal', 'true');
@@ -204,16 +184,9 @@
         rainHearts(m);
     }
 
-    // Pluie de cœurs derrière la carte tant que la modale est ouverte, purement
-    // décorative. Chaque cœur tombe en boucle et repart d'ailleurs à chaque
-    // tour ; le premier passage est étalé pour un flux continu, pas une vague.
-    // Les images viennent de img/emoji/ pour être identiques sur tous les appareils.
     const HEART_COUNT = 18;
 
-    // Position, taille, dérive et rotation : retirées à chaque tour. La durée,
-    // elle, reste fixe (la changer en cours d'animation ferait sauter le cœur).
     function placeHeart(heart) {
-        // 92 % max : un cœur de 26 px tient encore entier sur un écran de 375 px
         heart.style.left = (Math.random() * 92) + '%';
         heart.style.width = (14 + Math.random() * 12).toFixed(1) + 'px';
         heart.style.setProperty('--drift', Math.round(Math.random() * 80 - 40) + 'px');

@@ -1,22 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --------------------------
-    // Données des galeries
-    // --------------------------
-    // ══════════════════════════════════════════════════════════════
-    // POUR AJOUTER UNE NOUVELLE ÉDITION DE BAGUETTECTOBER :
-    //   1. Copie le bloc baguettectober2026 ci-dessous, renomme la clé avec
-    //      l'année (elle doit correspondre à l'id de la section, sans tirets)
-    //   2. Mets les images dans img/baguettectober-[année]/w1/… et leurs
-    //      miniatures carrées dans img/baguettectober-[année]/thumbs/w1/…
-    //   Rien d'autre : les cartes de la section se branchent toutes seules.
-    //
-    // Une création : { src, caption: 'Auteur : Pseudo', url: lien Instagram (facultatif) }
-    // ══════════════════════════════════════════════════════════════
     const GALLERIES = {
-        // Baguettectober 2026 — en cours. Les créations sont ajoutées après le
-        // vernissage du 1er novembre, uniquement celles dont l'auteur·ice est
-        // d'accord pour apparaître sur le site. Exemple :
-        //   w1: [{ src: 'img/baguettectober-2026/w1/pseudo.webp', caption: 'Auteur : Pseudo', url: 'https://www.instagram.com/pseudo/' }],
         baguettectober2026: {
             w1: [],
             w2: [],
@@ -68,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     };
 
-    // --------------------------
-    // Viewer d'images (DTI + Baguettectober)
-    // --------------------------
+    // Viewer d'images
     (function initViewer() {
         const tpl = `
     <div class="dti-viewer" id="dtiViewer" aria-modal="true" role="dialog" aria-label="Galerie" aria-hidden="true">
@@ -107,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let idx   = 0;
         let lastFocused = null;
 
-        // -------- Affichage --------
+        // Affichage
         function show(i) {
             const item = items[i];
             if (!item) return;
@@ -126,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnNext.hidden = !multi;
         }
 
-        // -------- Ouverture / Fermeture --------
+        // Ouverture / Fermeture
         function open(list, i) {
             items = list;
             lastFocused = document.activeElement;
@@ -134,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
             viewer.classList.add('is-open');
             viewer.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            // Le reste de la page devient inerte : le curseur virtuel des lecteurs
-            // d'écran ne peut plus se promener derrière le dialogue
             document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = true; });
             btnClose.focus({ preventScroll: true });
         }
@@ -149,21 +128,20 @@ document.addEventListener('DOMContentLoaded', () => {
             lastFocused?.focus({ preventScroll: true });
         }
 
-        // -------- Agrandir --------
+        // Agrandir
         function toggleExpand() {
             const expanded = viewer.classList.toggle('is-expanded');
             btnExpand.classList.toggle('is-active', expanded);
             btnExpand.setAttribute('aria-label', expanded ? 'Réduire' : 'Agrandir');
         }
 
-        // -------- Listeners --------
+        // Listeners
         btnClose.addEventListener('click', close);
         btnPrev.addEventListener('click', () => show((idx - 1 + items.length) % items.length));
         btnNext.addEventListener('click', () => show((idx + 1) % items.length));
         btnExpand.addEventListener('click', toggleExpand);
         viewer.addEventListener('click', (e) => { if (e.target === viewer) close(); });
 
-        // Double-clic / double-tap sur l'image pour agrandir
         imgEl.addEventListener('dblclick', toggleExpand);
         let lastTap = 0;
         imgEl.addEventListener('touchend', (e) => {
@@ -179,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'ArrowLeft')  show((idx - 1 + items.length) % items.length);
             if (e.key?.toLowerCase() === 'f') toggleExpand();
 
-            // Focus trap : Tab reste à l'intérieur du dialogue
             if (e.key === 'Tab') {
                 const focusables = Array.from(viewer.querySelectorAll('button:not([hidden])'));
                 if (!focusables.length) return;
@@ -208,9 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : show((idx - 1 + items.length) % items.length);
         }, { passive: true });
 
-        // --- Galeries lightbox (groupées automatiquement par data-gallery) ---
-        // Tout lien .lightbox-link[data-gallery="xxx"] est relié aux autres du même groupe :
-        // aucun JS à ajouter pour un nouvel event, l'attribut suffit.
+        // Galeries lightbox
         const lightboxGroups = {};
         document.querySelectorAll('.lightbox-link[data-gallery]').forEach(a => {
             const g = a.dataset.gallery;
@@ -229,11 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // --- Baguettectober, toutes éditions ---
-        // Un clic sur une semaine ouvre le panneau de la semaine : toutes les créations
-        // avec le pseudo de chaque artiste, et les flèches vers la semaine voisine de
-        // la même édition. En mobile il monte du bas, en desktop c'est une fenêtre
-        // centrée (CSS) ; un clic sur une création ouvre le viewer plein écran.
+        // Baguettectober, toutes éditions
         function galleryKey(card) {
             const section = card.closest('section[id^="baguettectober-"]');
             return section ? section.id.replaceAll('-', '') : null;
@@ -248,12 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .filter(card => weekList(card).length);
 
         weekCards.forEach(card => {
-            // Le clic vient du <button class="gallery-trigger"> et remonte jusqu'ici ;
-            // Entrée/Espace déclenchent un clic natif, pas besoin de keydown maison.
             card.addEventListener('click', () => openSheet(card));
         });
 
-        // -------- Panneau semaine --------
+        // Panneau semaine
         let sheet = null, sheetCard = null, sheetLastFocus = null;
 
         function ensureSheet() {
@@ -300,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sheetCard = card;
             const list = weekList(card);
             const edition = editionName(card);
-            // fluent-emoji.js a remplacé l'emoji par une image : on relit son alt
             const iconEl = card.querySelector('.gallery-icon');
             const icon = (iconEl?.querySelector('img')?.alt || iconEl?.textContent || '').trim();
 
@@ -329,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cap = document.createElement('figcaption');
                 const name = (item.caption || '').replace('Auteur : ', '');
                 if (item.url) {
-                    // Pseudo cliquable vers l'Instagram de l'artiste (facultatif)
                     const a = document.createElement('a');
                     a.href = item.url;
                     a.target = '_blank';
@@ -344,7 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             grid.scrollTop = 0;
 
-            // Semaine précédente / suivante dans la même édition
             const siblings = weekCards.filter(c => galleryKey(c) === galleryKey(card));
             const i = siblings.indexOf(card);
             const prev = siblings[i - 1], next = siblings[i + 1];
@@ -378,25 +344,18 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('bgal-open');
             sheetLastFocus?.focus({ preventScroll: true });
         }
-
     })();
 
-    // --------------------------
     // Génération des mosaïques
-    // --------------------------
     document.querySelectorAll('.gallery-item[data-week]').forEach(card => {
         const weekKey     = card.dataset.week;
         const placeholder = card.querySelector('.gallery-placeholder');
 
-        // Détecte l'édition via le parent (ex: #baguettectober-2025 → clé baguettectober2025)
         const section   = card.closest('section[id^="baguettectober-"]');
         const eventType = section ? section.id.replaceAll('-', '') : 'baguettectober2025';
         const list      = GALLERIES[eventType]?.[weekKey];
 
         if (list && list.length > 0) {
-            // Une semaine qui a des créations devient cliquable : le bouton transparent
-            // qui couvre la carte est posé ici, pas en HTML (les éditions en cours
-            // n'en ont pas tant que leur galerie est vide).
             if (!card.querySelector('.gallery-trigger')) {
                 const trigger = document.createElement('button');
                 trigger.type = 'button';
@@ -412,8 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const mosaicInner = document.createElement('div');
             mosaicInner.className = 'gallery-mosaic-inner';
 
-            // Vraies <img> (indexables, avec alt) sur miniatures légères :
-            // img/baguettectober/w1/x.webp → img/baguettectober/thumbs/w1/x.webp
             list.slice(0, 4).forEach(item => {
                 const img = document.createElement('img');
                 img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
@@ -422,14 +379,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.decoding = 'async';
                 img.width = 400;
                 img.height = 400;
-                // Si la miniature manque (nouvelle édition ?), on retombe sur l'original
                 img.addEventListener('error', () => { img.src = item.src; }, { once: true });
                 mosaicInner.appendChild(img);
             });
 
             mosaic.appendChild(mosaicInner);
-            // Le placeholder (emoji + « Semaine N ») reste dans le DOM : masqué sur desktop
-            // par .is-replaced, il redevient l'en-tête de la carte en mobile.
             placeholder.classList.add('is-replaced');
             placeholder.insertAdjacentElement('afterend', mosaic);
             card.classList.add('has-gallery');

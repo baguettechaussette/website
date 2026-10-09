@@ -6,14 +6,11 @@
     <meta name="color-scheme" content="only light">
     <meta name="darkreader-lock">
     <meta name="theme-color" content="#9146ff">
-    <!-- CSP : seule défense disponible sur GitHub Pages (pas d en-têtes custom).
-         Pour un futur embed player.twitch.tv, l ajouter au frame-src. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements | Baguette Chaussette</title>
     <meta name="description" content="Les événements des p'tits pains : Baguettectober 2026 en cours (un défi créatif par semaine, voté en live), Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia.">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:url" content="https://baguettechaussette.fr/events">
@@ -25,7 +22,6 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Les événements de Baguette Chaussette : caritatif, concours et challenges créatifs.">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Événements | Baguette Chaussette">
     <meta name="twitter:description" content="Les événements des p'tits pains : concours, challenges dessin, events caritatifs.">
@@ -40,24 +36,21 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=246">
+    <link rel="stylesheet" href="./css/fonts.css?v=247">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=246">
-    <link rel="stylesheet" href="./css/layout.css?v=246">
-    <link rel="stylesheet" href="./css/components.css?v=246">
-    <link rel="stylesheet" href="./css/sections.css?v=246">
-    <link rel="stylesheet" href="./css/responsive.css?v=246">
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=246">
-    <link rel="stylesheet" href="./css/events.css?v=246">
-    <link rel="stylesheet" href="./css/events-desktop.css?v=246">
-    <link rel="stylesheet" href="./css/lightbox.css?v=246">
+    <link rel="stylesheet" href="./css/base.css?v=247">
+    <link rel="stylesheet" href="./css/layout.css?v=247">
+    <link rel="stylesheet" href="./css/components.css?v=247">
+    <link rel="stylesheet" href="./css/sections.css?v=247">
+    <link rel="stylesheet" href="./css/responsive.css?v=247">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=247">
+    <link rel="stylesheet" href="./css/events.css?v=247">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=247">
+    <link rel="stylesheet" href="./css/lightbox.css?v=247">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
-    <!-- Schema.org — Événements -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -240,7 +233,6 @@
 <body>
 <a class="skip-link" href="#main">Aller au contenu</a>
 
-<!-- Background animé -->
 <div class="bg-container" aria-hidden="true"></div>
 <div class="particles" aria-hidden="true">
     <div class="particle"></div>
@@ -250,7 +242,6 @@
     <div class="particle"></div>
 </div>
 
-<!-- Navigation -->
 <nav id="navbar">
     <div class="container">
         <div class="logo">
@@ -265,18 +256,14 @@
             <li><a href="/events" aria-current="page" data-umami-event="Events Nav - Evenements">Événements</a></li>
             <li><a href="/#contact" data-umami-event="Events Nav - Contact">Contact</a></li>
             <li><a href="/#reseaux" data-umami-event="Events Nav - Reseaux">Réseaux</a></li>
-            <!-- Mobile uniquement : pied du panneau (masqué au-dessus de 768 px) -->
             <li class="nav-links-footer"><a href="/links" data-umami-event="Nav - Tous mes liens">Tous mes liens <span aria-hidden="true">↗</span></a></li>
         </ul>
     </div>
 </nav>
 
-<!-- Contenu principal -->
 <main id="main">
 
-<!-- Page Hero -->
 <header class="page-hero" id="accueil">
-    <!-- Desktop uniquement : ronds décoratifs, masqués sous 769 px -->
     <span class="hero-blob hero-blob-1" aria-hidden="true"></span>
     <span class="hero-blob hero-blob-2" aria-hidden="true"></span>
     <div class="container">
@@ -287,73 +274,12 @@
     </div>
 </header>
 
-<!--
-╔══════════════════════════════════════════════════════════════════════╗
-║  POUR AJOUTER UN NOUVEL EVENT                                        ║
-║                                                                      ║
-║  1. Copie l'un des blocs <section> ci-dessous selon le type :        ║
-║     • Concours (ex: DTI)   → copie le bloc #dti-heartopia-2026       ║
-║     • Challenge dessin     → copie le bloc #baguettectober-2025      ║
-║                                                                      ║
-║  2. Adapte l'id  → pattern : [slug-event]-[année]                    ║
-║     ex: id="dti-heartopia-2027"  ou  id="baguettectober-2026"        ║
-║                                                                      ║
-║  2 bis. Nouveau thème ? Ajoute dans css/events.css :                 ║
-║     • .event-container.theme-[nom]           (fond + bordure)        ║
-║     • .theme-[nom] .event-badge              (couleur du badge)      ║
-║     • .event-container.theme-[nom]::before   (emoji de fond, en SVG  ║
-║       depuis img/emoji/ : pas de texte, sinon le rendu change        ║
-║       d'un appareil à l'autre)                                       ║
-║                                                                      ║
-║  2 ter. Garde la structure .event-intro (ligne d'en-tête) puis       ║
-║     .event-body : récit, chiffres, photos (dans .event-photos),      ║
-║     podium. Les emballages .event-body-main / .event-body-row de     ║
-║     Gamers4Pets ne servent qu'aux deux rangées du desktop.           ║
-║                                                                      ║
-║  3. Colle le bloc AVANT les anciens (ordre : plus récent en haut)    ║
-║                                                                      ║
-║  4. Ajoute la carte dans index.html                                  ║
-║     Section #evenements > .events-archive-grid                       ║
-║     → Copie une .event-archive-card existante                        ║
-║     → Change : href="/events#[slug]-[année]"  +  textes              ║
-║     → Mets la nouvelle carte EN PREMIER dans la grille               ║
-╚══════════════════════════════════════════════════════════════════════╝
--->
-
-<!-- =============================================
-     GAMERS4PETS 2026 — du 29 septembre au 4 octobre 2026 (édition passée)
-     ID pattern : gamers4pets-[année]
-
-     • Mur des donateurs : js/gamers4pets.js lit data/gamers4pets-donors.json
-       (37 pseudos), rien à toucher ici.
-     • Prochaine édition « à venir » : recopier ce bloc dans une bande
-       <div class="band band-upcoming"> posée avant celle-ci, avec son
-       en-tête desktop (.band-header, « À venir » / « Le prochain
-       rendez-vous, et pour une fois en vrai. »), sans is-collapsible.
-     ============================================= -->
-<!-- ═══ Bande « En ce moment » : l'édition en cours, dépliée, sans bouton replier ═══
-     Quand le Baguettectober 2026 sera terminé (après le 1er novembre) : déplacer la
-     section dans la bande « L'archive » ci-dessous, en tête, lui ajouter les classes
-     is-collapsible is-collapsed, le bouton .event-toggle (copier celui de 2025), passer
-     le badge en « Challenge créatif • Octobre 2026 » et supprimer cette bande. -->
 <div class="band band-upcoming">
 <div class="section-header band-header">
     <h2 class="section-title">En ce moment</h2>
     <p class="section-subtitle">Le Baguettectober bat son plein jusqu'au 31 octobre, et c'est vous qui décidez de son déroulement !</p>
 </div>
 
-<!-- =============================================
-     BAGUETTECTOBER 2026 — du 1er octobre au 31 octobre 2026 (en cours)
-     ID pattern : baguettectober-[année]
-
-     • Semaines 3 et 4 : retirer la classe is-pending et l'attribut data-vote de
-       la carte, puis remplacer le titre et la description par le défi voté.
-     • Créations : js/gallery.js, bloc GALLERIES.baguettectober2026 (image,
-       pseudo, lien Instagram facultatif). Dès qu'une semaine a des créations,
-       sa carte devient cliquable et la note « après le vernissage » disparaît.
-     • Visuel 16:9 : déposer img/baguettectober-2026/visuel.webp puis
-       décommenter la <figure> ci-dessous.
-     ============================================= -->
 <section id="baguettectober-2026">
     <div class="event-container theme-autumn is-live-edition">
         <div class="event-intro">
@@ -379,12 +305,6 @@
                     <span class="event-stat-number">#Baguettectober2026</span>
                 </div>
             </div>
-
-            <!-- Visuel 16:9 de l'édition, à décommenter quand le fichier est déposé :
-            <figure class="event-visual">
-                <img src="img/baguettectober-2026/visuel.webp" alt="Visuel du Baguettectober 2026 : Baguette prépare Halloween" width="1600" height="900" loading="lazy" decoding="async">
-            </figure>
-            -->
 
             <div class="gallery-grid">
                 <article class="gallery-item" data-week="w1">
@@ -429,7 +349,6 @@
 </section>
 </div>
 
-<!-- ═══ Bande « L'archive » : en-tête desktop seulement, en mobile les cartes suivent le hero ═══ -->
 <div class="band band-archive">
 <div class="section-header band-header">
     <h2 class="section-title">L'archive</h2>
@@ -439,7 +358,6 @@
 <section id="gamers4pets-2026">
     <div class="event-container theme-charity is-collapsible is-collapsed">
         <div class="event-intro">
-            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
             <span class="event-emoji" aria-hidden="true">🐾</span>
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Gamers4Pets 2026"></button>
             <div class="event-badge">Caritatif • Octobre 2026 🧡</div>
@@ -489,9 +407,6 @@
 
         <div class="event-block">
             <h3 class="event-block-title">Le mur des donateurs</h3>
-            <!-- js/gamers4pets.js remplit le compte et l'aperçu (une douzaine de pseudos
-                 tirés au hasard) dès que data/gamers4pets-donors.json contient des
-                 pseudos, et active le bouton. La liste complète vit dans une modale. -->
             <p class="event-block-text g4p-donor-count" id="g4pDonorCount" hidden></p>
             <ul class="g4p-donor-preview" id="g4pDonorPreview" aria-label="Quelques p'tits pains au grand cœur" hidden></ul>
             <div class="g4p-donor-cta">
@@ -508,14 +423,9 @@
     </div>
 </section>
 
-<!-- =============================================
-     DTI HEARTOPIA #2 — Juin 2026
-     ID pattern : dti-heartopia-[mois]-[année]
-     ============================================= -->
 <section id="dti-heartopia-juin-2026">
     <div class="event-container theme-summer is-collapsible is-collapsed">
         <div class="event-intro">
-            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
             <span class="event-emoji" aria-hidden="true">📸</span>
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #2"></button>
             <div class="event-badge">Concours DTI • Juin 2026 👗</div>
@@ -640,14 +550,9 @@
     </div>
 </section>
 
-<!-- =============================================
-     DTI HEARTOPIA — Mars 2026
-     ID pattern : dti-heartopia-[année]
-     ============================================= -->
 <section id="dti-heartopia-2026">
     <div class="event-container theme-game is-collapsible is-collapsed">
         <div class="event-intro">
-            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
             <span class="event-emoji" aria-hidden="true">🧦</span>
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #1"></button>
             <div class="event-badge">Concours DTI • Mars 2026 🧦</div>
@@ -774,14 +679,9 @@
     </div>
 </section>
 
-<!-- =============================================
-     BAGUETTECTOBER 2025 — Octobre 2025
-     ID pattern : baguettectober-[année]
-     ============================================= -->
 <section id="baguettectober-2025">
     <div class="event-container theme-autumn is-collapsible is-collapsed">
         <div class="event-intro">
-            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
             <span class="event-emoji" aria-hidden="true">🥖</span>
             <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Baguettectober 2025"></button>
             <div class="event-badge">Challenge dessin • Octobre 2025 🥖</div>
@@ -794,7 +694,6 @@
                 Découvre ici la galerie d'art de la communauté 😊
             </p>
 
-        <!-- Stats -->
         <div class="event-stats-strip">
             <div class="event-stat-chip">
                 <span class="event-stat-number">5</span>
@@ -864,14 +763,12 @@
 
 </main>
 
-<!-- Bouton retour en haut -->
 <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 19V5M5 12l7-7 7 7"/>
     </svg>
 </button>
 
-<!-- Footer -->
 <footer>
     <div class="footer-content">
         <p>Baguette Chaussette © 2025 — <span id="footer-year"></span> • Fait en 🧦 avec ❤️</p>
@@ -883,12 +780,10 @@
     </div>
 </footer>
 
-<!-- Scripts -->
-<script defer src="./js/main.js?v=246"></script>
-<script defer src="./js/live-float.js?v=246"></script>
-<script defer src="./js/gallery.js?v=246"></script>
-<script defer src="./js/gamers4pets.js?v=246"></script>
-<script defer src="./js/fluent-emoji.js?v=246"></script>
-
+<script defer src="./js/main.js?v=247"></script>
+<script defer src="./js/live-float.js?v=247"></script>
+<script defer src="./js/gallery.js?v=247"></script>
+<script defer src="./js/gamers4pets.js?v=247"></script>
+<script defer src="./js/fluent-emoji.js?v=247"></script>
 </body>
 </html>

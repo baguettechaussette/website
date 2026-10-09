@@ -1,5 +1,5 @@
 /* ============================================
-   EVENTS.CSS — Styles spécifiques à events.html
+   EVENTS.CSS
    ============================================ */
 
 /* ============================================
@@ -17,8 +17,6 @@
     box-shadow: 0 4px 24px rgba(63, 47, 37, 0.07);
 }
 
-/* Emoji de fond : une image SVG plutôt que du texte, pour que le rendu soit
-   identique sur tous les appareils (chaque thème a le sien, voir plus bas). */
 .event-container::before {
     content: "";
     position: absolute;
@@ -107,9 +105,6 @@
     box-shadow: 0 2px 12px rgba(63, 47, 37, 0.07);
 }
 
-/* L'action est portée par un vrai bouton transparent qui couvre la carte :
-   l'<article> garde son titre et sa description lisibles (un role="button"
-   sur l'article les masquait aux lecteurs d'écran et aux agents). */
 .gallery-trigger {
     position: absolute;
     inset: 0;
@@ -123,7 +118,7 @@
 
 .gallery-trigger:focus-visible {
     outline: 3px solid var(--pink);
-    outline-offset: -3px; /* vers l'intérieur : la carte est en overflow:hidden */
+    outline-offset: -3px;
 }
 
 .gallery-item::before {
@@ -153,7 +148,7 @@
     box-shadow: 0 16px 40px rgba(197, 106, 82, 0.14);
 }
 
-/* Placeholder (pas encore d'images) */
+/* Placeholder */
 .gallery-placeholder {
     aspect-ratio: 1;
     background: linear-gradient(135deg, rgba(127, 184, 147, 0.12), rgba(242, 193, 107, 0.10));
@@ -184,7 +179,7 @@
     z-index: 1;
 }
 
-/* Mosaïque floutée (quand il y a des images) */
+/* Mosaïque floutée */
 .gallery-mosaic {
     position: relative;
     border-radius: 15px;
@@ -323,8 +318,6 @@
     z-index: 1;
 }
 
-/* Les blocs ci-dessous existent en deux noms : le préfixe .dti-* est historique,
-   les alias .event-block* sont les noms génériques à utiliser pour tout nouvel event. */
 .dti-gallery-block,
 .event-block {
     position: relative;
@@ -435,11 +428,9 @@
 }
 
 /* ============================================
-   GAMERS4PETS — Compte à rebours & mur des donateurs
+   GAMERS4PETS
    ============================================ */
 
-/* Le compte à rebours est une carte de la bande de stats (.event-stat-chip) :
-   il reprend donc sa boîte, et n'ajoute que la mise en forme du « 10j 9h 20min ». */
 .g4p-countdown[hidden] { display: none; }
 
 .g4p-countdown-value {
@@ -449,7 +440,6 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Pendant l'event, la carte passe au vert et affiche « En live » */
 .g4p-countdown.is-live {
     background: rgba(127, 184, 147, 0.30);
     border-color: rgba(92, 147, 111, 0.45);
@@ -460,7 +450,6 @@
     color: var(--green);
 }
 
-/* Lien inline dans un bloc de texte (ex. la Confédération Défense de l'Animal) */
 .event-block-text a {
     color: var(--green);
     font-weight: 700;
@@ -478,9 +467,6 @@
 
 /* Mur des donateurs */
 
-/* Le bouton du mur est un primaire vert (components.css) */
-
-/* Avant l'event : le bouton est là mais inerte, avec sa note en dessous */
 .g4p-donor-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -501,10 +487,8 @@
     margin: 14px 0 0;
 }
 
-/* Badge d'édition : version longue en desktop, courte en mobile (plus bas) */
 .event-badge-court { display: none; }
 
-/* Compte et aperçu du mur (remplis par gamers4pets.js) */
 .g4p-donor-count[hidden],
 .g4p-donor-preview[hidden] { display: none; }
 
@@ -517,14 +501,13 @@
     gap: 6px;
 }
 
-/* Un pseudo par pastille miel, coupé proprement s'il est très long */
 .g4p-donor-chip {
     max-width: 100%;
     padding: 5px 11px;
     border-radius: 50px;
     background: rgba(242, 201, 107, 0.3);
     color: #6e5418;
-    font-size: 0.84375rem; /* 13,5 px */
+    font-size: 0.84375rem;
     font-weight: 700;
     line-height: 1.3;
     white-space: nowrap;
@@ -534,7 +517,6 @@
 
 .g4p-donor-more-item { display: flex; }
 
-/* « +N » : ouvre la liste complète, en vert comme le bouton du mur */
 .g4p-donor-more {
     padding: 5px 11px;
     border: 0;
@@ -551,10 +533,7 @@
 
 .g4p-donor-more:hover { background: rgba(127, 184, 147, 0.4); }
 
-/* ── Modale du mur des donateurs ─────────────────────────── */
-/* Voile opaque plutôt qu'un backdrop-filter : le fond du site est animé en
-   permanence, donc un flou plein écran serait recalculé à chaque frame
-   (mesuré : 60 fps avec le flou, 75 sans, pour un rendu quasi identique). */
+/* Modale du mur des donateurs */
 .g4p-modal {
     position: fixed;
     inset: 0;
@@ -569,8 +548,6 @@
     transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-/* Modale ouverte : les décors animés du fond sont cachés derrière le voile,
-   autant les mettre en pause le temps de l'affichage. */
 body.g4p-modal-open .bg-container,
 body.g4p-modal-open .particle {
     animation-play-state: paused;
@@ -609,7 +586,6 @@ body.g4p-modal-open .particle {
     margin: 0 0 18px;
 }
 
-/* Seule la liste défile : le titre et la croix restent en place */
 .g4p-modal__list {
     list-style: none;
     margin: 0;
@@ -628,14 +604,13 @@ body.g4p-modal-open .particle {
     border-radius: 50px;
     background: rgba(242, 201, 107, 0.3);
     color: #6e5418;
-    font-size: 0.875rem; /* 14 px */
+    font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.3;
-    /* Un pseudo à rallonge doit se replier dans sa pastille, pas la faire déborder */
     overflow-wrap: anywhere;
 }
 
-/* ── Pluie de cœurs à l'ouverture ────────────────────────── */
+/* Pluie de cœurs à l'ouverture */
 .g4p-hearts {
     position: absolute;
     inset: 0;
@@ -660,8 +635,6 @@ body.g4p-modal-open .particle {
     to   { transform: translate3d(var(--drift, 0px), 115vh, 0) rotate(var(--spin, 180deg)); }
 }
 
-/* Confort : pas d'animation pour qui n'en veut pas (le JS ne crée alors rien,
-   cette règle couvre le cas où le réglage change pendant que la modale est ouverte) */
 @media (prefers-reduced-motion: reduce) {
     .g4p-hearts { display: none; }
 }
@@ -687,13 +660,12 @@ body.g4p-modal-open .particle {
 }
 
 /* ============================================
-   RESPONSIVE — Events
+   RESPONSIVE
    ============================================ */
 
 @media (max-width: 768px) {
     .event-container::before { width: 140px; height: 140px; }
 
-    /* Overlay toujours visible (pas de hover sur mobile) */
     .has-gallery .gallery-mosaic::after { opacity: 1; }
     .has-gallery .gallery-mosaic-inner { filter: blur(5px) brightness(0.82); }
 
@@ -746,9 +718,7 @@ body.g4p-modal-open .particle {
 }
 
 /* ============================================
-   EVENTS MOBILE : échelle et rythme
-   Ces règles remplacent les valeurs mobiles plus haut dans le fichier
-   (même sélecteur, plus bas dans la cascade). Placé ici et non dans responsive.css : events.css est chargée après et gagnerait sinon.
+   EVENTS MOBILE
    ============================================ */
 
 @media (max-width: 768px) {
@@ -757,22 +727,17 @@ body.g4p-modal-open .particle {
     .event-stats-strip .g4p-countdown { grid-column: 1 / -1; }
 }
 
-/* --- Mobile : espacements et grilles --- */
+/* Mobile */
 @media (max-width: 768px) {
     .event-podium-title { font-size: 1.3em; line-height: 1.25; }
 }
 
 /* ============================================
    EVENTS MOBILE
-   Deux temps : « En ce moment » (l'édition en cours, dépliée) puis « L'archive » (éditions
-   passées repliées, une ligne emoji + titre + type · date + bouton). Manches
-   des DTI en bande horizontale, semaines du Baguettectober en cartes emoji.
-   Desktop intouché : les éléments neufs (séparateurs, emoji, boutons) sont
-   masqués au-dessus de 768 px, et la mosaïque garde son placeholder masqué.
    ============================================ */
 
 @media (max-width: 768px) {
-    /* ---- Hero : titre en vert uni ---- */
+    /* Hero */
     .page-hero { padding-bottom: 12px; }
 
     .page-hero-title {
@@ -781,11 +746,9 @@ body.g4p-modal-open .particle {
         color: var(--green-deep);
     }
 
-    /* Les sections d'événements se suivent à 12 px, sans les 32 px génériques */
     section:has(> .event-container) { padding: 12px 18px; }
 
-    /* ---- Carte d'événement : blanche comme en desktop, la couleur reste
-       dans l'emoji et le bouton rond ---- */
+    /* Carte d'événement */
     .event-container,
     .event-container[class*="theme-"] {
         padding: 16px;
@@ -795,7 +758,7 @@ body.g4p-modal-open .particle {
         box-shadow: none;
     }
 
-    .event-container::before { display: none; } /* l'emoji de fond qui tourne */
+    .event-container::before { display: none; }
 
     .event-container .event-badge {
         display: inline-block;
@@ -823,8 +786,6 @@ body.g4p-modal-open .particle {
         line-height: 1.55;
     }
 
-    /* Stats de l'événement à venir : compte à rebours pleine ligne, deux chiffres dessous */
-
     .event-stat-chip {
         padding: 13px 10px;
         border-radius: 18px;
@@ -846,7 +807,7 @@ body.g4p-modal-open .particle {
     /* Blocs « La cause » / « Le mur des donateurs » */
     .dti-gallery-block,
     .event-block {
-        margin: 12px 0 0; /* pas de marges auto : en colonne flex elles resserraient le bloc sur son contenu */
+        margin: 12px 0 0;
         max-width: none;
     }
 
@@ -880,16 +841,13 @@ body.g4p-modal-open .particle {
     .event-block-text:last-child { margin-bottom: 0; }
 
     .g4p-donor-cta { margin-top: 14px; text-align: left; }
-    .g4p-donor-btn { width: 100%; } /* étiré en mobile seulement */
+    .g4p-donor-btn { width: 100%; }
     .g4p-donor-note { margin-top: 8px; font-size: 0.85em; }
 
-    /* Badge raccourci en mobile, comme ceux de l'archive (« Type • Mois année ») */
     .event-badge-long { display: none; }
     .event-badge-court { display: inline; }
 
-    /* ---- En-tête d'édition en une ligne : emoji, titre, « type · date ».
-       Les éditions de l'archive y ajoutent leur bouton rond ; l'édition en
-       cours (.is-live-edition), non repliable, a le même en-tête sans bouton. ---- */
+    /* En-tête d'édition en une ligne */
     .is-collapsible .event-intro,
     .is-live-edition .event-intro {
         display: grid;
@@ -921,7 +879,6 @@ body.g4p-modal-open .particle {
         color: var(--text-primary);
     }
 
-    /* Le badge devient la ligne « type · date », en texte simple */
     .is-collapsible .event-badge,
     .is-live-edition .event-badge {
         grid-area: badge;
@@ -953,7 +910,6 @@ body.g4p-modal-open .particle {
         cursor: pointer;
     }
 
-    /* Le bouton rond porte la couleur de l'édition, comme en desktop */
     .theme-charity .event-toggle { background: rgba(127, 184, 147, 0.28); color: var(--green-deep); }
     .theme-summer .event-toggle  { background: rgba(63, 184, 175, 0.2); color: #2a7d76; }
     .theme-game .event-toggle    { background: rgba(162, 89, 255, 0.16); color: #6a3fa8; }
@@ -961,7 +917,7 @@ body.g4p-modal-open .particle {
 
     .event-toggle::before {
         content: '+';
-        font-family: Arial, sans-serif; /* police par défaut des boutons : « + » centré, même tourné */
+        font-family: Arial, sans-serif;
         font-size: 1.25em;
         font-weight: 700;
         line-height: 1;
@@ -970,9 +926,6 @@ body.g4p-modal-open .particle {
 
     .is-collapsible:not(.is-collapsed) .event-toggle::before { transform: rotate(45deg); }
 
-    /* Le corps (.event-body, emballages posés pour le desktop) s'aplatit : les
-       deux colonnes n'existent pas, et l'ordre reste récit, chiffres, photos
-       ou blocs, podium. */
     .event-body {
         display: flex;
         flex-direction: column;
@@ -994,13 +947,10 @@ body.g4p-modal-open .particle {
     .is-collapsible .event-intro:has(+ *),
     .is-live-edition .event-intro:has(+ *) { margin-bottom: 14px; }
 
-    /* Repliée : seule la ligne d'en-tête reste (spécificité au-dessus des règles
-       d'affichage des pastilles et blocs, sinon les chiffres restaient visibles) */
     .event-container.is-collapsed .event-description,
     .event-container.is-collapsed > :not(.event-intro) { display: none; }
     .event-container.is-collapsed .event-intro { margin-bottom: 0; }
 
-    /* Chiffres clés en pastilles : « 10 participants », « 5 manches »… */
     .is-collapsible .event-stats-strip,
     .is-live-edition .event-stats-strip {
         display: flex;
@@ -1035,21 +985,21 @@ body.g4p-modal-open .particle {
     .is-collapsible .event-stat-number,
     .is-live-edition .event-stat-number { font-weight: 700; }
 
-    /* ---- DTI : une bande de photos qui défile, légendée « Manche N · thème » ---- */
+    /* DTI */
     .dti-gallery-block { margin-top: 14px; }
 
     .dti-photo-grid {
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        overflow-y: hidden;           /* sans ça la bande défilait aussi de quelques px en vertical */
+        overflow-y: hidden;
         align-items: flex-start;
-        scroll-snap-type: x proximity; /* mandatory collait trop, le doigt ne « prenait » pas */
-        scroll-padding: 0 16px;       /* la photo accrochée s'aligne sur le bord intérieur de la carte */
+        scroll-snap-type: x proximity;
+        scroll-padding: 0 16px;
         touch-action: pan-x pan-y;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        margin: 0 -16px;             /* la photo suivante dépasse au bord de la carte */
+        margin: 0 -16px;
         padding: 0 16px 4px;
         counter-reset: manche;
     }
@@ -1080,7 +1030,7 @@ body.g4p-modal-open .particle {
         content: "Manche " counter(manche) " · ";
     }
 
-    /* Podium : trois cartes, médaille et pseudo */
+    /* Podium */
     .event-podium-section { margin: 14px 0 0; }
 
     .event-podium-title {
@@ -1106,7 +1056,7 @@ body.g4p-modal-open .particle {
     .podium-rank { display: none; }
     .podium-name { font-size: 0.82em; overflow-wrap: anywhere; }
 
-    /* ---- Baguettectober : une carte emoji par semaine, le bonus en pleine largeur ---- */
+    /* Baguettectober */
     .gallery-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
@@ -1121,7 +1071,7 @@ body.g4p-modal-open .particle {
         gap: 8px;
         padding: 14px;
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.7); /* comme en desktop */
+        background: rgba(255, 255, 255, 0.7);
         border: 0;
         box-shadow: none;
     }
@@ -1169,7 +1119,6 @@ body.g4p-modal-open .particle {
         -webkit-line-clamp: 3;
     }
 
-    /* L'appel « Voir les dessins → » est dessiné par la carte, le bouton transparent la couvre */
     .gallery-item::after {
         content: 'Voir les dessins →';
         position: static;
@@ -1187,10 +1136,7 @@ body.g4p-modal-open .particle {
 }
 
 /* ============================================
-   PANNEAU « SEMAINE » DU BAGUETTECTOBER (mobile, construit par js/gallery.js)
-   Monte du bas, tous les dessins de la semaine avec le pseudo de l'artiste,
-   navigation d'une semaine à l'autre. Un tap sur un dessin ouvre le viewer
-   plein écran existant par-dessus.
+   PANNEAU « SEMAINE » DU BAGUETTECTOBER
    ============================================ */
 
 body.bgal-open { overflow: hidden; }
@@ -1198,7 +1144,7 @@ body.bgal-open { overflow: hidden; }
 .bgal-sheet {
     position: fixed;
     inset: 0;
-    z-index: 9000; /* sous le viewer (--z-modal) */
+    z-index: 9000;
     display: none;
     background: rgba(63, 47, 37, 0.35);
 }
@@ -1353,7 +1299,7 @@ body.bgal-open { overflow: hidden; }
 }
 
 /* ============================================
-   ÉDITION EN COURS (Baguettectober 2026) : commun mobile et desktop
+   ÉDITION EN COURS
    ============================================ */
 
 /* Bouton Discord sous les semaines, centré */
@@ -1362,7 +1308,6 @@ body.bgal-open { overflow: hidden; }
     text-align: center;
 }
 
-/* En mobile le corps n'a pas de gouttière de 20 px : on la pose ici */
 @media (max-width: 768px) {
     .event-cta { margin: 20px 0 4px; }
 }
@@ -1383,8 +1328,6 @@ body.bgal-open { overflow: hidden; }
     display: block;
 }
 
-/* Cartes des semaines sans galerie : pas cliquables, et leur appel dit
-   où en est la semaine */
 .gallery-item.no-gallery,
 .theme-autumn .gallery-item.no-gallery { cursor: default; }
 
@@ -1392,7 +1335,6 @@ body.bgal-open { overflow: hidden; }
 
 .gallery-item.is-pending::after { content: 'Vote en live le ' attr(data-vote); color: var(--pink-deep); }
 
-/* Dans la fenêtre des créations, le pseudo peut renvoyer vers l'Instagram de l'artiste */
 .bgal-sheet__grid figcaption a {
     color: inherit;
     text-decoration: underline;
