@@ -300,7 +300,7 @@ async function loadClipOfWeek() {
                 const court = m.querySelector('.meta-mobile');
                 const long = document.getElementById('clipsHeroLine');
                 if (court) court.textContent = 'Pas de vote cette semaine';
-                if (long) long.textContent = 'Pas de vote cette semaine : place aux derniers clips de la commu.';
+                if (long) long.textContent = 'Pas de vote cette semaine';
             } else if (m) {
                 m.hidden = true;
             }
