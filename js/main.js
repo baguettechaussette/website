@@ -492,34 +492,74 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Bouton e-mail (brief boutons du 09/10/2026) : son libellé est l'adresse.
-    // À la souris un clic la copie et affiche « Copié » 1,5 s ; au doigt le
-    // mailto s'ouvre.
+    // À la souris (ou au clavier) un clic la copie et affiche « Copié » 1,5 s ;
+    // au doigt le mailto s'ouvre. Le type de pointeur est lu sur le clic
+    // lui-même plutôt que deviné au chargement.
     document.querySelectorAll('.contact-email.js-email').forEach(btn => {
-        if (!window.matchMedia('(pointer: fine)').matches || !navigator.clipboard) return;
         const addr = `${btn.dataset.user}@${btn.dataset.domain}`;
-        const label = addr;
         btn.title = "Cliquer pour copier l'adresse";
         let timer = 0;
+        // Umami intercepte en capture tout lien porteur de data-umami-event :
+        // il annule le clic, envoie la stat puis navigue lui-même vers le href,
+        // donc vers le mailto, même après notre copie. On retire l'attribut et
+        // on envoie la stat nous-mêmes.
+        const statUmami = btn.dataset.umamiEvent;
+        btn.removeAttribute('data-umami-event');
+        const stat = (mode) => {
+            if (statUmami && window.umami && typeof window.umami.track === 'function') {
+                window.umami.track(statUmami, { mode });
+            }
+        };
         // Le libellé vit dans un <span> : le CSS le fait disparaître et pose la
         // coche + « Copié » par-dessus, sans que le bouton change de largeur.
         const text = document.createElement('span');
         text.className = 'contact-email-text';
-        text.textContent = label;
+        text.textContent = addr;
         // La bulle « Adresse copiée » au-dessus du bouton (animée par le CSS)
         const bubble = document.createElement('span');
         bubble.className = 'contact-email-bubble';
         bubble.setAttribute('role', 'status');
         bubble.textContent = 'Adresse copiée';
         btn.replaceChildren(text, bubble);
+
+        const montrerCopie = () => {
+            btn.classList.remove('is-copied');
+            void btn.offsetWidth; // relance l'animation si on reclique pendant le « Copié »
+            btn.classList.add('is-copied');
+            clearTimeout(timer);
+            timer = setTimeout(() => btn.classList.remove('is-copied'), 1600);
+        };
+        // Copie de secours quand l'API Clipboard manque ou refuse (page hors
+        // HTTPS, permission refusée) : l'ancien execCommand marche encore partout.
+        const copieDeSecours = () => {
+            const zone = document.createElement('textarea');
+            zone.value = addr;
+            zone.setAttribute('readonly', '');
+            zone.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+            document.body.appendChild(zone);
+            zone.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+            zone.remove();
+            return ok;
+        };
+
         btn.addEventListener('click', (e) => {
+            const pointeur = e.pointerType
+                || (window.matchMedia('(pointer: coarse)').matches ? 'touch' : 'mouse');
+            if (pointeur === 'touch' || pointeur === 'pen') { stat('mailto'); return; } // au doigt : le mailto
             e.preventDefault();
-            navigator.clipboard.writeText(addr).then(() => {
-                btn.classList.remove('is-copied');
-                void btn.offsetWidth; // relance l'animation si on reclique pendant le « Copié »
-                btn.classList.add('is-copied');
-                clearTimeout(timer);
-                timer = setTimeout(() => btn.classList.remove('is-copied'), 1600);
-            }).catch(() => { window.location.href = 'mailto:' + addr; });
+            stat('copie');
+            const ouvrirMail = () => { window.location.href = 'mailto:' + addr; };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(addr)
+                    .then(montrerCopie)
+                    .catch(() => (copieDeSecours() ? montrerCopie() : ouvrirMail()));
+            } else if (copieDeSecours()) {
+                montrerCopie();
+            } else {
+                ouvrirMail();
+            }
         });
     });
 
