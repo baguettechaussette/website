@@ -40,19 +40,19 @@
     <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="preload" as="image" fetchpriority="high"
-          imagesrcset="/img/baguette-chaussette-logo-480.webp 480w, /img/baguette-chaussette-logo-800.webp 800w, /img/baguette-chaussette-logo.webp 1078w"
-          imagesizes="(max-width: 768px) 92px, (max-width: 1200px) 300px, 400px">
+          imagesrcset="/img/baguette-chaussette-logo-300.webp 300w, /img/baguette-chaussette-logo-480.webp 480w, /img/baguette-chaussette-logo-800.webp 800w, /img/baguette-chaussette-logo.webp 1078w"
+          imagesizes="(max-width: 768px) 88px, 250px">
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="./css/fonts.css?v=248">
-    <link rel="stylesheet" href="./css/base.css?v=248">
-    <link rel="stylesheet" href="./css/layout.css?v=248">
-    <link rel="stylesheet" href="./css/components.css?v=248">
-    <link rel="stylesheet" href="./css/sections.css?v=248">
-    <link rel="stylesheet" href="./css/responsive.css?v=248">
-    <link rel="stylesheet" href="./css/partners.css?v=248">
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=248">
-    <link rel="stylesheet" href="./css/desktop.css?v=248">
+    <link rel="stylesheet" href="./css/fonts.css?v=249">
+    <link rel="stylesheet" href="./css/base.css?v=249">
+    <link rel="stylesheet" href="./css/layout.css?v=249">
+    <link rel="stylesheet" href="./css/components.css?v=249">
+    <link rel="stylesheet" href="./css/sections.css?v=249">
+    <link rel="stylesheet" href="./css/responsive.css?v=249">
+    <link rel="stylesheet" href="./css/partners.css?v=249">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=249" media="(min-width: 769px)">
+    <link rel="stylesheet" href="./css/desktop.css?v=249" media="(min-width: 769px)">
 
     <script type="application/ld+json">
         {
@@ -247,7 +247,7 @@
 
 <nav id="navbar">
     <div class="container">
-        <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette"><img class="logo-avatar" src="/img/baguette-chaussette-logo-480.webp" alt="" width="36" height="36" decoding="async">Baguette Chaussette</a></div>
+        <div class="logo"><a href="#accueil" aria-label="Accueil Baguette Chaussette"><img class="logo-avatar" src="/img/baguette-chaussette-logo-300.webp" alt="" width="36" height="36" decoding="async">Baguette Chaussette</a></div>
         <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks"><img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30"></button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#accueil" aria-current="page" data-umami-event="Nav - Accueil">Accueil</a></li>
@@ -324,8 +324,8 @@
                 <div class="avatar-main">
                     <div class="avatar-glow" aria-hidden="true"></div>
                     <img src="img/baguette-chaussette-logo-800.webp"
-                         srcset="img/baguette-chaussette-logo-480.webp 480w, img/baguette-chaussette-logo-800.webp 800w, img/baguette-chaussette-logo.webp 1078w"
-                         sizes="(max-width: 768px) 92px, (max-width: 1200px) 300px, 400px"
+                         srcset="img/baguette-chaussette-logo-300.webp 300w, img/baguette-chaussette-logo-480.webp 480w, img/baguette-chaussette-logo-800.webp 800w, img/baguette-chaussette-logo.webp 1078w"
+                         sizes="(max-width: 768px) 88px, 250px"
                          alt="Logo Baguette Chaussette - Streamer Twitch" width="400" height="400" fetchpriority="high" decoding="async">
                 </div>
             </div>
@@ -519,7 +519,7 @@
             <div class="partner-badge partner">Partenaire Officiel</div>
             <button type="button" class="partner-toggle" aria-expanded="false" aria-label="Replier ou déplier la carte Loftia"></button>
             <div class="partner-logo">
-                <img src="img/partners/loftia-badge-partner.webp" alt="Logo de Loftia, MMO cosy solarpunk" width="440" height="175" loading="lazy" />
+                <img src="img/partners/loftia-badge-partner.webp" srcset="img/partners/loftia-badge-partner-220.webp 220w, img/partners/loftia-badge-partner.webp 440w" sizes="112px" alt="Logo de Loftia, MMO cosy solarpunk" width="440" height="175" loading="lazy" />
             </div>
             <div class="partner-content">
                 <h3 class="partner-name">Loftia</h3>
@@ -549,7 +549,7 @@
             <div class="partner-badge ambassador">Ambassadeur</div>
             <button type="button" class="partner-toggle" aria-expanded="false" aria-label="Replier ou déplier la carte Inkonbini"></button>
             <div class="partner-logo">
-                <img src="img/partners/inkonbini-logo.webp" alt="Logo de inKONBINI, jeu narratif cosy" width="440" height="118" loading="lazy" />
+                <img src="img/partners/inkonbini-logo.webp" srcset="img/partners/inkonbini-logo-220.webp 220w, img/partners/inkonbini-logo.webp 440w" sizes="(max-width: 768px) 164px, 104px" alt="Logo de inKONBINI, jeu narratif cosy" width="440" height="118" loading="lazy" />
             </div>
             <div class="partner-content">
                 <h3 class="partner-name">Inkonbini</h3>
@@ -752,9 +752,9 @@
     </div>
 </footer>
 
-<script defer src="./js/main.js?v=248"></script>
-<script defer src="./js/stream-countdown.js?v=248"></script>
-<script defer src="./js/live-float.js?v=248"></script>
-<script defer src="./js/fluent-emoji.js?v=248"></script>
+<script defer src="./js/main.js?v=249"></script>
+<script defer src="./js/stream-countdown.js?v=249"></script>
+<script defer src="./js/live-float.js?v=249"></script>
+<script defer src="./js/fluent-emoji.js?v=249"></script>
 </body>
 </html>

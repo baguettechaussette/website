@@ -551,7 +551,7 @@ async function loadTopClips() {
             const finalists = (Array.isArray(cow.finalists) ? cow.finalists : []).filter(c => c && c.id);
             if (finalists.length < 2) return;
             const montres = finalists.slice(0, limit);
-            montres.forEach(clip => grid.appendChild(buildClipCard(clip)));
+            montres.forEach(clip => grid.appendChild(buildClipCard(clip, '(max-width: 768px) 46vw, 160px')));
             if (finalists.length > montres.length) {
                 const reste = finalists.length - montres.length + 1;
                 const derniere = grid.lastElementChild;
@@ -631,7 +631,7 @@ function setClipThumbSources(img, url, sizes) {
     img.src = url;
 }
 
-function buildClipCard(clip) {
+function buildClipCard(clip, sizes = '(max-width: 768px) 46vw, 400px') {
     const card = document.createElement('div');
     card.className = 'clip-card';
 
@@ -647,7 +647,7 @@ function buildClipCard(clip) {
         const img = document.createElement('img');
         img.alt = '';
         img.loading = 'lazy';
-        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 768px) 46vw, 400px');
+        setClipThumbSources(img, clip.thumbnail_url, sizes);
         thumb.appendChild(img);
     }
 
