@@ -219,9 +219,8 @@ async function loadFollowersCount(retries = 3) {
     const el = document.getElementById('followersCount');
     if (!el) return;
 
-    // Indicateur de chargement
-    el.textContent = '...';
-    el.style.opacity = '0.7';
+    // Pendant le chargement, le squelette posé dans le HTML reste affiché :
+    // animateCounter le remplace par le nombre.
 
     for (let i = 0; i < retries; i++) {
         try {
@@ -244,7 +243,6 @@ async function loadFollowersCount(retries = 3) {
 
             if (Number.isFinite(data.followers) && data.followers > 0) {
                 // Animation du compteur
-                el.style.opacity = '1';
                 animateCounter(el, 0, data.followers, 1500);
                 updateFollowerGoal(data.followers);
                 // Annonce unique pour les lecteurs d'écran, après l'animation
@@ -265,11 +263,10 @@ async function loadFollowersCount(retries = 3) {
             }
 
             if (i === retries - 1) {
-                // Dernière tentative - fallback avec animation (proche de la vraie valeur)
-                el.style.opacity = '1';
+                // Dernière tentative : valeur approchée, au même format que les
+                // autres cartes (« +3 870 »)
                 el.title = 'Données temporairement indisponibles';
-                animateCounter(el, 0, 1900, 1200);
-                setTimeout(() => { el.textContent = '1,9K+'; }, 1250);
+                animateCounter(el, 0, 2200, 1200, '', '+');
             } else {
                 // Attendre avant de réessayer (backoff exponentiel)
                 await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));

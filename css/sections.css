@@ -763,7 +763,8 @@
     animation: clipShimmer 1.2s linear infinite;
 }
 
-/* Squelettes de la carte « Prochain live » de l'accueil (décompte et créneau),
+/* Squelettes de l'accueil : carte « Prochain live » (décompte et créneau) et
+   compteur de followers,
    alignés sur la ligne de texte qu'ils remplacent : la carte ne change pas de
    hauteur quand stream-countdown.js les remplit. Masqués sans JavaScript. */
 .hero-skel {
@@ -781,6 +782,7 @@
 
 .hero-skel-court { width: 6.5em; }
 .hero-skel-long { width: 7.5em; }
+.hero-skel-nombre { width: 2.4em; }
 
 /* Squelette du Clip de la Semaine : même structure qu'une .cow-card (vignette,
    titre, clippeur, bouton) pour réserver la hauteur réelle du bloc de vote. */
