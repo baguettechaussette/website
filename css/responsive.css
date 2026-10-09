@@ -1568,6 +1568,11 @@
     /* ---- Le vote : plus de panneau doré, le carrousel repose sur la page ---- */
     #clip-semaine { padding: 0 0 30px; }
 
+    /* Semaine sans vote ni gagnant : la section ne porte plus que « À toi de
+       jouer », remonté sous le hero (clips-page.js) */
+    #clip-semaine.is-empty { padding: 0; }
+    #clip-semaine.is-empty .clip-howto { margin: 6px 18px 0; }
+
     .cow-container {
         padding: 0;
         background: none;

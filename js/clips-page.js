@@ -11,19 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // dans le HTML mais ne se range pas au même endroit : à côté du clip gagnant
 // en desktop (maquette 21a), à la fin du Panthéon en mobile. On le déplace
 // plutôt que de le dupliquer, et on suit les changements de largeur.
+// Semaine sans vote ni gagnant (#clip-semaine.is-empty) : en mobile aussi il
+// remonte à la place du vote, juste sous le hero, au lieu d'attendre sous
+// les douze cartes du Panthéon.
 function placerCommentClipper() {
     const bloc = document.querySelector('.clip-howto');
     const pantheon = document.getElementById('clippeurs');
     const semaine = document.querySelector('.cow-container');
     if (!bloc || !pantheon || !semaine) return;
 
+    const section = document.getElementById('clip-semaine');
     const desktop = window.matchMedia('(min-width: 769px)');
     const placer = () => {
-        const cible = desktop.matches ? semaine : pantheon;
+        const vide = section && section.classList.contains('is-empty');
+        const cible = desktop.matches || vide ? semaine : pantheon;
         if (bloc.parentElement !== cible) cible.appendChild(bloc);
     };
     placer();
     desktop.addEventListener('change', placer);
+    // loadClipOfWeek prévient une fois l'état de la semaine connu
+    if (section) section.addEventListener('cow-etat', placer);
 }
 
 // Données structurées VideoObject pour les clips (onglet Vidéos de Google).
@@ -287,6 +294,7 @@ async function loadClipOfWeek() {
         // (en bannière pleine largeur en desktop, via .is-empty)
         const vide = voteBlock.hidden && winnerBox.hidden;
         section.classList.toggle('is-empty', vide);
+        section.dispatchEvent(new Event('cow-etat'));
 
         // Sans vote en cours, le hero ne pose plus la question et n'annonce
         // plus de résultat dimanche
@@ -299,15 +307,15 @@ async function loadClipOfWeek() {
             if (m && vide) {
                 const court = m.querySelector('.meta-mobile');
                 const long = document.getElementById('clipsHeroLine');
-                if (court) court.textContent = 'Pas de vote cette semaine';
-                if (long) long.textContent = 'Pas de vote cette semaine';
+                if (court) court.textContent = 'Pas de vote cette semaine !';
+                if (long) long.textContent = 'Pas de vote cette semaine !';
             } else if (m) {
                 m.hidden = true;
             }
         }
 
-        // Ni vote ni gagnant (ne devrait pas arriver) : on replie la section
-        if (winnerBox.hidden && voteBlock.hidden) section.hidden = true;
+        // Ni vote ni gagnant : la section reste, réduite à « À toi de jouer »
+        // (.is-empty), seul appel à l'action de la page cette semaine-là.
     } catch { collapse(); /* silencieux : sans données, pas de section */ }
 }
 
