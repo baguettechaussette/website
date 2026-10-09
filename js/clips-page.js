@@ -1,8 +1,9 @@
-// Page /clips : Le Clip de la Semaine (vote) + Le Panthéon des clippeurs.
+// Page /clips : Le Clip de la Semaine (vote), le Palmarès et le Panthéon des clippeurs.
 // Chargé après main.js (réutilise openClipModal et clipDisplayTitle).
 document.addEventListener('DOMContentLoaded', () => {
     placerCommentClipper();
     loadClipOfWeek();
+    loadPalmares();
     loadClippers();
     injectVideoSchema();
 });
@@ -587,5 +588,47 @@ async function loadClippers() {
     } catch { /* silencieux : la section reste cachée */ }
 }
 
-// NB : le Palmarès (data/hall-of-fame.json) est archivé par le workflow à
-// chaque couronnement mais n'est PAS affiché sur le site (choix éditorial).
+// ── Le Palmarès ─────────────────────────────────────────────
+// Les clips couronnés (data/hall-of-fame.json, complété par le workflow à
+// chaque sacre), du plus récent au plus ancien, en cartes identiques aux
+// derniers clips avec la date du sacre sur la vignette. Le dernier couronné
+// reste caché tant que sa révélation en live n'a pas eu lieu : même verrou,
+// fail-closed, que la carte du gagnant.
+async function loadPalmares() {
+    const section = document.getElementById('palmares');
+    const grid = document.getElementById('palmaresGrid');
+    if (!section || !grid || typeof buildClipCard !== 'function') return;
+
+    try {
+        const [rHof, rCow] = await Promise.all([
+            fetch('/data/hall-of-fame.json', { cache: 'no-store' }),
+            fetch('/data/clip-of-week.json', { cache: 'no-store' }),
+        ]);
+        if (!rHof.ok) return;
+        const hof = await rHof.json();
+        let winners = (Array.isArray(hof.winners) ? hof.winners : []).filter(w => w && w.id);
+
+        const cow = rCow.ok ? await rCow.json() : null;
+        const dernier = cow && cow.winner && cow.winner.id;
+        if (dernier && !(await isWinnerRevealed(cow.week))) {
+            winners = winners.filter(w => w.id !== dernier);
+        }
+        if (!winners.length) return;
+
+        winners.sort((a, b) => String(b.crowned_at || b.week).localeCompare(String(a.crowned_at || a.week)));
+        winners.forEach(w => {
+            const card = buildClipCard({ ...w, title: w.title || 'Clip sans titre' });
+            const thumb = card.querySelector('.clip-thumb');
+            if (thumb) {
+                thumb.setAttribute('data-umami-event', 'Clips - Play Palmares');
+                const sacre = w.crowned_at ? new Date(w.crowned_at) : null;
+                if (sacre && !isNaN(sacre)) {
+                    thumb.appendChild(makeEl('span', 'palmares-date',
+                        `👑 ${sacre.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`));
+                }
+            }
+            grid.appendChild(card);
+        });
+        section.hidden = false;
+    } catch { /* silencieux : la section reste cachée */ }
+}

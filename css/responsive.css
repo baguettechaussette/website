@@ -1511,8 +1511,9 @@
     main:has(#clip-semaine) > * { margin-left: 0; margin-right: 0; max-width: none; min-width: 0; }
     main:has(#clip-semaine) .page-hero { order: 0; }
     #clip-semaine { order: 1; }
-    #clippeurs { order: 2; }
-    main:has(#clip-semaine) #clips { order: 3; }
+    #palmares { order: 2; }
+    #clippeurs { order: 3; }
+    main:has(#clip-semaine) #clips { order: 4; }
 
     /* ---- Hero ---- */
     main:has(#clip-semaine) .page-hero { padding: 84px 18px 14px; }
@@ -2017,7 +2018,12 @@
     /* ---- Les derniers clips : carrousel de cartes de 260 px ---- */
     main:has(#clip-semaine) #clips { padding: 30px 0 32px; }
 
-    #clips .section-header {
+    /* Le Palmarès, même carrousel que les derniers clips, juste au-dessus
+       du Panthéon (qui garde ses 30 px de marge) */
+    main:has(#clip-semaine) #palmares { padding: 30px 0 0; }
+
+    #clips .section-header,
+    #palmares .section-header {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         align-items: baseline;
@@ -2026,8 +2032,10 @@
         text-align: left;
     }
 
-    #clips .section-title { font-size: 1.375em; margin: 0; text-align: left; }
-    #clips .section-subtitle { display: none; }
+    #clips .section-title,
+    #palmares .section-title { font-size: 1.375em; margin: 0; text-align: left; }
+    #clips .section-subtitle,
+    #palmares .section-subtitle { display: none; }
 
     .clips-twitch-link {
         display: block;
@@ -2038,7 +2046,8 @@
         white-space: nowrap;
     }
 
-    #clips .clips-grid {
+    #clips .clips-grid,
+    #palmares .clips-grid {
         display: flex;
         gap: 12px;
         overflow-x: auto;
@@ -2051,10 +2060,13 @@
         cursor: grab;
     }
 
-    #clips .clips-grid::-webkit-scrollbar { display: none; }
-    #clips .clips-grid.is-grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+    #clips .clips-grid::-webkit-scrollbar,
+    #palmares .clips-grid::-webkit-scrollbar { display: none; }
+    #clips .clips-grid.is-grabbing,
+    #palmares .clips-grid.is-grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 
-    #clips .clip-card {
+    #clips .clip-card,
+    #palmares .clip-card {
         flex: 0 0 260px;
         scroll-snap-align: start;
         border-radius: 20px;
@@ -2063,11 +2075,15 @@
         border: 2px solid rgba(255, 255, 255, 0.75);
     }
 
-    #clips .clip-card .clip-thumb { border-radius: 0; box-shadow: none; }
-    #clips .clip-card .clip-thumb:hover { transform: none; }
-    #clips .clip-card .clip-play { width: 42px; height: 42px; font-size: 0.95em; padding-left: 4px; }
+    #clips .clip-card .clip-thumb,
+    #palmares .clip-card .clip-thumb { border-radius: 0; box-shadow: none; }
+    #clips .clip-card .clip-thumb:hover,
+    #palmares .clip-card .clip-thumb:hover { transform: none; }
+    #clips .clip-card .clip-play,
+    #palmares .clip-card .clip-play { width: 42px; height: 42px; font-size: 0.95em; padding-left: 4px; }
 
-    #clips .clip-card .clip-meta {
+    #clips .clip-card .clip-meta,
+    #palmares .clip-card .clip-meta {
         display: block;
         margin: 10px 12px 0;
         font-size: 0.94em;
@@ -2081,13 +2097,15 @@
         -webkit-line-clamp: unset;
     }
 
-    #clips .clip-card .clip-clipper {
+    #clips .clip-card .clip-clipper,
+    #palmares .clip-card .clip-clipper {
         margin: 0 12px 12px;
         text-align: left;
         font-size: 0.82em;
     }
 
-    #clips .clip-skeleton { flex: 0 0 260px; }
+    #clips .clip-skeleton,
+    #palmares .clip-skeleton { flex: 0 0 260px; }
 }
 
 /* ============================================

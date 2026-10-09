@@ -29,8 +29,18 @@
         gap: 22px;
     }
 
-    #clippeurs,
     #clips { margin-top: 22px; }
+
+    /* Le Palmarès et le Panthéon suivent des blocs de cartes : 44 px, comme
+       les derniers clips (22 de marge + 22 de rembourrage) */
+    #palmares,
+    #clippeurs { margin-top: 44px; }
+
+    #palmares {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 
     /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
        padding: 120px … » : on remet à plat, chaque bloc repose ensuite
@@ -42,10 +52,11 @@
         padding: 0;
     }
 
-    /* Le Panthéon passe avant les derniers clips, comme la maquette */
+    /* Le Palmarès puis le Panthéon passent avant les derniers clips */
     #clip-semaine { order: 1; }
-    #clippeurs    { order: 2; }
-    #clips        { order: 3; }
+    #palmares     { order: 2; }
+    #clippeurs    { order: 3; }
+    #clips        { order: 4; }
 
     /* sections.css enferme le vote dans un panneau jaune : la maquette pose
        les cartes directement sur le fond de page. */
@@ -183,6 +194,7 @@
 
     #clip-semaine .section-title,
     #clips .section-title,
+    #palmares .section-title,
     #clippeurs .section-title {
         margin: 0;
         font-size: 1.75rem; /* 28 px */
@@ -195,10 +207,12 @@
 
     #clip-semaine .section-title::after,
     #clips .section-title::after,
+    #palmares .section-title::after,
     #clippeurs .section-title::after { display: none; }
 
     #clip-semaine .section-subtitle,
     #clips .section-subtitle,
+    #palmares .section-subtitle,
     #clippeurs .section-subtitle {
         margin: 4px 0 0;
         max-width: none;
@@ -700,7 +714,8 @@
 
     /* Le lien Twitch remonte sur la ligne du titre. Masqué par défaut
        au-dessus de 768 px par responsive.css. */
-    #clips .section-header {
+    #clips .section-header,
+    #palmares .section-header {
         margin: 0;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
@@ -709,8 +724,10 @@
         text-align: left;
     }
 
-    #clips .section-title { grid-column: 1; }
-    #clips .section-subtitle { grid-column: 1; }
+    #clips .section-title,
+    #palmares .section-title { grid-column: 1; }
+    #clips .section-subtitle,
+    #palmares .section-subtitle { grid-column: 1; }
 
     .clips-twitch-link {
         display: block;
@@ -726,7 +743,8 @@
 
     .clips-twitch-link:hover { text-decoration: underline; }
 
-    #clips .clips-grid {
+    #clips .clips-grid,
+    #palmares .clips-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 16px 14px;
@@ -735,7 +753,8 @@
         overflow: visible;
     }
 
-    #clips .clip-card {
+    #clips .clip-card,
+    #palmares .clip-card {
         width: auto;
         margin: 0;
         display: flex;
@@ -743,16 +762,19 @@
         gap: 6px;
     }
 
-    #clips .clip-thumb {
+    #clips .clip-thumb,
+    #palmares .clip-thumb {
         aspect-ratio: 16 / 9;
         width: 100%;
         border-radius: 16px;
         overflow: hidden;
     }
 
-    #clips .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    #clips .clip-thumb img,
+    #palmares .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-    #clips .clip-meta {
+    #clips .clip-meta,
+    #palmares .clip-meta {
         margin: 0;
         font-size: 0.90625rem; /* 14,5 px */
         font-weight: 700;
@@ -761,7 +783,8 @@
         text-align: left;
     }
 
-    #clips .clip-clipper {
+    #clips .clip-clipper,
+    #palmares .clip-clipper {
         margin: 0;
         font-size: 0.84375rem;
         color: var(--text-muted);
