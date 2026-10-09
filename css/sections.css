@@ -706,6 +706,25 @@
 .pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: var(--green-deep); }
 .pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #8a6a1f; }
 
+/* Couronnes gagnées au Clip de la Semaine, accolées au pseudo : brun et or,
+   comme la carte du gagnant et la pastille de date du Palmarès. Dans la
+   rangée des pastilles, elles passaient à la ligne et décalaient la liste. */
+.pantheon-couronne {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: 7px;
+    padding: 2px 7px;
+    border-radius: 50px;
+    background: var(--text-primary);
+    color: #f2c96b;
+    font-size: 0.71875rem; /* 11,5 px */
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+    vertical-align: 0.1em;
+}
+
 /* Places 4 à 12 : une seule carte, lignes séparées par un filet */
 .pantheon-list {
     padding: 4px 16px;

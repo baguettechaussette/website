@@ -542,9 +542,14 @@ async function loadClippers() {
         const clippers = (Array.isArray(data.clippers) ? data.clippers : []).slice(0, 12);
         if (!clippers.length) return;
 
+        // Pseudo de chaque entrée, pour y accoler les couronnes une fois le
+        // palmarès lu (sans retarder l'affichage du Panthéon)
+        const nomParPseudo = {};
+
         // Maquette 29a : un podium de trois cartes, puis les places 4 à 12 en
         // liste dans une seule carte. Chaque entrée : rang, pseudo et chiffres,
-        // puis deux pastilles (le grade avec son emoji, la mention).
+        // puis deux pastilles (le grade avec son emoji, la mention). Les
+        // couronnes gagnées au vote s'accolent au pseudo.
         const podium = makeEl('ol', 'pantheon-podium');
         const liste = makeEl('ol', 'pantheon-list');
         liste.start = 4;
@@ -559,8 +564,10 @@ async function loadClippers() {
 
             const item = makeEl('li', i < 3 ? `pantheon-card pantheon-rang-${i + 1}` : 'pantheon-row');
             const ident = makeEl('div', 'pantheon-ident');
+            const nom = makeEl('p', 'pantheon-name', c.name);
+            nomParPseudo[String(c.name || '').toLowerCase()] = nom;
             ident.append(
-                makeEl('p', 'pantheon-name', c.name),
+                nom,
                 makeEl('p', 'pantheon-stats',
                     `${nbClips} clip${nbClips > 1 ? 's' : ''} · ${views.toLocaleString('fr-FR')} vues`)
             );
@@ -585,6 +592,24 @@ async function loadClippers() {
         }
 
         section.hidden = false;
+
+        // Couronnes gagnées au vote du Clip de la Semaine, comptées par pseudo
+        // sans tenir compte de la casse (Twitch et le palmarès ne l'écrivent
+        // pas toujours pareil)
+        const couronnes = {};
+        (await chargerPalmares()).forEach(w => {
+            const nom = String(w.creator_name || '').toLowerCase();
+            if (nom) couronnes[nom] = (couronnes[nom] || 0) + 1;
+        });
+        Object.entries(couronnes).forEach(([nom, nb]) => {
+            const cible = nomParPseudo[nom];
+            if (!cible) return;
+            const libelle = `${nb} couronne${nb > 1 ? 's' : ''} au Clip de la Semaine`;
+            const couronne = makeEl('span', 'pantheon-couronne', `👑 ×${nb}`);
+            couronne.title = libelle;
+            couronne.setAttribute('aria-label', libelle);
+            cible.appendChild(couronne);
+        });
     } catch { /* silencieux : la section reste cachée */ }
 }
 
@@ -594,25 +619,38 @@ async function loadClippers() {
 // derniers clips avec la date du sacre sur la vignette. Le dernier couronné
 // reste caché tant que sa révélation en live n'a pas eu lieu : même verrou,
 // fail-closed, que la carte du gagnant.
+// Gagnants affichables, lus une seule fois pour le Palmarès et le compteur
+// de couronnes du Panthéon : un sacre pas encore révélé n'apparaît nulle part.
+let palmaresCharge = null;
+function chargerPalmares() {
+    if (!palmaresCharge) {
+        palmaresCharge = (async () => {
+            const [rHof, rCow] = await Promise.all([
+                fetch('/data/hall-of-fame.json', { cache: 'no-store' }),
+                fetch('/data/clip-of-week.json', { cache: 'no-store' }),
+            ]);
+            if (!rHof.ok) return [];
+            const hof = await rHof.json();
+            let winners = (Array.isArray(hof.winners) ? hof.winners : []).filter(w => w && w.id);
+
+            const cow = rCow.ok ? await rCow.json() : null;
+            const dernier = cow && cow.winner && cow.winner.id;
+            if (dernier && !(await isWinnerRevealed(cow.week))) {
+                winners = winners.filter(w => w.id !== dernier);
+            }
+            return winners;
+        })().catch(() => []);
+    }
+    return palmaresCharge;
+}
+
 async function loadPalmares() {
     const section = document.getElementById('palmares');
     const grid = document.getElementById('palmaresGrid');
     if (!section || !grid || typeof buildClipCard !== 'function') return;
 
     try {
-        const [rHof, rCow] = await Promise.all([
-            fetch('/data/hall-of-fame.json', { cache: 'no-store' }),
-            fetch('/data/clip-of-week.json', { cache: 'no-store' }),
-        ]);
-        if (!rHof.ok) return;
-        const hof = await rHof.json();
-        let winners = (Array.isArray(hof.winners) ? hof.winners : []).filter(w => w && w.id);
-
-        const cow = rCow.ok ? await rCow.json() : null;
-        const dernier = cow && cow.winner && cow.winner.id;
-        if (dernier && !(await isWinnerRevealed(cow.week))) {
-            winners = winners.filter(w => w.id !== dernier);
-        }
+        const winners = [...await chargerPalmares()];
         if (!winners.length) return;
 
         winners.sort((a, b) => String(b.crowned_at || b.week).localeCompare(String(a.crowned_at || a.week)));
