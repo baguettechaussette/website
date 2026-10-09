@@ -1575,7 +1575,7 @@ body.bgal-open { overflow: hidden; }
 .gallery-item.no-gallery,
 .theme-autumn .gallery-item.no-gallery { cursor: default; }
 
-.gallery-item.no-gallery::after { content: 'Galerie disponible bientôt'; color: var(--text-muted); }
+.gallery-item.no-gallery::after { content: 'Galerie bientôt disponible'; color: var(--text-muted); }
 
 .gallery-item.is-pending::after { content: 'Vote en live le ' attr(data-vote); color: var(--pink-deep); }
 
