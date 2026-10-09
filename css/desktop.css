@@ -523,8 +523,8 @@
         color: rgba(63, 47, 37, 0.72);
     }
 
-    /* Les trois lignes sont identiques : le décompte dit déjà laquelle vient
-       ensuite, et la carte du hero annonce le direct. */
+    /* Pas de mise en avant appuyée : la carte du hero annonce déjà le
+       prochain live et le direct. */
     .schedule-item.is-next,
     .schedule-item.is-live {
         background: rgba(255, 255, 255, 0.65);
@@ -532,6 +532,15 @@
         box-shadow: none;
         animation: none;
     }
+
+    /* Le prochain créneau garde juste un liseré vert discret… */
+    .schedule-item.is-next { border-color: rgba(92, 147, 111, 0.3); }
+
+    /* …et le même survol que les autres lignes, que la règle ci-dessus
+       annulait (bordure verte qui apparaît en fondu). Un cran plus marqué
+       sur le prochain, puisqu'il part déjà d'un liseré. */
+    .schedule-item.is-live:hover { border-color: rgba(127, 184, 147, 0.38); }
+    .schedule-item.is-next:hover { border-color: rgba(92, 147, 111, 0.6); }
 
     .schedule-item.is-live::before,
     .schedule-item.is-live .schedule-countdown::before { display: none; }
