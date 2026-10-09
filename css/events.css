@@ -687,6 +687,9 @@
 
 .g4p-donor-note[hidden] { display: none; }
 
+/* Badge d'édition : version longue en desktop, courte en mobile (plus bas) */
+.event-badge-court { display: none; }
+
 /* Compte et aperçu du mur (remplis par gamers4pets.js) */
 .g4p-donor-count[hidden],
 .g4p-donor-preview[hidden] { display: none; }
@@ -1118,6 +1121,10 @@ body.g4p-modal-open .particle {
     .g4p-donor-cta { margin-top: 14px; text-align: left; }
     .g4p-donor-btn { width: 100%; } /* étiré en mobile seulement */
     .g4p-donor-note { margin-top: 8px; font-size: 0.85em; }
+
+    /* Badge raccourci en mobile, comme ceux de l'archive (« Type • Mois année ») */
+    .event-badge-long { display: none; }
+    .event-badge-court { display: inline; }
 
     /* ---- En-tête d'édition en une ligne : emoji, titre, « type · date ».
        Les éditions de l'archive y ajoutent leur bouton rond ; l'édition en
