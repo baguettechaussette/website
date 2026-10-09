@@ -196,7 +196,9 @@ function animateCounter(element, start, end, duration, suffix = '', prefix = '')
 
     function update(currentTime) {
         const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        // Bornée à 0 : l'horodatage de la première image peut précéder
+        // startTime, et une progression négative affichait « -46 » un instant
+        const progress = Math.max(0, Math.min(elapsed / duration, 1));
 
         // Easing: easeOutQuad
         const easeProgress = 1 - Math.pow(1 - progress, 2);
