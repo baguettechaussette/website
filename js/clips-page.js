@@ -195,7 +195,10 @@ async function loadClipOfWeek() {
     // La section est visible dès le premier rendu (titre + squelette) pour ne pas
     // faire sauter la page : ici on remplace le squelette, on ne révèle plus.
     const skeleton = document.getElementById('cowSkeleton');
-    const collapse = () => { skeleton?.remove(); section.hidden = true; };
+    // Squelette du gagnant : il reste jusqu'à la réponse du worker (révélé ou
+    // non), qui arrive après le JSON.
+    const winnerSkel = winnerBox.querySelector('.cow-winner-skel');
+    const collapse = () => { skeleton?.remove(); winnerSkel?.remove(); section.hidden = true; };
 
     try {
         // no-store : après la rotation du dimanche, pas de finalistes périmés
@@ -249,6 +252,7 @@ async function loadClipOfWeek() {
         // ne voie le gagnant sur le site avant la cérémonie de 21h.
         if (data.winner && data.winner.id) {
             const revealed = await isWinnerRevealed(week);
+            winnerSkel?.remove();
             winnerBox.appendChild(buildWinnerHead(week, revealed));
             if (revealed) {
                 winnerBox.appendChild(makeEl('h3', 'cow-block-heading', '👑 Le clip gagnant de la semaine dernière'));
@@ -274,6 +278,9 @@ async function loadClipOfWeek() {
                     'Les votes sont dépouillés ! Révélation en live dimanche à 21h..'));
             }
             winnerBox.hidden = false;
+        } else {
+            winnerSkel?.remove();
+            winnerBox.hidden = true;
         }
 
         // Sans vote en cours, le h1 mobile ne pose plus la question

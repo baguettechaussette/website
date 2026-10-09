@@ -46,18 +46,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=208">
+    <link rel="stylesheet" href="./css/fonts.css?v=210">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=208">
-    <link rel="stylesheet" href="./css/layout.css?v=208">
-    <link rel="stylesheet" href="./css/components.css?v=208">
-    <link rel="stylesheet" href="./css/sections.css?v=208">
-    <link rel="stylesheet" href="./css/responsive.css?v=208">
+    <link rel="stylesheet" href="./css/base.css?v=210">
+    <link rel="stylesheet" href="./css/layout.css?v=210">
+    <link rel="stylesheet" href="./css/components.css?v=210">
+    <link rel="stylesheet" href="./css/sections.css?v=210">
+    <link rel="stylesheet" href="./css/responsive.css?v=210">
     <!-- Desktop : habillage commun puis la feuille de la page clips
          (maquette 21a). Tout est en @media (min-width: 769px). -->
-    <link rel="stylesheet" href="./css/desktop-chrome.css?v=208">
-    <link rel="stylesheet" href="./css/clips-desktop.css?v=208">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=210">
+    <link rel="stylesheet" href="./css/clips-desktop.css?v=210">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 </head>
@@ -145,7 +145,19 @@
                 <h3 class="cow-block-heading" id="cowVoteHeading">🗳️ Les finalistes de la semaine</h3>
                 <div class="cow-grid" id="cowGrid"></div>
             </div>
-            <div class="cow-winner" id="cowWinner" hidden></div>
+            <!-- Visible dès le premier rendu avec un squelette de la carte du gagnant,
+                 comme les finalistes : js/clips-page.js le remplace par le gagnant (ou le
+                 teaser) une fois la révélation vérifiée, ou masque le bloc s'il n'y a rien. -->
+            <div class="cow-winner" id="cowWinner">
+                <div class="cow-winner-skel" aria-hidden="true">
+                    <div class="cow-winner-skel-head">
+                        <div class="cow-winner-skel-crown"></div>
+                        <div class="cow-winner-skel-meta"><div class="cow-skel-line"></div><div class="cow-skel-line short"></div></div>
+                    </div>
+                    <div class="clip-skeleton"></div>
+                    <div class="cow-winner-skel-info"><div class="cow-skel-line"></div><div class="cow-skel-line short"></div></div>
+                </div>
+            </div>
             <!-- Desktop : posé à côté du gagnant (maquette 21a). Mobile : sous le vote. -->
             <div class="clip-howto">
                 <!-- Même en-tête que la carte du gagnant : emoji, surtitre, ligne d'appoint -->
@@ -215,10 +227,10 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=208"></script>
-<script defer src="./js/clips-page.js?v=208"></script>
-<script defer src="./js/live-float.js?v=208"></script>
-<script defer src="./js/fluent-emoji.js?v=208"></script>
+<script defer src="./js/main.js?v=210"></script>
+<script defer src="./js/clips-page.js?v=210"></script>
+<script defer src="./js/live-float.js?v=210"></script>
+<script defer src="./js/fluent-emoji.js?v=210"></script>
 
 </body>
 </html>

@@ -639,6 +639,60 @@
 
 .cow-skel-line.short { width: 60%; }
 
+/* Squelette du gagnant, posé dans la carte sombre (#cowWinner) : en-tête
+   couronne + deux lignes, vignette 16/9, titre et clippeur. Tons clairs
+   translucides, la carte étant brun foncé en mobile comme en desktop. */
+.cow-winner-skel { pointer-events: none; }
+
+/* Hauteurs calées sur la vraie carte (en-tête 76 px, titre + clippeur
+   97 px en desktop) : rien ne saute quand le gagnant remplace le squelette */
+.cow-winner-skel-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 76px;
+    padding: 18px 22px 14px;
+}
+
+.cow-winner-skel-crown {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(242, 201, 107, 0.25);
+}
+
+.cow-winner-skel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 45%;
+}
+
+.cow-winner-skel .cow-skel-line { background: rgba(240, 235, 224, 0.12); }
+
+.cow-winner-skel-meta .cow-skel-line { height: 0.8em; }
+
+.cow-winner-skel .clip-skeleton {
+    margin: 0 16px;
+    border-radius: 18px;
+    background: linear-gradient(100deg,
+        rgba(240, 235, 224, 0.07) 40%,
+        rgba(240, 235, 224, 0.16) 50%,
+        rgba(240, 235, 224, 0.07) 60%);
+    background-size: 200% 100%;
+}
+
+.cow-winner-skel-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 97px;
+    padding: 16px 22px 22px;
+}
+
+.cow-winner-skel-info .cow-skel-line:first-child { width: 80%; height: 1.5em; }
+
 .cow-skel-heading {
     width: 40%;
     height: 21px;
