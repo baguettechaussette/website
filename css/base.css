@@ -77,6 +77,12 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Cibles d'ancre : la barre de navigation est fixe (72 px, pilule flottante
+   en mobile). Quand le navigateur défile lui-même (arrivée sur /#contact,
+   /events#…), la cible s'arrête sous la barre avec un peu d'air au lieu de
+   passer dessous. */
+[id] { scroll-margin-top: 88px; }
+
 /* clip et pas hidden, sur html ET body : les animations d'entrée du hero glissent
    de 100 px hors écran pendant une seconde, et Safari iOS ignore un overflow-x
    posé sur body seul (défilement latéral possible). clip n'ouvre pas de conteneur

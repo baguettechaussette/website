@@ -94,15 +94,20 @@ function anchorBox(target) {
     return el || target;
 }
 
+// Arrêt sous le bas réel de la barre (pilule flottante en mobile), avec 16 px
+// d'air pour que le titre ne la touche pas
 function scrollToAnchor(target, behavior) {
     const box = anchorBox(target);
-    const navbarHeight = document.getElementById('navbar')?.offsetHeight || 80;
-    const top = box.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-    window.scrollTo({ top, behavior });
+    const navbar = document.getElementById('navbar');
+    const navBas = navbar ? navbar.getBoundingClientRect().bottom : 80;
+    const top = box.getBoundingClientRect().top + window.pageYOffset - navBas - 16;
+    window.scrollTo({ top: Math.max(0, top), behavior });
 }
 
-// Arrivée depuis une autre page (/#contact) : le navigateur ne sait pas
-// défiler jusqu'à une cible sans boîte, on le fait une fois la page posée.
+// Arrivée depuis une autre page (/#contact, /events#…) : le navigateur ne sait
+// pas défiler jusqu'à une cible sans boîte, et les blocs chargés après coup
+// (finalistes, clips…) peuvent repousser la cible. On réaligne une fois la
+// page posée.
 window.addEventListener('load', () => {
     if (!location.hash) return;
     let target;
@@ -111,9 +116,7 @@ window.addEventListener('load', () => {
     // « auto » lançait une animation que le navigateur coupait aussitôt (il
     // cherche lui-même l'ancre pendant le chargement). Un court délai laisse
     // passer cette recherche.
-    if (target && !target.getClientRects().length) {
-        setTimeout(() => scrollToAnchor(target, 'instant'), 50);
-    }
+    if (target) setTimeout(() => scrollToAnchor(target, 'instant'), 50);
 });
 
 // Smooth scroll pour les liens d'ancres
