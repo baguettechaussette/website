@@ -64,6 +64,29 @@
     display: block;
 }
 
+.dti-viewer__img[hidden],
+.dti-viewer__texte[hidden],
+.dti-viewer__expand[hidden] {
+    display: none;
+}
+
+.dti-viewer__texte {
+    width: min(84vw, 660px);
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: 28px 32px;
+    border-radius: 12px;
+    background: #fbf5e6;
+    color: #3f2f25;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    box-shadow: 0 8px 60px rgba(0, 0, 0, 0.55);
+}
+
+.dti-viewer__texte p + p {
+    margin-top: 0.9em;
+}
+
 .dti-viewer__img.is-fading {
     opacity: 0;
 }
@@ -170,6 +193,16 @@
 
     .dti-viewer__toolbar {
         width: 92vw;
+    }
+
+    .dti-viewer.is-texte .dti-viewer__nav {
+        display: none;
+    }
+
+    .dti-viewer__texte {
+        width: 92vw;
+        padding: 20px 18px;
+        font-size: 0.95rem;
     }
 
     .dti-viewer__caption {

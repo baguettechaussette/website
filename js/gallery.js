@@ -1,7 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     const GALLERIES = {
         baguettectober2026: {
-            w1: [],
+            w1: [
+                {src: 'img/baguettectober-2026/w1/akialoops.webp', caption: 'Auteur : akialoops'},
+                {src: 'img/baguettectober-2026/w1/clopetyi.webp', caption: 'Auteur : clopetyi'},
+                {src: 'img/baguettectober-2026/w1/gwen_ant.webp', caption: 'Auteur : gwen_ant'},
+                {caption: 'Auteur : kekew', texte: [
+                    "La petite baguette, prête à être mangée dans une raclette, s'exclama “Octobre ! C’est bientôt Halloween.” Elle bondit d’un coup du plateau à fromage, tel un personnage de jeu vidéo, se mettant en route au magasin en groupe avec son chat noir. Avant ça, elle n’oublia pas son manteau, pour avoir chaud.",
+                    "Sur son trajet, elle rencontra une crustule et, sans se décourager, à la fin du crépuscule, après une longue quête, la baguette arriva à l’éviter comme un guerrier qui combattait ses ennemis. Cependant, ce n’était pas fini, les gommettes maléfiques, invoquées par les donateurs magiques, se collèrent, de façon basique, sur la fraîche baguette.",
+                    "Après ces aventures périlleuses, avec ces gommettes étoilées malicieuses, la baguette arriva enfin à destination, à condition qu’il puisse rentrer dans le magasin marocain sans se faire masser la miche. Elle réussit à se détourner du massage, sans tomber dans le bain et elle se posa devant les rayons, en pensant “nous y est, plus qu’à chercher”",
+                    "Après une recherche intense, la baguette s’exclama “Enfin je suis rentré, il ne me reste plus qu'à trouver un costume qui me permettra de rester dans les coutumes traditionnelles”. Elle chercha longtemps sans rien trouver d'intéressant et, alors qu’elle allait abandonner, que voit elle, une citrouille bien ronde, parfaite pour se déguiser. A la façon défilé de mode, style DTI, elle l’enfila et dit “C’est le bon, je peux rentrer”",
+                    "…. To be continued",
+                ]},
+                {src: 'img/baguettectober-2026/w1/miki.webp', caption: 'Auteur : miki'},
+                {src: 'img/baguettectober-2026/w1/morado290.webp', caption: 'Auteur : morado290'},
+                {src: 'img/baguettectober-2026/w1/sassa.webp', caption: 'Auteur : sassa'},
+                {src: 'img/baguettectober-2026/w1/satomi-mreow.webp', caption: 'Auteur : satomi-mreow'},
+                {src: 'img/baguettectober-2026/w1/siete.webp', caption: 'Auteur : siete'},
+                {src: 'img/baguettectober-2026/w1/teph.webp', caption: 'Auteur : teph'},
+                {src: 'img/baguettectober-2026/w1/toastymarie.webp', caption: 'Auteur : toastyMarie'},
+            ],
             w2: [],
             w3: [],
             w4: [],
@@ -69,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="img/symbols/arrow_back_ios.svg" alt="">
         </button>
         <img class="dti-viewer__img" id="dtiViewerImg" alt="">
+        <article class="dti-viewer__texte" id="dtiViewerTexte" tabindex="0" hidden></article>
         <button class="dti-viewer__nav dti-viewer__next" id="dtiViewerNext" aria-label="Suivant">
           <img src="img/symbols/arrow_forward_ios.svg" alt="">
         </button>
@@ -78,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const viewer   = document.getElementById('dtiViewer');
         const imgEl    = document.getElementById('dtiViewerImg');
+        const texteEl  = document.getElementById('dtiViewerTexte');
         const captEl   = document.getElementById('dtiViewerCaption');
         const btnClose  = document.getElementById('dtiViewerClose');
         const btnPrev   = document.getElementById('dtiViewerPrev');
@@ -93,6 +113,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = items[i];
             if (!item) return;
             idx = i;
+            const multi = items.length > 1;
+            btnPrev.hidden = !multi;
+            btnNext.hidden = !multi;
+            viewer.classList.toggle('is-texte', !!item.texte);
+            if (item.texte) {
+                viewer.classList.remove('is-expanded');
+                imgEl.hidden = true;
+                imgEl.removeAttribute('src');
+                btnExpand.hidden = true;
+                texteEl.replaceChildren(...item.texte.map(t => {
+                    const p = document.createElement('p');
+                    p.textContent = t;
+                    return p;
+                }));
+                texteEl.hidden = false;
+                texteEl.scrollTop = 0;
+                captEl.textContent = item.caption || '';
+                return;
+            }
+            texteEl.hidden = true;
+            imgEl.hidden = false;
+            btnExpand.hidden = false;
             imgEl.classList.add('is-fading');
             const onLoad = () => {
                 requestAnimationFrame(() => requestAnimationFrame(() => imgEl.classList.remove('is-fading')));
@@ -102,9 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
             imgEl.src = item.src;
             imgEl.alt = item.caption || '';
             if (imgEl.complete) onLoad();
-            const multi = items.length > 1;
-            btnPrev.hidden = !multi;
-            btnNext.hidden = !multi;
         }
 
         // Ouverture / Fermeture
@@ -125,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
             document.querySelectorAll('main, nav, footer').forEach(el => { el.inert = false; });
             imgEl.removeAttribute('src');
+            texteEl.replaceChildren();
             lastFocused?.focus({ preventScroll: true });
         }
 
@@ -283,16 +323,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'bgal-sheet__thumb';
-                btn.setAttribute('aria-label', `Voir en grand : ${item.caption || 'dessin'}`);
-                const img = document.createElement('img');
-                img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
-                img.alt = `${(item.caption || '').replace('Auteur : ', 'Création de ')} — ${edition}`;
-                img.loading = 'lazy';
-                img.decoding = 'async';
-                img.width = 400;
-                img.height = 400;
-                img.addEventListener('error', () => { img.src = item.src; }, { once: true });
-                btn.appendChild(img);
+                btn.setAttribute('aria-label', `Voir en grand : ${item.caption || 'création'}`);
+                if (item.texte) {
+                    btn.classList.add('is-texte');
+                    btn.setAttribute('aria-label', `Lire l'histoire de ${(item.caption || '').replace('Auteur : ', '')}`);
+                    const extrait = document.createElement('span');
+                    extrait.className = 'bgal-sheet__extrait';
+                    extrait.textContent = item.texte[0];
+                    const lire = document.createElement('span');
+                    lire.className = 'bgal-sheet__lire';
+                    lire.textContent = 'Lire l\'histoire →';
+                    btn.append(extrait, lire);
+                }
+                const img = item.texte ? null : document.createElement('img');
+                if (img) {
+                    img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
+                    img.alt = `${(item.caption || '').replace('Auteur : ', 'Création de ')} — ${edition}`;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    img.width = 400;
+                    img.height = 400;
+                    img.addEventListener('error', () => { img.src = item.src; }, { once: true });
+                    btn.appendChild(img);
+                }
                 btn.addEventListener('click', () => open(list, i));
                 const cap = document.createElement('figcaption');
                 const name = (item.caption || '').replace('Auteur : ', '');
@@ -371,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mosaicInner = document.createElement('div');
             mosaicInner.className = 'gallery-mosaic-inner';
 
-            list.slice(0, 4).forEach(item => {
+            list.filter(item => item.src).slice(0, 4).forEach(item => {
                 const img = document.createElement('img');
                 img.src = item.src.replace(/^(img\/[^/]+)\//, '$1/thumbs/');
                 img.alt = `${(item.caption || '').replace('Auteur : ', 'Création de ')} — ${(section?.querySelector('.event-title')?.textContent || 'Baguettectober').trim()}`;

@@ -1120,7 +1120,7 @@ body.g4p-modal-open .particle {
     }
 
     .gallery-item::after {
-        content: 'Voir les dessins →';
+        content: 'Voir les créations →';
         position: static;
         margin-top: 2px;
         font-size: 0.82em;
@@ -1265,6 +1265,34 @@ body.bgal-open { overflow: hidden; }
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.bgal-sheet__thumb.is-texte {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px;
+    text-align: left;
+    background: #fbf5e6;
+    border: 1px solid rgba(63, 47, 37, 0.1);
+    cursor: pointer;
+}
+
+.bgal-sheet__extrait {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #4a3b2c;
+}
+
+.bgal-sheet__lire {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #74591a;
 }
 
 .bgal-sheet__grid figcaption {

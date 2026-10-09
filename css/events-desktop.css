@@ -626,7 +626,7 @@
     }
 
     .gallery-item::after {
-        content: 'Voir les dessins →';
+        content: 'Voir les créations →';
         position: static;
         margin-top: auto;
         padding-top: 6px;
@@ -662,7 +662,7 @@
     }
 
     /* ============================================
-       La fenêtre des dessins
+       La fenêtre des créations
        ============================================ */
 
     .bgal-sheet {
