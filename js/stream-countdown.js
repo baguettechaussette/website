@@ -263,9 +263,29 @@
         }
     }
 
+    // Pendant un créneau du planning, la carte passera en « En direct » sur
+    // deux lignes (le jeu, puis « sur Twitch, depuis… ») : le squelette réserve
+    // la deuxième ligne d'emblée, la carte ne grandit pas une fois le statut
+    // connu. Hors créneau, une seule ligne, comme le prochain live.
+    function reserveLiveLine() {
+        if (!hero.game) return;
+        const prevu = getCurrentOrNext(getScheduleFromDOM());
+        if (!prevu || !prevu.isLive) return;
+        const skel = document.createElement("span");
+        skel.className = "hero-skel hero-skel-court";
+        skel.setAttribute("aria-hidden", "true");
+        hero.game.replaceChildren(skel);
+        hero.game.hidden = false;
+    }
+
     // Carte du hero : libellé, valeur et CTA suivent l'état
     function renderHero(isLive, info) {
         if (!hero.card) return;
+        // Hors live, pas de ligne « depuis… » (ni le squelette réservé)
+        if (!isLive && hero.game) {
+            hero.game.textContent = "";
+            hero.game.hidden = true;
+        }
         hero.card.classList.toggle("is-live", isLive);
         hero.label.textContent = isLive ? "En direct" : "Prochain live";
         hero.value.textContent = isLive
@@ -411,6 +431,7 @@
     // ─── Init ─────────────────────────────────────────────────────────────────
 
     async function init() {
+        reserveLiveLine();             // avant d'attendre le réseau
         await renderSchedule();        // grille depuis data/schedule.json
         await pollLive();              // fetch live-status avant le premier rendu
         tick();                        // rendu immédiat
