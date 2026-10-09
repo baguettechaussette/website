@@ -688,6 +688,9 @@
     border-bottom: 1px solid rgba(63, 47, 37, 0.1);
 }
 
+/* Pas de filet sous la dernière ligne */
+.pantheon-row:last-child { border-bottom: 0; }
+
 .clips-grid {
     display: grid;
     /* min(300px, 100%) : sur petit écran la colonne ne peut pas déborder du panneau */

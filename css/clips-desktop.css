@@ -678,6 +678,10 @@
             grid-auto-flow: column;
             column-gap: 32px;
         }
+
+        /* … ni sous la dernière ligne de chaque colonne (classe posée par
+           clips-page.js) */
+        .pantheon-row.pantheon-bas-colonne { border-bottom: 0; }
     }
 
     /* ============================================

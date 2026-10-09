@@ -573,7 +573,13 @@ async function loadClippers() {
         if (liste.children.length) {
             // Desktop : la liste se lit par colonne (4 à 6, 7 à 9, 10 à 12),
             // il lui faut son nombre de lignes
-            liste.style.setProperty('--rangs', Math.ceil(liste.children.length / 3));
+            const rangs = Math.ceil(liste.children.length / 3);
+            liste.style.setProperty('--rangs', rangs);
+            // Bas de chaque colonne : pas de filet dessous (le CSS ne peut pas
+            // le trouver seul, nth-child n'accepte pas de variable)
+            [...liste.children].forEach((li, j) => {
+                if ((j + 1) % rangs === 0) li.classList.add('pantheon-bas-colonne');
+            });
             grid.appendChild(liste);
         }
 
