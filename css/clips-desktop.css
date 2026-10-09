@@ -123,6 +123,10 @@
         color: rgba(63, 47, 37, 0.8);
     }
 
+    /* « display: flex » ci-dessus passait outre l'attribut hidden posé par
+       clips-page.js quand le vote est clos */
+    .page-hero-meta[hidden] { display: none; }
+
     /* La ligne longue prend le relais de la version courte du mobile */
     .meta-mobile { display: none; }
     .meta-desktop { display: inline; }
@@ -464,6 +468,39 @@
     .cow-winner .cow-winner-sub { padding: 16px 22px 22px; }
 
     .cow-winner > .cow-winner-sub { text-align: center; }
+
+    /* ── Semaine sans vote ni gagnant (clips-page.js pose .is-empty) ──
+       La section reste affichée en desktop (« display: flex » l'emporte sur
+       son attribut hidden) parce qu'elle porte « À toi de jouer », seul
+       appel à l'action de la page à ce moment-là. Il passe en bannière
+       pleine largeur : en-tête, titre et bouton à gauche, étapes à droite. */
+    #clip-semaine.is-empty .clip-howto {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        grid-template-areas:
+            "head  steps"
+            "title steps"
+            "cta   steps";
+        grid-template-rows: auto auto 1fr;
+        column-gap: 48px;
+        padding: 26px 32px 30px;
+    }
+
+    #clip-semaine.is-empty .clip-howto-head  { grid-area: head; }
+    #clip-semaine.is-empty .clip-howto-title { grid-area: title; }
+
+    #clip-semaine.is-empty .clip-howto-steps {
+        grid-area: steps;
+        align-self: center;
+        margin: 0;
+    }
+
+    #clip-semaine.is-empty .clip-howto-cta {
+        grid-area: cta;
+        align-self: end;
+        justify-self: start;
+    }
 
     /* ── « Et si le prochain gagnant c'était ton clip ? » ──
        Le pendant clair de la carte du gagnant : même en-tête (emoji +

@@ -283,12 +283,27 @@ async function loadClipOfWeek() {
             winnerBox.hidden = true;
         }
 
-        // Sans vote en cours, le h1 mobile ne pose plus la question
+        // Ni vote ni gagnant : la section ne garde que « À toi de jouer »
+        // (en bannière pleine largeur en desktop, via .is-empty)
+        const vide = voteBlock.hidden && winnerBox.hidden;
+        section.classList.toggle('is-empty', vide);
+
+        // Sans vote en cours, le hero ne pose plus la question et n'annonce
+        // plus de résultat dimanche
         if (voteBlock.hidden) {
             const t = document.getElementById('clipsHeroTitle');
             const m = document.getElementById('clipsHeroMeta');
+            const k = document.querySelector('.page-hero-kicker');
             if (t) t.textContent = 'Les clips des p\'tits pains';
-            if (m) m.hidden = true;
+            if (k) k.textContent = vide ? 'Clips' : 'Clips · clip de la semaine';
+            if (m && vide) {
+                const court = m.querySelector('.meta-mobile');
+                const long = document.getElementById('clipsHeroLine');
+                if (court) court.textContent = 'Pas de vote cette semaine';
+                if (long) long.textContent = 'Pas de vote cette semaine : place aux derniers clips de la commu.';
+            } else if (m) {
+                m.hidden = true;
+            }
         }
 
         // Ni vote ni gagnant (ne devrait pas arriver) : on replie la section
