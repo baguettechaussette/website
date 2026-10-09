@@ -177,15 +177,22 @@
 
 /* bouton principal */
 
+/* Primaire du système de boutons (components.css), redit ici car cette
+   feuille est chargée après : vert plein, sans dégradé ni ombre */
 .partner-link-primary {
-    background: linear-gradient(135deg,var(--blue),var(--green));
-    color:white;
-    box-shadow: 0 4px 12px rgba(122,158,114,0.25);
+    min-height: 48px;
+    padding: 0 22px;
+    background: var(--green);
+    color: #fff;
+    font-size: 0.9375rem;
+    box-shadow: none;
 }
 
 .partner-link-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(122,158,114,0.4);
+    background: var(--green-deep);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: none;
 }
 
 /* bouton secondaire */
@@ -311,4 +318,168 @@
         font-size:0.9rem;
     }
 
+}
+
+/* ============================================
+   PARTENAIRES MOBILE : échelle et rythme
+   Ces règles remplacent les valeurs mobiles plus haut dans le fichier
+   (même sélecteur, plus bas dans la cascade). Placé ici : partners.css est chargée après responsive.css.
+   ============================================ */
+
+@media (max-width: 768px) {/* « MMO cosy »… étaient à 12,8 px */
+}
+
+/* --- Mobile : espacements et grilles --- */
+@media (max-width: 768px) {.partner-logo { margin-bottom: 18px; } /* réservait 34 px sous un logo de 64 */
+}
+
+/* Bouton replier/déplier des cartes partenaires : mobile uniquement */
+.partner-toggle { display: none; }
+
+/* --- Accueil mobile : carte partenaire repliable ---
+   Bandeau logo, puis nom + badge + bouton sur une ligne ; description, tags et
+   bouton Steam se replient (les deux cartes repliées par défaut). */
+@media (max-width: 768px) {
+    .partners-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 0;
+    }
+
+    .partner-card {
+        display: grid;
+        /* Logo centré sur sa ligne, puis badge pleine largeur + bouton à droite */
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "logo logo"
+            "badge toggle"
+            "desc desc"
+            "tags tags"
+            "actions actions";
+        column-gap: 10px;
+        row-gap: 12px;
+        align-items: center;
+        padding: 18px;
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.55);
+        border-color: rgba(255, 255, 255, 0.7); /* carte accentuée */
+        box-shadow: none;
+    }
+
+    .partner-card:hover { transform: none; box-shadow: none; }
+    .partner-card:hover .partner-logo img { transform: none; }
+
+    /* Le logo tient lieu de nom, centré, posé directement sur la carte */
+    .partner-logo {
+        grid-area: logo;
+        justify-self: center;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border-radius: 0;
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .partner-logo img {
+        height: 44px;
+        width: auto;
+        max-width: 170px;
+        object-fit: contain;
+        filter: none;
+    }
+
+    .partner-name { display: none; } /* porté par le logo (alt de l'image) */
+
+    .partner-badge {
+        grid-area: badge;
+        justify-self: stretch;
+        justify-content: center;
+        margin: 0;
+        padding: 7px 14px;
+        font-size: 0.72rem; /* 11,5 px */
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        background: rgba(127, 184, 147, 0.2);
+        color: var(--green-deep);
+        border-color: transparent;
+    }
+
+    /* Ambassadeur en jaune de la charte ; le bouton + suit la couleur du badge */
+    .partner-badge.ambassador {
+        background: rgba(242, 201, 107, 0.3);
+        color: #8a6a1f;
+        border-color: transparent;
+    }
+
+    .partner-badge.ambassador ~ .partner-toggle {
+        background: rgba(242, 201, 107, 0.35);
+        color: #8a6a1f;
+    }
+
+    /* Ses enfants deviennent les cellules de la grille de la carte */
+    .partner-content { display: contents; }
+
+    .partner-description { grid-area: desc; font-size: 0.875rem; line-height: 1.5; margin: 0; }
+    .partner-tags { grid-area: tags; gap: 6px; margin: 0; }
+    .partner-actions { grid-area: actions; }
+
+    .partner-toggle {
+        grid-area: toggle;
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(127, 184, 147, 0.28);
+        color: var(--green-deep);
+        cursor: pointer;
+    }
+
+    /* « + » replié, tourné en croix une fois déplié (même geste que la FAQ) */
+    .partner-toggle::before {
+        content: '+';
+        font-family: Arial, sans-serif; /* police par défaut des boutons : « + » centré, même tourné */
+        font-size: 1.25em;
+        font-weight: 700;
+        line-height: 1;
+        transition: transform var(--transition-base);
+    }
+
+    .partner-card:not(.is-collapsed) .partner-toggle::before { transform: rotate(45deg); }
+
+    .partner-card.is-collapsed .partner-description,
+    .partner-card.is-collapsed .partner-tags,
+    .partner-card.is-collapsed .partner-actions { display: none; }
+
+    /* Repliée : plus que deux rangées, sinon les rangées vides gardaient leurs
+       gouttières (36 px de vide sous le nom) */
+    .partner-card.is-collapsed {
+        grid-template-areas:
+            "logo logo"
+            "badge toggle";
+    }
+
+    .partner-tag {
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.8);
+        border-color: transparent;
+        font-size: 0.82rem;
+    }
+
+    .partner-actions { gap: 8px; }
+
+    .partner-link {
+        min-height: 48px;
+        padding: 12px 22px;
+        font-size: 0.875rem;
+    }
+
+    /* Primaire vert (components.css), étiré en mobile seulement */
+    .partner-link-primary { width: 100%; }
 }

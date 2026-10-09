@@ -1,0 +1,835 @@
+/* ============================================================
+   PAGE CLIPS, DESKTOP
+
+   Chargée par clips.html seulement, après desktop-chrome.css.
+   Tout est enfermé dans min-width: 769px, le mobile n'est jamais
+   touché.
+
+   Même ordre qu'en mobile : le vote, le gagnant, le Panthéon, les
+   derniers clips. Le carrousel des finalistes disparaît : les huit
+   tiennent en une grille de 4 × 2 et on vote sous chacun.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* ============================================
+       Gabarit : une colonne de 1 100 px
+       ============================================ */
+
+    main {
+        width: min(1100px, 100% - 80px);
+        margin-inline: auto;
+        padding: 0 0 56px;
+        display: flex;
+        flex-direction: column;
+        /* 22 px de base : c'est l'écart entre l'entête et la grille des
+           finalistes, qui forment un seul bloc. Les blocs suivants reprennent
+           22 px de marge pour retrouver 44. */
+        gap: 22px;
+    }
+
+    #clips { margin-top: 22px; }
+
+    /* Le Palmarès et le Panthéon suivent des blocs de cartes : 44 px, comme
+       les derniers clips (22 de marge + 22 de rembourrage) */
+    #palmares,
+    #clippeurs { margin-top: 44px; }
+
+    #palmares {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* base.css donne à toute section « max-width: 1400px; margin: 0 auto;
+       padding: 120px … » : on remet à plat, chaque bloc repose ensuite
+       ses propres valeurs. */
+    main > section,
+    main > header {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Le Palmarès puis le Panthéon passent avant les derniers clips */
+    #clip-semaine { order: 1; }
+    #palmares     { order: 2; }
+    #clippeurs    { order: 3; }
+    #clips        { order: 4; }
+
+    /* sections.css enferme le vote dans un panneau jaune : ici les cartes
+       reposent directement sur le fond de page. */
+    .clips-container,
+    .cow-container {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    /* ============================================
+       Entête de page
+       ============================================ */
+
+    /* 72 px pour dégager la barre de navigation, qui est fixée, puis 44 px
+       d'air. Sans cette réserve le surtitre passait sous la barre. */
+    .page-hero {
+        min-height: 0;
+        padding: 116px 0 0;
+        display: block;
+    }
+
+    .page-hero .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .page-hero-content {
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: left;
+    }
+
+    /* Masqué par défaut au-dessus de 768 px par responsive.css */
+    .page-hero-kicker {
+        display: block;
+        margin: 0;
+        font-size: 0.84375rem; /* 13,5 px */
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--pink-deep);
+    }
+
+    /* La question remplace le simple « Clips » : c'est elle qui porte la page */
+    .page-hero-title .title-desktop { display: none; }
+    .page-hero-title .title-mobile { display: inline; }
+
+    .page-hero-title {
+        margin: 0;
+        font-size: 3rem; /* 48 px */
+        font-weight: 800;
+        line-height: 1.08;
+        background: none;
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
+    }
+
+    .page-hero-title::after { display: none; }
+
+    /* Le décompte des votes part à droite, en pastille */
+    .page-hero-meta {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin: 0;
+        font-size: 1rem;
+        color: rgba(63, 47, 37, 0.8);
+    }
+
+    /* « display: flex » ci-dessus passait outre l'attribut hidden posé par
+       clips-page.js quand le vote est clos */
+    .page-hero-meta[hidden] { display: none; }
+
+    /* La ligne longue prend le relais de la version courte du mobile */
+    .meta-mobile { display: none; }
+    .meta-desktop { display: inline; }
+
+    .page-hero-meta-votes {
+        margin-left: auto;
+        padding: 9px 18px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        color: var(--text-secondary);
+        white-space: nowrap;
+    }
+
+    /* Une seule ligne sous le titre. Le renvoi vers Twitch
+       est déjà sur la ligne des « derniers clips ». */
+    .page-hero-subtitle { display: none; }
+
+    /* ============================================
+       Clip de la semaine : vote, puis gagnant et
+       « comment clipper » côte à côte
+       ============================================ */
+
+    /* padding: 0 avec un sélecteur à identifiant : sections.css pose 24 px de
+       haut sur #clip-semaine, que « main > section » ne peut pas reprendre. */
+    #clip-semaine {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cow-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    /* Entête, squelette et bloc de vote tiennent toute la largeur ; le
+       gagnant et le bloc « et si c'était ton clip » se partagent la rangée
+       suivante. Le gagnant masqué, le second prend la première colonne. */
+    .cow-container > .section-header,
+    .cow-container > .cow-skeleton,
+    .cow-container > .cow-vote-block { grid-column: 1 / -1; }
+
+    /* Le titre de la page pose déjà la question du vote : « Le Clip de la
+       Semaine » et le compteur de votants sous la grille faisaient trois
+       entêtes d'affilée. Le décompte reste, en pastille dans le hero. */
+    #clip-semaine .section-header,
+    #cowVoteHeading,
+    .cow-turnout { display: none; }
+
+    #clip-semaine .section-title,
+    #clips .section-title,
+    #palmares .section-title,
+    #clippeurs .section-title {
+        margin: 0;
+        font-size: 1.75rem; /* 28 px */
+        font-weight: 800;
+        line-height: 1.15;
+        background: none;
+        color: var(--green-deep);
+        -webkit-text-fill-color: var(--green-deep);
+    }
+
+    #clip-semaine .section-title::after,
+    #clips .section-title::after,
+    #palmares .section-title::after,
+    #clippeurs .section-title::after { display: none; }
+
+    #clip-semaine .section-subtitle,
+    #clips .section-subtitle,
+    #palmares .section-subtitle,
+    #clippeurs .section-subtitle {
+        margin: 4px 0 0;
+        max-width: none;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.8);
+        text-align: left;
+    }
+
+    .cow-block-heading {
+        margin: 0 0 14px;
+        font-size: 1.125rem;
+        font-weight: 800;
+        color: var(--text-secondary);
+        text-align: left;
+    }
+
+    /* ── Grille des finalistes : 4 × 2, plus de carrousel ── */
+
+    .cow-vote-block { margin: 0; }
+
+    .cow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px 16px;
+        /* sections.css la bride à 1 000 px, ce qui ne laissait que 3 colonnes */
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    /* Les points du carrousel n'ont plus d'objet */
+    .cow-dots { display: none; }
+
+    .cow-card {
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: none;
+        scroll-snap-align: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .cow-card .clip-thumb {
+        aspect-ratio: 16 / 10;
+        width: 100%;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .cow-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Le numéro du finaliste, masqué par défaut au-dessus de 768 px */
+    .cow-num {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        padding: 3px 10px;
+        border-radius: 50px;
+        /* Pastille claire sur texte foncé : elle ressort mieux sur une
+           vignette voilée que l'inverse. */
+        background: #f0ebe0;
+        color: var(--text-primary);
+        font-size: 0.8125rem; /* 13 px */
+        font-weight: 800;
+    }
+
+    .cow-card .clip-meta {
+        margin: 12px 14px 0;
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1.25;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    .cow-card .clip-clipper {
+        margin: 1px 14px 0;
+        font-size: 0.84375rem; /* 13,5 px */
+        color: var(--text-muted);
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    .cow-vote-btn {
+        margin: auto 14px 14px;
+        margin-top: auto;
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 50px;
+        background: var(--green-deep);
+        border: 2px solid var(--green-deep);
+        color: #fff;
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background var(--transition-base), transform var(--transition-base);
+    }
+
+    .cow-vote-btn:hover:not(:disabled) {
+        background: #35583f;
+        border-color: #35583f;
+        transform: translateY(-1px);
+    }
+
+    /* Une fois le vote posé : la carte choisie ressort, les autres s'effacent */
+    .cow-vote-block.is-voted .cow-card { opacity: 0.72; }
+
+    .cow-vote-block.is-voted .cow-card.is-mine {
+        opacity: 1;
+        border-color: var(--green);
+        box-shadow: 0 14px 32px rgba(63, 47, 37, 0.16);
+    }
+
+    /* ── Gagnant de la semaine ── */
+
+    .cow-winner {
+        margin: 0;
+        padding: 0;
+        background: var(--text-primary);
+        border: 0;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 16px 40px rgba(63, 47, 37, 0.22);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cow-winner .cow-block-heading { display: none; } /* l'entête interne suffit */
+
+    .cow-winner-head {
+        margin: 0;
+        padding: 18px 22px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cow-winner-crown { font-size: 1.875rem; line-height: 1; }
+
+    .cow-winner-head-meta { display: flex; flex-direction: column; }
+
+    .cow-winner-kicker {
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #f2c96b;
+    }
+
+    .cow-winner-when {
+        font-size: 0.84375rem;
+        color: rgba(240, 235, 224, 0.8);
+    }
+
+    .cow-winner-card {
+        margin: 0;
+        padding: 0;
+        max-width: none;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        /* En bloc plutôt qu'en flex : sections.css en fait une carte à deux
+           colonnes centrées, où la vignette était figée à 240 px et où son
+           aspect 16/9 ne donnait aucune hauteur. */
+        display: block;
+    }
+
+    /* sections.css la fige à « flex: 0 0 240px ; width: 240px » : ici elle
+       occupe toute la largeur de la carte. */
+    .cow-winner-card .clip-thumb {
+        display: block;
+        /* un <button> ne s'étire pas tout seul : largeur explicite */
+        width: calc(100% - 32px);
+        max-width: none;
+        margin: 0 16px;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        border: 2px solid #f2c96b;
+        overflow: hidden;
+    }
+
+    .cow-winner-info {
+        min-width: 0;
+        text-align: left;
+    }
+
+    .cow-winner-card .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cow-winner-info {
+        padding: 16px 22px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .cow-winner-title {
+        margin: 0;
+        font-size: 1.5rem; /* 24 px */
+        font-weight: 800;
+        line-height: 1.2;
+        color: #f0ebe0;
+        text-align: left;
+    }
+
+    /* « clippé par » en clair, le pseudo en doré : sections.css colore toute
+       la ligne en #c9902e, illisible sur le fond sombre. */
+    .cow-winner-info p:not(.cow-winner-title),
+    .cow-winner-card .clip-clipper,
+    .cow-winner-sub {
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        color: rgba(240, 235, 224, 0.8);
+        text-align: left;
+    }
+
+    .cow-winner-card .clip-clipper strong {
+        font-weight: 700;
+        color: #f2c96b;
+    }
+
+    /* Gagnant pas encore révélé. La carte s'étire à la hauteur du bloc
+       voisin : la boîte en pointillés prend toute la place libre (là où
+       sera la vignette), 📦 en grand et le texte dessous, au lieu de rester
+       collée en haut au-dessus d'un grand vide. */
+    .cow-winner-teaser {
+        flex: 1;
+        min-height: 200px;
+        margin: 0 16px;
+        padding: 26px;
+        border-radius: 18px;
+        border: 2px dashed rgba(242, 201, 107, 0.6);
+        background: rgba(240, 235, 224, 0.04);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        color: #f0ebe0;
+        text-align: center;
+    }
+
+    .cow-winner-teaser-icon { font-size: 3.5rem; line-height: 1; }
+
+    .cow-winner-teaser-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f0ebe0;
+    }
+
+    .cow-winner .cow-winner-sub { padding: 16px 22px 22px; }
+
+    .cow-winner > .cow-winner-sub { text-align: center; }
+
+    /* ── Semaine sans vote ni gagnant (clips-page.js pose .is-empty) ──
+       La section reste affichée en desktop (« display: flex » l'emporte sur
+       son attribut hidden) parce qu'elle porte « À toi de jouer », seul
+       appel à l'action de la page à ce moment-là. Il passe en bannière
+       pleine largeur : en-tête, titre et bouton à gauche, étapes à droite. */
+    #clip-semaine.is-empty .clip-howto {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        grid-template-areas:
+            "head  steps"
+            "title steps"
+            "cta   steps";
+        grid-template-rows: auto auto 1fr;
+        column-gap: 48px;
+        padding: 26px 32px 30px;
+    }
+
+    #clip-semaine.is-empty .clip-howto-head  { grid-area: head; }
+    #clip-semaine.is-empty .clip-howto-title { grid-area: title; }
+
+    #clip-semaine.is-empty .clip-howto-steps {
+        grid-area: steps;
+        align-self: center;
+        margin: 0;
+    }
+
+    #clip-semaine.is-empty .clip-howto-cta {
+        grid-area: cta;
+        align-self: end;
+        justify-self: start;
+    }
+
+    /* ── « Et si le prochain gagnant c'était ton clip ? » ──
+       Le pendant clair de la carte du gagnant : même en-tête (emoji +
+       surtitre + ligne d'appoint), les étapes reliées en frise, et le
+       bouton calé en bas pour que la carte ne flotte plus dans le vide. */
+
+    /* Masqué par défaut au-dessus de 768 px par responsive.css */
+    .clip-howto {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin: 0;
+        padding: 18px 28px 28px;
+        background: linear-gradient(160deg, rgba(242, 201, 107, 0.26) 0%, rgba(255, 250, 238, 0.6) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 28px;
+    }
+
+    .clip-howto-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 22px;
+    }
+
+    .clip-howto-emoji { font-size: 1.875rem; line-height: 1; }
+
+    .clip-howto-head-meta { display: flex; flex-direction: column; }
+
+    .clip-howto-kicker {
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #8a6a1f;
+    }
+
+    .clip-howto-when {
+        font-size: 0.84375rem;
+        color: var(--text-tertiary);
+    }
+
+    .clip-howto-title {
+        margin: 0 0 22px;
+        font-size: 1.625rem; /* 26 px */
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--text-primary);
+        text-align: left;
+        text-wrap: balance;
+    }
+
+    .clip-howto-steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        counter-reset: etape;
+    }
+
+    .clip-howto-steps li {
+        counter-increment: etape;
+        position: relative;
+        padding-left: 50px;
+        min-height: 34px;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(63, 47, 37, 0.88);
+    }
+
+    .clip-howto-steps li strong { color: var(--text-primary); }
+
+    /* Le numéro : pastille dorée pleine, comme le liseré du gagnant */
+    .clip-howto-steps li::before {
+        content: counter(etape);
+        position: absolute;
+        left: 0;
+        top: -4px;
+        z-index: 1;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f2c96b;
+        color: #5a4210;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 3px rgba(63, 47, 37, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9375rem;
+        font-weight: 800;
+    }
+
+    /* Le fil pointillé qui relie une pastille à la suivante */
+    .clip-howto-steps li:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 16px;
+        top: 30px;
+        bottom: -22px;
+        border-left: 2px dashed rgba(201, 144, 46, 0.45);
+    }
+
+    .clip-howto-cta { margin-top: auto; }
+
+    /* Au moins 26 px entre les étapes et le bouton, même quand la carte est
+       courte (le « auto » ci-dessus ne garantit aucun écart) */
+    .clip-howto-steps { margin-bottom: 26px; }
+
+    /* ============================================
+       Le Panthéon des clippeurs
+       Pas de grand cadre autour de la section : titre à gauche, podium en
+       trois cartes, puis les places 4 à 12 dans une seule carte.
+       ============================================ */
+
+    #clippeurs {
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    #clippeurs .section-header {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    #clippeurs .section-title { font-size: 2.125rem; /* 34 px */ }
+
+    .clippers-grid { gap: 16px; }
+
+    .pantheon-podium {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    /* Carte du podium : disque et pseudo, les pastilles, puis les chiffres */
+    .pantheon-card {
+        grid-template-areas:
+            "rank  name"
+            "tags  tags"
+            "stats stats";
+        row-gap: 12px;
+        padding: 18px 20px;
+    }
+
+    .pantheon-card .pantheon-ident { display: contents; }
+    .pantheon-card .pantheon-name { grid-area: name; font-size: 1.0625rem; /* 17 px */ }
+    .pantheon-card .pantheon-stats { grid-area: stats; }
+
+    .pantheon-list { padding: 6px 24px; }
+
+    /* Ligne de la liste : pseudo à gauche, chiffres calés à droite */
+    .pantheon-row .pantheon-ident { justify-content: space-between; }
+    .pantheon-row .pantheon-name { font-size: 0.9375rem; }
+
+    /* Trois colonnes lues de haut en bas (4 à 6, 7 à 9, 10 à 12) : une
+       lecture par ligne casserait la descente du classement. --rangs est
+       posé par clips-page.js selon le nombre de places. */
+    @media (min-width: 1024px) {
+        .pantheon-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-rows: repeat(var(--rangs, 3), auto);
+            grid-auto-flow: column;
+            column-gap: 32px;
+        }
+
+        /* … ni sous la dernière ligne de chaque colonne (classe posée par
+           clips-page.js) */
+        .pantheon-row.pantheon-bas-colonne { border-bottom: 0; }
+    }
+
+    /* ============================================
+       Les derniers clips
+       ============================================ */
+
+    /* sections.css pose 56 px de haut sur #clips (identifiant, plus fort que
+       « main > section ») : avec la marge, cela ferait 78 px de vide sous
+       le Panthéon. 22 + 22 = 44 px. */
+    #clips {
+        padding-top: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* Le lien Twitch remonte sur la ligne du titre. Masqué par défaut
+       au-dessus de 768 px par responsive.css. */
+    #clips .section-header,
+    #palmares .section-header {
+        margin: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: baseline;
+        column-gap: 12px;
+        text-align: left;
+    }
+
+    #clips .section-title,
+    #palmares .section-title { grid-column: 1; }
+    #clips .section-subtitle,
+    #palmares .section-subtitle { grid-column: 1; }
+
+    .clips-twitch-link {
+        display: block;
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--green-deep);
+        text-decoration: none;
+    }
+
+    .clips-twitch-link:hover { text-decoration: underline; }
+
+    #clips .clips-grid,
+    #palmares .clips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px 14px;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+    }
+
+    /* Chaque clip dans sa carte, comme les finalistes au-dessus et comme en
+       mobile : fond blanc translucide, liseré blanc, vignette collée en haut,
+       titre et clippeur dans la carte */
+    #clips .clip-card,
+    #palmares .clip-card {
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        padding: 0 0 14px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    #clips .clip-thumb,
+    #palmares .clip-thumb {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        margin-bottom: 8px;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    #clips .clip-thumb img,
+    #palmares .clip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    #clips .clip-meta,
+    #palmares .clip-meta {
+        margin: 0 14px;
+        font-size: 0.90625rem; /* 14,5 px */
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--text-primary);
+        text-align: left;
+    }
+
+    #clips .clip-clipper,
+    #palmares .clip-clipper {
+        margin: 0 14px;
+        font-size: 0.84375rem;
+        color: var(--text-muted);
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    /* ============================================
+       Vignettes : même traitement que l'accueil
+       ============================================ */
+
+    /* Voile sombre sur toutes les miniatures de la page */
+    .clip-thumb::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(63, 47, 37, 0.42);
+        pointer-events: none;
+    }
+
+    /* Bouton de lecture à la taille de l'accueil */
+    .clip-play {
+        width: 40px;
+        height: 40px;
+        padding-left: 2px;
+        font-size: 0.875rem; /* 14 px */
+        box-shadow: none;
+        z-index: 1;
+    }
+
+    /* Sauf sur le clip de la semaine : sa vignette fait 506 px de large,
+       une pastille de 30 px s'y perdait. */
+    .cow-winner .clip-play {
+        width: 64px;
+        height: 64px;
+        font-size: 1.375rem; /* 22 px */
+        padding-left: 3px;
+    }
+}

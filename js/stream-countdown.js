@@ -15,6 +15,33 @@
     let cachedNextKey = null; // "day-hour-minute" du prochain créneau
     let liveOverride  = false;
 
+    // Sous 768 px les décomptes passent en forme courte (« dans 1 j 3 h ») : les lignes
+    // du planning et la carte du hero n'ont pas la place de la forme longue.
+    const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
+
+    // Libellé des boutons Twitch : « Suivre la chaîne » avec un petit cœur
+    // dessiné en SVG (pas un emoji : fluent-emoji le remplacerait par une
+    // image colorée), « Viens te poser » sans cœur pendant le live.
+    const HEART_SVG = '<svg class="btn-heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+    const heartTpl = document.createElement('template');
+    heartTpl.innerHTML = HEART_SVG;
+    function setCtaLabel(el, isLive) {
+        if (!el) return;
+        el.textContent = isLive ? "Viens te poser" : "Suivre la chaîne";
+        if (!isLive) el.appendChild(heartTpl.content.firstElementChild.cloneNode(true));
+    }
+
+    // Carte du prochain live dans le hero (mobile uniquement, voir index.html).
+    // Même source que le planning : créneaux + statut live du worker.
+    const hero = {
+        card:  document.getElementById("heroLive"),
+        label: document.getElementById("heroLiveLabel"),
+        cd:    document.getElementById("heroLiveCountdown"),
+        value: document.getElementById("heroLiveValue"),
+        game:  document.getElementById("heroLiveGame"),
+        cta:   document.getElementById("heroLiveCta"),
+    };
+
     // ─── Helpers (identiques à ta version originale) ─────────────────────────
 
     function getScheduleFromDOM() {
@@ -116,11 +143,45 @@
         const minutes = Math.floor((total % 3600) / 60);
         const seconds = total % 60;
 
-        if (days > 1)    return `${days} jours ${hours}h ${minutes}min`;
-        if (days === 1)  return `1 jour ${hours}h ${minutes}min`;
-        if (hours > 0)   return `${hours}h ${minutes}min ${seconds}s`;
+        // Deux unités au plus, on laisse tomber la plus petite : des jours
+        // n'affichent pas les minutes, des heures n'affichent pas les secondes.
+        if (days > 1)    return hours > 0 ? `${days} jours ${hours}h` : `${days} jours`;
+        if (days === 1)  return hours > 0 ? `1 jour ${hours}h` : `1 jour`;
+        if (hours > 0)   return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`;
         if (minutes > 0) return `${minutes}min ${seconds}s`;
         return `${seconds}s`;
+    }
+
+    // Forme courte, deux unités au plus : « 1 j 3 h », « 3 h 12 min », « 12 min »
+    function formatCountdownShort(ms) {
+        const total   = Math.max(0, Math.floor(ms / 1000));
+        const days    = Math.floor(total / 86400);
+        const hours   = Math.floor((total % 86400) / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+
+        if (days > 0)    return hours > 0 ? `${days} j ${hours} h` : `${days} j`;
+        if (hours > 0)   return minutes > 0 ? `${hours} h ${minutes} min` : `${hours} h`;
+        if (minutes > 0) return `${minutes} min`;
+        return "moins d'une minute";
+    }
+
+    // Duree d'antenne, forme « 1 h 12 » (heures puis minutes sur deux chiffres),
+    // ou « 42 min » sous l'heure. Sert a la ligne « sur Twitch, depuis ... ».
+    function formatUptime(ms) {
+        const total   = Math.max(0, Math.floor(ms / 1000));
+        const hours   = Math.floor(total / 3600);
+        const minutes = Math.floor((total % 3600) / 60);
+        if (hours > 0) return `${hours} h ${String(minutes).padStart(2, "0")}`;
+        if (minutes > 0) return `${minutes} min`;
+        return "quelques instants";
+    }
+
+    // Sous-titre de la carte quand un live tourne : la plateforme et le temps
+    // d'antenne. Sans started_at exploitable, on s'en tient a la plateforme.
+    function liveSinceText() {
+        const started = liveMeta && liveMeta.started_at ? Date.parse(liveMeta.started_at) : NaN;
+        if (!Number.isFinite(started)) return "sur Twitch";
+        return `sur Twitch, depuis ${formatUptime(Date.now() - started)}`;
     }
 
     const formatTime = (h, m) =>
@@ -135,11 +196,29 @@
 
     let liveFails = 0; // 3 échecs d'affilée avant de considérer le live terminé
 
+// Test local uniquement : ?live=1 force l'état « en live », ?live=0 le retire, et le
+    // choix est gardé pour la session (sessionStorage) d'une page à l'autre. Hors
+    // localhost la fonction renvoie null et le worker fait foi, comme d'habitude.
+    function forcedLiveForTests() {
+        if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return null;
+        const p = new URLSearchParams(location.search).get('live');
+        if (p === '' || p === 'off') sessionStorage.removeItem('bc_force_live'); // ?live= : retour au vrai statut
+        else if (p !== null) sessionStorage.setItem('bc_force_live', p);
+        const v = sessionStorage.getItem('bc_force_live');
+        if (v === null) return null;
+        return v === '1'
+            ? { is_live: true, game: 'Jeu de test', title: 'Live de test', started_at: new Date(Date.now() - 42 * 60000).toISOString() }
+            : { is_live: false, game: null, title: null, started_at: null };
+    }
+
     async function pollLive() {
         try {
-            const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
-            if (!r.ok) throw new Error(String(r.status));
-            const json    = await r.json();
+            let json = forcedLiveForTests();
+            if (!json) {
+                const r = await fetch(LIVE_STATUS_URL, { cache: "no-store" });
+                if (!r.ok) throw new Error(String(r.status));
+                json = await r.json();
+            }
             liveFails     = 0;
             const newLive = !!(json && json.is_live);
             liveMeta      = newLive ? json : null;
@@ -160,13 +239,42 @@
         }
     }
 
-    // Ligne "🎮 jeu en cours" ajoutée à la carte live (textContent : pas d'injection HTML)
+    // Ligne du jeu en cours, sur la carte live du planning et sur celle du hero.
+    // Sans emoji : game_name est la catégorie Twitch, pas toujours un jeu
+    // (« Just Chatting », « Art »…), un 🎮 devant sonnait faux.
+    // textContent : pas d'injection HTML.
     function renderLiveMeta() {
+        const text = liveMeta && liveMeta.game ? liveMeta.game : "";
         const el = document.querySelector(".schedule-item.is-live .schedule-live-game");
-        if (!el) return;
-        const text = liveMeta && liveMeta.game ? `🎮 ${liveMeta.game}` : "";
-        el.textContent = text;
-        el.hidden = !text;
+        if (el) {
+            el.textContent = text;
+            el.hidden = !text;
+        }
+        // Carte du hero : le jeu devient le titre de la carte, et la ligne du
+        // dessous dit la plateforme et depuis combien de temps.
+        if (hero.value && liveMeta) {
+            const titre = text || "Ça se passe maintenant !";
+            if (hero.value.textContent !== titre) hero.value.textContent = titre;
+        }
+        if (hero.game) {
+            const sous = liveMeta ? liveSinceText() : "";
+            if (hero.game.textContent !== sous) hero.game.textContent = sous;
+            hero.game.hidden = !sous;
+        }
+    }
+
+    // Carte du hero : libellé, valeur et CTA suivent l'état
+    function renderHero(isLive, info) {
+        if (!hero.card) return;
+        hero.card.classList.toggle("is-live", isLive);
+        hero.label.textContent = isLive ? "En direct" : "Prochain live";
+        hero.value.textContent = isLive
+            ? (liveMeta && liveMeta.game ? liveMeta.game : "Ça se passe maintenant !")
+            : `${getDayName(info.day)} ${formatTime(info.hour, info.minute)}`;
+        if (isLive) renderLiveMeta();
+        setCtaLabel(hero.cta, isLive); // mêmes textes que le CTA du planning
+        hero.cta.setAttribute("data-umami-event", isLive ? "Hero - Rejoindre le live" : "Hero - Suivre la chaine");
+        if (isLive && hero.cd) hero.cd.textContent = "";
     }
 
     // Ajoute / met à jour / retire le CTA (et la ligne jeu) d'une carte planning
@@ -201,7 +309,7 @@
             el.appendChild(cta);
         }
         cta.classList.toggle("live", type === "live");
-        cta.textContent = type === "live" ? "Viens te poser 🧦" : "Suivre la chaîne ♥";
+        setCtaLabel(cta, type === "live");
         cta.setAttribute("data-umami-event", type === "live" ? "Planning - Rejoindre le live" : "Planning - Suivre la chaine");
     }
 
@@ -224,6 +332,7 @@
                 setCardCta(el, null);
             }
         });
+        renderHero(isLive, info);
         renderLiveMeta();
     }
 
@@ -239,16 +348,16 @@
         const isLive = liveOverride || info.isLive;
         const key    = `${info.day}-${info.hour}-${info.minute}`;
 
-        // Changement d'état → re-render complet (rare)
+        // Changement d'état → re-render complet (rare), puis les textes ci-dessous
         if (cachedIsLive !== isLive || cachedNextKey !== key) {
             cachedIsLive  = isLive;
             cachedNextKey = key;
             updateUI(isLive, info);
-            return; // updateUI a déjà écrit les textes initiaux
         }
 
-        // Même état → on met à jour uniquement les textes countdown (1s)
-        const now = new Date();
+        // Textes countdown (1s), forme courte sous 768 px
+        const now     = new Date();
+        const compact = MOBILE_MQ.matches;
 
         schedule.forEach(({ day, hour, minute, el }) => {
             const cdEl = el.querySelector(".schedule-countdown");
@@ -260,10 +369,20 @@
                 if (cdEl.textContent !== "En direct") cdEl.textContent = "En direct";
             } else {
                 const next    = nextOccurrenceOf({ day, hour, minute }, now);
-                const newText = `Dans ${formatCountdown(next - now)}`;
+                const newText = compact
+                    ? `dans ${formatCountdownShort(next - now)}`
+                    : `dans ${formatCountdown(next - now)}`;
                 if (cdEl.textContent !== newText) cdEl.textContent = newText;
             }
         });
+
+        // Décompte de la carte du hero (masqué en live par le CSS, vidé par renderHero)
+        if (hero.cd && !isLive && info.date) {
+            const t = `dans ${formatCountdownShort(info.date - now)}`;
+            if (hero.cd.textContent !== t) hero.cd.textContent = t;
+        } else if (isLive) {
+            renderLiveMeta(); // garde « depuis ... » a l'heure
+        }
     }
 
     // ─── Grille du planning depuis data/schedule.json ────────────────────────

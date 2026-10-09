@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cloud.umami.is; connect-src 'self' https://gateway.umami.is https://cloud.umami.is https://bc-vote.baguette-chaussette.workers.dev; img-src 'self' data: https://static-cdn.jtvnw.net; style-src 'self' 'unsafe-inline'; frame-src https://clips.twitch.tv https://discord.com; font-src 'self'; object-src 'none'; base-uri 'self'">
     <link rel="dns-prefetch" href="https://cloud.umami.is">
     <title>Événements | Baguette Chaussette</title>
-    <meta name="description" content="Les événements des p'tits pains : Gamers4Pets 2026 (event caritatif à Lyon au profit des refuges), concours DTI Heartopia, challenge dessin Baguettectober.">
+    <meta name="description" content="Les événements des p'tits pains : Baguettectober 2026 en cours (un défi créatif par semaine, voté en live), Gamers4Pets 2026 (1 350 € récoltés pour les refuges), concours DTI Heartopia.">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -42,16 +42,18 @@
 
     <!-- Fonts (auto-hébergées) -->
     <link rel="preload" href="/fonts/baloo2-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./css/fonts.css?v=19">
+    <link rel="stylesheet" href="./css/fonts.css?v=234">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./css/base.css?v=19">
-    <link rel="stylesheet" href="./css/layout.css?v=19">
-    <link rel="stylesheet" href="./css/components.css?v=19">
-    <link rel="stylesheet" href="./css/sections.css?v=19">
-    <link rel="stylesheet" href="./css/responsive.css?v=19">
-    <link rel="stylesheet" href="./css/events.css?v=19">
-    <link rel="stylesheet" href="./css/lightbox.css?v=19">
+    <link rel="stylesheet" href="./css/base.css?v=234">
+    <link rel="stylesheet" href="./css/layout.css?v=234">
+    <link rel="stylesheet" href="./css/components.css?v=234">
+    <link rel="stylesheet" href="./css/sections.css?v=234">
+    <link rel="stylesheet" href="./css/responsive.css?v=234">
+    <link rel="stylesheet" href="./css/desktop-chrome.css?v=234">
+    <link rel="stylesheet" href="./css/events.css?v=234">
+    <link rel="stylesheet" href="./css/events-desktop.css?v=234">
+    <link rel="stylesheet" href="./css/lightbox.css?v=234">
 
     <script defer src="https://cloud.umami.is/script.js" data-website-id="aa7093c8-a182-4b89-8b6d-708a318564b1"></script>
 
@@ -62,9 +64,40 @@
         "@graph": [
             {
                 "@type": "Event",
+                "@id": "https://baguettechaussette.fr/events#baguettectober-2026",
+                "name": "Baguettectober 2026 — Challenge créatif communautaire",
+                "description": "Challenge créatif d'octobre organisé sur Twitch par Baguette Chaussette : chaque mercredi la communauté vote en live le défi de la semaine, que chacun réalise avec le support de son choix (dessin, pixel art, fimo, création en jeu, photo, texte). Vernissage des créations en live le 1er novembre 2026 à 21h.",
+                "startDate": "2026-10-01",
+                "endDate": "2026-11-01T23:00:00+01:00",
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+                "location": {
+                    "@type": "VirtualLocation",
+                    "url": "https://www.twitch.tv/baguettechaussette"
+                },
+                "organizer": {
+                    "@type": "Person",
+                    "name": "Baguette Chaussette",
+                    "url": "https://baguettechaussette.fr",
+                    "sameAs": "https://www.twitch.tv/baguettechaussette"
+                },
+                "url": "https://baguettechaussette.fr/events#baguettectober-2026",
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://baguettechaussette.fr/events#baguettectober-2026",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "validFrom": "2026-10-01"
+                },
+                "isAccessibleForFree": true
+            },
+            {
+                "@type": "Event",
                 "@id": "https://baguettechaussette.fr/events#gamers4pets-2026",
                 "name": "Gamers4Pets 2026, event gaming caritatif",
-                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. Les dons sont reversés à la Confédération Nationale Défense de l'Animal.",
+                "description": "Participation de Baguette Chaussette à Gamers4Pets 2026, événement gaming caritatif au profit des refuges pour animaux. Lives du vendredi 2 octobre 2026 à 20h au dimanche 4 octobre au soir, en présentiel à Lyon avec d'autres streamers. 1 350 € récoltés pour la Confédération Nationale Défense de l'Animal.",
                 "startDate": "2026-10-02T20:00:00+02:00",
                 "endDate": "2026-10-04T23:59:00+02:00",
                 "eventStatus": "https://schema.org/EventScheduled",
@@ -91,7 +124,20 @@
                     "sameAs": "https://www.twitch.tv/baguettechaussette"
                 },
                 "url": "https://baguettechaussette.fr/events#gamers4pets-2026",
-                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                "organizer": {
+                    "@type": "Organization",
+                    "name": "Gamers4Pets"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://baguettechaussette.fr/events#gamers4pets-2026",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "validFrom": "2026-10-02T20:00:00+02:00"
+                },
+                "isAccessibleForFree": true
             },
             {
                 "@type": "Event",
@@ -113,7 +159,16 @@
                     "sameAs": "https://www.twitch.tv/baguettechaussette"
                 },
                 "url": "https://baguettechaussette.fr/events#dti-heartopia-juin-2026",
-                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://baguettechaussette.fr/events#dti-heartopia-juin-2026",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "validFrom": "2026-06-13"
+                },
+                "isAccessibleForFree": true
             },
             {
                 "@type": "Event",
@@ -135,7 +190,16 @@
                     "sameAs": "https://www.twitch.tv/baguettechaussette"
                 },
                 "url": "https://baguettechaussette.fr/events#dti-heartopia-2026",
-                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://baguettechaussette.fr/events#dti-heartopia-2026",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "validFrom": "2026-03-01"
+                },
+                "isAccessibleForFree": true
             },
             {
                 "@type": "Event",
@@ -157,7 +221,16 @@
                     "sameAs": "https://www.twitch.tv/baguettechaussette"
                 },
                 "url": "https://baguettechaussette.fr/events#baguettectober-2025",
-                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp"
+                "image": "https://baguettechaussette.fr/img/baguette-chaussette-streamer-twitch-fr-v2.webp",
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://baguettechaussette.fr/events#baguettectober-2025",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "validFrom": "2025-10-01"
+                },
+                "isAccessibleForFree": true
             }
         ]
     }
@@ -181,7 +254,7 @@
 <nav id="navbar">
     <div class="container">
         <div class="logo">
-            <a href="/" aria-label="Accueil Baguette Chaussette">Baguette Chaussette</a>
+            <a href="/" aria-label="Accueil Baguette Chaussette"><img class="logo-avatar" src="/img/baguette-chaussette-logo-480.webp" alt="" width="36" height="36" decoding="async">Baguette Chaussette</a>
         </div>
         <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
             <img src="img/symbols/menu.svg" alt="Menu hamburger" width="30" height="30">
@@ -192,6 +265,8 @@
             <li><a href="/events" aria-current="page" data-umami-event="Events Nav - Evenements">Événements</a></li>
             <li><a href="/#contact" data-umami-event="Events Nav - Contact">Contact</a></li>
             <li><a href="/#reseaux" data-umami-event="Events Nav - Reseaux">Réseaux</a></li>
+            <!-- Mobile uniquement : pied du panneau (masqué au-dessus de 768 px) -->
+            <li class="nav-links-footer"><a href="/links" data-umami-event="Nav - Tous mes liens">Tous mes liens <span aria-hidden="true">↗</span></a></li>
         </ul>
     </div>
 </nav>
@@ -201,18 +276,13 @@
 
 <!-- Page Hero -->
 <header class="page-hero" id="accueil">
+    <!-- Desktop uniquement : ronds décoratifs, masqués sous 769 px -->
+    <span class="hero-blob hero-blob-1" aria-hidden="true"></span>
+    <span class="hero-blob hero-blob-2" aria-hidden="true"></span>
     <div class="container">
         <div class="page-hero-content">
             <h1 class="page-hero-title">Les événements des p'tits pains</h1>
-            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors du live</p>
-
-            <!-- Accès rapide aux événements (ajouter une puce par nouvel event) -->
-            <nav class="event-anchors" aria-label="Aller à un événement">
-                <a href="#gamers4pets-2026" class="event-anchor" data-umami-event="Events - Ancre Gamers4Pets">🐾 Gamers4Pets · oct. 2026</a>
-                <a href="#dti-heartopia-juin-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Juin">📸 DTI · juin 2026</a>
-                <a href="#dti-heartopia-2026" class="event-anchor" data-umami-event="Events - Ancre DTI Mars">🧦 DTI · mars 2026</a>
-                <a href="#baguettectober-2025" class="event-anchor" data-umami-event="Events - Ancre Baguettectober">🥖 Baguettectober 2025</a>
-            </nav>
+            <p class="page-hero-subtitle">Les pépites créatives de la communauté et les aventures en dehors du live.</p>
         </div>
     </div>
 </header>
@@ -235,6 +305,11 @@
 ║       depuis img/emoji/ : pas de texte, sinon le rendu change        ║
 ║       d'un appareil à l'autre)                                       ║
 ║                                                                      ║
+║  2 ter. Garde la structure .event-intro (ligne d'en-tête) puis       ║
+║     .event-body : récit, chiffres, photos (dans .event-photos),      ║
+║     podium. Les emballages .event-body-main / .event-body-row de     ║
+║     Gamers4Pets ne servent qu'aux deux rangées du desktop.           ║
+║                                                                      ║
 ║  3. Colle le bloc AVANT les anciens (ordre : plus récent en haut)    ║
 ║                                                                      ║
 ║  4. Ajoute la carte dans index.html                                  ║
@@ -246,51 +321,160 @@
 -->
 
 <!-- =============================================
-     GAMERS4PETS 2026 — Octobre 2026
+     GAMERS4PETS 2026 — du 29 septembre au 4 octobre 2026 (édition passée)
      ID pattern : gamers4pets-[année]
 
-     • Compte à rebours + mur des donateurs : js/gamers4pets.js
-     • Les pseudos des donateurs se mettent à jour dans
-       data/gamers4pets-donors.json — rien à toucher ici.
-     • Le compte à rebours se masque tout seul après le 4 octobre au soir.
+     • Mur des donateurs : js/gamers4pets.js lit data/gamers4pets-donors.json
+       (37 pseudos), rien à toucher ici.
+     • Prochaine édition « à venir » : recopier ce bloc dans une bande
+       <div class="band band-upcoming"> posée avant celle-ci, avec son
+       en-tête desktop (.band-header, « À venir » / « Le prochain
+       rendez-vous, et pour une fois en vrai. »), sans is-collapsible.
      ============================================= -->
-<section id="gamers4pets-2026">
-    <div class="event-container theme-charity">
+<!-- ═══ Bande « En ce moment » : l'édition en cours, dépliée, sans bouton replier ═══
+     Quand le Baguettectober 2026 sera terminé (après le 1er novembre) : déplacer la
+     section dans la bande « L'archive » ci-dessous, en tête, lui ajouter les classes
+     is-collapsible is-collapsed, le bouton .event-toggle (copier celui de 2025), passer
+     le badge en « Challenge créatif • Octobre 2026 » et supprimer cette bande. -->
+<div class="band band-upcoming">
+<div class="section-header band-header">
+    <h2 class="section-title">En ce moment</h2>
+    <p class="section-subtitle">Le Baguettectober bat son plein jusqu'au 31 octobre, et c'est vous qui décidez de son déroulement !</p>
+</div>
+
+<!-- =============================================
+     BAGUETTECTOBER 2026 — du 1er octobre au 31 octobre 2026 (en cours)
+     ID pattern : baguettectober-[année]
+
+     • Semaines 3 et 4 : retirer la classe is-pending et l'attribut data-vote de
+       la carte, puis remplacer le titre et la description par le défi voté.
+     • Créations : js/gallery.js, bloc GALLERIES.baguettectober2026 (image,
+       pseudo, lien Instagram facultatif). Dès qu'une semaine a des créations,
+       sa carte devient cliquable et la note « après le vernissage » disparaît.
+     • Visuel 16:9 : déposer img/baguettectober-2026/visuel.webp puis
+       décommenter la <figure> ci-dessous.
+     ============================================= -->
+<section id="baguettectober-2026">
+    <div class="event-container theme-autumn is-live-edition">
         <div class="event-intro">
+            <span class="event-emoji" aria-hidden="true">🎃</span>
+            <div class="event-badge">Challenge créatif • Du 1<sup>er</sup> octobre au 31 octobre</div>
+            <h2 class="event-title">Baguettectober 2026</h2>
+        </div>
+
+        <div class="event-body">
+            <p class="event-description">
+                Le Baguettectober revient avec une nouvelle formule ! Cette année, notre petite mascotte
+                Baguette prépare Halloween, et c'est la commu qui décide de ce qui lui arrive. Chaque
+                mercredi en live, on vote pour le défi de la semaine, et chacun le réalise avec le support
+                de son choix : dessin, pixel art, fimo, création en jeu, photo, petit texte…
+            </p>
+
+            <div class="event-stats-strip">
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">4</span>
+                    <span class="event-stat-label">défis</span>
+                </div>
+                <div class="event-stat-chip">
+                    <span class="event-stat-number">#Baguettectober2026</span>
+                </div>
+            </div>
+
+            <!-- Visuel 16:9 de l'édition, à décommenter quand le fichier est déposé :
+            <figure class="event-visual">
+                <img src="img/baguettectober-2026/visuel.webp" alt="Visuel du Baguettectober 2026 : Baguette prépare Halloween" width="1600" height="900" loading="lazy" decoding="async">
+            </figure>
+            -->
+
+            <div class="gallery-grid">
+                <article class="gallery-item" data-week="w1">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🎭</div>
+                        <p class="gallery-week-label">Semaine 1 · Le Costume</p>
+                    </div>
+                    <h3 class="gallery-week">Baguette se déguise en citrouille</h3>
+                </article>
+
+                <article class="gallery-item" data-week="w2">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🎃</div>
+                        <p class="gallery-week-label">Semaine 2 · La Citrouille</p>
+                    </div>
+                    <h3 class="gallery-week">Baguette sculpte sa citrouille… et elle prend vie</h3>
+                </article>
+
+                <article class="gallery-item is-pending" data-week="w3" data-vote="14 octobre">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🍬</div>
+                        <p class="gallery-week-label">Semaine 3 · Les Bonbons</p>
+                    </div>
+                    <h3 class="gallery-week">Le défi se décide en live</h3>
+                </article>
+
+                <article class="gallery-item is-pending" data-week="w4" data-vote="21 octobre">
+                    <div class="gallery-placeholder">
+                        <div class="gallery-icon" aria-hidden="true">🕸️</div>
+                        <p class="gallery-week-label">Semaine 4 · La Déco</p>
+                    </div>
+                    <h3 class="gallery-week">Le défi se décide en live</h3>
+                </article>
+            </div>
+
+            <div class="event-cta">
+                <a href="https://discord.gg/QHNF684bBf" target="_blank" rel="noopener noreferrer" class="btn btn-primary"
+                   data-umami-event="Events - Baguettectober 2026 - Discord">Participer sur Discord</a>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<!-- ═══ Bande « L'archive » : en-tête desktop seulement, en mobile les cartes suivent le hero ═══ -->
+<div class="band band-archive">
+<div class="section-header band-header">
+    <h2 class="section-title">L'archive</h2>
+    <p class="section-subtitle">Tout ce qu'on a vécu ensemble, édition par édition.</p>
+</div>
+
+<section id="gamers4pets-2026">
+    <div class="event-container theme-charity is-collapsible is-collapsed">
+        <div class="event-intro">
+            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
+            <span class="event-emoji" aria-hidden="true">🐾</span>
+            <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Gamers4Pets 2026"></button>
             <div class="event-badge">Caritatif • Octobre 2026 🧡</div>
             <h2 class="event-title">Gamers4Pets 2026</h2>
-            <p class="event-description">
-                Un event gaming caritatif, et pour moi une double première : c'est le premier auquel je
-                participe et que je vis en présentiel !
-                Je serai à Lyon avec d'autres streamers pour le vivre avec vous. <br>
-                Je suis en live du vendredi 2 octobre à 20h jusqu'au dimanche 4 octobre au soir, avec des jeux
-                cozy et coop, des défis et des actions débloqués par les dons.
-            </p>
         </div>
+
+        <div class="event-body">
+        <div class="event-body-main">
+            <p class="event-description">
+                Mon tout premier évènement caritatif ! Gamers4Pets a eu lieu du 29 septembre au 4 octobre au profit
+                de Défense de l'Animal, et je l'ai vécu en présentiel du vendredi 2 au dimanche 4 octobre.
+                Grâce à vous, on a récolté 1 350 € dans ma cagnotte personnelle 🧡
+            </p>
 
         <div class="event-stats-strip">
-            <!-- Masqué au chargement : js/gamers4pets.js l'affiche une fois les valeurs calculées,
-                 puis le retire définitivement une fois l'event passé. -->
-            <div class="event-stat-chip g4p-countdown" id="g4pCountdown" hidden>
-                <span class="event-stat-number g4p-countdown-value">
-                    <span data-unit="days">0</span><span class="g4p-countdown-sep">j</span><span data-unit="hours">0</span><span class="g4p-countdown-sep">h</span><span data-unit="mins">0</span><span class="g4p-countdown-sep">min</span>
-                </span>
-                <span class="event-stat-label g4p-countdown-label">avant le coup d'envoi</span>
+            <div class="event-stat-chip">
+                <span class="event-stat-number">1 350 €</span>
+                <span class="event-stat-label">récoltés</span>
             </div>
             <div class="event-stat-chip">
-                <span class="event-stat-number">3</span>
-                <span class="event-stat-label">jours de live</span>
+                <span class="event-stat-number">91</span>
+                <span class="event-stat-label">dons</span>
             </div>
             <div class="event-stat-chip">
-                <span class="event-stat-number">270+</span>
-                <span class="event-stat-label">refuges soutenus</span>
+                <span class="event-stat-number">37</span>
+                <span class="event-stat-label">donateurs</span>
             </div>
         </div>
+        </div>
 
+        <div class="event-body-row">
         <div class="event-block event-block-highlight">
             <h3 class="event-block-title">La cause</h3>
             <p class="event-block-text">
-                Tout ce qui est récolté va directement à la
+                Tout ce qu'on a récolté est allé directement à la
                 <a href="https://www.defensedelanimal.fr/" target="_blank" rel="nofollow noopener noreferrer"
                    data-umami-event="Events - Gamers4Pets - Confederation"><strong>Confédération Nationale Défense de l'Animal</strong></a>,
                 qui regroupe plus de 270 refuges indépendants partout en France. Ça alimente un fonds d'urgence
@@ -299,25 +483,23 @@
             </p>
             <p class="event-block-text">
                 La France est le pays d'Europe où l'on abandonne le plus, et les refuges manquent cruellement de moyens.
-                C'est pour eux qu'on se donne à fond ce week-end !
+                Merci d'avoir été là pour eux 🫶
             </p>
         </div>
 
         <div class="event-block">
             <h3 class="event-block-title">Le mur des donateurs</h3>
-            <p class="event-block-text">
-                Les pseudos de celles et ceux qui ont donné pendant l'event.
-            </p>
-            <!-- Le bouton reste désactivé tant que data/gamers4pets-donors.json est vide :
-                 js/gamers4pets.js l'active et masque la note dès qu'il y a un pseudo.
-                 La liste vit dans une modale construite en JS, elle peut être longue. -->
+            <!-- js/gamers4pets.js active le bouton dès que data/gamers4pets-donors.json
+                 contient des pseudos. La liste vit dans une modale construite en JS. -->
             <div class="g4p-donor-cta">
                 <button type="button" class="btn btn-primary g4p-donor-btn" id="g4pDonorBtn" disabled
                         data-umami-event="Events - Gamers4Pets - Mur des donateurs">
-                    Voir les p'tits pains au grand cœur 🧡
+                    Voir les p'tits pains au grand cœur
                 </button>
-                <p class="g4p-donor-note" id="g4pDonorNote">Le mur s'ouvrira après l'event.</p>
+                <p class="g4p-donor-note" id="g4pDonorNote">Le mur se charge…</p>
             </div>
+        </div>
+        </div>
         </div>
 
     </div>
@@ -328,14 +510,19 @@
      ID pattern : dti-heartopia-[mois]-[année]
      ============================================= -->
 <section id="dti-heartopia-juin-2026">
-    <div class="event-container theme-summer">
+    <div class="event-container theme-summer is-collapsible is-collapsed">
         <div class="event-intro">
+            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
+            <span class="event-emoji" aria-hidden="true">📸</span>
+            <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #2"></button>
             <div class="event-badge">Concours DTI • Juin 2026 👗</div>
             <h2 class="event-title">DTI Heartopia #2</h2>
+        </div>
+
+        <div class="event-body">
             <p class="event-description">
                 Après le succès de la première édition, Dress To Impress a fait son come-back sur Heartopia ! 10 participant·es se sont affronté·es sur 5 manches à thème, avant une grande finale sur le thème « Pays ». Chaque passage a été noté par le jury composé de moi-même et d'Omiilia, ainsi que par les votes des viewers.
             </p>
-        </div>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
@@ -356,6 +543,7 @@
             </div>
         </div>
 
+        <div class="event-photos">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -420,6 +608,7 @@
                 </figure>
             </div>
         </div>
+        </div>
 
         <div class="event-podium-section">
             <h3 class="event-podium-title">Podium final</h3>
@@ -443,6 +632,7 @@
                 </div>
             </div>
         </div>
+        </div>
 
     </div>
 </section>
@@ -452,16 +642,21 @@
      ID pattern : dti-heartopia-[année]
      ============================================= -->
 <section id="dti-heartopia-2026">
-    <div class="event-container theme-game">
+    <div class="event-container theme-game is-collapsible is-collapsed">
         <div class="event-intro">
+            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
+            <span class="event-emoji" aria-hidden="true">🧦</span>
+            <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier DTI Heartopia #1"></button>
             <div class="event-badge">Concours DTI • Mars 2026 🧦</div>
             <h2 class="event-title">DTI Heartopia #1</h2>
+        </div>
+
+        <div class="event-body">
             <p class="event-description">
                 Premier concours Dress To Impress organisé sur Heartopia avec la commu ! <br>
                 Pendant toute la soirée, 10 participant·es se sont affronté·es sur 6 manches à thème. <br>
                 Chaque passage a été noté par un jury composé de moi-même, d'Omiilia, et des votes des viewers.
             </p>
-        </div>
 
         <div class="event-stats-strip">
             <div class="event-stat-chip">
@@ -482,6 +677,7 @@
             </div>
         </div>
 
+        <div class="event-photos">
         <div class="dti-gallery-block">
             <div class="dti-photo-grid">
                 <figure class="dti-photo-item">
@@ -546,6 +742,7 @@
                 </figure>
             </div>
         </div>
+        </div>
 
         <div class="event-podium-section">
             <h3 class="event-podium-title">Podium final</h3>
@@ -569,6 +766,7 @@
                 </div>
             </div>
         </div>
+        </div>
 
     </div>
 </section>
@@ -578,15 +776,20 @@
      ID pattern : baguettectober-[année]
      ============================================= -->
 <section id="baguettectober-2025">
-    <div class="event-container theme-autumn">
+    <div class="event-container theme-autumn is-collapsible is-collapsed">
         <div class="event-intro">
-            <div class="event-badge">🥖 Challenge dessin • Octobre 2025</div>
+            <!-- Mobile uniquement : emoji et bouton replier/déplier (masqués au-dessus de 768 px) -->
+            <span class="event-emoji" aria-hidden="true">🥖</span>
+            <button type="button" class="event-toggle" aria-expanded="false" aria-label="Déplier ou replier Baguettectober 2025"></button>
+            <div class="event-badge">Challenge dessin • Octobre 2025 🥖</div>
             <h2 class="event-title">Baguettectober 2025</h2>
+        </div>
+
+        <div class="event-body">
             <p class="event-description">
                 C'est comme Inktober... mais en fait non ! Durant chaque semaine d'octobre, un nouveau défi dessin a été révélé pour exprimer ta créativité.
                 Découvre ici la galerie d'art de la communauté 😊
             </p>
-        </div>
 
         <!-- Stats -->
         <div class="event-stats-strip">
@@ -651,8 +854,10 @@
                 <button type="button" class="gallery-trigger" aria-label="Ouvrir la galerie Challenge bonus - La DERNIÈRE Flamme"></button>
             </article>
         </div>
+        </div>
     </div>
 </section>
+</div>
 
 </main>
 
@@ -676,11 +881,11 @@
 </footer>
 
 <!-- Scripts -->
-<script defer src="./js/main.js?v=19"></script>
-<script defer src="./js/live-float.js?v=19"></script>
-<script defer src="./js/gallery.js?v=19"></script>
-<script defer src="./js/gamers4pets.js?v=19"></script>
-<script defer src="./js/fluent-emoji.js?v=19"></script>
+<script defer src="./js/main.js?v=234"></script>
+<script defer src="./js/live-float.js?v=234"></script>
+<script defer src="./js/gallery.js?v=234"></script>
+<script defer src="./js/gamers4pets.js?v=234"></script>
+<script defer src="./js/fluent-emoji.js?v=234"></script>
 
 </body>
 </html>

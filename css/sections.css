@@ -503,8 +503,10 @@
     background: rgba(255, 255, 255, 0.55);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    /* Verre givré, comme les cartes de l'accueil (.stat-box) */
-    backdrop-filter: blur(10px);
+    /* Pas de verre givré : dans le carrousel mobile (zone qui défile), le
+       flou faisait peindre à Chrome une bande de fond derrière tout le
+       carrousel, les points de navigation restant en dehors. Sur un fond
+       presque uni, il n'apportait rien. */
 }
 
 .cow-vote-btn {
@@ -540,73 +542,207 @@
     opacity: 1;
 }
 
-/* ── Le Panthéon des clippeurs ── */
-.clippers-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.clippers-grid .clipper-card {
-    flex: 0 1 180px;
-}
-
-.clipper-card {
-    position: relative;
-    padding: 24px 16px 18px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px solid rgba(140, 191, 159, 0.25);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-}
-
-.clipper-rank {
+/* ── Le Palmarès : date du sacre en pastille sur la vignette ── */
+.palmares-date {
     position: absolute;
     top: 10px;
-    left: 12px;
-    font-size: 1.05em;
-    font-weight: 800;
-    color: var(--text-tertiary);
+    left: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    background: rgba(63, 47, 37, 0.8);
+    color: #f2c96b;
+    font-size: 0.78125rem; /* 12,5 px */
+    font-weight: 700;
+    line-height: 1.3;
+    pointer-events: none;
 }
 
-.clipper-badge {
-    font-size: 2.4em;
+/* Les règles de la miniature (« .clip-thumb img » : absolue, pleine taille)
+   attrapaient aussi l'image de l'emoji 👑 et la posaient sur toute la
+   vignette : elle reprend sa taille d'emoji, dans le flux de la pastille. */
+#palmares .clip-thumb .palmares-date img {
+    position: static;
+    inset: auto;
+    width: 1.2em;
+    height: 1.2em;
+    max-width: none;
+    object-fit: contain;
+    border-radius: 0;
+}
+
+/* ── Le Panthéon des clippeurs ──
+   Un podium de trois cartes, puis les places 4 à 12 en liste dans une seule
+   carte : un classement se lit comme une descente, pas comme douze boîtes
+   de même importance. Chaque entrée : rang, pseudo et chiffres, puis deux
+   pastilles de même forme (le grade avec son emoji, la mention).
+   Règles de base = mobile ; clips-desktop.css pose le podium en trois
+   colonnes et la liste en trois colonnes lues de haut en bas. */
+.clippers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: none;
+    margin: 0;
+}
+
+.pantheon-podium,
+.pantheon-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pantheon-podium {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Rang à gauche ; pseudo et chiffres sur la première ligne, pastilles dessous */
+.pantheon-card,
+.pantheon-row {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-areas:
+        "rank ident"
+        ".    tags";
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 8px;
+    text-align: left;
+}
+
+/* Podium : une carte par personne, fond à peine teinté, pas de dégradé */
+.pantheon-card {
+    padding: 14px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.pantheon-rang-1 { background: rgba(242, 201, 107, 0.2); }
+.pantheon-rang-2 { background: rgba(170, 170, 178, 0.16); }
+.pantheon-rang-3 { background: rgba(205, 127, 50, 0.14); }
+
+.pantheon-rank {
+    grid-area: rank;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 0.84375rem; /* 13,5 px */
+    font-weight: 800;
     line-height: 1;
-    margin-bottom: 8px;
+    color: rgba(63, 47, 37, 0.6);
+    font-variant-numeric: tabular-nums;
 }
 
-.clipper-name {
+/* Sur le podium, le numéro devient un disque métallique */
+.pantheon-card .pantheon-rank {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.9375rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 3px rgba(63, 47, 37, 0.18);
+}
+
+.pantheon-rang-1 .pantheon-rank { background: linear-gradient(145deg, #f7dc7a, #d9a93a); color: #5a4210; }
+.pantheon-rang-2 .pantheon-rank { background: linear-gradient(145deg, #eeeeee, #b9b9b9); color: #3f3f3f; }
+.pantheon-rang-3 .pantheon-rank { background: linear-gradient(145deg, #e8b07a, #b87333); color: #4a2a10; }
+
+/* Pseudo puis chiffres, qui passent à la ligne si le pseudo est long */
+.pantheon-ident {
+    grid-area: ident;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+    row-gap: 2px;
+}
+
+.pantheon-name {
+    margin: 0;
+    min-width: 0;
+    font-size: 1rem;
     font-weight: 800;
+    line-height: 1.3;
+    color: var(--text-primary);
     overflow-wrap: anywhere;
 }
 
-.clipper-grade {
-    color: var(--green);
-    font-weight: 700;
-    font-size: 0.85em;
-}
-
-.clipper-suffix {
-    margin-top: 2px;
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 700;
-    color: #c9902e;
-}
-
-.clipper-stats {
-    margin-top: 4px;
+.pantheon-stats {
+    margin: 0;
+    font-size: 0.8125rem; /* 13 px */
+    line-height: 1.3;
     color: var(--text-tertiary);
-    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
-.clipper-rank-1 { border-color: rgba(242, 201, 107, 0.8); }
-.clipper-rank-2 { border-color: rgba(63, 47, 37, 0.3); }
-.clipper-rank-3 { border-color: rgba(197, 106, 82, 0.55); }
+.pantheon-tags {
+    grid-area: tags;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pantheon-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.pantheon-tag-grade { background: rgba(127, 184, 147, 0.22); color: var(--green-deep); }
+.pantheon-tag-mention { background: rgba(242, 201, 107, 0.3); color: #8a6a1f; }
+
+/* Couronnes gagnées au Clip de la Semaine, accolées au pseudo : brun et or,
+   comme la carte du gagnant et la pastille de date du Palmarès. Dans la
+   rangée des pastilles, elles passaient à la ligne et décalaient la liste. */
+.pantheon-couronne {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: 7px;
+    padding: 2px 7px;
+    border-radius: 50px;
+    background: var(--text-primary);
+    color: #f2c96b;
+    font-size: 0.71875rem; /* 11,5 px */
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+    vertical-align: 0.1em;
+}
+
+/* Places 4 à 12 : une seule carte, lignes séparées par un filet */
+.pantheon-list {
+    padding: 4px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.pantheon-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(63, 47, 37, 0.1);
+}
+
+/* Pas de filet sous la dernière ligne */
+.pantheon-row:last-child { border-bottom: 0; }
 
 .clips-grid {
     display: grid;
@@ -638,6 +774,60 @@
 }
 
 .cow-skel-line.short { width: 60%; }
+
+/* Squelette du gagnant, posé dans la carte sombre (#cowWinner) : en-tête
+   couronne + deux lignes, vignette 16/9, titre et clippeur. Tons clairs
+   translucides, la carte étant brun foncé en mobile comme en desktop. */
+.cow-winner-skel { pointer-events: none; }
+
+/* Hauteurs calées sur la vraie carte (en-tête 76 px, titre + clippeur
+   97 px en desktop) : rien ne saute quand le gagnant remplace le squelette */
+.cow-winner-skel-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 76px;
+    padding: 18px 22px 14px;
+}
+
+.cow-winner-skel-crown {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(242, 201, 107, 0.25);
+}
+
+.cow-winner-skel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 45%;
+}
+
+.cow-winner-skel .cow-skel-line { background: rgba(240, 235, 224, 0.12); }
+
+.cow-winner-skel-meta .cow-skel-line { height: 0.8em; }
+
+.cow-winner-skel .clip-skeleton {
+    margin: 0 16px;
+    border-radius: 18px;
+    background: linear-gradient(100deg,
+        rgba(240, 235, 224, 0.07) 40%,
+        rgba(240, 235, 224, 0.16) 50%,
+        rgba(240, 235, 224, 0.07) 60%);
+    background-size: 200% 100%;
+}
+
+.cow-winner-skel-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 97px;
+    padding: 16px 22px 22px;
+}
+
+.cow-winner-skel-info .cow-skel-line:first-child { width: 80%; height: 1.5em; }
 
 .cow-skel-heading {
     width: 40%;
@@ -711,7 +901,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(145, 70, 255, 0.92);
+    /* Entre le #9146ff de Twitch, trop criard, et un violet trop sage */
+    background: #8149d4;
     color: #fff;
     display: flex;
     align-items: center;
@@ -883,6 +1074,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: Arial, sans-serif; /* « + » centré dans sa boîte, donc centré une fois tourné */
     font-size: 1.3em;
     font-weight: 700;
     color: var(--green);
@@ -933,3 +1125,30 @@
 .faq-answer strong {
     color: var(--text-primary);
 }
+
+/* ============================================
+   RÉSEAUX : logos SVG (mêmes tracés que /links) à la place des emoji,
+   une teinte par réseau prise dans la palette accessible du site.
+   Commun au mobile et au desktop.
+   ============================================ */
+.social-logo {
+    display: block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+#reseaux .social-card .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.375rem; /* 22 px */
+    line-height: 1;
+}
+
+#reseaux .social-card.twitch .social-icon    { color: var(--twitch-dark); }
+#reseaux .social-card.youtube .social-icon   { color: var(--live-red-deep); }
+#reseaux .social-card.tiktok .social-icon    { color: var(--green-deep); }
+#reseaux .social-card.instagram .social-icon { color: var(--pink-deep); }
+#reseaux .social-card.discord .social-icon   { color: #4a5a94; }
+#reseaux .social-card.twitter .social-icon   { color: var(--text-primary); }

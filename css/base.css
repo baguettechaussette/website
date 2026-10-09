@@ -77,6 +77,14 @@ html {
     scroll-behavior: smooth;
 }
 
+/* clip et pas hidden, sur html ET body : les animations d'entrée du hero glissent
+   de 100 px hors écran pendant une seconde, et Safari iOS ignore un overflow-x
+   posé sur body seul (défilement latéral possible). clip n'ouvre pas de conteneur
+   de défilement, contrairement à hidden. */
+html, body {
+    overflow-x: clip;
+}
+
 body {
     font-family: "Baloo 2",
     ui-rounded,
@@ -92,7 +100,6 @@ body {
     font-weight: 500;
     background: var(--bg-primary);
     color: var(--text-primary);
-    overflow-x: hidden;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

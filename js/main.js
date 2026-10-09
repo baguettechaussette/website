@@ -1,10 +1,33 @@
 // Toggle mobile menu avec gestion améliorée
+// Le burger devient une croix quand le panneau est ouvert
+function syncMenuIcon(isOpen) {
+    const icon = document.querySelector('.menu-toggle img');
+    if (!icon) return;
+    icon.src = isOpen ? 'img/symbols/close.svg' : 'img/symbols/menu.svg';
+    icon.alt = isOpen ? 'Fermer' : 'Menu hamburger';
+}
+
+// Ferme le panneau et remet la barre dans son état fermé (icône, aria, scroll du body)
+function closeMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (!navLinks) return;
+    navLinks.classList.remove('active');
+    syncMenuIcon(false);
+    document.body.style.overflow = '';
+    if (menuToggle) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    }
+}
+
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     const menuToggle = document.querySelector('.menu-toggle');
 
     if (navLinks) {
         const isOpen = navLinks.classList.toggle('active');
+        syncMenuIcon(isOpen);
 
         // Amélioration a11y
         if (menuToggle) {
@@ -25,9 +48,11 @@ document.addEventListener('click', (e) => {
     const menuToggle = document.querySelector('.menu-toggle');
     const navbar = document.getElementById('navbar');
 
+    // En dehors de la barre, ou sur le voile du panneau (le <ul> lui-même, pas un lien)
     if (navLinks && navLinks.classList.contains('active') &&
-        !navbar.contains(e.target)) {
+        (!navbar.contains(e.target) || e.target === navLinks)) {
         navLinks.classList.remove('active');
+        syncMenuIcon(false);
         document.body.style.overflow = '';
         if (menuToggle) {
             menuToggle.setAttribute('aria-expanded', 'false');
@@ -41,6 +66,7 @@ document.addEventListener('keydown', (e) => {
     const navLinks = document.getElementById('navLinks');
     if (!navLinks || !navLinks.classList.contains('active')) return;
     navLinks.classList.remove('active');
+    syncMenuIcon(false);
     document.body.style.overflow = '';
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
@@ -55,9 +81,56 @@ function scrollBehavior() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
+// Une section en « display: contents » (en desktop, #contact et #partenaires
+// se fondent dans la grille de leur bande) n'a pas de boîte : sa position
+// vaut 0, le clic ne défilait nulle part et le navigateur ignorait /#contact.
+// On vise alors sa bande, ou à défaut son premier enfant qui a une boîte.
+function anchorBox(target) {
+    if (target.getClientRects().length) return target;
+    const band = target.closest('.band');
+    if (band && band.getClientRects().length) return band;
+    let el = target.firstElementChild;
+    while (el && !el.getClientRects().length) el = el.firstElementChild || el.nextElementSibling;
+    return el || target;
+}
+
+function scrollToAnchor(target, behavior) {
+    const box = anchorBox(target);
+    const navbarHeight = document.getElementById('navbar')?.offsetHeight || 80;
+    const top = box.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+    window.scrollTo({ top, behavior });
+}
+
+// Arrivée depuis une autre page (/#contact) : le navigateur ne sait pas
+// défiler jusqu'à une cible sans boîte, on le fait une fois la page posée.
+window.addEventListener('load', () => {
+    if (!location.hash) return;
+    let target;
+    try { target = document.querySelector(location.hash); } catch { return; }
+    // « instant » et pas « auto » : avec scroll-behavior: smooth dans le CSS,
+    // « auto » lançait une animation que le navigateur coupait aussitôt (il
+    // cherche lui-même l'ancre pendant le chargement). Un court délai laisse
+    // passer cette recherche.
+    if (target && !target.getClientRects().length) {
+        setTimeout(() => scrollToAnchor(target, 'instant'), 50);
+    }
+});
+
 // Smooth scroll pour les liens d'ancres
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Umami intercepte en capture les liens porteurs de data-umami-event et,
+    // une fois la stat partie, refait lui-même la navigation vers le href : ce
+    // saut vers l'ancre coupait notre défilement doux (et ramenait en haut de
+    // page pour une cible sans boîte). On retire l'attribut et on envoie la
+    // stat nous-mêmes.
+    // (Le bouton e-mail part lui aussi de href="#" mais gère sa stat lui-même.)
+    const statUmami = anchor.classList.contains('js-email') ? null : anchor.dataset.umamiEvent;
+    if (statUmami) anchor.removeAttribute('data-umami-event');
+
     anchor.addEventListener('click', (e) => {
+        if (statUmami && window.umami && typeof window.umami.track === 'function') {
+            window.umami.track(statUmami);
+        }
         const href = anchor.getAttribute('href');
 
         // Ignore les liens vides
@@ -66,26 +139,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             return;
         }
 
+        // Le lien e-mail part de href="#" puis js-email le reecrit en
+        // « mailto: ... » : l'ecouteur pose au chargement reste accroche et
+        // querySelector levait une SyntaxError a chaque clic.
+        if (!href || href.charAt(0) !== '#') return;
+
         const target = document.querySelector(href);
 
         if (target) {
             e.preventDefault();
 
-            // Ferme le menu mobile si ouvert
+            // Ferme le menu mobile si ouvert (icône et aria compris) et marque la section
+            // visée comme page courante dans le menu (pilule verte)
             const navLinks = document.getElementById('navLinks');
             if (navLinks) {
-                navLinks.classList.remove('active');
-                document.body.style.overflow = '';
+                closeMenu();
+                if (navLinks.contains(anchor)) {
+                    navLinks.querySelectorAll('a[aria-current]').forEach(a => a.removeAttribute('aria-current'));
+                    anchor.setAttribute('aria-current', 'page');
+                }
             }
 
             // Scroll avec offset pour la navbar fixe
-            const navbarHeight = document.getElementById('navbar')?.offsetHeight || 80;
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
-            window.scrollTo({
-                top: targetPosition,
-                behavior: scrollBehavior()
-            });
+            scrollToAnchor(target, scrollBehavior());
         }
     });
 });
@@ -104,7 +180,14 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // Animation du compteur (pour les stats)
-function animateCounter(element, start, end, duration, suffix = '') {
+
+// Milliers separes par une espace fine insecable (U+202F), quel que soit le
+// separateur que le navigateur choisit pour fr-FR (espace insecable ordinaire
+// sur d'anciennes versions, fine sur les recentes).
+function milliers(n) {
+    return n.toLocaleString('fr-FR').replace(/\s/g, String.fromCharCode(8239));
+}
+function animateCounter(element, start, end, duration, suffix = '', prefix = '') {
     const startTime = performance.now();
     const range = end - start;
 
@@ -116,12 +199,12 @@ function animateCounter(element, start, end, duration, suffix = '') {
         const easeProgress = 1 - Math.pow(1 - progress, 2);
         const current = Math.floor(start + range * easeProgress);
 
-        element.textContent = current.toLocaleString('fr-FR') + suffix;
+        element.textContent = prefix + milliers(current) + suffix;
 
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = end.toLocaleString('fr-FR') + suffix;
+            element.textContent = prefix + milliers(end) + suffix;
         }
     }
 
@@ -246,6 +329,64 @@ window.addEventListener('resize', () => {
     }, 250);
 }, { passive: true });
 
+// Cliquer-glisser à la souris sur une bande horizontale (voir l'appel dans DOMContentLoaded)
+function initDragScroll(strip) {
+    let down = false, moved = false, startX = 0, startLeft = 0, pending = 0, raf = 0, settle = 0;
+
+    // Fin du glissement : la bande se pose en douceur sur la carte la plus proche,
+    // puis on rend la main à l'accroche CSS.
+    const end = () => {
+        if (!down) return;
+        down = false;
+        strip.classList.remove('is-grabbing');
+        if (raf) { cancelAnimationFrame(raf); raf = 0; strip.scrollLeft = pending; }
+        if (!moved) { strip.style.scrollSnapType = ''; return; }
+        const padLeft   = parseFloat(getComputedStyle(strip).paddingLeft) || 0;
+        const stripLeft = strip.getBoundingClientRect().left;
+        let best = strip.scrollLeft, bestDist = Infinity;
+        Array.from(strip.children).forEach(item => {
+            const left = item.getBoundingClientRect().left - stripLeft + strip.scrollLeft - padLeft;
+            const dist = Math.abs(left - strip.scrollLeft);
+            if (dist < bestDist) { bestDist = dist; best = left; }
+        });
+        strip.scrollTo({ left: best, behavior: 'smooth' });
+        clearTimeout(settle);
+        settle = setTimeout(() => { strip.style.scrollSnapType = ''; }, 450);
+    };
+
+    strip.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        if (strip.scrollWidth <= strip.clientWidth) return;
+        down = true; moved = false;
+        startX = e.clientX; startLeft = strip.scrollLeft;
+        clearTimeout(settle);
+        strip.style.scrollSnapType = 'none';
+        strip.classList.add('is-grabbing');
+    });
+    strip.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (!moved && Math.abs(dx) > 4) {
+            moved = true;
+            // Capturé seulement une fois le glissement engagé : capturer dès l'appui
+            // détournait le clic et rien ne s'ouvrait plus.
+            strip.setPointerCapture(e.pointerId);
+        }
+        if (!moved) return;
+        pending = startLeft - dx;
+        if (!raf) raf = requestAnimationFrame(() => { strip.scrollLeft = pending; raf = 0; });
+    });
+    strip.addEventListener('pointerup', end);
+    strip.addEventListener('pointercancel', end);
+    strip.addEventListener('dragstart', (e) => e.preventDefault());
+    strip.addEventListener('click', (e) => {
+        if (!moved) return;
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+    }, true);
+}
+
 // Animations au défilement (Intersection Observer)
 function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
@@ -321,11 +462,146 @@ document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // Cartes repliables (mobile : les boutons sont masqués au-dessus de 768 px) :
+    // partenaires sur l'accueil, éditions passées sur /events
+    document.querySelectorAll('.partner-toggle, .event-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.partner-card, .event-container');
+            if (!card) return;
+            const collapsed = card.classList.toggle('is-collapsed');
+            btn.setAttribute('aria-expanded', String(!collapsed));
+        });
+    });
+
+    // En desktop la première carte partenaire s'ouvre d'emblée,
+    // sinon la colonne de droite de la bande « Marques & studios » se résume à
+    // deux lignes repliées face à la grande carte e-mail. En mobile, les deux
+    // restent repliées.
+    if (window.matchMedia('(min-width: 769px)').matches) {
+        const first = document.querySelector('.partners-container .partner-card.is-collapsed');
+        if (first) {
+            first.classList.remove('is-collapsed');
+            first.querySelector('.partner-toggle')?.setAttribute('aria-expanded', 'true');
+        }
+        // La première question de la FAQ est ouverte d'emblée en desktop
+        document.querySelector('.faq-container .faq-item')?.setAttribute('open', '');
+
+        // /events : toute la ligne d'en-tête replie ou déplie, pas seulement le bouton.
+        document.querySelectorAll('.event-container.is-collapsible > .event-intro').forEach(intro => {
+            intro.addEventListener('click', (e) => {
+                if (e.target.closest('a, .event-toggle')) return;
+                intro.querySelector('.event-toggle')?.click();
+            });
+        });
+    }
+
+    // /events : la première édition de l'archive (la plus récente) est ouverte
+    // d'emblée, en mobile comme en desktop.
+    (function openLatestEdition() {
+        const first = document.querySelector('.band-archive .event-container.is-collapsible.is-collapsed');
+        if (!first) return;
+        first.classList.remove('is-collapsed');
+        first.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
+    })();
+
+    // Un lien profond vers une édition (ex. /events#dti-heartopia-2026 depuis l'accueil)
+    // déplie la carte visée, sinon on arrive sur une ligne fermée.
+    function expandHashTarget() {
+        if (!location.hash) return;
+        let target;
+        try { target = document.querySelector(location.hash); } catch { return; }
+        const card = target && target.querySelector('.event-container.is-collapsed');
+        if (!card) return;
+        card.classList.remove('is-collapsed');
+        card.querySelector('.event-toggle')?.setAttribute('aria-expanded', 'true');
+    }
+    expandHashTarget();
+    window.addEventListener('hashchange', expandHashTarget);
+
+    // Bandes qui défilent à l'horizontale en mobile (manches DTI, finalistes, derniers clips) :
+    // au doigt elles défilent nativement ; à la souris (fenêtre étroite, pas de tactile) un bloc
+    // sans barre visible ne bouge pas, on traduit le cliquer-glisser en défilement et on avale
+    // le clic qui suivrait pour ne pas ouvrir la lightbox ou voter par accident.
+    document.querySelectorAll('.dti-photo-grid, .cow-grid, .clips-grid').forEach(initDragScroll);
+
     // Emails assemblés côté client (anti-bots spam)
     document.querySelectorAll('.js-email').forEach(el => {
         const addr = `${el.dataset.user}@${el.dataset.domain}`;
         el.setAttribute('href', 'mailto:' + addr);
         if ('showText' in el.dataset) el.textContent = addr;
+    });
+
+    // Bouton e-mail : son libellé est l'adresse.
+    // À la souris (ou au clavier) un clic la copie et affiche « Copié » 1,5 s ;
+    // au doigt le mailto s'ouvre. Le type de pointeur est lu sur le clic
+    // lui-même plutôt que deviné au chargement.
+    document.querySelectorAll('.contact-email.js-email').forEach(btn => {
+        const addr = `${btn.dataset.user}@${btn.dataset.domain}`;
+        btn.title = "Cliquer pour copier l'adresse";
+        let timer = 0;
+        // Umami intercepte en capture tout lien porteur de data-umami-event :
+        // il annule le clic, envoie la stat puis navigue lui-même vers le href,
+        // donc vers le mailto, même après notre copie. On retire l'attribut et
+        // on envoie la stat nous-mêmes.
+        const statUmami = btn.dataset.umamiEvent;
+        btn.removeAttribute('data-umami-event');
+        const stat = (mode) => {
+            if (statUmami && window.umami && typeof window.umami.track === 'function') {
+                window.umami.track(statUmami, { mode });
+            }
+        };
+        // Le libellé vit dans un <span> : le CSS le fait disparaître et pose la
+        // coche + « Copié » par-dessus, sans que le bouton change de largeur.
+        const text = document.createElement('span');
+        text.className = 'contact-email-text';
+        text.textContent = addr;
+        // La bulle « Adresse copiée » au-dessus du bouton (animée par le CSS)
+        const bubble = document.createElement('span');
+        bubble.className = 'contact-email-bubble';
+        bubble.setAttribute('role', 'status');
+        bubble.textContent = 'Adresse copiée';
+        btn.replaceChildren(text, bubble);
+
+        const montrerCopie = () => {
+            btn.classList.remove('is-copied');
+            void btn.offsetWidth; // relance l'animation si on reclique pendant le « Copié »
+            btn.classList.add('is-copied');
+            clearTimeout(timer);
+            timer = setTimeout(() => btn.classList.remove('is-copied'), 1600);
+        };
+        // Copie de secours quand l'API Clipboard manque ou refuse (page hors
+        // HTTPS, permission refusée) : l'ancien execCommand marche encore partout.
+        const copieDeSecours = () => {
+            const zone = document.createElement('textarea');
+            zone.value = addr;
+            zone.setAttribute('readonly', '');
+            zone.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+            document.body.appendChild(zone);
+            zone.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+            zone.remove();
+            return ok;
+        };
+
+        btn.addEventListener('click', (e) => {
+            const pointeur = e.pointerType
+                || (window.matchMedia('(pointer: coarse)').matches ? 'touch' : 'mouse');
+            if (pointeur === 'touch' || pointeur === 'pen') { stat('mailto'); return; } // au doigt : le mailto
+            e.preventDefault();
+            stat('copie');
+            const ouvrirMail = () => { window.location.href = 'mailto:' + addr; };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(addr)
+                    .then(montrerCopie)
+                    .catch(() => (copieDeSecours() ? montrerCopie() : ouvrirMail()));
+            } else if (copieDeSecours()) {
+                montrerCopie();
+            } else {
+                ouvrirMail();
+            }
+        });
     });
 
     // Moments forts : top clips de la semaine (data/top-clips.json)
@@ -378,21 +654,53 @@ async function loadTopClips() {
             // Même seuil que la page clips (2 finalistes minimum pour un vote) :
             // sinon le CTA "Voter maintenant" mènerait vers un bloc masqué.
             if (finalists.length < 2) return;
-            finalists.slice(0, limit).forEach(clip => grid.appendChild(buildClipCard(clip)));
+            const montres = finalists.slice(0, limit);
+            montres.forEach(clip => grid.appendChild(buildClipCard(clip)));
+            // La dernière vignette porte le nombre de finalistes
+            // qu'on ne montre pas, elle comprise. 8 finalistes, 4 vignettes →
+            // 3 clips visibles et « +5 » sur la quatrième.
+            if (finalists.length > montres.length) {
+                const reste = finalists.length - montres.length + 1;
+                const derniere = grid.lastElementChild;
+                if (derniere) {
+                    derniere.classList.add('clip-card-more');
+                    const play = derniere.querySelector('.clip-play');
+                    if (play) play.textContent = '+' + reste;
+                    const vignette = derniere.querySelector('.clip-thumb');
+                    if (vignette) {
+                        vignette.setAttribute('aria-label', `Voir les ${reste} autres finalistes`);
+                        vignette.setAttribute('data-umami-event', 'Home - Vote - Autres finalistes');
+                        // La vignette « +N » mène au vote, elle n'ouvre pas le clip : l'écouteur
+                        // en phase de capture passe avant celui de la modale et l'annule.
+                        vignette.addEventListener('click', (e) => {
+                            e.stopImmediatePropagation();
+                            window.location.href = '/clips#clip-semaine';
+                        }, true);
+                    }
+                }
+            }
             section.hidden = false;
             return;
         }
 
-        // Sur la page clips, les finalistes (et le couronné) du Clip de la Semaine
-        // sont déjà affichés au-dessus : on les retire des derniers clips (doublons).
+        // Sur la page clips, les finalistes, le couronné du Clip de la Semaine et
+        // les clips du Palmarès sont déjà affichés au-dessus : on les retire des
+        // derniers clips (doublons).
         const exclude = new Set();
         if (document.getElementById('cowGrid')) {
             try {
-                const rCow = await fetch('/data/clip-of-week.json', { cache: 'no-store' });
+                const [rCow, rHof] = await Promise.all([
+                    fetch('/data/clip-of-week.json', { cache: 'no-store' }),
+                    fetch('/data/hall-of-fame.json', { cache: 'no-store' }),
+                ]);
                 if (rCow.ok) {
                     const cow = await rCow.json();
                     (Array.isArray(cow.finalists) ? cow.finalists : []).forEach(f => f?.id && exclude.add(f.id));
                     if (cow.winner?.id) exclude.add(cow.winner.id);
+                }
+                if (rHof.ok) {
+                    const hof = await rHof.json();
+                    (Array.isArray(hof.winners) ? hof.winners : []).forEach(w => w?.id && exclude.add(w.id));
                 }
             } catch { /* pas grave : au pire des doublons */ }
         }
@@ -435,7 +743,11 @@ async function loadTopClips() {
 function setClipThumbSources(img, url, sizes) {
     if (/-480x272\.jpg$/.test(url)) {
         img.sizes = sizes;
-        img.srcset = `${url.replace('-480x272.jpg', '-260x147.jpg')} 260w, ${url} 480w`;
+        // Twitch sert aussi 960x540 et 1280x720 : sans
+        // elles, le clip de la semaine en desktop (506 px CSS, écran 2x) était
+        // étiré depuis 480 px et pixelisé.
+        const at = (s) => url.replace('-480x272.jpg', `-${s}.jpg`);
+        img.srcset = `${at('260x147')} 260w, ${url} 480w, ${at('960x540')} 960w, ${at('1280x720')} 1280w`;
     }
     img.width = 480;
     img.height = 272;
@@ -460,8 +772,8 @@ function buildClipCard(clip) {
         const img = document.createElement('img');
         img.alt = '';
         img.loading = 'lazy';
-        // Grilles (accueil et /clips) : une carte fait 300 à 600 px de large
-        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 700px) 92vw, 400px');
+        // Grilles : 2 colonnes sous 768 px (~46 vw par vignette), 300 à 600 px au-dessus
+        setClipThumbSources(img, clip.thumbnail_url, '(max-width: 768px) 46vw, 400px');
         thumb.appendChild(img);
     }
 
@@ -573,10 +885,16 @@ function animateStaticCounters() {
     ].forEach(selector => {
         const el = document.querySelector(selector);
         if (!el) return;
-        const target = parseInt(el.textContent.replace(/\D/g, '')) || 0;
-        el.textContent = '0';
+        const texte = el.textContent.trim();
+        const target = parseInt(texte.replace(/\D/g, '')) || 0;
+        // Ce qui entoure le nombre reste tel quel : « + » devant, « h » derrière
+        // pour les heures (« +1 100 h »). Le compteur ne réécrit que le chiffre.
+        const m = texte.match(/^(\D*)[\d\s]*\d(.*)$/);
+        const avant = m ? m[1] : '';
+        const apres = m ? m[2] : '';
+        el.textContent = avant + '0' + apres;
         el.style.opacity = '1';
-        animateCounter(el, 0, target, 1200, '+');
+        animateCounter(el, 0, target, 1200, apres, avant);
     });
 }
 

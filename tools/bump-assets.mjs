@@ -5,8 +5,8 @@
 //
 // Pourquoi : le service worker sert le HTML depuis le réseau mais le CSS/JS depuis
 // son cache. Sans version dans l'URL, un déploiement qui change les deux affiche
-// un nouveau HTML avec l'ancien CSS le temps d'un chargement (galerie « pétée »
-// le 22/09/2026). Avec ?v=N, le nouveau HTML pointe vers des URLs inconnues du
+// un nouveau HTML avec l'ancien CSS le temps d'un chargement (galerie cassée).
+// Avec ?v=N, le nouveau HTML pointe vers des URLs inconnues du
 // cache, donc fraîches.
 //
 // À lancer avant chaque commit qui touche css/ ou js/ :

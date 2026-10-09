@@ -20,7 +20,7 @@
     opacity: 0.15;
     /* Pas de filter ici : sur un dégradé plein écran animé, saturate()/contrast()
        obligeait à re-rasteriser tout l'écran et doublait le temps du premier rendu
-       (mesuré 22/09/2026 : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
+       (mesuré : FCP 360-496 ms avec, 208-228 ms sans). Si la teinte
        manque, l'ajuster directement dans les couleurs du dégradé. */
 }
 
@@ -433,9 +433,12 @@
 }
 
 /* === Footer === */
+/* Même pied de page partout (accueil, clips, events, mobile et desktop) :
+   bande pêche avec son filet */
 footer {
-    background: var(--bg-blur);
-    border-top: 2px solid rgba(140, 191, 159, 0.2);
+    background: #f2e3d8;
+    border: 0;
+    border-top: 1px solid rgba(63, 47, 37, 0.08);
     padding: 60px var(--spacing-md);
     text-align: center;
 }
