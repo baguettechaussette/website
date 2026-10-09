@@ -877,10 +877,14 @@ function animateStaticCounters() {
     ].forEach(selector => {
         const el = document.querySelector(selector);
         if (!el) return;
-        const target = parseInt(el.textContent.replace(/\D/g, '')) || 0;
+        const texte = el.textContent.trim();
+        const target = parseInt(texte.replace(/\D/g, '')) || 0;
+        // Ce qui suit le nombre reste tel quel : « + » pour TikTok, « + h » pour
+        // les heures (le compteur réécrivait « 1 100+ h » en « 1 100+ »).
+        const suite = texte.replace(/^[\d\s]+/, '') || '+';
         el.textContent = '0';
         el.style.opacity = '1';
-        animateCounter(el, 0, target, 1200, '+');
+        animateCounter(el, 0, target, 1200, suite);
     });
 }
 
